@@ -67,12 +67,17 @@ const canonicalURL = `${SITE_URL}${canonicalPath}`;
 
     <meta name="generator" content={Astro.generator} />
 
-    <!-- Google Fonts — keep existing fonts, add Material Symbols -->
+    <!-- Google Fonts — async non-blocking loading -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
-    <!-- Google Material Symbols Outlined -->
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block" rel="stylesheet" />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&family=Roboto:wght@300;400;500;700;900&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&family=Roboto:wght@300;400;500;700;900&display=swap" media="print" onload="this.media='all'" />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" media="print" onload="this.media='all'" />
+    <noscript>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&family=Roboto:wght@300;400;500;700;900&display=swap" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" />
+    </noscript>
 
     <!-- JSON-LD: WebApplication Schema -->
     <script type="application/ld+json" is:inline>
@@ -233,7 +238,7 @@ const canonicalURL = `${SITE_URL}${canonicalPath}`;
             alt="tap A B C D logo"
             width="240"
             height="80"
-            class="h-9 sm:h-11 md:h-14 lg:h-16 w-auto object-contain transition-all duration-300 group-hover:opacity-85 logo-img"
+            class="h-9 sm:h-11 md:h-14 lg:h-16 aspect-[3/1] object-contain transition-all duration-300 group-hover:opacity-85 logo-img"
             fetchpriority="high"
           />
         </picture>
@@ -263,7 +268,8 @@ const canonicalURL = `${SITE_URL}${canonicalPath}`;
                 alt="tap A B C D"
                 width="120"
                 height="40"
-                class="h-9 w-auto object-contain footer-logo-img"
+                class="h-9 aspect-[3/1] object-contain footer-logo-img"
+                loading="lazy"
               />
             </picture>
             <p class="text-xxs text-text-light-muted dark:text-text-dark-muted max-w-[220px] leading-relaxed">

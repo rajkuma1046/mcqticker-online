@@ -2,40 +2,48 @@
 // PreviewSlider.astro
 // SEO image carousel shown at the bottom of the homepage.
 // Each image has keyword-rich alt text to rank in Google Image Search.
+import { Image } from 'astro:assets';
+import imgAbcd from '../assets/abcd-mcq-ticker.png';
+import imgPreview1 from '../assets/preview-1.png';
+import imgPreview2 from '../assets/preview-2.jpg';
+import imgPreview3 from '../assets/preview-3.png';
+import imgPreview4 from '../assets/preview-4.png';
+import imgPreview5 from '../assets/preview-5.png';
+import imgLogo from '../assets/logo-light.webp';
 
 const slides = [
   {
-    src: '/abcd-mcq-ticker.png',
+    src: imgAbcd,
     alt: 'tap A B C D MCQ Ticker — Free MCQ option selector online for competitive exam prep',
     caption: 'tap A B C D — Your MCQ Practice Companion',
   },
   {
-    src: '/preview-1.png',
+    src: imgPreview1,
     alt: 'MCQ Ticker online preview — mark MCQ answers without typing, free pacing timer',
     caption: 'Mark MCQ Answers Without Typing',
   },
   {
-    src: '/preview-2.jpg',
+    src: imgPreview2,
     alt: 'MCQ practice timer online free — track time per question for NEET JEE SSC UPSC',
     caption: 'Built-in Timer for Exam Pacing',
   },
   {
-    src: '/preview-3.png',
+    src: imgPreview3,
     alt: 'MCQ ticker option selector set — tap ABCD to log answers while reading from book',
     caption: 'Tap A B C D — Options Logged Instantly',
   },
   {
-    src: '/preview-4.png',
+    src: imgPreview4,
     alt: 'MCQ answer checker online — check correct and wrong answers with instant accuracy score',
     caption: 'Instant Answer Check & Accuracy Score',
   },
   {
-    src: '/preview-5.png',
+    src: imgPreview5,
     alt: 'MCQ main option logger — tick MCQ options online free, mcq bubble sheet interactive',
     caption: 'Interactive MCQ Option Logger',
   },
   {
-    src: '/logo-light.webp',
+    src: imgLogo,
     alt: 'tap A B C D MCQ Ticker logo — free MCQ practice tool at mcqticker.online',
     caption: 'Free · Offline · No Signup — mcqticker.online',
   },
@@ -67,12 +75,13 @@ const slides = [
           role="img"
           aria-label={slide.alt}
         >
-          <img
+          <Image
             src={slide.src}
             alt={slide.alt}
-            width="960"
-            height="540"
-            loading={i === 0 ? 'eager' : 'lazy'}
+            width={960}
+            height={540}
+            loading={i === 0 ? "eager" : "lazy"}
+            fetchpriority={i === 0 ? "high" : "auto"}
             class="w-full aspect-video object-contain"
             itemprop="image"
           />

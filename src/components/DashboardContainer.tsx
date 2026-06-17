@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db, migrateFromLocalStorage, type ExerciseSession } from '../db/index';
-import HistoryDashboard from './HistoryDashboard';
+
+const HistoryDashboard = React.lazy(() => import('./HistoryDashboard'));
 
 export default function DashboardContainer() {
   const [expandedSessionId, setExpandedSessionId] = useState<string | null>(null);
@@ -98,7 +99,9 @@ export default function DashboardContainer() {
 
       <div className="space-y-8 animate-fadeIn">
           {/* Analytics Charts Island */}
-          <HistoryDashboard sessions={sessions || []} />
+          <Suspense fallback={<div className="h-64 flex items-center justify-center text-xs text-text-light-muted dark:text-text-dark-muted">Loading Analytics...</div>}>
+            <HistoryDashboard sessions={sessions || []} />
+          </Suspense>
 
           {/* Session History List */}
           <div className="space-y-4">
