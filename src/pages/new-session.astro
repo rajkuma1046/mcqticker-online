@@ -1,0 +1,220 @@
+---
+export const prerender = true;
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="New MCQ Practice Session — tap A B C D | Free MCQ Timer & Pacing Tool | mcqticker.online"
+  description="Configure your MCQ practice session on mcqticker.online. Set topic, number of questions, stopwatch or timer-binding mode. Free MCQ pacing timer — no signup needed. Perfect for NEET, JEE, SSC, UPSC."
+  canonicalPath="/new-session"
+>
+  <div class="max-w-md mx-auto bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-2xl shadow-custom-md overflow-hidden transition-all duration-300">
+    <div class="px-6 py-5 border-b border-border-light dark:border-border-dark bg-brand-primary/5 dark:bg-brand-secondary/5">
+      <h2 class="font-display font-extrabold text-xl text-brand-primary dark:text-brand-secondary">
+        Configure Session
+      </h2>
+      <p class="text-sm text-text-light-muted dark:text-text-dark-muted mt-1">
+        Set up your pacing rules and quiz parameters before starting.
+      </p>
+    </div>
+
+    <form id="new-session-form" class="p-6 space-y-5">
+      <!-- Topic -->
+      <div>
+        <label for="topic" class="block text-xs font-semibold uppercase tracking-wider text-text-light-muted dark:text-text-dark-muted mb-1.5">
+          Topic / Chapter
+        </label>
+        <input
+          type="text"
+          id="topic"
+          name="topic"
+          required
+          placeholder="e.g. Calculus, Prepositions, Cell Structure"
+          class="w-full px-4 py-2.5 rounded-xl border border-border-light dark:border-border-dark bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark placeholder-text-light-muted/50 dark:placeholder-text-dark-muted/50 focus:outline-none focus:ring-2 focus:ring-brand-primary dark:focus:ring-brand-secondary transition-all"
+        />
+      </div>
+
+      <!-- Questions Count -->
+      <div>
+        <label for="totalQuestions" class="block text-xs font-semibold uppercase tracking-wider text-text-light-muted dark:text-text-dark-muted mb-1.5">
+          Number of Questions
+        </label>
+        <input
+          type="number"
+          id="totalQuestions"
+          name="totalQuestions"
+          min="1"
+          max="200"
+          value="40"
+          required
+          class="w-full px-4 py-2.5 rounded-xl border border-border-light dark:border-border-dark bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark font-mono-custom focus:outline-none focus:ring-2 focus:ring-brand-primary dark:focus:ring-brand-secondary transition-all disabled:opacity-50"
+        />
+        <div class="mt-2 flex items-center">
+          <input
+            type="checkbox"
+            id="unlimitedQuestions"
+            name="unlimitedQuestions"
+            class="w-4 h-4 text-brand-primary dark:text-brand-secondary border-border-light dark:border-border-dark rounded focus:ring-0 cursor-pointer"
+          />
+          <label for="unlimitedQuestions" class="ml-2 text-xs font-semibold text-text-light-muted dark:text-text-dark-muted cursor-pointer select-none">
+            Free to go with flow (unlimited questions)
+          </label>
+        </div>
+      </div>
+
+      <!-- Timer Mode -->
+      <div>
+        <label class="block text-xs font-semibold uppercase tracking-wider text-text-light-muted dark:text-text-dark-muted mb-2">
+          Timer Mode
+        </label>
+        <div class="grid grid-cols-2 gap-4">
+          <!-- Stopwatch -->
+          <label class="relative flex items-center justify-between p-4 rounded-xl border border-border-light dark:border-border-dark bg-bg-light dark:bg-bg-dark cursor-pointer select-none hover:bg-surface-light-hover dark:hover:bg-surface-dark-hover transition-all group">
+            <div class="flex flex-col">
+              <span class="text-sm font-bold text-text-light dark:text-text-dark">Stopwatch</span>
+              <span class="text-xxs text-text-light-muted dark:text-text-dark-muted mt-0.5">Counts up per Q</span>
+            </div>
+            <input
+              type="radio"
+              name="timerMode"
+              value="stopwatch"
+              checked
+              class="w-4 h-4 text-brand-primary dark:text-brand-secondary border-border-light dark:border-border-dark focus:ring-0 focus:ring-offset-0"
+            />
+          </label>
+
+          <!-- Timer Binding Practice -->
+          <label class="relative flex items-center justify-between p-4 rounded-xl border border-border-light dark:border-border-dark bg-bg-light dark:bg-bg-dark cursor-pointer select-none hover:bg-surface-light-hover dark:hover:bg-surface-dark-hover transition-all group">
+            <div class="flex flex-col">
+              <span class="text-sm font-bold text-text-light dark:text-text-dark">Timer Binding</span>
+              <span class="text-xxs text-text-light-muted dark:text-text-dark-muted mt-0.5">Limits time per Q</span>
+            </div>
+            <input
+              type="radio"
+              name="timerMode"
+              value="timer_binding"
+              class="w-4 h-4 text-brand-primary dark:text-brand-secondary border-border-light dark:border-border-dark focus:ring-0 focus:ring-offset-0"
+            />
+          </label>
+        </div>
+      </div>
+
+      <!-- Target Pace (Timer Binding settings) -->
+      <div id="target-pace-wrapper" class="hidden transition-all duration-300">
+        <label for="targetPaceSec" class="block text-xs font-semibold uppercase tracking-wider text-text-light-muted dark:text-text-dark-muted mb-1.5">
+          Target Pace (Seconds per Question)
+        </label>
+        <div class="flex items-center gap-3">
+          <input
+            type="number"
+            id="targetPaceSec"
+            name="targetPaceSec"
+            min="5"
+            max="600"
+            value="45"
+            class="w-full px-4 py-2.5 rounded-xl border border-border-light dark:border-border-dark bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark font-mono-custom focus:outline-none focus:ring-2 focus:ring-brand-primary dark:focus:ring-brand-secondary transition-all"
+          />
+          <span class="text-sm font-semibold text-text-light-muted dark:text-text-dark-muted whitespace-nowrap">
+            seconds / Q
+          </span>
+        </div>
+      </div>
+
+      <!-- Action buttons -->
+      <div class="flex gap-3 pt-2">
+        <a
+          href="/"
+          class="flex-1 py-3 text-center rounded-xl border border-border-light dark:border-border-dark bg-bg-light dark:bg-bg-dark hover:bg-surface-light-hover dark:hover:bg-surface-dark-hover text-text-light dark:text-text-dark font-bold text-sm transition-all decoration-none"
+        >
+          Cancel
+        </a>
+        <button
+          type="submit"
+          class="flex-1 py-3 bg-brand-primary dark:bg-brand-secondary hover:opacity-95 text-white font-bold text-sm rounded-xl transition-all shadow-md cursor-pointer"
+        >
+          Start Session ⚡
+        </button>
+      </div>
+    </form>
+  </div>
+</BaseLayout>
+
+<script>
+  import { db } from '../db/index';
+
+  function initForm() {
+    const form = document.getElementById('new-session-form') as HTMLFormElement | null;
+    const modeRadios = document.getElementsByName('timerMode') as NodeListOf<HTMLInputElement>;
+    const paceWrapper = document.getElementById('target-pace-wrapper');
+
+    if (!form) return;
+
+    const unlimitedCheckbox = document.getElementById('unlimitedQuestions') as HTMLInputElement | null;
+    const questionsInput = document.getElementById('totalQuestions') as HTMLInputElement | null;
+
+    if (unlimitedCheckbox && questionsInput) {
+      unlimitedCheckbox.addEventListener('change', () => {
+        if (unlimitedCheckbox.checked) {
+          questionsInput.disabled = true;
+          questionsInput.required = false;
+          questionsInput.value = '';
+        } else {
+          questionsInput.disabled = false;
+          questionsInput.required = true;
+          questionsInput.value = '40';
+        }
+      });
+    }
+
+    // Toggle target pace fields visibility based on radio select
+    function updatePaceVisibility() {
+      const selected = Array.from(modeRadios).find((r) => r.checked)?.value;
+      if (selected === 'timer_binding') {
+        paceWrapper?.classList.remove('hidden');
+      } else {
+        paceWrapper?.classList.add('hidden');
+      }
+    }
+
+    modeRadios.forEach((radio) => {
+      radio.addEventListener('change', updatePaceVisibility);
+    });
+
+    // Run initial state check
+    updatePaceVisibility();
+
+    // Form submit handler
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const formData = new FormData(form);
+      const topic = (formData.get('topic') as string).trim();
+      const isUnlimited = unlimitedCheckbox?.checked || false;
+      const totalQuestions = isUnlimited ? 0 : parseInt(formData.get('totalQuestions') as string, 10);
+      const timerMode = formData.get('timerMode') as 'stopwatch' | 'timer_binding';
+      const targetPaceSec = parseInt(formData.get('targetPaceSec') as string, 10) || 45;
+
+      const config = {
+        subject: 'MCQ Practice',
+        topic,
+        totalQuestions,
+        timerMode,
+        targetPaceSec: timerMode === 'timer_binding' ? targetPaceSec : undefined,
+      };
+
+      // Store configuration in sessionStorage for active-test page
+      sessionStorage.setItem('active_session_config', JSON.stringify(config));
+      
+      // Clean up previous active session state
+      sessionStorage.removeItem('active_session_logs');
+      sessionStorage.removeItem('active_session_state');
+
+      // Navigate to active-test page
+      window.location.href = '/active-test';
+    });
+  }
+
+  // Set up execution
+  initForm();
+  document.addEventListener('astro:after-swap', initForm);
+</script>

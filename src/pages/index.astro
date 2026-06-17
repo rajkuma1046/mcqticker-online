@@ -1,0 +1,18 @@
+---
+export const prerender = true;
+import BaseLayout from '../layouts/BaseLayout.astro';
+import DashboardContainer from '../components/DashboardContainer';
+import PreviewSlider from '../components/PreviewSlider.astro';
+---
+
+<BaseLayout
+  title="tap A B C D — MCQ Practice Tool | Free MCQ Option Selector & Timer Online"
+  description="tap A B C D MCQ Ticker: Free MCQ option selector online. Mark MCQ answers online without typing. Tick MCQ options free. Built-in pacing timer. MCQ answer logger for NEET, JEE, SSC, UPSC. No signup needed."
+  canonicalPath="/"
+>
+  <!-- Mount the Dashboard container client-only to ensure IndexedDB works correctly -->
+  <DashboardContainer client:only="react" />
+
+  <!-- SEO Image Slider — shown at the bottom of the main page -->
+  <PreviewSlider />
+</BaseLayout>

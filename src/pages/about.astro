@@ -1,0 +1,78 @@
+---
+export const prerender = true;
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="About Us — tap A B C D MCQ Ticker | Free MCQ Practice Tool | mcqticker.online"
+  description="Learn about tap A B C D MCQ Ticker — a free MCQ option selector and pacing timer built by a student in India for NEET, JEE, SSC, UPSC competitive exam prep."
+  canonicalPath="/about"
+>
+  <div class="max-w-2xl mx-auto space-y-8 animate-fadeIn">
+    <!-- Page Header -->
+    <div class="text-center space-y-3 pb-4 border-b border-border-light dark:border-border-dark">
+      <h1 class="font-display font-black text-3xl text-brand-primary dark:text-brand-secondary">
+        About tap A B C D
+      </h1>
+      <p class="text-sm text-text-light-muted dark:text-text-dark-muted max-w-lg mx-auto leading-relaxed">
+        A free MCQ answer logger built with love in India, for students who are tired of picking up the pen just to mark answers.
+      </p>
+    </div>
+
+    <!-- Story section -->
+    <div class="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-2xl p-6 space-y-4 shadow-custom">
+      <div class="flex items-center gap-3">
+        <span class="material-symbols-outlined text-2xl text-brand-primary dark:text-brand-secondary">school</span>
+        <h2 class="font-display font-extrabold text-lg text-text-light dark:text-text-dark">The Story</h2>
+      </div>
+      <p class="text-sm text-text-light dark:text-text-dark leading-relaxed">
+        This tool was born out of a simple frustration: while practicing MCQs, I kept having to either type answers into a notes app, scribble on paper, or use some bloated app that required sign-ups and accounts.
+      </p>
+      <p class="text-sm text-text-light dark:text-text-dark leading-relaxed">
+        I just wanted something where I could tap <strong>A</strong>, <strong>B</strong>, <strong>C</strong>, or <strong>D</strong> — and have the timer and logs handled automatically. No account. No typing. No internet required. Just practice.
+      </p>
+      <p class="text-sm text-text-light dark:text-text-dark leading-relaxed">
+        So I built it. For myself — and for every student grinding through exam prep.
+      </p>
+    </div>
+
+    <!-- Features section -->
+    <div class="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-2xl p-6 space-y-4 shadow-custom">
+      <div class="flex items-center gap-3">
+        <span class="material-symbols-outlined text-2xl text-brand-primary dark:text-brand-secondary">stars</span>
+        <h2 class="font-display font-extrabold text-lg text-text-light dark:text-text-dark">What It Does</h2>
+      </div>
+      <ul class="space-y-3">
+        {[
+          { icon: 'touch_app', text: 'Tap A, B, C, or D — no keyboard needed' },
+          { icon: 'timer', text: 'Built-in stopwatch and countdown timer modes' },
+          { icon: 'analytics', text: 'Per-question pacing analysis and accuracy logs' },
+          { icon: 'cloud_off', text: 'Works fully offline — data stays on your device' },
+          { icon: 'dark_mode', text: 'Premium dark mode for late-night study sessions' },
+          { icon: 'bar_chart', text: 'Session history with charts and performance breakdown' },
+        ].map(({ icon, text }) => (
+          <li class="flex items-center gap-3 text-sm text-text-light dark:text-text-dark">
+            <span class="material-symbols-outlined text-base text-brand-primary dark:text-brand-secondary flex-shrink-0">{icon}</span>
+            {text}
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <!-- Made with love -->
+    <div class="bg-brand-primary/5 dark:bg-brand-secondary/5 border border-brand-primary/20 dark:border-brand-secondary/20 rounded-2xl p-6 text-center space-y-2">
+      <p class="text-2xl">❤️</p>
+      <p class="text-sm font-bold text-text-light dark:text-text-dark">Made in India by a student, for students</p>
+      <p class="text-xxs text-text-light-muted dark:text-text-dark-muted">
+        Free forever. No account. No paywall. Just practice.
+      </p>
+      <a
+        href="/"
+        class="inline-flex items-center gap-2 mt-3 px-5 py-2.5 bg-brand-primary dark:bg-brand-secondary text-white font-bold text-xs rounded-xl hover:opacity-90 transition-opacity decoration-none"
+      >
+        <span class="material-symbols-outlined text-sm">arrow_back</span>
+        Back to Practice
+      </a>
+    </div>
+  </div>
+</BaseLayout>

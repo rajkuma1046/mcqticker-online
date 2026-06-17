@@ -1,0 +1,168 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* Design Tokens for Theme Modes */
+  --color-bg-light: #f4f1ec;
+  --color-surface-light: #fffdf9;
+  --color-surface-light-hover: #fbf9f4;
+  --color-border-light: #ddd8cc;
+  --color-text-light: #1a1814;
+  --color-text-light-muted: #6b6560;
+
+  /* Low-fatigue midnight study grind default */
+  --color-bg-dark: #0b0a09;
+  --color-surface-dark: #141311;
+  --color-surface-dark-hover: #1e1c19;
+  --color-border-dark: #2c2925;
+  --color-text-dark: #e8e5df;
+  --color-text-dark-muted: #9c958d;
+
+  /* Brand Accents */
+  --color-brand-primary: #8b3a2a;
+  --color-brand-secondary: #e07a5f;
+  --color-brand-light: #f5e8e4;
+  --color-brand-dark: #2d1611;
+
+  /* Answer feedback colors */
+  --color-correct-green: #2d6a4f;
+  --color-correct-green-light: #d8f3e4;
+  --color-correct-green-dark: #0d2e1c;
+
+  --color-wrong-red: #991b1b;
+  --color-wrong-red-light: #fee2e2;
+  --color-wrong-red-dark: #2a0d0d;
+
+  --color-skip-purple: #5a4e6b;
+  --color-skip-purple-light: #ede8f5;
+  --color-skip-purple-dark: #1a1430;
+
+  --color-amber-orange: #fbbf24;
+  --color-amber-orange-light: #fef0cc;
+  --color-amber-orange-dark: #2a1e00;
+
+  /* Shadow overrides */
+  --shadow-custom: 0 4px 12px rgba(0, 0, 0, 0.05);
+  --shadow-custom-md: 0 8px 24px rgba(0, 0, 0, 0.08);
+
+  /* Responsive Font Sizing Tokens */
+  --text-xxs: 0.65rem;
+  --text-3xs: 0.55rem;
+}
+
+:root {
+  --zoom-factor: 100%;
+}
+
+/* Fluid Responsive Typography base */
+html {
+  font-size: calc(14px * var(--zoom-factor) / 100);
+}
+@media (min-width: 640px) {
+  html {
+    font-size: calc(14.5px * var(--zoom-factor) / 100);
+  }
+}
+@media (min-width: 768px) {
+  html {
+    font-size: calc(15px * var(--zoom-factor) / 100);
+  }
+}
+@media (min-width: 1024px) {
+  html {
+    font-size: calc(16px * var(--zoom-factor) / 100);
+  }
+}
+@media (min-width: 1280px) {
+  html {
+    font-size: calc(17px * var(--zoom-factor) / 100);
+  }
+}
+@media (min-width: 1536px) {
+  html {
+    font-size: calc(18px * var(--zoom-factor) / 100);
+  }
+}
+
+/* Global Transition Settings */
+body {
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom Scrollbar for premium feel */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: var(--color-border-dark);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-light);
+  border-radius: 9999px;
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #3c3935;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #ccc6b8;
+}
+
+/* Timer and ring keyframe animations */
+@keyframes pulse-ring {
+  0% { transform: scale(0.95); opacity: 0.8; }
+  50% { transform: scale(1.05); opacity: 0.4; }
+  100% { transform: scale(0.95); opacity: 0.8; }
+}
+
+.animate-pulse-ring {
+  animation: pulse-ring 2s infinite ease-in-out;
+  transform-origin: center;
+}
+
+@keyframes pulse-subtle {
+  0%, 100% { transform: scale(1); box-shadow: 0 4px 12px rgba(224, 122, 95, 0.05); }
+  50% { transform: scale(1.01); box-shadow: 0 8px 24px rgba(224, 122, 95, 0.15); }
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 2.5s infinite ease-in-out;
+}
+
+/* Fade in animation for page content */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.35s ease-out forwards;
+}
+
+/* Focus-visible improvements for accessibility */
+:focus-visible {
+  outline: 2px solid var(--color-brand-primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+.dark :focus-visible {
+  outline-color: var(--color-brand-secondary);
+}
+
+/* Footer responsive styles */
+.site-footer {
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+/* Ensure content doesn't get hidden behind footer on mobile */
+@media (max-width: 640px) {
+  main {
+    padding-bottom: 2rem;
+  }
+}

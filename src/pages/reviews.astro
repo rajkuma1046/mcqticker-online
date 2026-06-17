@@ -1,0 +1,335 @@
+---
+export const prerender = true;
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="User Reviews — tap A B C D MCQ Ticker | mcqticker.online"
+  description="Read what students say about tap A B C D MCQ Ticker — the free MCQ option selector and pacing timer. Share your own experience with NEET, JEE, SSC, UPSC prep."
+  canonicalPath="/reviews"
+>
+  <div class="max-w-2xl mx-auto space-y-8 animate-fadeIn">
+
+    <!-- Header -->
+    <div class="text-center space-y-3 pb-4 border-b border-border-light dark:border-border-dark">
+      <h1 class="font-display font-black text-3xl text-brand-primary dark:text-brand-secondary">
+        User Reviews
+      </h1>
+      <p class="text-sm text-text-light-muted dark:text-text-dark-muted max-w-lg mx-auto leading-relaxed">
+        Real experiences from students using tap A B C D MCQ Ticker for competitive exam prep.
+        Share yours below!
+      </p>
+    </div>
+
+    <!-- ─── Submit Review Form ─── -->
+    <div class="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-2xl p-6 space-y-5 shadow-custom">
+      <div class="flex items-center gap-3">
+        <span class="material-symbols-outlined text-xl text-brand-primary dark:text-brand-secondary">edit_note</span>
+        <h2 class="font-display font-extrabold text-base text-text-light dark:text-text-dark">Share Your Experience</h2>
+      </div>
+
+      <form id="review-form" class="space-y-4" novalidate>
+        <!-- Name -->
+        <div>
+          <label for="review-name" class="block text-xs font-semibold uppercase tracking-wider text-text-light-muted dark:text-text-dark-muted mb-1.5">
+            Your Name <span class="text-wrong-red">*</span>
+          </label>
+          <input
+            type="text"
+            id="review-name"
+            name="name"
+            maxlength="80"
+            placeholder="e.g. Rahul Sharma"
+            required
+            class="w-full px-4 py-2.5 rounded-xl border border-border-light dark:border-border-dark bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark placeholder-text-light-muted/50 dark:placeholder-text-dark-muted/50 focus:outline-none focus:ring-2 focus:ring-brand-primary dark:focus:ring-brand-secondary transition-all text-sm"
+          />
+        </div>
+
+        <!-- Exam -->
+        <div>
+          <label for="review-exam" class="block text-xs font-semibold uppercase tracking-wider text-text-light-muted dark:text-text-dark-muted mb-1.5">
+            Exam You're Preparing For
+          </label>
+          <select
+            id="review-exam"
+            name="exam"
+            class="w-full px-4 py-2.5 rounded-xl border border-border-light dark:border-border-dark bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark focus:outline-none focus:ring-2 focus:ring-brand-primary dark:focus:ring-brand-secondary transition-all text-sm cursor-pointer"
+          >
+            <option value="">Select your exam...</option>
+            <option value="NEET">NEET (Medical)</option>
+            <option value="JEE">JEE Main / Advanced</option>
+            <option value="SSC CGL">SSC CGL</option>
+            <option value="SSC CHSL">SSC CHSL</option>
+            <option value="UPSC Prelims">UPSC Prelims (GS / CSAT)</option>
+            <option value="MCAT">MCAT</option>
+            <option value="IELTS">IELTS</option>
+            <option value="Banking">Banking / IBPS / SBI</option>
+            <option value="GATE">GATE</option>
+            <option value="Class 11-12">Class 11 / 12 Boards</option>
+            <option value="PCS">State PCS</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <!-- Star Rating -->
+        <div>
+          <label class="block text-xs font-semibold uppercase tracking-wider text-text-light-muted dark:text-text-dark-muted mb-2">
+            Rating <span class="text-wrong-red">*</span>
+          </label>
+          <div id="star-rating" class="flex gap-1" role="radiogroup" aria-label="Rating">
+            {[1, 2, 3, 4, 5].map(n => (
+              <button
+                type="button"
+                data-star={n}
+                class="star-btn text-3xl text-text-light-muted/30 dark:text-text-dark-muted/30 hover:text-amber-orange transition-colors cursor-pointer leading-none select-none"
+                aria-label={`${n} star${n > 1 ? 's' : ''}`}
+              >★</button>
+            ))}
+          </div>
+          <input type="hidden" id="review-rating" name="rating" value="0" required />
+        </div>
+
+        <!-- Review Text -->
+        <div>
+          <label for="review-text" class="block text-xs font-semibold uppercase tracking-wider text-text-light-muted dark:text-text-dark-muted mb-1.5">
+            Your Review <span class="text-wrong-red">*</span>
+          </label>
+          <textarea
+            id="review-text"
+            name="review"
+            rows="4"
+            maxlength="1000"
+            required
+            placeholder="How did MCQ Ticker help your exam prep? What do you like most?"
+            class="w-full px-4 py-2.5 rounded-xl border border-border-light dark:border-border-dark bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark placeholder-text-light-muted/50 dark:placeholder-text-dark-muted/50 focus:outline-none focus:ring-2 focus:ring-brand-primary dark:focus:ring-brand-secondary transition-all text-sm resize-none"
+          ></textarea>
+          <p id="char-count" class="text-xxs text-text-light-muted dark:text-text-dark-muted text-right mt-1">0 / 1000</p>
+        </div>
+
+        <!-- Submit -->
+        <button
+          type="submit"
+          id="review-submit"
+          class="w-full py-3 bg-brand-primary dark:bg-brand-secondary hover:opacity-95 text-white font-bold text-sm rounded-xl transition-all shadow-md cursor-pointer flex items-center justify-center gap-2"
+        >
+          <span class="material-symbols-outlined text-base">send</span>
+          Submit Review
+        </button>
+
+        <!-- Status Messages -->
+        <div id="review-success" class="hidden flex items-center gap-3 p-4 rounded-xl bg-correct-green-light dark:bg-correct-green-dark/30 border border-correct-green text-correct-green-dark dark:text-correct-green text-sm font-semibold">
+          <span class="material-symbols-outlined text-xl">check_circle</span>
+          Thank you! Your review has been published.
+        </div>
+        <div id="review-error" class="hidden flex items-center gap-3 p-4 rounded-xl bg-wrong-red-light dark:bg-wrong-red-dark/30 border border-wrong-red text-wrong-red text-sm font-semibold">
+          <span class="material-symbols-outlined text-xl">error</span>
+          <span id="review-error-msg">Something went wrong. Please try again.</span>
+        </div>
+      </form>
+    </div>
+
+    <!-- ─── Reviews List ─── -->
+    <div id="reviews-section" class="space-y-4">
+      <h2 class="font-display font-extrabold text-base text-text-light dark:text-text-dark flex items-center gap-2 border-b border-border-light dark:border-border-dark pb-3">
+        <span class="material-symbols-outlined text-lg text-brand-primary dark:text-brand-secondary">forum</span>
+        What Students Say
+      </h2>
+
+      <!-- Loading state -->
+      <div id="reviews-loading" class="text-center py-10 text-xs text-text-light-muted dark:text-text-dark-muted">
+        <span class="material-symbols-outlined text-3xl animate-spin block mb-2">progress_activity</span>
+        Loading reviews...
+      </div>
+
+      <!-- Empty state -->
+      <div id="reviews-empty" class="hidden text-center py-14 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-2xl">
+        <span class="material-symbols-outlined text-5xl text-brand-primary dark:text-brand-secondary">rate_review</span>
+        <h3 class="text-sm font-bold mt-3 text-text-light dark:text-text-dark">Be the first to review!</h3>
+        <p class="text-xxs text-text-light-muted dark:text-text-dark-muted mt-1">Share your experience with tap A B C D MCQ Ticker above.</p>
+      </div>
+
+      <!-- Reviews container -->
+      <div id="reviews-list" class="space-y-4"></div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  .animate-spin {
+    animation: spin 1s linear infinite;
+  }
+</style>
+
+<script is:inline>
+(function () {
+  /* ── Star Rating UI ── */
+  var starBtns = document.querySelectorAll('.star-btn');
+  var ratingInput = document.getElementById('review-rating');
+  var selectedRating = 0;
+
+  function paintStars(hoveredOrSelected) {
+    starBtns.forEach(function (btn) {
+      var n = parseInt(btn.getAttribute('data-star'));
+      if (n <= hoveredOrSelected) {
+        btn.style.color = 'var(--color-amber-orange)';
+      } else {
+        btn.style.color = '';
+      }
+    });
+  }
+
+  starBtns.forEach(function (btn) {
+    btn.addEventListener('mouseenter', function () { paintStars(parseInt(btn.getAttribute('data-star'))); });
+    btn.addEventListener('mouseleave', function () { paintStars(selectedRating); });
+    btn.addEventListener('click', function () {
+      selectedRating = parseInt(btn.getAttribute('data-star'));
+      if (ratingInput) ratingInput.value = String(selectedRating);
+      paintStars(selectedRating);
+    });
+  });
+
+  /* ── Char counter ── */
+  var reviewTextarea = document.getElementById('review-text');
+  var charCount = document.getElementById('char-count');
+  if (reviewTextarea && charCount) {
+    reviewTextarea.addEventListener('input', function () {
+      charCount.textContent = reviewTextarea.value.length + ' / 1000';
+    });
+  }
+
+  /* ── Load & Render Reviews ── */
+  function renderStars(rating) {
+    var s = '';
+    for (var i = 1; i <= 5; i++) {
+      s += '<span style="color:' + (i <= rating ? 'var(--color-amber-orange)' : 'var(--color-text-dark-muted)') + '">★</span>';
+    }
+    return s;
+  }
+
+  function timeAgo(isoStr) {
+    var diff = (Date.now() - new Date(isoStr).getTime()) / 1000;
+    if (diff < 60) return 'just now';
+    if (diff < 3600) return Math.floor(diff / 60) + 'm ago';
+    if (diff < 86400) return Math.floor(diff / 3600) + 'h ago';
+    return Math.floor(diff / 86400) + 'd ago';
+  }
+
+  function renderReview(r) {
+    var examBadge = r.exam
+      ? '<span class="inline-block px-2 py-0.5 text-xxs rounded-full bg-brand-primary/10 dark:bg-brand-secondary/10 text-brand-primary dark:text-brand-secondary border border-brand-primary/20 dark:border-brand-secondary/20 font-bold">' + r.exam + '</span>'
+      : '';
+    return '<div class="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-2xl p-5 space-y-3 shadow-custom">'
+      + '<div class="flex items-start justify-between gap-3">'
+        + '<div class="space-y-1">'
+          + '<div class="flex items-center gap-2">'
+            + '<span class="font-bold text-sm text-text-light dark:text-text-dark">' + r.name + '</span>'
+            + examBadge
+          + '</div>'
+          + '<div class="flex items-center gap-2">'
+            + '<span class="text-base leading-none">' + renderStars(r.rating) + '</span>'
+            + '<span class="text-xxs text-text-light-muted dark:text-text-dark-muted">' + timeAgo(r.created_at) + '</span>'
+          + '</div>'
+        + '</div>'
+      + '</div>'
+      + '<p class="text-sm text-text-light dark:text-text-dark leading-relaxed">' + r.review.replace(/[<>&"']/g, function(c){return {'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;',"'":'&#39;'}[c];}) + '</p>'
+    + '</div>';
+  }
+
+  function loadReviews() {
+    var loading = document.getElementById('reviews-loading');
+    var empty = document.getElementById('reviews-empty');
+    var list = document.getElementById('reviews-list');
+    if (!loading || !empty || !list) return;
+
+    fetch('/api/reviews')
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        loading.classList.add('hidden');
+        var reviews = data.reviews || [];
+        if (reviews.length === 0) {
+          empty.classList.remove('hidden');
+        } else {
+          list.innerHTML = reviews.map(renderReview).join('');
+        }
+      })
+      .catch(function () {
+        loading.innerHTML = '<p class="text-xs text-text-light-muted dark:text-text-dark-muted">Could not load reviews right now.</p>';
+      });
+  }
+
+  /* ── Form Submission ── */
+  var form = document.getElementById('review-form');
+  var submitBtn = document.getElementById('review-submit');
+  var successBox = document.getElementById('review-success');
+  var errorBox = document.getElementById('review-error');
+  var errorMsg = document.getElementById('review-error-msg');
+
+  if (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      var name = document.getElementById('review-name').value.trim();
+      var rating = parseInt(document.getElementById('review-rating').value);
+      var review = document.getElementById('review-text').value.trim();
+      var exam = document.getElementById('review-exam').value;
+
+      if (name.length < 2) { showError('Please enter your name (at least 2 characters).'); return; }
+      if (!rating || rating < 1) { showError('Please select a star rating.'); return; }
+      if (review.length < 10) { showError('Please write a review (at least 10 characters).'); return; }
+
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span class="material-symbols-outlined text-base animate-spin">progress_activity</span> Submitting...';
+      if (errorBox) errorBox.classList.add('hidden');
+
+      fetch('/api/reviews', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: name, rating: rating, review: review, exam: exam || null }),
+      })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          if (data.success || data.note) {
+            if (successBox) successBox.classList.remove('hidden');
+            form.reset();
+            selectedRating = 0;
+            paintStars(0);
+            if (charCount) charCount.textContent = '0 / 1000';
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<span class="material-symbols-outlined text-base">send</span> Submit Review';
+            // Prepend newly submitted review optimistically
+            var newReview = { name: name, rating: rating, review: review, exam: exam, created_at: new Date().toISOString() };
+            var list = document.getElementById('reviews-list');
+            var empty = document.getElementById('reviews-empty');
+            if (list) {
+              list.insertAdjacentHTML('afterbegin', renderReview(newReview));
+              if (empty) empty.classList.add('hidden');
+            }
+          } else {
+            showError(data.error || 'Something went wrong. Please try again.');
+          }
+        })
+        .catch(function () {
+          showError('Network error. Please check your connection and try again.');
+        });
+    });
+  }
+
+  function showError(msg) {
+    if (errorBox) errorBox.classList.remove('hidden');
+    if (errorMsg) errorMsg.textContent = msg;
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '<span class="material-symbols-outlined text-base">send</span> Submit Review';
+    }
+  }
+
+  /* Boot */
+  loadReviews();
+  document.addEventListener('astro:after-swap', function () {
+    loadReviews();
+  });
+})();
+</script>

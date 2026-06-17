@@ -1,0 +1,356 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import ThemeToggle from '../components/ThemeToggle.astro';
+import ZoomControls from '../components/ZoomControls.astro';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  containerClass?: string;
+  canonicalPath?: string;
+}
+
+const {
+  title = 'tap A B C D — MCQ Practice Tool | MCQ Answer Logger with Timer',
+  description = 'tap A B C D is a free MCQ practice tool and answer logger with built-in timer. Mark MCQ answers online without typing. Tick MCQ options online free. Perfect for NEET, JEE, SSC, UPSC competitive exam prep.',
+  containerClass = 'max-w-4xl',
+  canonicalPath = '',
+} = Astro.props;
+
+const SITE_URL = 'https://mcqticker.online';
+const canonicalURL = `${SITE_URL}${canonicalPath}`;
+---
+
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Primary SEO -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="keywords" content="tap A B C D mcq practice tool, mcq option selector online free, mark mcq answers online no typing, mcq answer logger with timer, tick mcq options online free, mcq pacing timer, mcq timer free, mcq answer tracker online, timed mcq practice tool, neet mcq practice online, ssc mcq practice tool, upsc prelims mcq timer, jee main mcq practice online, mcq bubble sheet online, option ticker mcq, mcq practice timer no signup, exam pacing tool online, answer key grader online free, mobile mcq practice app free, offline mcq practice tool, best mcq practice tool free, competitive exam preparation online, mcqticker.online" />
+    <meta name="author" content="tap A B C D — MCQ Ticker" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Open Graph / Social -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={`${SITE_URL}/web-app-manifest-512x512.png`} />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
+    <meta property="og:image:alt" content="tap A B C D MCQ Ticker — Free MCQ Practice Tool" />
+    <meta property="og:site_name" content="tap A B C D — MCQ Ticker" />
+    <meta property="og:locale" content="en_IN" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalURL} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={`${SITE_URL}/web-app-manifest-512x512.png`} />
+    <meta name="twitter:image:alt" content="tap A B C D MCQ Ticker" />
+
+    <!-- Favicon Suite -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#8b3a2a" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#e07a5f" media="(prefers-color-scheme: dark)" />
+
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Google Fonts — keep existing fonts, add Material Symbols -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+    <!-- Google Material Symbols Outlined -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block" rel="stylesheet" />
+
+    <!-- JSON-LD: WebApplication Schema -->
+    <script type="application/ld+json" is:inline>
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "tap A B C D — MCQ Ticker",
+      "alternateName": "MCQ Ticker",
+      "url": "https://mcqticker.online",
+      "description": "Free MCQ practice tool and option ticker with built-in timer. Mark MCQ answers online without typing. Tick MCQ options online free. Perfect for NEET, JEE, SSC, UPSC competitive exam prep.",
+      "applicationCategory": "EducationalApplication",
+      "applicationSubCategory": "ExamPreparation",
+      "operatingSystem": "All",
+      "browserRequirements": "Requires JavaScript",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "INR"
+      },
+      "featureList": [
+        "MCQ answer logging without typing",
+        "Built-in practice timer with pacing",
+        "Stopwatch and timer-binding modes",
+        "Session history with analytics",
+        "Works offline as PWA",
+        "Dark mode support",
+        "No signup required",
+        "Free MCQ option ticker",
+        "NEET, JEE, SSC, UPSC exam support"
+      ],
+      "author": {
+        "@type": "Person",
+        "name": "A student from India"
+      },
+      "inLanguage": "en"
+    }
+    </script>
+
+    <!-- JSON-LD: FAQPage Schema -->
+    <script type="application/ld+json" is:inline>
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is tap A B C D MCQ Ticker?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "tap A B C D MCQ Ticker is a free online MCQ practice tool that lets you log answers, track time per question, and analyze your pacing — all without typing."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I mark MCQ answers online without typing?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Simply tap A, B, C, or D buttons on the screen. The tool logs your answer and advances to the next question automatically."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is MCQ Ticker free to use?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes! tap A B C D MCQ Ticker is completely free. No account needed. Works offline in your browser."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does MCQ Ticker work offline?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, all session data is stored locally in your browser using IndexedDB. No internet required after the first load."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What timer modes are available?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "tap A B C D MCQ Ticker has two timer modes: Stopwatch (counts up per question) and Timer Binding (limits time per question for pacing practice)."
+          }
+        }
+      ]
+    }
+    </script>
+
+    <!-- JSON-LD: SiteLinks / WebSite -->
+    <script type="application/ld+json" is:inline>
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "tap A B C D — MCQ Ticker",
+      "url": "https://mcqticker.online",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://mcqticker.online/?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+
+    <!-- Inline script: apply dark mode + zoom factor instantly (no FOUC) -->
+    <script is:inline>
+      const applyTheme = () => {
+        const storedTheme = localStorage.getItem('theme') || 'dark';
+        if (storedTheme === 'light') {
+          document.documentElement.classList.remove('dark');
+        } else {
+          document.documentElement.classList.add('dark');
+        }
+      };
+
+      const applyZoom = () => {
+        const storedZoom = localStorage.getItem('zoom-factor') || '100';
+        document.documentElement.style.setProperty('--zoom-factor', storedZoom + '%');
+      };
+
+      applyTheme();
+      applyZoom();
+      document.addEventListener('astro:after-swap', () => {
+        applyTheme();
+        applyZoom();
+      });
+    </script>
+
+    <!-- PWA Service Worker Registration -->
+    <script is:inline>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then((reg) => {
+              console.log('[PWA] Service Worker registered scope:', reg.scope);
+            })
+            .catch((err) => {
+              console.error('[PWA] Service Worker registration failed:', err);
+            });
+        });
+      }
+    </script>
+
+    <ClientRouter />
+  </head>
+  <body class="bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark font-sans min-h-dvh flex flex-col">
+    <!-- Top Bar / Header -->
+    <header class="sticky top-0 z-50 backdrop-blur-md bg-surface-light/90 dark:bg-surface-dark/90 border-b border-border-light dark:border-border-dark px-4 py-2.5 flex items-center justify-between transition-colors">
+      <a href="/" class="flex items-center gap-2.5 group decoration-none" aria-label="tap A B C D — Home">
+        <!-- Logo: show dark logo in dark mode, light logo in light mode -->
+        <picture>
+          <source srcset="/logo-dark.webp" media="(prefers-color-scheme: dark)" class="logo-dark-source" />
+          <img
+            id="site-logo"
+            src="/logo-light.webp"
+            alt="tap A B C D logo"
+            width="240"
+            height="80"
+            class="h-9 sm:h-11 md:h-14 lg:h-16 w-auto object-contain transition-all duration-300 group-hover:opacity-85 logo-img"
+            fetchpriority="high"
+          />
+        </picture>
+      </a>
+
+      <div class="flex items-center gap-2">
+        <ZoomControls />
+        <ThemeToggle />
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class={`flex-1 w-full mx-auto px-4 py-6 ${containerClass}`}>
+      <slot />
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer border-t border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark mt-auto">
+      <div class="max-w-4xl mx-auto px-4 py-8">
+        <!-- Top footer row -->
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 mb-6">
+          <!-- Brand -->
+          <div class="flex flex-col gap-1.5">
+            <picture>
+              <img
+                src="/logo-light.webp"
+                alt="tap A B C D"
+                width="120"
+                height="40"
+                class="h-9 w-auto object-contain footer-logo-img"
+              />
+            </picture>
+            <p class="text-xxs text-text-light-muted dark:text-text-dark-muted max-w-[220px] leading-relaxed">
+              Free MCQ practice tool. Log answers, track pacing, and ace your exams.
+            </p>
+          </div>
+
+          <!-- Links -->
+          <nav class="flex flex-wrap gap-x-5 gap-y-2" aria-label="Footer Navigation">
+            <a href="/about-tool" class="footer-link">About the Tool</a>
+            <a href="/about" class="footer-link">About Us</a>
+            <a href="/reviews" class="footer-link">Reviews</a>
+            <a href="/privacy" class="footer-link">Privacy Policy</a>
+            <a href="/contact" class="footer-link">Contact Us</a>
+          </nav>
+        </div>
+
+        <!-- Divider -->
+        <div class="border-t border-border-light dark:border-border-dark pt-5">
+          <!-- Bottom bar -->
+          <div class="flex flex-col sm:flex-row items-center justify-between gap-3 text-xxs text-text-light-muted dark:text-text-dark-muted">
+            <p class="footer-heart-text">
+              Made with <span class="text-wrong-red inline-block animate-heartbeat" aria-label="love">❤️</span> in India — by a student, for students
+            </p>
+            <p>&copy; {new Date().getFullYear()} <a href="https://mcqticker.online" class="footer-link">mcqticker.online</a> — All rights reserved</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <style is:global>
+      /* Font settings */
+      html, body {
+        font-family: 'Geom', 'Roboto', 'Inter', system-ui, -apple-system, sans-serif;
+      }
+      .font-display {
+        font-family: 'Geom', 'Roboto', 'Inter', system-ui, -apple-system, sans-serif;
+      }
+      .font-mono-custom {
+        font-family: 'Roboto Mono', monospace;
+      }
+
+      /* Logo theme switching via JS class */
+      .logo-img {
+        content: url('/logo-light.webp');
+      }
+      html.dark .logo-img {
+        content: url('/logo-dark.webp');
+      }
+      .footer-logo-img {
+        content: url('/logo-light.webp');
+      }
+      html.dark .footer-logo-img {
+        content: url('/logo-dark.webp');
+      }
+
+      /* Footer links */
+      .footer-link {
+        font-size: 0.72rem;
+        font-weight: 600;
+        color: var(--color-text-light-muted);
+        text-decoration: none;
+        transition: color 0.15s ease;
+      }
+      .dark .footer-link {
+        color: var(--color-text-dark-muted);
+      }
+      .footer-link:hover {
+        color: var(--color-brand-primary);
+        text-decoration: underline;
+      }
+      .dark .footer-link:hover {
+        color: var(--color-brand-secondary);
+      }
+
+      /* Heartbeat animation for ❤️ */
+      @keyframes heartbeat {
+        0%, 100% { transform: scale(1); }
+        15% { transform: scale(1.25); }
+        30% { transform: scale(1); }
+        45% { transform: scale(1.15); }
+        60% { transform: scale(1); }
+      }
+      .animate-heartbeat {
+        animation: heartbeat 2.2s ease-in-out infinite;
+        display: inline-block;
+      }
+    </style>
+  </body>
+</html>

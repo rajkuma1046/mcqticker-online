@@ -1,0 +1,86 @@
+---
+---
+<div class="flex items-center gap-1 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark p-1 rounded-xl shadow-xs transition-colors">
+  <!-- Zoom Out Button -->
+  <button
+    id="zoom-out-btn"
+    class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-surface-light-hover dark:hover:bg-surface-dark-hover text-text-light-muted dark:text-text-dark-muted hover:text-text-light dark:hover:text-text-dark transition-colors cursor-pointer active:scale-95"
+    title="Zoom Out"
+    aria-label="Zoom Out"
+  >
+    <span class="material-symbols-outlined text-lg select-none">zoom_out</span>
+  </button>
+
+  <!-- Zoom Indicator / Reset -->
+  <button
+    id="zoom-reset-btn"
+    class="px-2 py-1 text-xxs font-mono-custom font-extrabold text-brand-primary dark:text-brand-secondary rounded-lg hover:bg-surface-light-hover dark:hover:bg-surface-dark-hover transition-colors cursor-pointer select-none"
+    title="Reset Zoom to 100%"
+  >
+    <span id="zoom-indicator">100%</span>
+  </button>
+
+  <!-- Zoom In Button -->
+  <button
+    id="zoom-in-btn"
+    class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-surface-light-hover dark:hover:bg-surface-dark-hover text-text-light-muted dark:text-text-dark-muted hover:text-text-light dark:hover:text-text-dark transition-colors cursor-pointer active:scale-95"
+    title="Zoom In"
+    aria-label="Zoom In"
+  >
+    <span class="material-symbols-outlined text-lg select-none">zoom_in</span>
+  </button>
+</div>
+
+<script is:inline>
+  // Use a module-level AbortController so we can cleanly tear down on each
+  // Astro view-transition swap without stacking duplicate listeners.
+  (function () {
+    var _zoomAbort = null;
+
+    function setupZoomControls() {
+      // Tear down previous listeners
+      if (_zoomAbort) {
+        _zoomAbort.abort();
+      }
+      _zoomAbort = new AbortController();
+      var signal = _zoomAbort.signal;
+
+      var zoomOutBtn = document.getElementById('zoom-out-btn');
+      var zoomInBtn = document.getElementById('zoom-in-btn');
+      var zoomResetBtn = document.getElementById('zoom-reset-btn');
+      var zoomIndicator = document.getElementById('zoom-indicator');
+
+      if (!zoomOutBtn || !zoomInBtn || !zoomResetBtn || !zoomIndicator) return;
+
+      // Read current value
+      var zoomFactor = parseInt(localStorage.getItem('zoom-factor') || '100', 10);
+
+      function applyZoom(newZoom) {
+        var clamped = Math.max(70, Math.min(150, newZoom));
+        zoomFactor = clamped;
+        localStorage.setItem('zoom-factor', String(clamped));
+        document.documentElement.style.setProperty('--zoom-factor', clamped + '%');
+        // Force font-size recalc by toggling a dummy property
+        document.documentElement.style.setProperty('--zoom-recalc', String(Date.now()));
+        // Update displayed percentage
+        var ind = document.getElementById('zoom-indicator');
+        if (ind) ind.textContent = clamped + '%';
+      }
+
+      // Sync indicator to current stored value on setup
+      zoomIndicator.textContent = zoomFactor + '%';
+      // Also apply immediately in case it drifted
+      document.documentElement.style.setProperty('--zoom-factor', zoomFactor + '%');
+
+      zoomOutBtn.addEventListener('click', function () { applyZoom(zoomFactor - 10); }, { signal: signal });
+      zoomInBtn.addEventListener('click', function () { applyZoom(zoomFactor + 10); }, { signal: signal });
+      zoomResetBtn.addEventListener('click', function () { applyZoom(100); }, { signal: signal });
+    }
+
+    // Run immediately on script parse
+    setupZoomControls();
+
+    // Re-run cleanly on every Astro view-transition
+    document.addEventListener('astro:after-swap', setupZoomControls);
+  })();
+</script>

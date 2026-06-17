@@ -1,0 +1,212 @@
+---
+export const prerender = true;
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="About the Tool — tap A B C D MCQ Ticker | Free MCQ Option Selector & Timer"
+  description="Discover tap A B C D MCQ Ticker — the free MCQ option selector and pacing timer built for NEET, JEE, SSC, UPSC students. No typing, no signup. Just tap A B C D and ace your exams."
+  canonicalPath="/about-tool"
+>
+  <div class="max-w-3xl mx-auto space-y-10 animate-fadeIn">
+
+    <!-- Hero / Featured Image Section -->
+    <div class="relative rounded-3xl overflow-hidden border border-border-light dark:border-border-dark shadow-custom-md bg-surface-light dark:bg-surface-dark">
+      <div class="absolute inset-0 bg-gradient-to-br from-brand-primary/10 to-brand-secondary/5 pointer-events-none"></div>
+      <div class="flex flex-col md:flex-row items-center gap-0">
+        <!-- Featured Image -->
+        <div class="w-full md:w-1/2 relative">
+          <img
+            src="/abcd-mcq-ticker.png"
+            alt="tap A B C D MCQ Ticker — Free MCQ Option Selector and Pacing Timer for Competitive Exams"
+            width="640"
+            height="400"
+            class="w-full h-64 md:h-full object-cover object-top"
+            fetchpriority="high"
+            loading="eager"
+          />
+          <!-- Gradient overlay on image -->
+          <div class="absolute inset-0 bg-gradient-to-r from-transparent to-surface-light/30 dark:to-surface-dark/30 hidden md:block"></div>
+        </div>
+
+        <!-- Hero Text -->
+        <div class="w-full md:w-1/2 p-8 space-y-4 relative z-10">
+          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-primary/10 dark:bg-brand-secondary/10 border border-brand-primary/20 dark:border-brand-secondary/20 text-brand-primary dark:text-brand-secondary text-xxs font-bold uppercase tracking-wider">
+            <span class="material-symbols-outlined text-sm">verified</span>
+            Free Forever · No Signup
+          </div>
+          <h1 class="font-display font-black text-3xl md:text-4xl text-text-light dark:text-text-dark leading-tight">
+            tap A B C D<br/>
+            <span class="text-brand-primary dark:text-brand-secondary">MCQ Ticker</span>
+          </h1>
+          <p class="text-sm text-text-light-muted dark:text-text-dark-muted leading-relaxed">
+            The fastest way to practice MCQs from any book — without picking up a pen or opening a notes app.
+          </p>
+          <a
+            href="/new-session"
+            class="inline-flex items-center gap-2 px-5 py-3 bg-brand-primary dark:bg-brand-secondary text-white font-bold text-sm rounded-xl hover:opacity-90 transition-opacity decoration-none shadow-md"
+          >
+            <span class="material-symbols-outlined text-base">bolt</span>
+            Start Practicing Now
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- What is the tool? -->
+    <div class="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-2xl p-7 space-y-4 shadow-custom">
+      <div class="flex items-center gap-3">
+        <span class="material-symbols-outlined text-2xl text-brand-primary dark:text-brand-secondary">help_outline</span>
+        <h2 class="font-display font-extrabold text-xl text-text-light dark:text-text-dark">What is tap A B C D MCQ Ticker?</h2>
+      </div>
+      <p class="text-sm text-text-light dark:text-text-dark leading-relaxed">
+        <strong>tap A B C D MCQ Ticker</strong> is a free, offline-capable web tool that lets students practice Multiple Choice Questions (MCQs) from any textbook or exam paper — just by tapping <strong>A</strong>, <strong>B</strong>, <strong>C</strong>, or <strong>D</strong> on screen.
+      </p>
+      <p class="text-sm text-text-light dark:text-text-dark leading-relaxed">
+        Unlike traditional methods that require writing answers on paper or typing into a notes app, MCQ Ticker is a pure <strong>option ticker</strong> — it logs your answer, measures time per question, and gives you a full performance analysis at the end.
+      </p>
+      <p class="text-sm text-text-light dark:text-text-dark leading-relaxed">
+        It was built by a student frustrated with the friction of manually logging MCQ practice sessions. Today it serves thousands of aspirants preparing for <strong>NEET, JEE, SSC CGL, UPSC Prelims, MCAT, IELTS</strong>, and more.
+      </p>
+    </div>
+
+    <!-- How it works -->
+    <div class="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-2xl p-7 space-y-5 shadow-custom">
+      <div class="flex items-center gap-3">
+        <span class="material-symbols-outlined text-2xl text-brand-primary dark:text-brand-secondary">play_circle</span>
+        <h2 class="font-display font-extrabold text-xl text-text-light dark:text-text-dark">How It Works</h2>
+      </div>
+      <ol class="space-y-4">
+        {[
+          { step: '1', icon: 'settings', title: 'Configure Your Session', desc: 'Set your topic, number of questions, and choose between Stopwatch mode (counts up per question) or Timer Binding mode (limits time per question for pacing practice).' },
+          { step: '2', icon: 'touch_app', title: 'Tap A, B, C, or D', desc: 'Open your book or question paper. As you read each question, simply tap the option button on screen. The tool logs your answer and moves to the next question automatically.' },
+          { step: '3', icon: 'timer', title: 'Track Time Per Question', desc: 'Each tap records the time taken for that question. You\'ll know exactly which questions slowed you down and where you need to improve pace.' },
+          { step: '4', icon: 'analytics', title: 'Review Your Performance', desc: 'At the end of the session, enter the answer key. MCQ Ticker calculates your accuracy, average speed, and highlights slow questions — all in a beautiful analytics dashboard.' },
+        ].map(({ step, icon, title, desc }) => (
+          <li class="flex gap-4">
+            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-primary/10 dark:bg-brand-secondary/10 border border-brand-primary/20 dark:border-brand-secondary/20 flex items-center justify-center">
+              <span class="font-display font-black text-sm text-brand-primary dark:text-brand-secondary">{step}</span>
+            </div>
+            <div>
+              <div class="flex items-center gap-2 mb-1">
+                <span class="material-symbols-outlined text-base text-brand-primary dark:text-brand-secondary">{icon}</span>
+                <span class="font-bold text-sm text-text-light dark:text-text-dark">{title}</span>
+              </div>
+              <p class="text-xs text-text-light-muted dark:text-text-dark-muted leading-relaxed">{desc}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+
+    <!-- Key Features -->
+    <div class="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-2xl p-7 space-y-5 shadow-custom">
+      <div class="flex items-center gap-3">
+        <span class="material-symbols-outlined text-2xl text-brand-primary dark:text-brand-secondary">stars</span>
+        <h2 class="font-display font-extrabold text-xl text-text-light dark:text-text-dark">Key Features</h2>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        {[
+          { icon: 'touch_app', title: 'Zero Typing', desc: 'Tap A/B/C/D — no keyboard, no writing, no friction.' },
+          { icon: 'timer', title: 'Dual Timer Modes', desc: 'Stopwatch (free practice) or Timer Binding (enforce a pace limit per question).' },
+          { icon: 'cloud_off', title: '100% Offline', desc: 'All data stored in your browser via IndexedDB. Works without internet after first load.' },
+          { icon: 'bar_chart', title: 'Analytics Dashboard', desc: 'Accuracy %, speed per question, slow question flags, and session history charts.' },
+          { icon: 'install_mobile', title: 'Install as PWA', desc: 'Add to home screen on Android or iOS — works like a native app.' },
+          { icon: 'dark_mode', title: 'Dark Mode', desc: 'Premium low-fatigue dark theme for late-night study sessions.' },
+          { icon: 'check_circle', title: 'Answer Key Grader', desc: 'Enter the key after practice and get instant correct/wrong/skip breakdown.' },
+          { icon: 'history', title: 'Session History', desc: 'All past sessions saved locally with full question-by-question logs.' },
+          { icon: 'device_unknown', title: 'No Signup Ever', desc: 'No account. No email. No paywall. Just practice.' },
+          { icon: 'speed', title: 'Pacing Insights', desc: 'Know your average seconds-per-question vs. exam benchmark.' },
+        ].map(({ icon, title, desc }) => (
+          <div class="flex gap-3 p-4 rounded-xl bg-bg-light dark:bg-bg-dark border border-border-light dark:border-border-dark">
+            <span class="material-symbols-outlined text-xl text-brand-primary dark:text-brand-secondary flex-shrink-0 mt-0.5">{icon}</span>
+            <div>
+              <p class="font-bold text-xs text-text-light dark:text-text-dark">{title}</p>
+              <p class="text-xxs text-text-light-muted dark:text-text-dark-muted leading-relaxed mt-0.5">{desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Who is it for? -->
+    <div class="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-2xl p-7 space-y-4 shadow-custom">
+      <div class="flex items-center gap-3">
+        <span class="material-symbols-outlined text-2xl text-brand-primary dark:text-brand-secondary">groups</span>
+        <h2 class="font-display font-extrabold text-xl text-text-light dark:text-text-dark">Who Is It For?</h2>
+      </div>
+      <div class="flex flex-wrap gap-2">
+        {['NEET Aspirants', 'JEE Main & Advanced', 'SSC CGL / CHSL / MTS', 'UPSC Prelims (CSAT)', 'MCAT Students', 'IELTS Test-Takers', 'Class 11 & 12 Students', 'PCS / State PCS', 'Banking Exams', 'GATE Aspirants', 'Any MCQ-Based Exam'].map(tag => (
+          <span class="px-3 py-1.5 rounded-full text-xxs font-bold bg-brand-primary/8 dark:bg-brand-secondary/8 border border-brand-primary/20 dark:border-brand-secondary/20 text-brand-primary dark:text-brand-secondary">
+            {tag}
+          </span>
+        ))}
+      </div>
+      <p class="text-sm text-text-light-muted dark:text-text-dark-muted leading-relaxed">
+        If you practice MCQs from books, previous year papers, or mock tests — tap A B C D MCQ Ticker will transform how you measure and improve your performance.
+      </p>
+    </div>
+
+    <!-- Technology -->
+    <div class="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-2xl p-7 space-y-3 shadow-custom">
+      <div class="flex items-center gap-3">
+        <span class="material-symbols-outlined text-2xl text-brand-primary dark:text-brand-secondary">code</span>
+        <h2 class="font-display font-extrabold text-xl text-text-light dark:text-text-dark">Built With</h2>
+      </div>
+      <p class="text-sm text-text-light dark:text-text-dark leading-relaxed">
+        tap A B C D MCQ Ticker is built on <strong>Astro</strong> + <strong>React</strong>, styled with Tailwind CSS, powered by <strong>Dexie.js</strong> (IndexedDB), and deployed on <strong>Cloudflare Pages</strong> for lightning-fast global edge delivery.
+      </p>
+      <p class="text-sm text-text-light-muted dark:text-text-dark-muted leading-relaxed">
+        It is a Progressive Web App (PWA) — meaning it installs on your device, works offline, and feels like a native app without any app store download.
+      </p>
+    </div>
+
+    <!-- CTA -->
+    <div class="bg-gradient-to-br from-brand-primary/10 to-brand-secondary/5 border border-brand-primary/20 dark:border-brand-secondary/20 rounded-2xl p-8 text-center space-y-4">
+      <span class="text-4xl">🎯</span>
+      <h2 class="font-display font-black text-2xl text-text-light dark:text-text-dark">Ready to Practice Smarter?</h2>
+      <p class="text-sm text-text-light-muted dark:text-text-dark-muted max-w-md mx-auto">
+        Free. Offline. No signup. Just open and start tapping.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-3 justify-center">
+        <a
+          href="/new-session"
+          class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-brand-primary dark:bg-brand-secondary text-white font-bold text-sm rounded-xl hover:opacity-90 transition-opacity decoration-none shadow-md"
+        >
+          <span class="material-symbols-outlined text-base">bolt</span>
+          Start a Session
+        </a>
+        <a
+          href="/reviews"
+          class="inline-flex items-center justify-center gap-2 px-6 py-3 border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark text-text-light dark:text-text-dark font-bold text-sm rounded-xl hover:bg-surface-light-hover dark:hover:bg-surface-dark-hover transition-colors decoration-none"
+        >
+          <span class="material-symbols-outlined text-base">star</span>
+          Read Reviews
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- JSON-LD Article Schema for this page -->
+  <script type="application/ld+json" is:inline>
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "tap A B C D MCQ Ticker — Free MCQ Option Selector and Pacing Timer",
+    "description": "Detailed guide about tap A B C D MCQ Ticker — a free MCQ practice tool for NEET, JEE, SSC, UPSC students. No typing, no signup. Just tap options and track your pacing.",
+    "image": "https://mcqticker.online/abcd-mcq-ticker.png",
+    "author": {
+      "@type": "Person",
+      "name": "A student from India"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "tap A B C D MCQ Ticker",
+      "url": "https://mcqticker.online"
+    },
+    "url": "https://mcqticker.online/about-tool",
+    "mainEntityOfPage": "https://mcqticker.online/about-tool",
+    "keywords": "tap ABCD mcq tool, free mcq option selector, mcq pacing timer, mcq practice tool, neet mcq practice, jee mcq timer, ssc mcq tool, upsc prelims mcq practice"
+  }
+  </script>
+</BaseLayout>

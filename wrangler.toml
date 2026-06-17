@@ -1,0 +1,16 @@
+name = "mcqticker-online"
+compatibility_date = "2024-12-18"
+compatibility_flags = ["nodejs_compat"]
+pages_build_output_dir = "./dist"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "mcqticker-reviews"
+database_id = "5e162d34-ff87-434d-a48d-ca02a0a49477"
+
+# To create the database, run:
+#   npx wrangler d1 create mcqticker-reviews
+# Then replace the database_id above with the one returned.
+
+# To create the reviews table, run:
+#   npx wrangler d1 execute mcqticker-reviews --local --command "CREATE TABLE IF NOT EXISTS reviews (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, rating INTEGER NOT NULL CHECK(rating BETWEEN 1 AND 5), review TEXT NOT NULL, exam TEXT, created_at TEXT NOT NULL DEFAULT (datetime('now')), approved INTEGER NOT NULL DEFAULT 1);"

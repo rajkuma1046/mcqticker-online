@@ -1,0 +1,151 @@
+---
+export const prerender = true;
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Contact Us — tap A B C D MCQ Ticker | mcqticker.online"
+  description="Contact the tap A B C D MCQ Ticker team. Have a feature request, bug report, or feedback about our free MCQ practice tool? Reach us at contact@mcqticker.online"
+  canonicalPath="/contact"
+>
+  <div class="max-w-xl mx-auto space-y-8 animate-fadeIn">
+    <!-- Header -->
+    <div class="text-center space-y-3 pb-4 border-b border-border-light dark:border-border-dark">
+      <h1 class="font-display font-black text-3xl text-brand-primary dark:text-brand-secondary">
+        Contact Us
+      </h1>
+      <p class="text-sm text-text-light-muted dark:text-text-dark-muted max-w-md mx-auto leading-relaxed">
+        Got feedback, a bug report, or a feature idea? We'd love to hear from you.
+      </p>
+    </div>
+
+    <!-- Contact card -->
+    <div class="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-2xl p-6 space-y-5 shadow-custom">
+      <!-- Email -->
+      <div class="flex items-center gap-4 p-4 rounded-xl bg-bg-light dark:bg-bg-dark border border-border-light dark:border-border-dark">
+        <span class="material-symbols-outlined text-2xl text-brand-primary dark:text-brand-secondary flex-shrink-0">mail</span>
+        <div>
+          <p class="text-xxs font-semibold uppercase tracking-wider text-text-light-muted dark:text-text-dark-muted mb-0.5">Email Us</p>
+          <a
+            href="mailto:contact@mcqticker.online"
+            class="font-bold text-sm text-brand-primary dark:text-brand-secondary hover:underline"
+          >
+            contact@mcqticker.online
+          </a>
+        </div>
+      </div>
+
+      <!-- Response time note -->
+      <div class="flex items-start gap-3 text-xs text-text-light-muted dark:text-text-dark-muted">
+        <span class="material-symbols-outlined text-base flex-shrink-0 mt-0.5">schedule</span>
+        <p class="leading-relaxed">
+          We're a small student-run project. We try to respond within a few days, but during exam seasons it might take a little longer. Thank you for your patience!
+        </p>
+      </div>
+    </div>
+
+    <!-- Contact Form -->
+    <div class="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-2xl p-6 space-y-5 shadow-custom">
+      <div class="flex items-center gap-3">
+        <span class="material-symbols-outlined text-xl text-brand-primary dark:text-brand-secondary">edit_note</span>
+        <h2 class="font-display font-extrabold text-base text-text-light dark:text-text-dark">Send a Message</h2>
+      </div>
+
+      <form
+        id="contact-form"
+        action="mailto:contact@mcqticker.online"
+        method="post"
+        enctype="text/plain"
+        class="space-y-4"
+      >
+        <!-- Name -->
+        <div>
+          <label for="contact-name" class="block text-xs font-semibold uppercase tracking-wider text-text-light-muted dark:text-text-dark-muted mb-1.5">
+            Your Name
+          </label>
+          <input
+            type="text"
+            id="contact-name"
+            name="name"
+            placeholder="e.g. Priya Sharma"
+            required
+            class="w-full px-4 py-2.5 rounded-xl border border-border-light dark:border-border-dark bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark placeholder-text-light-muted/50 dark:placeholder-text-dark-muted/50 focus:outline-none focus:ring-2 focus:ring-brand-primary dark:focus:ring-brand-secondary transition-all text-sm"
+          />
+        </div>
+
+        <!-- Subject -->
+        <div>
+          <label for="contact-subject" class="block text-xs font-semibold uppercase tracking-wider text-text-light-muted dark:text-text-dark-muted mb-1.5">
+            Subject
+          </label>
+          <select
+            id="contact-subject"
+            name="subject"
+            required
+            class="w-full px-4 py-2.5 rounded-xl border border-border-light dark:border-border-dark bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark focus:outline-none focus:ring-2 focus:ring-brand-primary dark:focus:ring-brand-secondary transition-all text-sm cursor-pointer"
+          >
+            <option value="">Select a topic...</option>
+            <option value="bug">🐛 Bug Report</option>
+            <option value="feature">💡 Feature Request</option>
+            <option value="feedback">💬 General Feedback</option>
+            <option value="other">🙋 Something Else</option>
+          </select>
+        </div>
+
+        <!-- Message -->
+        <div>
+          <label for="contact-message" class="block text-xs font-semibold uppercase tracking-wider text-text-light-muted dark:text-text-dark-muted mb-1.5">
+            Message
+          </label>
+          <textarea
+            id="contact-message"
+            name="message"
+            rows="5"
+            required
+            placeholder="Describe your issue or suggestion..."
+            class="w-full px-4 py-2.5 rounded-xl border border-border-light dark:border-border-dark bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark placeholder-text-light-muted/50 dark:placeholder-text-dark-muted/50 focus:outline-none focus:ring-2 focus:ring-brand-primary dark:focus:ring-brand-secondary transition-all text-sm resize-none"
+          ></textarea>
+        </div>
+
+        <!-- Buttons -->
+        <div class="flex gap-3 pt-1">
+          <a
+            href="/"
+            class="flex-1 py-3 text-center rounded-xl border border-border-light dark:border-border-dark bg-bg-light dark:bg-bg-dark hover:bg-surface-light-hover dark:hover:bg-surface-dark-hover text-text-light dark:text-text-dark font-bold text-sm transition-all decoration-none"
+          >
+            Cancel
+          </a>
+          <button
+            type="submit"
+            id="contact-submit-btn"
+            class="flex-1 py-3 bg-brand-primary dark:bg-brand-secondary hover:opacity-95 text-white font-bold text-sm rounded-xl transition-all shadow-md cursor-pointer flex items-center justify-center gap-2"
+          >
+            <span class="material-symbols-outlined text-base">send</span>
+            Send Message
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Made with love footer card -->
+    <div class="bg-brand-primary/5 dark:bg-brand-secondary/5 border border-brand-primary/20 dark:border-brand-secondary/20 rounded-2xl p-5 text-center space-y-1.5">
+      <p class="text-xl">❤️</p>
+      <p class="text-xs font-bold text-text-light dark:text-text-dark">
+        Made with love in India
+      </p>
+      <p class="text-xxs text-text-light-muted dark:text-text-dark-muted leading-relaxed">
+        by a student, for students — because exam prep should be easier, not harder.
+      </p>
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  if (form) {
+    form.addEventListener('submit', (e) => {
+      // The mailto: form will open the default mail client
+      // We can show a small toast or alert here if needed
+    });
+  }
+</script>

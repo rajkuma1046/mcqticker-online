@@ -1,0 +1,62 @@
+---
+---
+<button
+  id="theme-toggle"
+  class="w-10 h-10 flex items-center justify-center rounded-xl border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark text-text-light dark:text-text-dark hover:bg-surface-light-hover dark:hover:bg-surface-dark-hover transition-colors cursor-pointer"
+  aria-label="Toggle theme"
+  title="Toggle light/dark mode"
+>
+  <!-- Material Symbol: dark_mode (shown in light mode to switch to dark) -->
+  <span
+    id="theme-toggle-dark-icon"
+    class="material-symbols-outlined hidden text-xl select-none"
+    aria-hidden="true"
+  >dark_mode</span>
+
+  <!-- Material Symbol: light_mode (shown in dark mode to switch to light) -->
+  <span
+    id="theme-toggle-light-icon"
+    class="material-symbols-outlined hidden text-xl select-none"
+    aria-hidden="true"
+  >light_mode</span>
+</button>
+
+<script>
+  function setupThemeToggle() {
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const themeToggleBtn = document.getElementById('theme-toggle');
+
+    if (!themeToggleBtn) return;
+
+    // Set icon visibility based on current class
+    if (document.documentElement.classList.contains('dark')) {
+      themeToggleLightIcon?.classList.remove('hidden');
+      themeToggleDarkIcon?.classList.add('hidden');
+    } else {
+      themeToggleDarkIcon?.classList.remove('hidden');
+      themeToggleLightIcon?.classList.add('hidden');
+    }
+
+    // Set up the click handler
+    themeToggleBtn.addEventListener('click', function () {
+      if (document.documentElement.classList.contains('dark')) {
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+        document.getElementById('theme-toggle-light-icon')?.classList.add('hidden');
+        document.getElementById('theme-toggle-dark-icon')?.classList.remove('hidden');
+      } else {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+        document.getElementById('theme-toggle-dark-icon')?.classList.add('hidden');
+        document.getElementById('theme-toggle-light-icon')?.classList.remove('hidden');
+      }
+    });
+  }
+
+  // Run on page load
+  setupThemeToggle();
+
+  // Run on view transitions
+  document.addEventListener('astro:after-swap', setupThemeToggle);
+</script>

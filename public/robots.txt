@@ -1,0 +1,30 @@
+# robots.txt for mcqticker.online
+# Generated: June 2026
+
+# Allow all search engine bots
+User-agent: *
+Allow: /
+
+# Disallow dynamic app-shell pages that have no indexable content
+Disallow: /active-test
+
+# Disallow any potential admin or internal paths
+Disallow: /scratch/
+Disallow: /_astro/
+Disallow: /node_modules/
+
+# Crawl-delay for polite crawling
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://mcqticker.online/sitemap.xml
+
+# --- Googlebot specific ---
+User-agent: Googlebot
+Allow: /
+Disallow: /active-test
+
+# --- Bingbot specific ---
+User-agent: Bingbot
+Allow: /
+Disallow: /active-test

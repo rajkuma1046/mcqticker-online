@@ -1,0 +1,207 @@
+---
+export const prerender = true;
+import BaseLayout from '../layouts/BaseLayout.astro';
+const lastUpdated = '17 June 2026';
+---
+
+<BaseLayout
+  title="Privacy Policy — tap A B C D MCQ Ticker | mcqticker.online"
+  description="Privacy policy for mcqticker.online — tap A B C D MCQ Ticker. Learn how we use Google Analytics, Google AdSense, and how your practice session data is stored locally on your device."
+  canonicalPath="/privacy"
+>
+  <div class="max-w-2xl mx-auto space-y-6 animate-fadeIn">
+    <!-- Header -->
+    <div class="text-center space-y-3 pb-4 border-b border-border-light dark:border-border-dark">
+      <h1 class="font-display font-black text-3xl text-brand-primary dark:text-brand-secondary">
+        Privacy Policy
+      </h1>
+      <p class="text-xs text-text-light-muted dark:text-text-dark-muted">
+        Last updated: {lastUpdated} &nbsp;·&nbsp; Domain: <a href="https://mcqticker.online" class="underline hover:text-brand-primary dark:hover:text-brand-secondary">mcqticker.online</a>
+      </p>
+    </div>
+
+    <!-- Intro -->
+    <div class="policy-card">
+      <h2 class="policy-heading">
+        <span class="material-symbols-outlined policy-icon">info</span>
+        Overview
+      </h2>
+      <p class="policy-text">
+        This Privacy Policy explains how <strong>tap A B C D MCQ Ticker</strong> ("<strong>we</strong>", "<strong>us</strong>", or "<strong>our</strong>") collects, uses, and protects information when you visit <a href="https://mcqticker.online" class="policy-link">mcqticker.online</a>. By using this site, you agree to the terms below.
+      </p>
+    </div>
+
+    <!-- Local Data Storage -->
+    <div class="policy-card">
+      <h2 class="policy-heading">
+        <span class="material-symbols-outlined policy-icon">storage</span>
+        Local Data Storage
+      </h2>
+      <p class="policy-text">
+        All your MCQ session data — including question logs, timing data, and session history — is stored <strong>exclusively in your browser</strong> using IndexedDB. This data never leaves your device and is never sent to our servers.
+      </p>
+      <ul class="policy-list">
+        <li>Session logs are stored locally via IndexedDB (Dexie.js)</li>
+        <li>Theme preference is stored in <code class="policy-code">localStorage</code></li>
+        <li>No user account or login is required</li>
+        <li>You can clear all data at any time using the "Reset All Data" button</li>
+      </ul>
+    </div>
+
+    <!-- Google Analytics -->
+    <div class="policy-card">
+      <h2 class="policy-heading">
+        <span class="material-symbols-outlined policy-icon">analytics</span>
+        Google Analytics
+      </h2>
+      <p class="policy-text">
+        We use <strong>Google Analytics</strong> to understand how visitors interact with our website. This service collects anonymised data including:
+      </p>
+      <ul class="policy-list">
+        <li>Pages visited and time spent on each page</li>
+        <li>Browser type, operating system, and device type</li>
+        <li>Approximate geographic location (country/city level)</li>
+        <li>Referral sources (how you found us)</li>
+      </ul>
+      <p class="policy-text">
+        Google Analytics data is processed by Google LLC and is subject to <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" class="policy-link">Google's Privacy Policy</a>. You can opt out using the <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer" class="policy-link">Google Analytics Opt-out Browser Add-on</a>.
+      </p>
+    </div>
+
+    <!-- Google AdSense -->
+    <div class="policy-card">
+      <h2 class="policy-heading">
+        <span class="material-symbols-outlined policy-icon">ads_click</span>
+        Google AdSense
+      </h2>
+      <p class="policy-text">
+        We use <strong>Google AdSense</strong> to display advertisements. AdSense may use cookies and web beacons to serve ads based on your prior visits to our site or other sites on the internet.
+      </p>
+      <ul class="policy-list">
+        <li>Google uses advertising cookies to serve relevant ads</li>
+        <li>Third-party vendors (including Google) use cookies to serve ads</li>
+        <li>Users may opt out of personalised advertising via <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer" class="policy-link">Google Ad Settings</a></li>
+        <li>Alternatively, opt out via <a href="https://www.networkadvertising.org/managing/opt_out.asp" target="_blank" rel="noopener noreferrer" class="policy-link">Network Advertising Initiative opt-out</a></li>
+      </ul>
+      <p class="policy-text">
+        Google AdSense is governed by <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener noreferrer" class="policy-link">Google's Advertising Policies</a>.
+      </p>
+    </div>
+
+    <!-- Cookies -->
+    <div class="policy-card">
+      <h2 class="policy-heading">
+        <span class="material-symbols-outlined policy-icon">cookie</span>
+        Cookies
+      </h2>
+      <p class="policy-text">
+        We use the following types of cookies:
+      </p>
+      <ul class="policy-list">
+        <li><strong>Essential cookies</strong> — for theme preference and session state (stored locally)</li>
+        <li><strong>Analytics cookies</strong> — Google Analytics tracking cookies</li>
+        <li><strong>Advertising cookies</strong> — Google AdSense personalisation cookies</li>
+      </ul>
+      <p class="policy-text">
+        You can disable cookies through your browser settings. Doing so may affect the functionality of the site.
+      </p>
+    </div>
+
+    <!-- Children's Privacy -->
+    <div class="policy-card">
+      <h2 class="policy-heading">
+        <span class="material-symbols-outlined policy-icon">child_care</span>
+        Children's Privacy
+      </h2>
+      <p class="policy-text">
+        This site is intended for students of all ages. We do not knowingly collect any personally identifiable information from anyone. Since all data is stored locally on the user's device, no personal data is transmitted to us.
+      </p>
+    </div>
+
+    <!-- Contact -->
+    <div class="policy-card">
+      <h2 class="policy-heading">
+        <span class="material-symbols-outlined policy-icon">mail</span>
+        Questions About This Policy
+      </h2>
+      <p class="policy-text">
+        If you have questions about this Privacy Policy, please contact us at:<br />
+        <a href="mailto:contact@mcqticker.online" class="policy-link font-bold">contact@mcqticker.online</a>
+      </p>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .policy-card {
+    background-color: var(--color-surface-light);
+    border: 1px solid var(--color-border-light);
+    border-radius: 1rem;
+    padding: 1.25rem 1.5rem;
+    space-y: 0.75rem;
+    box-shadow: var(--shadow-custom);
+  }
+  :global(.dark) .policy-card {
+    background-color: var(--color-surface-dark);
+    border-color: var(--color-border-dark);
+  }
+  .policy-heading {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 800;
+    font-size: 1rem;
+    color: var(--color-text-light);
+    margin-bottom: 0.75rem;
+  }
+  :global(.dark) .policy-heading {
+    color: var(--color-text-dark);
+  }
+  .policy-icon {
+    font-size: 1.15rem;
+    color: var(--color-brand-primary);
+  }
+  :global(.dark) .policy-icon {
+    color: var(--color-brand-secondary);
+  }
+  .policy-text {
+    font-size: 0.8rem;
+    line-height: 1.65;
+    color: var(--color-text-light);
+    margin-bottom: 0.6rem;
+  }
+  :global(.dark) .policy-text {
+    color: var(--color-text-dark);
+  }
+  .policy-list {
+    font-size: 0.78rem;
+    line-height: 1.65;
+    color: var(--color-text-light-muted);
+    list-style: disc;
+    padding-left: 1.25rem;
+    margin-bottom: 0.6rem;
+    space-y: 0.25rem;
+  }
+  :global(.dark) .policy-list {
+    color: var(--color-text-dark-muted);
+  }
+  .policy-link {
+    color: var(--color-brand-primary);
+    text-underline-offset: 2px;
+  }
+  :global(.dark) .policy-link {
+    color: var(--color-brand-secondary);
+  }
+  .policy-code {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 0.72rem;
+    background: var(--color-bg-light);
+    border: 1px solid var(--color-border-light);
+    border-radius: 4px;
+    padding: 0 4px;
+  }
+  :global(.dark) .policy-code {
+    background: var(--color-bg-dark);
+    border-color: var(--color-border-dark);
+  }
+</style>

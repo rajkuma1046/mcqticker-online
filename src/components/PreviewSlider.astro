@@ -1,0 +1,221 @@
+---
+// PreviewSlider.astro
+// SEO image carousel shown at the bottom of the homepage.
+// Each image has keyword-rich alt text to rank in Google Image Search.
+
+const slides = [
+  {
+    src: '/abcd-mcq-ticker.png',
+    alt: 'tap A B C D MCQ Ticker — Free MCQ option selector online for competitive exam prep',
+    caption: 'tap A B C D — Your MCQ Practice Companion',
+  },
+  {
+    src: '/preview-1.png',
+    alt: 'MCQ Ticker online preview — mark MCQ answers without typing, free pacing timer',
+    caption: 'Mark MCQ Answers Without Typing',
+  },
+  {
+    src: '/preview-2.jpg',
+    alt: 'MCQ practice timer online free — track time per question for NEET JEE SSC UPSC',
+    caption: 'Built-in Timer for Exam Pacing',
+  },
+  {
+    src: '/preview-3.png',
+    alt: 'MCQ ticker option selector set — tap ABCD to log answers while reading from book',
+    caption: 'Tap A B C D — Options Logged Instantly',
+  },
+  {
+    src: '/preview-4.png',
+    alt: 'MCQ answer checker online — check correct and wrong answers with instant accuracy score',
+    caption: 'Instant Answer Check & Accuracy Score',
+  },
+  {
+    src: '/preview-5.png',
+    alt: 'MCQ main option logger — tick MCQ options online free, mcq bubble sheet interactive',
+    caption: 'Interactive MCQ Option Logger',
+  },
+  {
+    src: '/logo-light.webp',
+    alt: 'tap A B C D MCQ Ticker logo — free MCQ practice tool at mcqticker.online',
+    caption: 'Free · Offline · No Signup — mcqticker.online',
+  },
+];
+---
+
+<section id="preview-slider-section" aria-label="MCQ Ticker App Preview Gallery" class="w-full py-10 space-y-5">
+  <!-- Section Header -->
+  <div class="text-center space-y-2">
+    <h2 class="font-display font-extrabold text-xl text-text-light dark:text-text-dark">
+      See It In Action
+    </h2>
+    <p class="text-xs text-text-light-muted dark:text-text-dark-muted">
+      Preview screenshots of tap A B C D MCQ Ticker — the free MCQ option selector & pacing timer
+    </p>
+  </div>
+
+  <!-- Slider Container -->
+  <div class="relative overflow-hidden rounded-2xl border border-border-light dark:border-border-dark shadow-custom-md bg-surface-light dark:bg-surface-dark select-none" id="slider-root">
+    <!-- Slides Track -->
+    <div
+      id="slides-track"
+      class="flex transition-transform duration-500 ease-in-out will-change-transform"
+      style="transform: translateX(0%)"
+    >
+      {slides.map((slide, i) => (
+        <div
+          class="flex-shrink-0 w-full relative"
+          role="img"
+          aria-label={slide.alt}
+        >
+          <img
+            src={slide.src}
+            alt={slide.alt}
+            width="960"
+            height="540"
+            loading={i === 0 ? 'eager' : 'lazy'}
+            class="w-full h-56 sm:h-72 md:h-80 object-cover object-top"
+            itemprop="image"
+          />
+          <!-- Caption overlay -->
+          <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent px-5 py-4">
+            <p class="text-white text-xs font-semibold drop-shadow">{slide.caption}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Prev / Next Buttons -->
+    <button
+      id="slider-prev"
+      aria-label="Previous preview image"
+      class="absolute left-2 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center transition-colors cursor-pointer backdrop-blur-sm"
+    >
+      <span class="material-symbols-outlined text-lg">chevron_left</span>
+    </button>
+    <button
+      id="slider-next"
+      aria-label="Next preview image"
+      class="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center transition-colors cursor-pointer backdrop-blur-sm"
+    >
+      <span class="material-symbols-outlined text-lg">chevron_right</span>
+    </button>
+
+    <!-- Dot Indicators -->
+    <div class="absolute bottom-12 left-1/2 -translate-x-1/2 flex gap-1.5 z-10" id="slider-dots">
+      {slides.map((_, i) => (
+        <button
+          class={`w-2 h-2 rounded-full transition-all duration-300 cursor-pointer ${i === 0 ? 'bg-white scale-125' : 'bg-white/40 hover:bg-white/70'}`}
+          data-dot={i}
+          aria-label={`Go to slide ${i + 1}`}
+        />
+      ))}
+    </div>
+  </div>
+
+  <!-- JSON-LD ImageObject Schema for Google Image Search -->
+  <script type="application/ld+json" is:inline>
+  {
+    "@context": "https://schema.org",
+    "@type": "ImageGallery",
+    "name": "tap A B C D MCQ Ticker App Preview Gallery",
+    "description": "Preview screenshots of MCQ Ticker — a free MCQ option selector and pacing timer for NEET, JEE, SSC, UPSC exam preparation",
+    "url": "https://mcqticker.online/",
+    "image": [
+      {
+        "@type": "ImageObject",
+        "url": "https://mcqticker.online/abcd-mcq-ticker.png",
+        "name": "tap A B C D MCQ Ticker — Free MCQ option selector online",
+        "description": "tap A B C D MCQ Ticker featured image — free MCQ practice tool for competitive exams"
+      },
+      {
+        "@type": "ImageObject",
+        "url": "https://mcqticker.online/preview-1.png",
+        "name": "MCQ Ticker Online Preview — Mark MCQ Answers Without Typing",
+        "description": "MCQ Ticker interface showing how to mark MCQ answers online without typing"
+      },
+      {
+        "@type": "ImageObject",
+        "url": "https://mcqticker.online/preview-2.jpg",
+        "name": "MCQ Practice Timer Online Free — Track Time Per Question",
+        "description": "MCQ practice timer showing per-question timing for NEET JEE SSC UPSC exam pacing"
+      },
+      {
+        "@type": "ImageObject",
+        "url": "https://mcqticker.online/preview-3.png",
+        "name": "MCQ Ticker Option Selector Set — Tap ABCD to Log Answers",
+        "description": "MCQ Ticker option selector showing A B C D buttons for logging answers while reading"
+      },
+      {
+        "@type": "ImageObject",
+        "url": "https://mcqticker.online/preview-4.png",
+        "name": "MCQ Answer Checker Online — Instant Accuracy Score",
+        "description": "MCQ answer checker interface showing correct wrong answers with accuracy percentage"
+      },
+      {
+        "@type": "ImageObject",
+        "url": "https://mcqticker.online/preview-5.png",
+        "name": "MCQ Main Option Logger — Interactive MCQ Bubble Sheet Online",
+        "description": "Interactive MCQ option logger and bubble sheet showing tick MCQ options online free"
+      }
+    ]
+  }
+  </script>
+</section>
+
+<script is:inline>
+(function () {
+  var TOTAL = 7;
+  var current = 0;
+  var autoTimer = null;
+
+  function initSlider() {
+    var track = document.getElementById('slides-track');
+    var prevBtn = document.getElementById('slider-prev');
+    var nextBtn = document.getElementById('slider-next');
+    var dots = document.querySelectorAll('[data-dot]');
+
+    if (!track || !prevBtn || !nextBtn) return;
+
+    function goTo(index) {
+      current = (index + TOTAL) % TOTAL;
+      track.style.transform = 'translateX(-' + (current * 100) + '%)';
+      dots.forEach(function (dot, i) {
+        if (i === current) {
+          dot.classList.add('bg-white', 'scale-125');
+          dot.classList.remove('bg-white/40');
+        } else {
+          dot.classList.remove('bg-white', 'scale-125');
+          dot.classList.add('bg-white/40');
+        }
+      });
+    }
+
+    function startAuto() {
+      clearInterval(autoTimer);
+      autoTimer = setInterval(function () { goTo(current + 1); }, 3500);
+    }
+
+    prevBtn.addEventListener('click', function () { goTo(current - 1); startAuto(); });
+    nextBtn.addEventListener('click', function () { goTo(current + 1); startAuto(); });
+    dots.forEach(function (dot) {
+      dot.addEventListener('click', function () { goTo(parseInt(dot.getAttribute('data-dot'))); startAuto(); });
+    });
+
+    // Touch/swipe support
+    var startX = 0;
+    var root = document.getElementById('slider-root');
+    if (root) {
+      root.addEventListener('touchstart', function (e) { startX = e.touches[0].clientX; }, { passive: true });
+      root.addEventListener('touchend', function (e) {
+        var diff = startX - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 40) { goTo(diff > 0 ? current + 1 : current - 1); startAuto(); }
+      }, { passive: true });
+    }
+
+    startAuto();
+  }
+
+  initSlider();
+  document.addEventListener('astro:after-swap', initSlider);
+})();
+</script>

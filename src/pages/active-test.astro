@@ -1,0 +1,13 @@
+---
+export const prerender = true;
+import BaseLayout from '../layouts/BaseLayout.astro';
+import TactileTimer from '../components/TactileTimer';
+---
+
+<BaseLayout title="MCQ Active Session \u2014 tap A B C D | MCQ Option Ticker" containerClass="max-w-[1400px]" canonicalPath="/active-test">
+  <!-- Distraction-free active session shell -->
+  <div class="w-full">
+    <TactileTimer client:only="react" />
+  </div>
+</BaseLayout>
+
