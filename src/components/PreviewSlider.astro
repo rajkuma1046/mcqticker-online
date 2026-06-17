@@ -63,7 +63,7 @@ const slides = [
     >
       {slides.map((slide, i) => (
         <div
-          class="flex-shrink-0 w-full relative"
+          class="flex-shrink-0 w-full flex flex-col bg-bg-light dark:bg-bg-dark"
           role="img"
           aria-label={slide.alt}
         >
@@ -73,12 +73,12 @@ const slides = [
             width="960"
             height="540"
             loading={i === 0 ? 'eager' : 'lazy'}
-            class="w-full h-56 sm:h-72 md:h-80 object-cover object-top"
+            class="w-full aspect-video object-contain"
             itemprop="image"
           />
-          <!-- Caption overlay -->
-          <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent px-5 py-4">
-            <p class="text-white text-xs font-semibold drop-shadow">{slide.caption}</p>
+          <!-- Caption below image -->
+          <div class="px-5 py-4 bg-surface-light dark:bg-surface-dark border-t border-border-light dark:border-border-dark flex items-center justify-center relative h-14">
+            <p class="text-text-light dark:text-text-dark text-xs font-bold text-center w-full px-8 truncate">{slide.caption}</p>
           </div>
         </div>
       ))}
@@ -88,23 +88,23 @@ const slides = [
     <button
       id="slider-prev"
       aria-label="Previous preview image"
-      class="absolute left-2 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center transition-colors cursor-pointer backdrop-blur-sm"
+      class="absolute left-2 top-[calc(50%-1.75rem)] z-10 w-9 h-9 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center transition-colors cursor-pointer backdrop-blur-sm"
     >
       <span class="material-symbols-outlined text-lg">chevron_left</span>
     </button>
     <button
       id="slider-next"
       aria-label="Next preview image"
-      class="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center transition-colors cursor-pointer backdrop-blur-sm"
+      class="absolute right-2 top-[calc(50%-1.75rem)] z-10 w-9 h-9 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center transition-colors cursor-pointer backdrop-blur-sm"
     >
       <span class="material-symbols-outlined text-lg">chevron_right</span>
     </button>
 
-    <!-- Dot Indicators -->
-    <div class="absolute bottom-12 left-1/2 -translate-x-1/2 flex gap-1.5 z-10" id="slider-dots">
+    <!-- Dot Indicators (moved to bottom caption bar) -->
+    <div class="absolute bottom-5 left-1/2 -translate-x-1/2 flex gap-1.5 z-10" id="slider-dots">
       {slides.map((_, i) => (
         <button
-          class={`w-2 h-2 rounded-full transition-all duration-300 cursor-pointer ${i === 0 ? 'bg-white scale-125' : 'bg-white/40 hover:bg-white/70'}`}
+          class={`w-2 h-2 rounded-full transition-all duration-300 cursor-pointer ${i === 0 ? 'bg-brand-primary dark:bg-brand-secondary scale-125' : 'bg-brand-primary/30 dark:bg-brand-secondary/30 hover:bg-brand-primary/60 dark:hover:bg-brand-secondary/60'}`}
           data-dot={i}
           aria-label={`Go to slide ${i + 1}`}
         />
