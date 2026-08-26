@@ -621,9 +621,11 @@
                 <!-- डायनामिक कार्ड्स यहाँ लोड होंगे -->
             </div>
         </div>
-        <!-- ================= BIG LIVE CAMERA STUDIO MODAL (10 Photo Sequence Studio) ================= -->
-        <div id="cameraStudioModal"
-            class="fixed inset-0 z-50 bg-slate-950/95 backdrop-blur-xl hidden flex-col items-center justify-between p-2 sm:p-4 fade-in select-none">
+    </main>
+
+    <!-- ================= BIG LIVE CAMERA STUDIO MODAL (10 Photo Sequence Studio) ================= -->
+    <div id="cameraStudioModal"
+        class="fixed inset-0 z-50 bg-slate-950/95 backdrop-blur-xl hidden flex-col items-center justify-between p-2 sm:p-4 fade-in select-none">
 
             <!-- Top Studio Bar with Title, Counter & Done Button -->
             <div class="w-full max-w-4xl flex items-center justify-between px-2 mb-1.5">
@@ -756,10 +758,10 @@
                     <i class="fa-solid fa-check"></i> <span>पूर्ण करें</span>
                 </button>
             </div>
-        </div>
+    </div>
 
-        <!-- ================= 3. DETAILED FULL MODAL (पूर्ण विवरण) ================= -->
-        <div id="detailModal"
+    <!-- ================= 3. DETAILED FULL MODAL (पूर्ण विवरण) ================= -->
+    <div id="detailModal"
             class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-3 z-50 fade-in">
             <div
                 class="bg-white rounded-3xl max-w-2xl w-full max-h-[92vh] overflow-y-auto p-5 md:p-7 shadow-2xl relative border border-rose-100">
@@ -791,17 +793,17 @@
                     </div>
                 </div>
             </div>
-        </div>
+    </div>
 
-        <!-- Toast Notification -->
-        <div id="toastNotification"
-            class="fixed bottom-5 right-5 z-50 transform transition-all duration-300 translate-y-20 opacity-0 pointer-events-none bg-gray-900 text-white text-xs px-4 py-3 rounded-2xl shadow-xl flex items-center gap-2 border border-gray-700">
-            <i id="toastIcon" class="fa-solid fa-circle-check text-emerald-400 text-sm"></i>
-            <span id="toastMessage">संदेश</span>
-        </div>
+    <!-- Toast Notification -->
+    <div id="toastNotification"
+        class="fixed bottom-5 right-5 z-50 transform transition-all duration-300 translate-y-20 opacity-0 pointer-events-none bg-gray-900 text-white text-xs px-4 py-3 rounded-2xl shadow-xl flex items-center gap-2 border border-gray-700">
+        <i id="toastIcon" class="fa-solid fa-circle-check text-emerald-400 text-sm"></i>
+        <span id="toastMessage">संदेश</span>
+    </div>
 
-        <!-- ================= 4. JAVASCRIPT ================= -->
-        <script>
+    <!-- ================= 4. JAVASCRIPT ================= -->
+    <script>
             // ==========================================
             // 1. Firebase Configuration
             // ==========================================
@@ -1669,6 +1671,7 @@
 
                 const filesToProcess = files.slice(0, remainingSlots);
                 let processedCount = 0;
+                const validFiles = filesToProcess.filter(f => f.type.startsWith('image/'));
 
                 filesToProcess.forEach(file => {
                     if (!file.type.startsWith('image/')) return;
@@ -1707,7 +1710,7 @@
                             });
 
                             processedCount++;
-                            if (processedCount === filesToProcess.length) {
+                            if (processedCount === validFiles.length) {
                                 renderFormPhotosGallery();
                                 showToast(`${processedCount} फोटो जोड़ी गईं!`);
                             }
@@ -2174,7 +2177,8 @@
                     toast.className = "fixed bottom-5 right-5 z-50 transform transition-all duration-300 translate-y-20 opacity-0 pointer-events-none bg-gray-900 text-white text-xs px-4 py-3 rounded-2xl shadow-xl flex items-center gap-2 border border-gray-700";
                 }, 3500);
             }
-        </script>
+    </script>
+
 </body>
 
 </html>
