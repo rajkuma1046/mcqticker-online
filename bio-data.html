@@ -414,21 +414,18 @@
                     </div>
                 </section>
 
-                <!-- ५. लाइव फोटो कैप्चर (Multi-Photo Live Camera Studio & Gallery) -->
+                <!-- ५. लाइव फोटो कैप्चर (Multi-Photo Live Camera Studio & Gallery - 3 Photos Max) -->
                 <section class="bg-rose-50/50 p-5 rounded-2xl border border-rose-200">
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
                         <div>
                             <h3 class="text-base font-bold text-rose-900 flex items-center gap-2">
-                                <i class="fa-solid fa-camera-retro text-rose-600"></i> ५. कन्या की लाइव HD फोटो गैलरी
-                                (Live Photo Capture) <span class="text-red-500">*</span>
+                                <i class="fa-solid fa-camera-retro text-rose-600"></i> ५. कन्या की लाइव HD फोटो (Live Photo Capture) <span class="text-red-500">*</span>
                             </h3>
-                            <p class="text-xs text-rose-700 mt-0.5">3 सेकंड अंतराल पर मल्टीपल ऑटो-कैप्चर (अधिकतम 10
-                                फोटो) व गैलरी सपोर्ट।</p>
+                            <p class="text-xs text-rose-700 mt-0.5">3 सेकंड अंतराल पर ३ लाइव ऑटो-कैप्चर (केवल लाइव कैमरा स्वीकार्य)।</p>
                         </div>
                         <span id="aiModelStatusBadge"
                             class="text-[11px] font-semibold bg-white text-rose-800 px-2.5 py-1 rounded-full border border-rose-200 self-start sm:self-auto flex items-center gap-1.5 shadow-sm">
-                            <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span> AI मॉडल लोड हो रहा
-                            है...
+                            <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span> AI मॉडल लोड हो रहा है...
                         </span>
                     </div>
 
@@ -445,35 +442,24 @@
                                 <i class="fa-solid fa-camera-viewfinder"></i>
                             </div>
                             <div class="max-w-md mx-auto space-y-1.5">
-                                <h4 class="font-bold text-base sm:text-lg text-rose-100">लाइव HD कैमरा स्टूडियो खोलें
-                                    (3s ऑटो-कैप्चर)</h4>
+                                <h4 class="font-bold text-base sm:text-lg text-rose-100">लाइव HD कैमरा स्टूडियो खोलें (3s ऑटो-कैप्चर)</h4>
                                 <p class="text-xs text-rose-200/80 leading-relaxed">
-                                    कैमरा चालू होते ही स्टूडियो खुलेगा। चेहरा बीच में लाएं और <strong>आँखें सीधी व खुली
-                                        रखें</strong> — <strong>3 सेकंड के अंतराल पर स्वतः फोटो (अधिकतम 10)</strong>
-                                    कैप्चर होंगी!
+                                    कैमरा चालू होते ही स्टूडियो खुलेगा। चेहरा बीच में लाएं और <strong>आँखें सीधी व खुली रखें</strong> — <strong>3 सेकंड के अंतराल पर कुल 3 लाइव फोटो</strong> स्वतः कैप्चर होंगी!
                                 </p>
                             </div>
 
                             <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
                                 <button type="button" onclick="startCamera()"
                                     class="px-6 py-3 bg-gradient-to-r from-rose-600 to-rose-700 hover:from-rose-500 hover:to-rose-600 text-white rounded-2xl text-sm font-bold transition flex items-center gap-2 shadow-xl hover:shadow-rose-600/40 ring-4 ring-rose-500/20">
-                                    <i class="fa-solid fa-video text-base"></i> <span>कैमरा चालू करें (Start 10 Photo
-                                        Studio)</span>
+                                    <i class="fa-solid fa-video text-base"></i> <span>कैमरा चालू करें (Start 3 Photo Studio)</span>
                                 </button>
                             </div>
                         </div>
 
-                        <!-- वैकल्पिक फ़ाइल अपलोड विकल्प -->
-                        <div
-                            class="flex items-center justify-between pt-2 border-t border-rose-100/80 text-xs text-gray-600">
-                            <span>या डिवाइस से फोटो अपलोड करें (अधिकतम 10):</span>
-                            <label
-                                class="cursor-pointer font-semibold text-rose-700 hover:text-rose-900 flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-xl border border-rose-200 shadow-sm hover:bg-rose-50 transition">
-                                <i class="fa-solid fa-arrow-up-from-bracket"></i> <span>गैलरी से चुनें (Select
-                                    Images)</span>
-                                <input type="file" id="filePhotoInput" accept="image/*" multiple
-                                    onchange="handleFileUpload(event)" class="hidden">
-                            </label>
+                        <!-- प्रामाणिकता सूचना (केवल लाइव कैमरा) -->
+                        <div class="flex items-center justify-center gap-2 pt-2 border-t border-rose-100/80 text-xs text-rose-800 font-semibold text-center">
+                            <i class="fa-solid fa-shield-halved text-emerald-600"></i>
+                            <span>प्रामाणिकता हेतु केवल लाइव कैमरा फोटो मान्य हैं (गैलरी अपलोड बंद है)।</span>
                         </div>
                     </div>
 
@@ -483,25 +469,19 @@
                         <div class="flex flex-wrap items-center justify-between gap-2 border-b border-gray-100 pb-3">
                             <div class="flex items-center gap-2">
                                 <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
-                                <h4 class="font-bold text-gray-900 text-sm sm:text-base">दर्ज की गई फोटो गैलरी</h4>
+                                <h4 class="font-bold text-gray-900 text-sm sm:text-base">लाइव फोटो गैलरी</h4>
                                 <span id="formPhotoCountBadge"
                                     class="text-xs bg-emerald-100 text-emerald-800 font-bold px-2.5 py-0.5 rounded-full border border-emerald-200">
-                                    0 / 10 फोटो
+                                    0 / 3 फोटो
                                 </span>
                             </div>
 
-                            <!-- अतिरिक्त फोटो एक्शन बटन्स -->
+                            <!-- अतिरिक्त फोटो एक्शन बटन्स (केवल कैमरा) -->
                             <div class="flex items-center gap-2">
                                 <button type="button" id="formAddMoreCameraBtn" onclick="startCamera()"
                                     class="px-3 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-700 rounded-xl text-xs font-bold transition flex items-center gap-1.5 border border-rose-200 shadow-2xs">
                                     <i class="fa-solid fa-video"></i> <span>+ और फोटो लें</span>
                                 </button>
-                                <label id="formAddMoreUploadBtn"
-                                    class="cursor-pointer px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-xs font-semibold transition flex items-center gap-1.5 border border-gray-200 shadow-2xs">
-                                    <i class="fa-solid fa-plus"></i> <span>+ अपलोड</span>
-                                    <input type="file" accept="image/*" multiple onchange="handleFileUpload(event)"
-                                        class="hidden">
-                                </label>
                                 <button type="button" onclick="removeAllPhotos()"
                                     class="px-2.5 py-1.5 text-gray-400 hover:text-red-600 rounded-lg text-xs transition"
                                     title="सभी फोटो हटाएं">
@@ -511,13 +491,12 @@
                         </div>
 
                         <!-- फोटो थंबनेल्स ग्रिड -->
-                        <div id="photosGridContainer" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+                        <div id="photosGridContainer" class="grid grid-cols-2 sm:grid-cols-3 gap-3">
                             <!-- जावास्क्रिप्ट द्वारा डायनामिक फोटो कार्ड्स रेंडर होंगे -->
                         </div>
 
                         <p class="text-[11px] text-gray-500 italic text-center sm:text-left">
-                            <i class="fa-solid fa-circle-info text-rose-500 mr-1"></i> पहली फोटो (★ स्टार वाली) मुख्य
-                            बायोडाटा प्रोफाइल चित्र के रूप में उपयोग होगी।
+                            <i class="fa-solid fa-circle-info text-rose-500 mr-1"></i> पहली फोटो (★ स्टार वाली) मुख्य बायोडाटा प्रोफाइल चित्र के रूप में उपयोग होगी।
                         </p>
                     </div>
                 </section>
@@ -634,7 +613,7 @@
                     <span class="font-bold text-sm sm:text-base text-rose-300">AI लाइव फोटो स्टूडियो</span>
                     <span id="studioPhotoCountBadge"
                         class="text-xs bg-rose-900/80 text-rose-200 font-bold px-2.5 py-0.5 rounded-full border border-rose-500/40">
-                        कैप्चर: 0 / 10
+                        कैप्चर: 0 / 3
                     </span>
                     <span
                         class="text-[11px] bg-slate-800 text-emerald-400 font-semibold px-2 py-0.5 rounded-full border border-emerald-500/30 hidden md:inline-flex items-center gap-1">
@@ -901,8 +880,8 @@
             // ==========================================
             // 4. Multi-Photo State & Stream Management
             // ==========================================
-            let capturedPhotos = []; // Array of { id, data, source: 'auto'|'manual'|'upload', timestamp }
-            const MAX_PHOTOS_LIMIT = 10;
+            let capturedPhotos = []; // Array of { id, data, source: 'auto'|'manual', timestamp }
+            const MAX_PHOTOS_LIMIT = 3;
             const AUTO_CAPTURE_INTERVAL_MS = 3000; // 3 seconds interval between shots
             let lastAutoCaptureTimestamp = 0;
 
@@ -917,7 +896,7 @@
                 const overlayCanvas = document.getElementById('faceOverlayCanvas');
 
                 if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-                    alert("आपके ब्राउज़र में कैमरा सपोर्ट उपलब्ध नहीं है। कृपया फ़ाइल अपलोड विकल्प का उपयोग करें।");
+                    alert("आपके ब्राउज़र में लाइव कैमरा सपोर्ट उपलब्ध नहीं है। कृपया कैमरा अनुमति दें अथवा समर्थित ब्राउज़र (जैसे Chrome) का उपयोग करें।");
                     return;
                 }
 
@@ -961,7 +940,7 @@
 
                 } catch (err) {
                     console.error("Camera access error:", err);
-                    alert("कैमरा शुरू करने में समस्या आई। कृपया कैमरा परमिशन (अनुमति) प्रदान करें या फ़ाइल अपलोड करें।");
+                    alert("कैमरा शुरू करने में समस्या आई। कृपया ब्राउज़र सेटिंग्स में जाकर कैमरा परमिशन (अनुमति) 'Allow' करें।");
                 }
             }
 
@@ -1577,7 +1556,6 @@
                 const grid = document.getElementById('photosGridContainer');
                 const countBadge = document.getElementById('formPhotoCountBadge');
                 const addCamBtn = document.getElementById('formAddMoreCameraBtn');
-                const addUpBtn = document.getElementById('formAddMoreUploadBtn');
 
                 syncPhotosInputData();
 
@@ -1594,17 +1572,16 @@
                     countBadge.innerText = `${capturedPhotos.length} / ${MAX_PHOTOS_LIMIT} फोटो दर्ज`;
                 }
 
-                // Hide add more buttons if limit reached
+                // Hide add more camera button if limit reached
                 const isFull = capturedPhotos.length >= MAX_PHOTOS_LIMIT;
                 if (addCamBtn) addCamBtn.style.display = isFull ? 'none' : 'inline-flex';
-                if (addUpBtn) addUpBtn.style.display = isFull ? 'none' : 'inline-flex';
 
                 if (grid) {
                     grid.innerHTML = capturedPhotos.map((p, idx) => {
                         const isPrimary = (idx === 0);
                         const sourceBadge = p.source === 'auto'
                             ? `<span class="bg-emerald-600/90 text-white text-[9px] font-bold px-1.5 py-0.5 rounded shadow">🤖 AI Auto</span>`
-                            : `<span class="bg-blue-600/90 text-white text-[9px] font-bold px-1.5 py-0.5 rounded shadow">👤 User</span>`;
+                            : `<span class="bg-sky-600/90 text-white text-[9px] font-bold px-1.5 py-0.5 rounded shadow">📸 Live Manual</span>`;
 
                         return `
                     <div class="relative group rounded-2xl overflow-hidden border-2 ${isPrimary ? 'border-emerald-500 ring-2 ring-emerald-300/60' : 'border-gray-200'} bg-gray-100 shadow-sm aspect-[3/4] flex flex-col justify-between p-1.5">
@@ -1658,71 +1635,6 @@
                 showToast("सभी फोटो हटा दी गईं।");
             }
 
-            // Multi-File Upload Handler (up to 10 limit)
-            function handleFileUpload(event) {
-                const files = Array.from(event.target.files || []);
-                if (files.length === 0) return;
-
-                const remainingSlots = MAX_PHOTOS_LIMIT - capturedPhotos.length;
-                if (remainingSlots <= 0) {
-                    alert(`अधिकतम ${MAX_PHOTOS_LIMIT} फोटो की सीमा पूर्ण हो चुकी है।`);
-                    return;
-                }
-
-                const filesToProcess = files.slice(0, remainingSlots);
-                let processedCount = 0;
-                const validFiles = filesToProcess.filter(f => f.type.startsWith('image/'));
-
-                filesToProcess.forEach(file => {
-                    if (!file.type.startsWith('image/')) return;
-
-                    const reader = new FileReader();
-                    reader.onload = function (e) {
-                        const img = new Image();
-                        img.onload = function () {
-                            const canvas = document.createElement('canvas');
-                            canvas.width = 600;
-                            canvas.height = 800;
-                            const ctx = canvas.getContext('2d');
-
-                            let sw = img.width;
-                            let sh = img.height;
-                            let targetRatio = 3 / 4;
-                            let currentRatio = sw / sh;
-                            let sx = 0, sy = 0, sCropW = sw, sCropH = sh;
-
-                            if (currentRatio > targetRatio) {
-                                sCropW = sh * targetRatio;
-                                sx = (sw - sCropW) / 2;
-                            } else {
-                                sCropH = sw / targetRatio;
-                                sy = (sh - sCropH) / 2;
-                            }
-
-                            ctx.drawImage(img, sx, sy, sCropW, sCropH, 0, 0, 600, 800);
-                            const base64 = canvas.toDataURL('image/jpeg', 0.88);
-
-                            capturedPhotos.push({
-                                id: 'p_' + Date.now() + '_' + Math.random().toString(36).substring(2, 6),
-                                data: base64,
-                                source: 'upload',
-                                timestamp: Date.now()
-                            });
-
-                            processedCount++;
-                            if (processedCount === validFiles.length) {
-                                renderFormPhotosGallery();
-                                showToast(`${processedCount} फोटो जोड़ी गईं!`);
-                            }
-                        };
-                        img.src = e.target.result;
-                    };
-                    reader.readAsDataURL(file);
-                });
-
-                event.target.value = ''; // Reset input
-            }
-
             // ==========================================
             // 7. Form Submission & Validation
             // ==========================================
@@ -1733,7 +1645,7 @@
                 const photoInput = document.getElementById('photoDataInput');
 
                 if (!photoInput || !photoInput.value || capturedPhotos.length === 0) {
-                    alert("कृपया फॉर्म सबमिट करने से पहले कन्या की लाइव फोटो (कम से कम १ फोटो) कैप्चर या अपलोड करें।");
+                    alert("कृपया फॉर्म सबमिट करने से पहले कन्या की लाइव कैमरा फोटो (कम से कम १ फोटो) स्टूडियो खोलकर कैप्चर करें।");
                     const cameraSec = document.getElementById('cameraStandbyContainer') || document.getElementById('capturedPreviewCard');
                     if (cameraSec) {
                         cameraSec.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -1747,7 +1659,7 @@
                 const formData = new FormData(e.target);
                 const data = Object.fromEntries(formData.entries());
                 data.photoData = capturedPhotos[0].data; // Primary photo
-                data.photos = capturedPhotos; // Array of up to 10 photos
+                data.photos = capturedPhotos; // Array of up to 3 photos
                 data.photoCount = capturedPhotos.length;
                 data.submittedAt = new Date().toISOString();
                 data.timestamp = Date.now();
@@ -1755,7 +1667,7 @@
                 try {
                     await db.ref('matrimonial_biodatas').push(data);
                     submitMsg.className = "p-4 rounded-xl text-center font-bold text-sm bg-green-100 text-green-800 border border-green-200 block";
-                    submitMsg.innerHTML = `<i class="fa-solid fa-circle-check text-green-600"></i> बायोडाटा (कुल ${capturedPhotos.length} फोटो सहित) सफलतापूर्वक सबमिट हो गया है!`;
+                    submitMsg.innerHTML = `<i class="fa-solid fa-circle-check text-green-600"></i> बायोडाटा (कुल ${capturedPhotos.length} लाइव फोटो सहित) सफलतापूर्वक सबमिट हो गया है!`;
                     e.target.reset();
                     capturedPhotos = [];
                     renderFormPhotosGallery();
@@ -1964,15 +1876,15 @@
                     : (item.photoData ? [{ data: item.photoData, source: 'auto', timestamp: item.timestamp }] : []);
 
                 const mainPhotoSrc = photosList.length > 0 ? photosList[0].data : '';
-                const mainPhotoSource = photosList.length > 0 && photosList[0].source === 'auto' ? '🤖 AI Auto Captured' : '👤 User Captured/Uploaded';
+                const mainPhotoSource = photosList.length > 0 && photosList[0].source === 'auto' ? '🤖 Live AI Auto' : '📸 Live Manual';
 
                 const multiPhotoGalleryHtml = photosList.length > 0 ? `
                 <div class="space-y-3 mb-4 bg-gray-50 p-4 rounded-3xl border border-gray-200">
                     <div class="flex items-center justify-between">
                         <span class="text-xs font-bold text-gray-800 flex items-center gap-1.5">
-                            <i class="fa-solid fa-images text-rose-600"></i> फोटो गैलरी (${photosList.length} फोटो)
+                            <i class="fa-solid fa-camera-retro text-rose-600"></i> लाइव फोटो गैलरी (${photosList.length} फोटो)
                         </span>
-                        <span id="activePhotoSourceBadge" class="text-[10px] font-bold px-2 py-0.5 rounded-full ${photosList[0]?.source === 'auto' ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' : 'bg-blue-100 text-blue-800 border border-blue-300'}">
+                        <span id="activePhotoSourceBadge" class="text-[10px] font-bold px-2 py-0.5 rounded-full ${photosList[0]?.source === 'auto' ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' : 'bg-sky-100 text-sky-800 border border-sky-300'}">
                             ${mainPhotoSource}
                         </span>
                     </div>
@@ -1989,7 +1901,7 @@
                                 <button type="button" onclick="switchDetailActivePhoto('${p.data.replace(/'/g, "\\'")}', '${p.source}')" class="detail-photo-thumb relative w-12 h-16 rounded-xl overflow-hidden border-2 ${idx === 0 ? 'border-rose-500 ring-2 ring-rose-300' : 'border-gray-300'} shrink-0 shadow-sm hover:scale-105 transition cursor-pointer">
                                     <img src="${p.data}" alt="Photo ${idx + 1}" class="w-full h-full object-cover">
                                     <span class="absolute bottom-0 inset-x-0 bg-black/75 text-white text-[8px] font-bold text-center">
-                                        #${idx + 1} ${p.source === 'auto' ? 'AI' : 'User'}
+                                        #${idx + 1} ${p.source === 'auto' ? 'AI' : 'Live'}
                                     </span>
                                 </button>
                             `).join('')}
@@ -2095,10 +2007,10 @@
                 if (badge) {
                     if (source === 'auto') {
                         badge.className = "text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300";
-                        badge.innerText = "🤖 AI Auto Captured";
+                        badge.innerText = "🤖 Live AI Auto";
                     } else {
-                        badge.className = "text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-100 text-blue-800 border border-blue-300";
-                        badge.innerText = "👤 User Captured/Uploaded";
+                        badge.className = "text-[10px] font-bold px-2 py-0.5 rounded-full bg-sky-100 text-sky-800 border border-sky-300";
+                        badge.innerText = "📸 Live Manual";
                     }
                 }
             }
