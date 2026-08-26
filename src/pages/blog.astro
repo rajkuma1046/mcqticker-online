@@ -1,0 +1,88 @@
+---
+// src/pages/blog.astro
+export const prerender = true;
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+
+const pageTitle = "Preparation Blog — MCQ practice techniques & pacing guides";
+const pageDesc = "Read studies on MCQ time management, exam speed improvements, and study tips for NEET, JEE, SSC, and UPSC competitive tests.";
+
+const breadcrumbs = [
+  { label: "Blog", url: "/blog" }
+];
+
+const posts = [
+  {
+    title: "The 36-Second CGL Rule: How to Beat the SSC Timer",
+    desc: "SSC Tier 1 exams require answering 100 questions in 60 minutes. Learn pacing strategies to make quick decisions and avoid negative marks.",
+    url: "/ssc-mcq-practice-timer",
+    date: "June 19, 2026",
+    readTime: "6 min read"
+  },
+  {
+    title: "Why You Need a Dedicated Question Speed Calculator",
+    desc: "A total exam timer is not enough. Explore how tracking split times per question helps locate hesitation bottlenecks and boosts pacing.",
+    url: "/question-speed-calculator",
+    date: "June 18, 2026",
+    readTime: "5 min read"
+  },
+  {
+    title: "OMR Bubble Sheet Prep: Going from Paper to Digital",
+    desc: "Paper bubble sheets are expensive and slow to evaluate. Learn how digital sheets reduce coding errors and streamline daily practice.",
+    url: "/online-omr-sheet",
+    date: "June 17, 2026",
+    readTime: "7 min read"
+  },
+  {
+    title: "Stopwatch vs. Timer-Binding: Choosing Your MCQ Timer Style",
+    desc: "Should you count up or down during MCQ practice? Compare stopwatch and countdown limit modes to find the best pacing strategy.",
+    url: "/mcq-timer",
+    date: "June 16, 2026",
+    readTime: "4 min read"
+  }
+];
+---
+
+<BaseLayout title={pageTitle} description={pageDesc} canonicalPath="/blog">
+  <div class="max-w-3xl mx-auto space-y-6 animate-fadeIn">
+    <!-- Breadcrumb -->
+    <Breadcrumb items={breadcrumbs} />
+
+    <!-- Header -->
+    <div class="text-center space-y-3 pb-4 border-b border-border-light dark:border-border-dark">
+      <h1 class="font-display font-black text-3xl text-brand-primary dark:text-brand-secondary">
+        Exam Preparation Blog
+      </h1>
+      <p class="text-sm text-text-light-muted dark:text-text-dark-muted max-w-lg mx-auto leading-relaxed">
+        Time management tips, study strategies, and pacing guides for competitive examinations.
+      </p>
+    </div>
+
+    <!-- Blog Posts Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-6">
+      {posts.map(post => (
+        <article class="p-6 rounded-2xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark shadow-custom hover:border-brand-primary dark:hover:border-brand-secondary transition-all flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between text-xxs text-text-light-muted dark:text-text-dark-muted">
+              <span>{post.date}</span>
+              <span>{post.readTime}</span>
+            </div>
+            <h2 class="font-display font-extrabold text-base text-text-light dark:text-text-dark leading-snug">
+              <a href={post.url} class="hover:text-brand-primary dark:hover:text-brand-secondary transition-colors decoration-none">
+                {post.title}
+              </a>
+            </h2>
+            <p class="text-xs text-text-light-muted dark:text-text-dark-muted leading-relaxed">
+              {post.desc}
+            </p>
+          </div>
+          <div class="pt-4">
+            <a href={post.url} class="inline-flex items-center gap-1 text-xs font-bold text-brand-primary dark:text-brand-secondary hover:underline decoration-none">
+              Read Article <span class="material-symbols-outlined text-sm">arrow_forward</span>
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</BaseLayout>

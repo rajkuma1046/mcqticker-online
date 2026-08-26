@@ -1,0 +1,212 @@
+---
+// src/pages/teacher-attendance-calendar.astro
+export const prerender = true;
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SEO from '../components/SEO.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import Schema from '../components/Schema.astro';
+import FAQ from '../components/FAQ.astro';
+import AttendanceCalendar from '../components/AttendanceCalendar.tsx';
+
+const pageTitle = "Teacher Attendance Calendar — Free Offline Student Attendance Tracker | mcqticker.online";
+const pageDesc = "Manage student attendance with a visual calendar. Create classes, add students, mark daily attendance, and export/import CSV reports — 100% offline, free, no signup.";
+const canonicalPath = "/teacher-attendance-calendar";
+
+const breadcrumbs = [
+  { label: "Teacher Attendance Calendar", url: "/teacher-attendance-calendar" }
+];
+
+const faqs = [
+  {
+    question: "How does the teacher attendance calendar work?",
+    answer: "Create a class (e.g. '5th', '10th-A'), add students by name, and use the calendar grid to mark each student as Present, Absent, or Late for any day. Click a cell to cycle through attendance statuses."
+  },
+  {
+    question: "Can I create multiple classes?",
+    answer: "Yes. You can create as many classes as you need — for example, '5th', '6th', '10th-A', 'Biology Batch'. Each class has its own student roster and attendance records."
+  },
+  {
+    question: "Is the attendance data stored online?",
+    answer: "No. All attendance data is stored locally in your browser using IndexedDB. Your data never leaves your device. This means it works completely offline."
+  },
+  {
+    question: "Can I export attendance as a spreadsheet?",
+    answer: "Yes. Use the 'Export CSV' button to download the current month's attendance as a CSV file. Open it in Excel, Google Sheets, or any spreadsheet application."
+  },
+  {
+    question: "How do I import attendance from a CSV file?",
+    answer: "Click 'Import CSV' and upload a CSV file with columns: Roll No, Student Name, then day numbers (1-31). Use P for Present, A for Absent, and L for Late. New students from the CSV will be automatically added."
+  },
+  {
+    question: "Can I navigate to different months?",
+    answer: "Yes. Use the left and right arrows in the calendar view to move between months. Each month shows complete attendance data with daily breakdowns and monthly attendance percentage."
+  },
+  {
+    question: "Is this free for all teachers?",
+    answer: "Yes, completely free with no signups, ads, or hidden limits. Use it for as many classes, students, and months as you need."
+  },
+  {
+    question: "What happens if I clear my browser data?",
+    answer: "Since attendance data is stored locally, clearing browser data will erase it. We recommend regularly exporting your data as CSV backups. You can re-import them anytime."
+  }
+];
+---
+
+<BaseLayout title={pageTitle} description={pageDesc} canonicalPath={canonicalPath}>
+  <SEO title={pageTitle} description={pageDesc} canonicalPath={canonicalPath} />
+  <Schema pageName={pageTitle} pageDescription={pageDesc} pageUrl={`https://mcqticker.online${canonicalPath}`} breadcrumbs={breadcrumbs} faqs={faqs} />
+
+  <div class="max-w-4xl mx-auto space-y-10 animate-fadeIn">
+    <!-- Breadcrumb -->
+    <Breadcrumb items={breadcrumbs} />
+
+    <!-- Hero Header -->
+    <div class="bg-gradient-to-br from-brand-primary/10 to-brand-secondary/5 border border-brand-primary/20 dark:border-brand-secondary/20 rounded-3xl p-8 text-center space-y-6 shadow-custom-md">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-primary/10 dark:bg-brand-secondary/10 border border-brand-primary/20 dark:border-brand-secondary/20 text-brand-primary dark:text-brand-secondary text-xxs font-bold uppercase tracking-wider">
+        <span class="material-symbols-outlined text-sm">calendar_month</span>
+        For Teachers
+      </div>
+      <h1 class="font-display font-black text-3xl md:text-5xl text-text-light dark:text-text-dark leading-tight">
+        Free Student <span class="text-brand-primary dark:text-brand-secondary">Attendance Calendar</span> for Teachers
+      </h1>
+      <p class="text-sm md:text-base text-text-light-muted dark:text-text-dark-muted max-w-xl mx-auto leading-relaxed">
+        Create classes, add students, mark daily attendance with a visual calendar, and export detailed reports as CSV — all offline, no signup required.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-3 justify-center pt-2">
+        <a href="#attendance-tool" class="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-brand-primary dark:bg-brand-secondary text-white dark:text-bg-dark font-bold text-sm rounded-xl hover:opacity-90 transition-all decoration-none shadow-md">
+          <span class="material-symbols-outlined text-base">how_to_reg</span>
+          Start Tracking Attendance
+        </a>
+        <a href="/new-session" class="inline-flex items-center justify-center gap-2 px-6 py-3.5 border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark text-text-light dark:text-text-dark font-bold text-sm rounded-xl hover:bg-surface-light-hover dark:hover:bg-surface-dark-hover transition-colors decoration-none">
+          <span class="material-symbols-outlined text-base">bolt</span>
+          MCQ Practice Tool
+        </a>
+      </div>
+    </div>
+
+    <!-- Interactive Attendance Tool -->
+    <div id="attendance-tool">
+      <AttendanceCalendar client:load />
+    </div>
+
+    <!-- Article Content -->
+    <article class="prose dark:prose-invert max-w-none text-sm text-text-light dark:text-text-dark leading-relaxed space-y-8">
+      
+      <section class="space-y-4">
+        <h2 class="font-display font-extrabold text-xl text-text-light dark:text-text-dark border-b border-border-light dark:border-border-dark pb-2">
+          Why Teachers Need a Digital Attendance Calendar
+        </h2>
+        <p>
+          Maintaining paper attendance registers is tedious. Writing names, ruling columns, and calculating monthly percentages for each student across multiple subjects and sections wastes hours every month. And when you need to submit attendance reports, manual counting introduces errors.
+        </p>
+        <p>
+          A digital attendance calendar solves these problems. Click a cell to mark attendance, and the tool instantly calculates monthly attendance percentages for each student. Need to share the data? Export a clean CSV file in one click.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="font-display font-extrabold text-xl text-text-light dark:text-text-dark border-b border-border-light dark:border-border-dark pb-2">
+          How to Use the Attendance Calendar
+        </h2>
+        <ol class="list-decimal pl-6 space-y-3">
+          <li>
+            <strong>Create a Class:</strong> Enter your class name (e.g. "5th", "10th-A", "Science Batch") and click "Create Class".
+          </li>
+          <li>
+            <strong>Add Students:</strong> Switch to the "Manage Students" tab and add students by name. Each student gets an auto-assigned roll number.
+          </li>
+          <li>
+            <strong>Mark Attendance:</strong> In the Calendar View, click on a cell to cycle through statuses: Present (P) → Absent (A) → Late (L) → Clear. Use "Mark All" to quickly set all students as present.
+          </li>
+          <li>
+            <strong>Review & Export:</strong> View monthly stats at a glance. Use "Export CSV" to download a spreadsheet-ready report.
+          </li>
+        </ol>
+      </section>
+
+      <!-- Features -->
+      <section class="space-y-4 bg-surface-light dark:bg-surface-dark p-6 rounded-2xl border border-border-light dark:border-border-dark">
+        <h3 class="font-display font-extrabold text-lg text-text-light dark:text-text-dark flex items-center gap-2">
+          <span class="material-symbols-outlined text-brand-primary dark:text-brand-secondary">stars</span>
+          Key Features
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
+          <div>
+            <h4 class="font-bold text-xs text-text-light dark:text-text-dark">📅 Visual Calendar Grid</h4>
+            <p class="text-xxs text-text-light-muted dark:text-text-dark-muted mt-1">
+              Full month view with per-student daily attendance. Sundays are highlighted. Click to mark attendance instantly.
+            </p>
+          </div>
+          <div>
+            <h4 class="font-bold text-xs text-text-light dark:text-text-dark">🏫 Multi-Class Support</h4>
+            <p class="text-xxs text-text-light-muted dark:text-text-dark-muted mt-1">
+              Create separate classes like "5th", "6th", "10th-A". Each class has its own roster and attendance records.
+            </p>
+          </div>
+          <div>
+            <h4 class="font-bold text-xs text-text-light dark:text-text-dark">📊 CSV Export & Import</h4>
+            <p class="text-xxs text-text-light-muted dark:text-text-dark-muted mt-1">
+              Export attendance as CSV for Excel/Google Sheets. Import CSV files to restore or migrate attendance data.
+            </p>
+          </div>
+          <div>
+            <h4 class="font-bold text-xs text-text-light dark:text-text-dark">🔒 Offline & Private</h4>
+            <p class="text-xxs text-text-light-muted dark:text-text-dark-muted mt-1">
+              All data stays on your device. Works offline as a Progressive Web App. No accounts, no cloud storage.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Comparison -->
+      <section class="space-y-4">
+        <h2 class="font-display font-extrabold text-xl text-text-light dark:text-text-dark border-b border-border-light dark:border-border-dark pb-2">
+          Paper Register vs. Digital Calendar
+        </h2>
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs text-left border-collapse border border-border-light dark:border-border-dark">
+            <thead>
+              <tr class="bg-surface-light dark:bg-surface-dark">
+                <th class="p-2.5 border border-border-light dark:border-border-dark">Feature</th>
+                <th class="p-2.5 border border-border-light dark:border-border-dark">Paper Register</th>
+                <th class="p-2.5 border border-border-light dark:border-border-dark">MCQTicker Calendar</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="p-2.5 border border-border-light dark:border-border-dark font-bold">Monthly Percentages</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark">Manual calculation per student</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark text-correct-green dark:text-brand-secondary font-bold">Instant auto-calculation</td>
+              </tr>
+              <tr class="bg-surface-light/40 dark:bg-surface-dark/40">
+                <td class="p-2.5 border border-border-light dark:border-border-dark font-bold">Data Export</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark">Manual rewriting or photocopying</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark text-correct-green dark:text-brand-secondary font-bold">One-click CSV download</td>
+              </tr>
+              <tr>
+                <td class="p-2.5 border border-border-light dark:border-border-dark font-bold">Multiple Classes</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark">Separate registers per class</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark text-correct-green dark:text-brand-secondary font-bold">All classes in one tool</td>
+              </tr>
+              <tr class="bg-surface-light/40 dark:bg-surface-dark/40">
+                <td class="p-2.5 border border-border-light dark:border-border-dark font-bold">Cost</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark">Register purchase yearly</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark text-correct-green dark:text-brand-secondary font-bold">100% Free, no limits</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Internal Links -->
+      <section class="space-y-4">
+        <p>
+          MCQTicker provides tools for both students and teachers. Explore our <a href="/online-omr-sheet" class="text-brand-primary dark:text-brand-secondary font-bold">online OMR sheet</a>, <a href="/omr-sheet-checker" class="text-brand-primary dark:text-brand-secondary font-bold">OMR sheet checker</a>, <a href="/answer-tracker" class="text-brand-primary dark:text-brand-secondary font-bold">answer tracker</a>, and <a href="/pomodoro-timer" class="text-brand-primary dark:text-brand-secondary font-bold">Pomodoro timer</a>. Read our <a href="/privacy" class="text-brand-primary dark:text-brand-secondary underline">privacy policy</a>.
+        </p>
+      </section>
+    </article>
+
+    <!-- FAQ -->
+    <FAQ faqs={faqs} title="Attendance Calendar FAQs" subtitle="Common questions about class management, attendance tracking, CSV export/import, and data privacy." />
+  </div>
+</BaseLayout>

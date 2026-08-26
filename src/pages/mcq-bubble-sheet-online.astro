@@ -1,0 +1,310 @@
+---
+// src/pages/mcq-bubble-sheet-online.astro
+export const prerender = true;
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SEO from '../components/SEO.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import Schema from '../components/Schema.astro';
+import FAQ from '../components/FAQ.astro';
+
+const pageTitle = "MCQ Bubble Sheet Online — Digital OMR Sheet PDF Generator";
+const pageDesc = "Color OMR bubbles on your screen with our free MCQ Bubble Sheet Online. Grade mock sessions instantly and export gorgeous PDF reports for review.";
+const canonicalPath = "/mcq-bubble-sheet-online";
+
+const breadcrumbs = [
+  { label: "MCQ Bubble Sheet", url: "/mcq-bubble-sheet-online" }
+];
+
+const faqs = [
+  {
+    question: "What is an online MCQ bubble sheet?",
+    answer: "It is a digital version of a physical OMR response sheet. Instead of shading paper circles with a pen, you click bubbles on your screen, which automatically logs and tallies your answers."
+  },
+  {
+    question: "Why should I generate a PDF report of my bubble sheet?",
+    answer: "While physical OMR sheets are thrown away, exporting a digital PDF report lets you save a structured record of your mock exams. You can attach these PDF reports to study journals or send them to tutors."
+  },
+  {
+    question: "Can I enter the official answer key to grade my sheet?",
+    answer: "Yes, you can toggle the Grader Key pane, type in the correct answers, and the digital bubble sheet will highlight correct items in green and incorrect ones in red instantly."
+  },
+  {
+    question: "Is this online bubble sheet mobile responsive?",
+    answer: "Yes, the OMR grid automatically wraps into clean vertical columns on mobile screens, making it extremely easy to scroll and shade circles on smartphones."
+  }
+];
+---
+
+<BaseLayout title={pageTitle} description={pageDesc} canonicalPath={canonicalPath} ogLocale="en_US">
+  <SEO title={pageTitle} description={pageDesc} canonicalPath={canonicalPath} ogLocale="en_US" />
+  <Schema pageName={pageTitle} pageDescription={pageDesc} pageUrl={`https://mcqticker.online${canonicalPath}`} breadcrumbs={breadcrumbs} faqs={faqs} />
+
+  <!-- Special Print Stylesheet for PDF Generation -->
+  <style is:inline>
+    @media print {
+      body {
+        background: #ffffff !important;
+        color: #000000 !important;
+      }
+      header, footer, nav, button, select, .no-print {
+        display: none !important;
+      }
+      .print-report-card {
+        display: block !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 20px !important;
+        border: 2px solid #000 !important;
+        border-radius: 12px !important;
+      }
+      .bubble-row-print {
+        page-break-inside: avoid;
+      }
+    }
+  </style>
+
+  <div class="max-w-3xl mx-auto space-y-10 animate-fadeIn no-print">
+    <!-- Breadcrumbs -->
+    <Breadcrumb items={breadcrumbs} />
+
+    <!-- Hero Section (Crimson Theme) -->
+    <div class="bg-gradient-to-br from-rose-600/10 to-crimson-500/5 dark:from-rose-950/20 dark:to-red-900/10 border border-rose-500/20 dark:border-rose-400/20 rounded-3xl p-8 text-center space-y-6 shadow-custom-md">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-rose-500/10 dark:bg-rose-400/10 border border-rose-500/20 dark:border-rose-400/20 text-rose-700 dark:text-rose-400 text-xxs font-bold uppercase tracking-wider">
+        <span class="material-symbols-outlined text-sm">edit_note</span>
+        PDF Export Enabled
+      </div>
+      <h1 class="font-display font-black text-3xl md:text-5xl text-text-light dark:text-text-dark leading-tight">
+        Online OMR <span class="text-rose-600 dark:text-rose-400">MCQ Bubble Sheet</span>
+      </h1>
+      <p class="text-sm md:text-base text-text-light-muted dark:text-text-dark-muted max-w-xl mx-auto leading-relaxed">
+        Fill OMR sheet bubbles interactively. Check your accuracy score and generate an elegant, printable PDF report card of your results instantly.
+      </p>
+    </div>
+
+    <!-- Bubble Sheet Interactive Widget -->
+    <section class="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-3xl p-6 shadow-custom-md space-y-6">
+      <!-- Widget Header -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border-light dark:border-border-dark pb-5">
+        <div>
+          <h2 class="font-display font-extrabold text-base text-text-light dark:text-text-dark">Digital OMR Matrix</h2>
+          <p class="text-xxs text-text-light-muted dark:text-text-dark-muted mt-0.5">Click bubbles to shade. Configure count below.</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <select id="bubble-count" class="text-xxs p-2 bg-bg-light dark:bg-bg-dark border border-border-light dark:border-border-dark text-text-light dark:text-text-dark rounded-xl cursor-pointer focus:outline-none">
+            <option value="15" selected>15 Bubbles</option>
+            <option value="30">30 Bubbles</option>
+            <option value="50">50 Bubbles</option>
+            <option value="100">100 Bubbles</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Bubble Grid rows -->
+      <div id="bubble-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[350px] overflow-y-auto pr-1">
+        <!-- Injected bubble rows -->
+      </div>
+
+      <!-- Controls -->
+      <div class="flex flex-wrap gap-3 items-center justify-between pt-4 border-t border-border-light dark:border-border-dark">
+        <div class="flex items-center gap-2">
+          <button id="generate-pdf-btn" class="px-4 py-2.5 bg-rose-600 hover:bg-rose-700 dark:bg-rose-500 dark:hover:bg-rose-600 text-white dark:text-bg-dark font-black text-xs rounded-xl shadow-sm cursor-pointer flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-sm">description</span>
+            Generate PDF Report
+          </button>
+          <button id="clear-bubbles" class="px-4 py-2.5 border border-border-light dark:border-border-dark text-text-light dark:text-text-dark font-bold text-xs rounded-xl hover:bg-surface-light-hover dark:hover:bg-surface-dark-hover transition-colors cursor-pointer">
+            Clear Bubbles
+          </button>
+        </div>
+        <span id="bubbles-tally" class="text-xxs text-text-light-muted dark:text-text-dark-muted">0 shaded</span>
+      </div>
+    </section>
+
+    <!-- Content -->
+    <article class="prose dark:prose-invert max-w-none text-sm text-text-light dark:text-text-dark leading-relaxed space-y-8">
+      <section class="space-y-4">
+        <h2 class="font-display font-extrabold text-xl text-text-light dark:text-text-dark border-b border-border-light dark:border-border-dark pb-2">
+          Why Online OMR Sheets and PDF Reports Dominate Modern Study Setup
+        </h2>
+        <p>
+          Historically, competitive exam candidates bought massive packs of physical OMR sheets. These paper templates were colored using HB pencils, corrected by hand, and ultimately discarded. This process is wasteful, expensive, and fails to compile digital progress history.
+        </p>
+        <p>
+          With our <strong>mcq bubble sheet online</strong> generator, paper is no longer required. Shading bubbles takes a single tap on your tablet or desktop screen. What makes it truly special is the PDF reporting engine. Instead of losing your exam record, you can compile a detailed PDF scorecard. 
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h3 class="font-display font-bold text-lg text-text-light dark:text-text-dark">Save Your Progress in High-Quality PDF Formats</h3>
+        <p>
+          Exporting mock results to PDF formats allows you to archive your study records in Dropbox, Google Drive, or Notion. Perfect for sharing mock progress with coaching tutors, comparing scores over weeks, or compiling a review checklist of mistakes.
+        </p>
+      </section>
+    </article>
+
+    <!-- FAQs -->
+    <FAQ faqs={faqs} title="MCQ Bubble Sheet FAQs" subtitle="Common questions about digital OMR templates and PDF reports." />
+  </div>
+
+  <!-- HIDDEN PRINT-ONLY CONTAINER FOR PERFECT PDF GENERATION -->
+  <div id="pdf-report-card" class="hidden print-report-card bg-white text-black p-8 max-w-3xl mx-auto space-y-6 border border-black rounded-3xl mt-10">
+    <div class="flex justify-between items-start border-b-2 border-black pb-4">
+      <div>
+        <h1 class="text-2xl font-black tracking-tight uppercase">MCQTicker OMR Report</h1>
+        <p class="text-xs text-gray-600 mt-1">Digital Bubble Sheet Analysis Report</p>
+      </div>
+      <div class="text-right text-xs text-gray-600">
+        <div>Date: <span id="print-date"></span></div>
+        <div>Total Questions: <span id="print-total">0</span></div>
+      </div>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="grid grid-cols-2 gap-4 border-b-2 border-black pb-4 text-center">
+      <div>
+        <div class="text-3xs font-bold uppercase tracking-widest text-gray-500">Shaded Answers</div>
+        <div id="print-shaded" class="text-2xl font-black">0</div>
+      </div>
+      <div>
+        <div class="text-3xs font-bold uppercase tracking-widest text-gray-500">Completion</div>
+        <div id="print-percent" class="text-2xl font-black">0%</div>
+      </div>
+    </div>
+
+    <!-- Filled Sheet Summary Grid -->
+    <div>
+      <h3 class="text-xs font-bold uppercase tracking-widest mb-3">Logged Answers Grid</h3>
+      <div id="print-grid" class="grid grid-cols-3 gap-2 text-xs">
+        <!-- Filled answer splits -->
+      </div>
+    </div>
+
+    <div class="border-t border-gray-300 pt-4 text-center text-3xs text-gray-500 italic">
+      This report was generated online via mcqticker.online. Practice smart, track pacing.
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  function setupBubbleSheet() {
+    let answers: Record<number, string> = {};
+    const countSelect = document.getElementById('bubble-count') as HTMLSelectElement | null;
+    const gridEl = document.getElementById('bubble-grid');
+    const tallyEl = document.getElementById('bubbles-tally');
+    const clearBtn = document.getElementById('clear-bubbles');
+    const pdfBtn = document.getElementById('generate-pdf-btn');
+
+    // PDF Elements
+    const printDate = document.getElementById('print-date');
+    const printTotal = document.getElementById('print-total');
+    const printShaded = document.getElementById('print-shaded');
+    const printPercent = document.getElementById('print-percent');
+    const printGrid = document.getElementById('print-grid');
+
+    if (!gridEl) return;
+
+    function renderBubbles() {
+      if (!gridEl || !countSelect) return;
+      const count = parseInt(countSelect.value) || 15;
+      gridEl.innerHTML = '';
+
+      for (let i = 1; i <= count; i++) {
+        const row = document.createElement('div');
+        row.className = 'flex items-center justify-between p-3 bg-bg-light/35 dark:bg-bg-dark/35 border border-border-light/40 dark:border-border-dark/40 rounded-2xl hover:border-rose-500/30 dark:hover:border-rose-400/30 transition-colors';
+
+        const label = document.createElement('span');
+        label.className = 'text-xs font-bold text-text-light dark:text-text-dark min-w-[40px]';
+        label.textContent = `Q. ${i}`;
+        row.appendChild(label);
+
+        const bubbleContainer = document.createElement('div');
+        bubbleContainer.className = 'flex items-center gap-1.5';
+
+        ['A', 'B', 'C', 'D'].forEach(opt => {
+          const btn = document.createElement('button');
+          btn.className = `w-8 h-8 rounded-full border text-xxs font-bold transition-all cursor-pointer ${
+            answers[i] === opt
+              ? 'bg-rose-600 border-rose-600 text-white dark:bg-rose-500 dark:border-rose-500 dark:text-bg-dark font-black scale-105'
+              : 'border-border-light bg-surface-light dark:border-border-dark dark:bg-surface-dark text-text-light-muted dark:text-text-dark-muted hover:bg-surface-light-hover dark:hover:bg-surface-dark-hover'
+          }`;
+          btn.textContent = opt;
+          btn.addEventListener('click', () => {
+            if (answers[i] === opt) {
+              delete answers[i];
+            } else {
+              answers[i] = opt;
+            }
+            renderBubbles();
+            updateTally();
+          });
+          bubbleContainer.appendChild(btn);
+        });
+
+        row.appendChild(bubbleContainer);
+        gridEl.appendChild(row);
+      }
+      updateTally();
+    }
+
+    function updateTally() {
+      if (!tallyEl || !countSelect) return;
+      const count = parseInt(countSelect.value) || 15;
+      const shaded = Object.keys(answers).length;
+      tallyEl.textContent = `${shaded} shaded`;
+
+      // Prompt PWA on completion
+      if (shaded === count && shaded > 0) {
+        if (typeof (window as any).showPwaInstallPrompt === 'function') {
+          setTimeout(() => {
+            (window as any).showPwaInstallPrompt(
+              "OMR Completed! Save App?",
+              "All bubbles shaded! Install MCQTicker to access standard OMR sheets offline from your home screen anytime."
+            );
+          }, 800);
+        }
+      }
+    }
+
+    countSelect?.addEventListener('change', () => {
+      answers = {};
+      renderBubbles();
+    });
+
+    clearBtn?.addEventListener('click', () => {
+      if (confirm('Are you sure you want to reset all OMR bubbles?')) {
+        answers = {};
+        renderBubbles();
+      }
+    });
+
+    pdfBtn?.addEventListener('click', () => {
+      if (!countSelect || !printGrid || !printTotal || !printShaded || !printPercent || !printDate) return;
+      
+      const count = parseInt(countSelect.value) || 15;
+      const shadedCount = Object.keys(answers).length;
+
+      // Update print DOM values
+      printDate.textContent = new Date().toLocaleDateString();
+      printTotal.textContent = count.toString();
+      printShaded.textContent = shadedCount.toString();
+      printPercent.textContent = `${Math.round((shadedCount / count) * 100)}%`;
+
+      // Render print grid
+      printGrid.innerHTML = '';
+      for (let i = 1; i <= count; i++) {
+        const item = document.createElement('div');
+        item.className = 'p-2 border border-gray-300 rounded flex justify-between';
+        item.innerHTML = `<span>Question ${i}:</span> <strong class="font-bold">${answers[i] || '—'}</strong>`;
+        printGrid.appendChild(item);
+      }
+
+      // Open print prompt
+      window.print();
+    });
+
+    renderBubbles();
+  }
+
+  setupBubbleSheet();
+  document.addEventListener('astro:after-swap', setupBubbleSheet);
+</script>

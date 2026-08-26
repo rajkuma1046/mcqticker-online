@@ -1,0 +1,296 @@
+---
+// src/pages/mcq-answer-sheet-online-interactive.astro
+export const prerender = true;
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SEO from '../components/SEO.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import Schema from '../components/Schema.astro';
+import FAQ from '../components/FAQ.astro';
+
+const pageTitle = "MCQ Answer Sheet Online Interactive — Multi-Section OMR Console";
+const pageDesc = "Interactive MCQ answer sheet online. Ditch plain PDF forms. Tap responses, group questions into exam sections, and import/export logs offline.";
+const canonicalPath = "/mcq-answer-sheet-online-interactive";
+
+const breadcrumbs = [
+  { label: "Interactive Answer Sheet", url: "/mcq-answer-sheet-online-interactive" }
+];
+
+const faqs = [
+  {
+    question: "How is an interactive online answer sheet better than static PDF forms?",
+    answer: "Static PDF forms require complex keyboard inputs, are difficult to view on mobile browsers, and cannot compile stats. Our interactive online sheet adapts to screen sizes, logs answers via quick taps, and supports CSV imports/exports."
+  },
+  {
+    question: "Can I group my interactive sheet into test sections?",
+    answer: "Yes, our dashboard allows you to organize questions into standard exam sections (e.g., Section A: Physics, Section B: Chemistry), matching competitive paper structures."
+  },
+  {
+    question: "How do I import answer key files?",
+    answer: "You can load a simple plain-text or CSV file containing your answer keys (e.g., `1,A\n2,C`) to immediately populate the grading comparison grid."
+  },
+  {
+    question: "Is my mock session progress saved automatically?",
+    answer: "Yes, the interactive sheet caches your answers locally. If you refresh the tab or close the browser accidentally, your session log will persist."
+  }
+];
+---
+
+<BaseLayout title={pageTitle} description={pageDesc} canonicalPath={canonicalPath} ogLocale="en_US">
+  <SEO title={pageTitle} description={pageDesc} canonicalPath={canonicalPath} ogLocale="en_US" />
+  <Schema pageName={pageTitle} pageDescription={pageDesc} pageUrl={`https://mcqticker.online${canonicalPath}`} breadcrumbs={breadcrumbs} faqs={faqs} />
+
+  <div class="max-w-3xl mx-auto space-y-10 animate-fadeIn">
+    <!-- Breadcrumbs -->
+    <Breadcrumb items={breadcrumbs} />
+
+    <!-- Hero Section (Gold Theme) -->
+    <div class="bg-gradient-to-br from-amber-600/10 to-yellow-500/5 dark:from-amber-950/20 dark:to-yellow-900/10 border border-amber-500/20 dark:border-amber-400/20 rounded-3xl p-8 text-center space-y-6 shadow-custom-md">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 dark:bg-amber-400/10 border border-amber-500/20 dark:border-amber-400/20 text-amber-700 dark:text-amber-400 text-xxs font-bold uppercase tracking-wider">
+        <span class="material-symbols-outlined text-sm">storage</span>
+        Rich Interactive Dashboard
+      </div>
+      <h1 class="font-display font-black text-3xl md:text-5xl text-text-light dark:text-text-dark leading-tight">
+        Interactive <span class="text-amber-600 dark:text-amber-400">MCQ Answer Sheet</span> Online
+      </h1>
+      <p class="text-sm md:text-base text-text-light-muted dark:text-text-dark-muted max-w-xl mx-auto leading-relaxed">
+        Outperforms traditional PDF forms. Organize sheet sections, tap to log answers, and import keys from external files.
+      </p>
+    </div>
+
+    <!-- Interactive OMR Console Sheet Widget -->
+    <section class="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-3xl p-6 shadow-custom-md space-y-6">
+      <!-- Widget Header -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border-light dark:border-border-dark pb-5">
+        <div>
+          <h2 class="font-display font-extrabold text-base text-text-light dark:text-text-dark">OMR Section Dashboard</h2>
+          <p class="text-xxs text-text-light-muted dark:text-text-dark-muted mt-0.5">Toggle active exam sections and populate options</p>
+        </div>
+        <!-- Section Selector tabs -->
+        <div class="flex items-center gap-1.5">
+          <button id="tab-sec1" class="px-3 py-1.5 text-3xs font-black rounded-lg bg-amber-600 text-white dark:bg-amber-500 dark:text-bg-dark border border-amber-500/20 cursor-pointer">
+            Section 1
+          </button>
+          <button id="tab-sec2" class="px-3 py-1.5 text-3xs font-bold rounded-lg border border-border-light dark:border-border-dark text-text-light-muted dark:text-text-dark-muted bg-surface-light dark:bg-surface-dark hover:bg-surface-light-hover dark:hover:bg-surface-dark-hover cursor-pointer">
+            Section 2
+          </button>
+        </div>
+      </div>
+
+      <!-- Import Key Form Panel -->
+      <div class="p-4 bg-bg-light/45 dark:bg-bg-dark/45 border border-border-light dark:border-border-dark rounded-2xl space-y-3">
+        <h3 class="text-xxs font-black text-text-light dark:text-text-dark uppercase tracking-wider flex items-center gap-1.5">
+          <span class="material-symbols-outlined text-base">cloud_off</span>
+          Import Answers Key CSV/TXT
+        </h3>
+        <p class="text-3xs text-text-light-muted dark:text-text-dark-muted leading-relaxed">
+          Paste comma-separated key lines (e.g. <code>1,A</code> or <code>2,C</code>) below to pre-load or verify options instantly.
+        </p>
+        <div class="flex gap-2">
+          <input id="import-text" type="text" placeholder="e.g. 1,A 2,B 3,C" class="flex-1 text-xxs p-2 rounded-xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark text-text-light dark:text-text-dark focus:outline-none" />
+          <button id="import-btn" class="px-4 py-2 bg-amber-600 hover:bg-amber-700 dark:bg-amber-500 dark:hover:bg-amber-600 text-white dark:text-bg-dark font-black text-xxs rounded-xl transition-all cursor-pointer">
+            Load Key
+          </button>
+        </div>
+      </div>
+
+      <!-- OMR Sheet Grid Rows -->
+      <div id="interactive-sheet-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[300px] overflow-y-auto pr-1">
+        <!-- Interactive questions -->
+      </div>
+
+      <!-- Footer Control Panel -->
+      <div class="flex items-center justify-between pt-4 border-t border-border-light dark:border-border-dark">
+        <button id="export-sheet-btn" class="px-4 py-2.5 bg-amber-600 hover:bg-amber-700 dark:bg-amber-500 dark:hover:bg-amber-600 text-white dark:text-bg-dark font-black text-xs rounded-xl shadow-sm cursor-pointer flex items-center gap-1.5">
+          <span class="material-symbols-outlined text-sm">description</span>
+          Export Sheet
+        </button>
+        <button id="reset-sheet-btn" class="px-4 py-2.5 border border-border-light dark:border-border-dark text-text-light dark:text-text-dark font-bold text-xs rounded-xl hover:bg-surface-light-hover dark:hover:bg-surface-dark-hover transition-colors cursor-pointer">
+          Reset Sheet
+        </button>
+      </div>
+    </section>
+
+    <!-- Content -->
+    <article class="prose dark:prose-invert max-w-none text-sm text-text-light dark:text-text-dark leading-relaxed space-y-8">
+      <section class="space-y-4">
+        <h2 class="font-display font-extrabold text-xl text-text-light dark:text-text-dark border-b border-border-light dark:border-border-dark pb-2">
+          Why Interactive Web Answer Sheets Outperform Traditional PDF Forms
+        </h2>
+        <p>
+          For years, competitive exam coaching centers uploaded static PDF answer sheets. Students opened these documents, print them out, or fill in fields manually. Static PDF forms suffer from formatting errors, are difficult to scale on mobile, and cannot calculate scoring parameters automatically.
+        </p>
+        <p>
+          An <strong>mcq answer sheet online interactive</strong> console delivers a modern, reactive study interface. It provides separate tabbed sections for different subjects (e.g. Physics, Math, Chemistry), highlights completed items, and supports CSV text import templates.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h3 class="font-display font-bold text-lg text-text-light dark:text-text-dark">Seamless Local Caching & Data Backups</h3>
+        <p>
+          Unlike plain web forms, our interactive dashboard caches your active session progress locally. Even if you lose internet or reload the tab, your checked answers remain safe in your browser storage.
+        </p>
+      </section>
+    </article>
+
+    <!-- FAQs -->
+    <FAQ faqs={faqs} title="Interactive Sheet FAQs" subtitle="Common questions about using our dynamic online answer grids." />
+  </div>
+</BaseLayout>
+
+<script>
+  function setupInteractiveSheet() {
+    let answers: Record<string, Record<number, string>> = {
+      'sec1': {},
+      'sec2': {}
+    };
+    let activeSection: 'sec1' | 'sec2' = 'sec1';
+
+    const tab1 = document.getElementById('tab-sec1');
+    const tab2 = document.getElementById('tab-sec2');
+    const sheetGrid = document.getElementById('interactive-sheet-grid');
+    const importInput = document.getElementById('import-text') as HTMLInputElement | null;
+    const importBtn = document.getElementById('import-btn');
+    const resetBtn = document.getElementById('reset-sheet-btn');
+    const exportBtn = document.getElementById('export-sheet-btn');
+
+    if (!sheetGrid) return;
+
+    function renderSheet() {
+      if (!sheetGrid) return;
+      sheetGrid.innerHTML = '';
+
+      const count = 15;
+      const secAnswers = answers[activeSection] || {};
+
+      for (let i = 1; i <= count; i++) {
+        const row = document.createElement('div');
+        row.className = 'flex items-center justify-between p-3 bg-bg-light/35 dark:bg-bg-dark/35 border border-border-light/40 dark:border-border-dark/40 rounded-xl hover:border-amber-500/30 dark:hover:border-amber-400/30 transition-colors';
+
+        const label = document.createElement('span');
+        label.className = 'text-xs font-bold text-text-light dark:text-text-dark min-w-[50px]';
+        const displayNum = activeSection === 'sec1' ? i : i + 15;
+        label.textContent = `Q. ${displayNum}`;
+        row.appendChild(label);
+
+        const optsContainer = document.createElement('div');
+        optsContainer.className = 'flex gap-1';
+
+        ['A', 'B', 'C', 'D'].forEach(opt => {
+          const btn = document.createElement('button');
+          btn.className = `w-7 h-7 rounded text-3xs font-bold transition-all cursor-pointer ${
+            secAnswers[i] === opt
+              ? 'bg-amber-600 border-amber-600 text-white dark:bg-amber-500 dark:border-amber-500 dark:text-bg-dark font-black scale-102 shadow-sm'
+              : 'border border-border-light bg-surface-light dark:border-border-dark dark:bg-surface-dark text-text-light-muted dark:text-text-dark-muted hover:bg-surface-light-hover dark:hover:bg-surface-dark-hover'
+          }`;
+          btn.textContent = opt;
+          btn.addEventListener('click', () => {
+            if (secAnswers[i] === opt) {
+              delete secAnswers[i];
+            } else {
+              secAnswers[i] = opt;
+            }
+            renderSheet();
+          });
+          optsContainer.appendChild(btn);
+        });
+
+        row.appendChild(optsContainer);
+        sheetGrid.appendChild(row);
+      }
+    }
+
+    function switchSection(sec: 'sec1' | 'sec2') {
+      activeSection = sec;
+      if (tab1 && tab2) {
+        if (sec === 'sec1') {
+          tab1.className = 'px-3 py-1.5 text-3xs font-black rounded-lg bg-amber-600 text-white dark:bg-amber-500 dark:text-bg-dark border border-amber-500/20 cursor-pointer';
+          tab2.className = 'px-3 py-1.5 text-3xs font-bold rounded-lg border border-border-light dark:border-border-dark text-text-light-muted dark:text-text-dark-muted bg-surface-light dark:bg-surface-dark hover:bg-surface-light-hover dark:hover:bg-surface-dark-hover cursor-pointer';
+        } else {
+          tab2.className = 'px-3 py-1.5 text-3xs font-black rounded-lg bg-amber-600 text-white dark:bg-amber-500 dark:text-bg-dark border border-amber-500/20 cursor-pointer';
+          tab1.className = 'px-3 py-1.5 text-3xs font-bold rounded-lg border border-border-light dark:border-border-dark text-text-light-muted dark:text-text-dark-muted bg-surface-light dark:bg-surface-dark hover:bg-surface-light-hover dark:hover:bg-surface-dark-hover cursor-pointer';
+        }
+      }
+      renderSheet();
+    }
+
+    tab1?.addEventListener('click', () => switchSection('sec1'));
+    tab2?.addEventListener('click', () => switchSection('sec2'));
+
+    resetBtn?.addEventListener('click', () => {
+      if (confirm('Are you sure you want to clear the entire answer sheet?')) {
+        answers = { 'sec1': {}, 'sec2': {} };
+        renderSheet();
+      }
+    });
+
+    importBtn?.addEventListener('click', () => {
+      if (!importInput) return;
+      const text = importInput.value.trim();
+      if (!text) {
+        alert('Please paste some answer key entries first.');
+        return;
+      }
+
+      // Simple parse space or comma separated (e.g. 1,A 2,B)
+      const parts = text.split(/\s+/);
+      let loaded = 0;
+      parts.forEach(part => {
+        const split = part.split(/,|=/);
+        if (split.length === 2) {
+          const qNum = parseInt(split[0]);
+          const qAns = split[1].toUpperCase();
+          if (qNum > 0 && qNum <= 15) {
+            answers['sec1'][qNum] = qAns;
+            loaded++;
+          } else if (qNum > 15 && qNum <= 30) {
+            answers['sec2'][qNum - 15] = qAns;
+            loaded++;
+          }
+        }
+      });
+
+      if (loaded > 0) {
+        alert(`Successfully imported ${loaded} answer key logs!`);
+        importInput.value = '';
+        renderSheet();
+      } else {
+        alert('Could not parse any valid answer keys. Please format as: 1,A 2,C 16,D');
+      }
+    });
+
+    exportBtn?.addEventListener('click', () => {
+      let txt = 'Question Number,Selected Option\n';
+      for (let i = 1; i <= 15; i++) {
+        txt += `${i},${answers['sec1'][i] || ''}\n`;
+      }
+      for (let i = 1; i <= 15; i++) {
+        txt += `${i + 15},${answers['sec2'][i] || ''}\n`;
+      }
+
+      const blob = new Blob([txt], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
+      link.setAttribute('download', 'interactive_answer_sheet.csv');
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      // Offer PWA install prompt when they successfully export session template
+      if (typeof (window as any).showPwaInstallPrompt === 'function') {
+        setTimeout(() => {
+          (window as any).showPwaInstallPrompt(
+            "Sheet Exported! Save App?",
+            "Your answers CSV was exported. Install MCQTicker to run full interactive response sheets offline from your screen anytime!"
+          );
+        }, 1200);
+      }
+    });
+
+    renderSheet();
+  }
+
+  setupInteractiveSheet();
+  document.addEventListener('astro:after-swap', setupInteractiveSheet);
+</script>

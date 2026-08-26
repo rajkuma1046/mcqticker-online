@@ -1,0 +1,516 @@
+---
+// src/pages/mcq-answer-logger-with-timer.astro
+export const prerender = true;
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SEO from '../components/SEO.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import Schema from '../components/Schema.astro';
+import FAQ from '../components/FAQ.astro';
+
+const pageTitle = "MCQ Answer Logger with Timer — Live Split Pacing Tracker";
+const pageDesc = "Log your MCQ responses and track timing per question. Our built-in stopwatch records exact split times, calculates average pace, and alerts on bottleneck items.";
+const canonicalPath = "/mcq-answer-logger-with-timer";
+
+const breadcrumbs = [
+  { label: "Answer Logger with Timer", url: "/mcq-answer-logger-with-timer" }
+];
+
+const faqs = [
+  {
+    question: "What is an MCQ answer logger with timer?",
+    answer: "It is a hybrid study tool that functions as an answer sheet and a split stopwatch. Every time you log an answer, it notes down the exact seconds spent on that question, helping you audit your exam speed."
+  },
+  {
+    question: "How does the pacing flag work?",
+    answer: "The app calculates your average response speed in real-time. If a question takes significantly longer than your average speed (e.g., 1.5x longer), it is flagged in orange to show that it was a time trap."
+  },
+  {
+    question: "Can I export my timing logs to spreadsheet apps like Excel?",
+    answer: "Yes, you can export your complete session log as a CSV file, which can be imported directly into Microsoft Excel, Google Sheets, or Notion for deeper analysis."
+  },
+  {
+    question: "Does this logger support offline studying?",
+    answer: "Yes. Because the tool runs client-side, your timing splits and answer logs are saved locally. You do not need an active internet connection after the page loads."
+  }
+];
+---
+
+<BaseLayout title={pageTitle} description={pageDesc} canonicalPath={canonicalPath} ogLocale="en_US">
+  <SEO title={pageTitle} description={pageDesc} canonicalPath={canonicalPath} ogLocale="en_US" />
+  <Schema pageName={pageTitle} pageDescription={pageDesc} pageUrl={`https://mcqticker.online${canonicalPath}`} breadcrumbs={breadcrumbs} faqs={faqs} />
+
+  <div class="max-w-3xl mx-auto space-y-10 animate-fadeIn">
+    <!-- Breadcrumbs -->
+    <Breadcrumb items={breadcrumbs} />
+
+    <!-- Hero Section (Orange Theme) -->
+    <div class="bg-gradient-to-br from-orange-600/10 to-amber-500/5 dark:from-orange-950/20 dark:to-amber-900/10 border border-orange-500/20 dark:border-orange-400/20 rounded-3xl p-8 text-center space-y-6 shadow-custom-md">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-500/10 dark:bg-orange-400/10 border border-orange-500/20 dark:border-orange-400/20 text-orange-700 dark:text-orange-400 text-xxs font-bold uppercase tracking-wider">
+        <span class="material-symbols-outlined text-sm">timer</span>
+        Built-in Pacing Analytics
+      </div>
+      <h1 class="font-display font-black text-3xl md:text-5xl text-text-light dark:text-text-dark leading-tight">
+        Smart MCQ <span class="text-orange-600 dark:text-orange-400">Answer Logger & Timer</span>
+      </h1>
+      <p class="text-sm md:text-base text-text-light-muted dark:text-text-dark-muted max-w-xl mx-auto leading-relaxed">
+        Don't just log answers—track speed. Save per-question seconds, calculate live speed averages, and export CSV logs offline.
+      </p>
+    </div>
+
+    <!-- Active Timer and Logger Widget -->
+    <section class="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-3xl p-6 shadow-custom-md space-y-6">
+      <!-- Widget Header -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border-light dark:border-border-dark pb-5">
+        <div>
+          <h2 class="font-display font-extrabold text-base text-text-light dark:text-text-dark">Pacing Split Logger</h2>
+          <p class="text-xxs text-text-light-muted dark:text-text-dark-muted mt-0.5">Solve questions from your book and tap choices below</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <!-- Active Timer Display -->
+          <div class="px-3 py-1.5 rounded-xl bg-orange-500/10 dark:bg-orange-400/10 border border-orange-500/20 dark:border-orange-400/20 text-orange-600 dark:text-orange-400 flex items-center gap-1.5 font-mono-custom text-xs font-bold">
+            <span class="w-2 h-2 rounded-full bg-orange-500 animate-ping"></span>
+            <span id="timer-display">0.0s</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats Bar -->
+      <div class="grid grid-cols-3 gap-3 text-center">
+        <div class="bg-bg-light/45 dark:bg-bg-dark/45 p-3 rounded-2xl border border-border-light dark:border-border-dark">
+          <div class="text-3xs font-black text-text-light-muted dark:text-text-dark-muted uppercase tracking-wider">Logged</div>
+          <div id="stats-logged" class="text-lg font-black text-text-light dark:text-text-dark">0</div>
+        </div>
+        <div class="bg-bg-light/45 dark:bg-bg-dark/45 p-3 rounded-2xl border border-border-light dark:border-border-dark">
+          <div class="text-3xs font-black text-text-light-muted dark:text-text-dark-muted uppercase tracking-wider">Total Time</div>
+          <div id="stats-total" class="text-lg font-black text-text-light dark:text-text-dark font-mono-custom">0s</div>
+        </div>
+        <div class="bg-bg-light/45 dark:bg-bg-dark/45 p-3 rounded-2xl border border-border-light dark:border-border-dark">
+          <div class="text-3xs font-black text-text-light-muted dark:text-text-dark-muted uppercase tracking-wider">Avg Pace</div>
+          <div id="stats-avg" class="text-lg font-black text-text-light dark:text-text-dark font-mono-custom">0.0s</div>
+        </div>
+      </div>
+
+      <!-- Pacing Tap Pad -->
+      <div class="space-y-3">
+        <div class="text-3xs font-black text-text-light-muted dark:text-text-dark-muted uppercase tracking-widest text-center">Log Active Question: <span id="active-question-label" class="text-orange-500 font-bold">Q. 1</span></div>
+        <div class="grid grid-cols-4 gap-3">
+          <button data-opt="A" class="log-btn py-4 rounded-xl border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark text-base font-bold text-text-light dark:text-text-dark hover:border-orange-500/40 dark:hover:border-orange-400/40 cursor-pointer transition-all">A</button>
+          <button data-opt="B" class="log-btn py-4 rounded-xl border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark text-base font-bold text-text-light dark:text-text-dark hover:border-orange-500/40 dark:hover:border-orange-400/40 cursor-pointer transition-all">B</button>
+          <button data-opt="C" class="log-btn py-4 rounded-xl border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark text-base font-bold text-text-light dark:text-text-dark hover:border-orange-500/40 dark:hover:border-orange-400/40 cursor-pointer transition-all">C</button>
+          <button data-opt="D" class="log-btn py-4 rounded-xl border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark text-base font-bold text-text-light dark:text-text-dark hover:border-orange-500/40 dark:hover:border-orange-400/40 cursor-pointer transition-all">D</button>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <button id="skip-action" class="py-3 rounded-xl border border-border-light dark:border-border-dark bg-surface-light hover:bg-surface-light-hover dark:bg-surface-dark dark:hover:bg-surface-dark-hover text-xxs font-bold text-text-light-muted dark:text-text-dark-muted cursor-pointer transition-colors">Skip</button>
+          <button id="pause-action" class="py-3 rounded-xl border border-border-light dark:border-border-dark bg-surface-light hover:bg-surface-light-hover dark:bg-surface-dark dark:hover:bg-surface-dark-hover text-xxs font-bold text-text-light-muted dark:text-text-dark-muted cursor-pointer transition-colors">Pause</button>
+        </div>
+      </div>
+
+      <!-- Live Split Log Table -->
+      <div class="space-y-2">
+        <h3 class="text-3xs font-black text-text-light-muted dark:text-text-dark-muted uppercase tracking-widest block">Question Split Log</h3>
+        <div class="overflow-x-auto border border-border-light dark:border-border-dark rounded-2xl">
+          <table class="w-full text-xs text-left border-collapse">
+            <thead>
+              <tr class="bg-bg-light/65 dark:bg-bg-dark/65 border-b border-border-light dark:border-border-dark">
+                <th class="p-3 font-bold text-xxs uppercase tracking-wider text-text-light-muted dark:text-text-dark-muted">Question</th>
+                <th class="p-3 font-bold text-xxs uppercase tracking-wider text-text-light-muted dark:text-text-dark-muted">Answer</th>
+                <th class="p-3 font-bold text-xxs uppercase tracking-wider text-text-light-muted dark:text-text-dark-muted">Split Time</th>
+                <th class="p-3 font-bold text-xxs uppercase tracking-wider text-text-light-muted dark:text-text-dark-muted">Pacing Status</th>
+              </tr>
+            </thead>
+            <tbody id="split-log-body">
+              <tr>
+                <td colspan="4" class="p-4 text-center text-xxs text-text-light-muted dark:text-text-dark-muted italic">No logged questions yet. Click an option to start timing!</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Controls -->
+      <div class="flex items-center justify-between pt-4 border-t border-border-light dark:border-border-dark">
+        <button id="export-csv" class="px-4 py-2.5 bg-orange-600 hover:bg-orange-700 dark:bg-orange-500 dark:hover:bg-orange-600 text-white dark:text-bg-dark font-black text-xs rounded-xl shadow-sm cursor-pointer flex items-center gap-1.5">
+          <span class="material-symbols-outlined text-sm">description</span>
+          Export CSV
+        </button>
+        <button id="reset-session" class="px-4 py-2.5 border border-border-light dark:border-border-dark text-text-light dark:text-text-dark font-bold text-xs rounded-xl hover:bg-surface-light-hover dark:hover:bg-surface-dark-hover transition-colors cursor-pointer">
+          Reset Timer
+        </button>
+      </div>
+    </section>
+
+    <!-- Content -->
+    <article class="prose dark:prose-invert max-w-none text-sm text-text-light dark:text-text-dark leading-relaxed space-y-8">
+      <section class="space-y-4">
+        <h2 class="font-display font-extrabold text-xl text-text-light dark:text-text-dark border-b border-border-light dark:border-border-dark pb-2">
+          Pacing Splits: The Secret to High Marks in Competitive Exams
+        </h2>
+        <p>
+          Solving 100 questions in 60 minutes requires a structured plan. Yet, most aspirants focus strictly on overall test duration. If you take 3 minutes on a simple query because you made a calculation error, you've robbed yourself of the time required to complete easy questions at the end of the sheet.
+        </p>
+        <p>
+          An <strong>MCQ answer logger with timer</strong> ensures that every single tap logs split logs. This lets you inspect your micro pacing immediately. You can pinpoint exactly which question chapters caused you to slow down.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h3 class="font-display font-bold text-lg text-text-light dark:text-text-dark">Audit Time Traps Immediately</h3>
+        <p>
+          By calculating average speeds in real time, this logger flags high-deviation splits automatically. If you average 30 seconds per question, but question 8 takes 90 seconds, the app highlights it in orange. You can immediately identify concepts where you lack shortcuts or hesitate.
+        </p>
+      </section>
+    </article>
+
+    <!-- FAQs -->
+    <FAQ faqs={faqs} title="MCQ Answer Logger with Timer FAQs" subtitle="Common questions about calculating speed splits during studies." />
+  </div>
+</BaseLayout>
+
+<script>
+  function setupAnswerLogger() {
+    interface LogItem {
+      num: number;
+      ans: string;
+      seconds: number;
+    }
+
+    /* ── LOCALSTORAGE KEYS (matching quiz_tracker pattern) ── */
+    const LS_LOG_KEY = 'mcq_logger_log';
+    const LS_QNUM_KEY = 'mcq_logger_qnum';
+    const LS_MARKS_KEY = 'mcq_logger_marks';
+
+    /* ── RESTORE STATE FROM LOCALSTORAGE ── */
+    let log: LogItem[] = [];
+    let marks: Record<number, string> = {};
+    let currentQuestionNum = 1;
+    let undoHistory: LogItem[] = [];
+    let redoStack: LogItem[] = [];
+    let timerValue = 0.0;
+    let isPaused = false;
+    let timerInterval: any = null;
+
+    try {
+      const savedLog = localStorage.getItem(LS_LOG_KEY);
+      if (savedLog) {
+        log = JSON.parse(savedLog);
+      }
+      const savedQnum = localStorage.getItem(LS_QNUM_KEY);
+      if (savedQnum) {
+        currentQuestionNum = parseInt(savedQnum, 10) || 1;
+      } else if (log.length > 0) {
+        // Derive currentQ from saved answers (same as quiz_tracker logic)
+        const maxQ = Math.max(...log.map(item => item.num));
+        currentQuestionNum = maxQ + 1;
+      }
+      const savedMarks = localStorage.getItem(LS_MARKS_KEY);
+      if (savedMarks) {
+        marks = JSON.parse(savedMarks);
+      }
+    } catch (e) {
+      // If localStorage is corrupted, start fresh
+      log = [];
+      marks = {};
+      currentQuestionNum = 1;
+    }
+
+    const timerDisplay = document.getElementById('timer-display');
+    const labelEl = document.getElementById('active-question-label');
+    const tableBody = document.getElementById('split-log-body');
+    const statsLogged = document.getElementById('stats-logged');
+    const statsTotal = document.getElementById('stats-total');
+    const statsAvg = document.getElementById('stats-avg');
+    const logBtns = document.querySelectorAll('.log-btn');
+    const skipAction = document.getElementById('skip-action');
+    const pauseAction = document.getElementById('pause-action');
+    const resetAction = document.getElementById('reset-session');
+    const csvAction = document.getElementById('export-csv');
+
+    /* ── SAVE TO LOCALSTORAGE (called after every mutation) ── */
+    function saveToLocalStorage() {
+      localStorage.setItem(LS_LOG_KEY, JSON.stringify(log));
+      localStorage.setItem(LS_QNUM_KEY, currentQuestionNum.toString());
+      localStorage.setItem(LS_MARKS_KEY, JSON.stringify(marks));
+    }
+
+    /* ── TIMER ── */
+    function startTimer() {
+      if (timerInterval) clearInterval(timerInterval);
+      timerValue = 0.0;
+      timerInterval = setInterval(() => {
+        if (!isPaused) {
+          timerValue += 0.1;
+          if (timerDisplay) {
+            timerDisplay.textContent = `${timerValue.toFixed(1)}s`;
+          }
+        }
+      }, 100);
+    }
+
+    function stopTimer() {
+      if (timerInterval) clearInterval(timerInterval);
+    }
+
+    function togglePause() {
+      isPaused = !isPaused;
+      if (pauseAction) {
+        pauseAction.textContent = isPaused ? 'Resume' : 'Pause';
+        if (isPaused) {
+          pauseAction.classList.add('bg-orange-500/10', 'text-orange-600', 'border-orange-500/20');
+        } else {
+          pauseAction.classList.remove('bg-orange-500/10', 'text-orange-600', 'border-orange-500/20');
+        }
+      }
+    }
+
+    /* ── LOG ANSWER (save to localStorage on every answer, like quiz_tracker) ── */
+    function logAnswer(option: string) {
+      if (isPaused) {
+        showToast('Resume the timer first!');
+        return;
+      }
+
+      const timeSpent = parseFloat(timerValue.toFixed(1));
+      const entry: LogItem = {
+        num: currentQuestionNum,
+        ans: option,
+        seconds: timeSpent
+      };
+
+      // Push to undo history before modifying (like quiz_tracker s.history.push)
+      redoStack = [];
+      log.push(entry);
+
+      currentQuestionNum++;
+      timerValue = 0.0;
+      if (timerDisplay) timerDisplay.textContent = '0.0s';
+      if (labelEl) labelEl.textContent = `Q. ${currentQuestionNum}`;
+
+      // Persist to localStorage (like quiz_tracker line 617)
+      saveToLocalStorage();
+
+      updateStats();
+      renderTable();
+    }
+
+    /* ── UNDO (matching quiz_tracker undo logic) ── */
+    function undoLast() {
+      if (log.length === 0) return;
+      const lastEntry = log.pop()!;
+      redoStack.push(lastEntry);
+      currentQuestionNum = lastEntry.num;
+      timerValue = 0.0;
+      if (timerDisplay) timerDisplay.textContent = '0.0s';
+      if (labelEl) labelEl.textContent = `Q. ${currentQuestionNum}`;
+
+      // Persist undo to localStorage (like quiz_tracker line 727)
+      saveToLocalStorage();
+
+      updateStats();
+      renderTable();
+    }
+
+    /* ── REDO (matching quiz_tracker redo logic) ── */
+    function redoLast() {
+      if (redoStack.length === 0) return;
+      const entry = redoStack.pop()!;
+      log.push(entry);
+      currentQuestionNum = entry.num + 1;
+      timerValue = 0.0;
+      if (timerDisplay) timerDisplay.textContent = '0.0s';
+      if (labelEl) labelEl.textContent = `Q. ${currentQuestionNum}`;
+
+      // Persist redo to localStorage (like quiz_tracker line 740)
+      saveToLocalStorage();
+
+      updateStats();
+      renderTable();
+    }
+
+    /* ── MARKS (✅/❌ per question, matching quiz_tracker setMark logic) ── */
+    function setMark(qNum: number, mark: string) {
+      if (marks[qNum] === mark) {
+        delete marks[qNum];
+      } else {
+        marks[qNum] = mark;
+      }
+      // Persist marks to localStorage (like quiz_tracker line 713)
+      saveToLocalStorage();
+      renderTable();
+    }
+
+    /* ── TOAST (matching quiz_tracker showToast) ── */
+    function showToast(msg: string) {
+      let t = document.getElementById('mcq-toast');
+      if (!t) {
+        t = document.createElement('div');
+        t.id = 'mcq-toast';
+        t.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#222;color:#fff;padding:10px 20px;border-radius:20px;font-size:0.88rem;z-index:999;transition:opacity 0.3s;pointer-events:none;opacity:0;';
+        document.body.appendChild(t);
+      }
+      t.textContent = msg;
+      t.style.opacity = '1';
+      clearTimeout((t as any)._timer);
+      (t as any)._timer = setTimeout(() => t!.style.opacity = '0', 2000);
+    }
+
+    function updateStats() {
+      if (!statsLogged || !statsTotal || !statsAvg) return;
+      const count = log.length;
+      statsLogged.textContent = count.toString();
+      
+      const total = log.reduce((sum, item) => sum + item.seconds, 0);
+      statsTotal.textContent = `${total.toFixed(1)}s`;
+
+      const avg = count > 0 ? total / count : 0;
+      statsAvg.textContent = `${avg.toFixed(1)}s`;
+    }
+
+    function renderTable() {
+      if (!tableBody) return;
+      if (log.length === 0) {
+        tableBody.innerHTML = `
+          <tr>
+            <td colspan="4" class="p-4 text-center text-xxs text-text-light-muted dark:text-text-dark-muted italic">No logged questions yet. Click an option to start timing!</td>
+          </tr>
+        `;
+        return;
+      }
+
+      const total = log.reduce((sum, item) => sum + item.seconds, 0);
+      const avg = log.length > 0 ? total / log.length : 0;
+
+      tableBody.innerHTML = '';
+      log.forEach(item => {
+        const tr = document.createElement('tr');
+        tr.className = 'border-b border-border-light/40 dark:border-border-dark/40 hover:bg-bg-light/20 dark:hover:bg-bg-dark/20 transition-all';
+        
+        const tdNum = document.createElement('td');
+        tdNum.className = 'p-3 font-bold text-text-light dark:text-text-dark';
+        tdNum.textContent = `Question ${item.num}`;
+        tr.appendChild(tdNum);
+
+        const tdAns = document.createElement('td');
+        tdAns.className = 'p-3';
+        const spanAns = document.createElement('span');
+        spanAns.className = item.ans === 'Skipped' 
+          ? 'px-2 py-0.5 rounded text-3xs bg-border-light text-text-light-muted dark:bg-border-dark dark:text-text-dark-muted font-bold'
+          : 'px-2 py-0.5 rounded text-3xs bg-orange-500/15 text-orange-700 dark:text-orange-400 border border-orange-500/20 font-black';
+        spanAns.textContent = item.ans;
+        tdAns.appendChild(spanAns);
+        tr.appendChild(tdAns);
+
+        const tdSec = document.createElement('td');
+        tdSec.className = 'p-3 font-mono-custom font-bold text-text-light dark:text-text-dark';
+        tdSec.textContent = `${item.seconds.toFixed(1)}s`;
+        tr.appendChild(tdSec);
+
+        const tdStatus = document.createElement('td');
+        tdStatus.className = 'p-3';
+        const isTimeTrap = item.seconds > avg * 1.4 && log.length > 2;
+        const spanStatus = document.createElement('span');
+        if (item.ans === 'Skipped') {
+          spanStatus.className = 'text-3xs text-text-light-muted dark:text-text-dark-muted';
+          spanStatus.textContent = 'Unanswered';
+        } else if (isTimeTrap) {
+          spanStatus.className = 'px-2 py-0.5 rounded text-3xs font-black bg-orange-500 text-white dark:text-bg-dark animate-pulse-subtle';
+          spanStatus.textContent = '⚠️ Time Trap';
+        } else {
+          spanStatus.className = 'px-2 py-0.5 rounded text-3xs bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 font-bold border border-emerald-500/20';
+          spanStatus.textContent = 'Optimal Pace';
+        }
+        tdStatus.appendChild(spanStatus);
+        tr.appendChild(tdStatus);
+
+        tableBody.appendChild(tr);
+      });
+    }
+
+    /* ── EVENT LISTENERS ── */
+    logBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const opt = btn.getAttribute('data-opt');
+        if (opt) logAnswer(opt);
+      });
+    });
+
+    skipAction?.addEventListener('click', () => {
+      logAnswer('Skipped');
+    });
+
+    pauseAction?.addEventListener('click', () => {
+      togglePause();
+    });
+
+    /* ── RESET (clear localStorage, matching quiz_tracker resetSubject) ── */
+    resetAction?.addEventListener('click', () => {
+      if (confirm('Are you sure you want to reset this timing session?')) {
+        log = [];
+        marks = {};
+        undoHistory = [];
+        redoStack = [];
+        currentQuestionNum = 1;
+        timerValue = 0.0;
+        isPaused = false;
+
+        // Clear localStorage (like quiz_tracker lines 760-761)
+        localStorage.removeItem(LS_LOG_KEY);
+        localStorage.removeItem(LS_QNUM_KEY);
+        localStorage.removeItem(LS_MARKS_KEY);
+
+        if (pauseAction) {
+          pauseAction.textContent = 'Pause';
+          pauseAction.classList.remove('bg-orange-500/10', 'text-orange-600', 'border-orange-500/20');
+        }
+        if (timerDisplay) timerDisplay.textContent = '0.0s';
+        if (labelEl) labelEl.textContent = `Q. 1`;
+        updateStats();
+        renderTable();
+        startTimer();
+      }
+    });
+
+    csvAction?.addEventListener('click', () => {
+      if (log.length === 0) {
+        alert('Please log some answers first before exporting CSV data.');
+        return;
+      }
+      let csvContent = 'Question Number,Selected Option,Seconds Spent\n';
+      log.forEach(item => {
+        csvContent += `${item.num},${item.ans},${item.seconds.toFixed(1)}\n`;
+      });
+
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
+      link.setAttribute('download', 'mcq_pacing_splits.csv');
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      // Offer PWA invite on CSV export (typical end-of-session behavior)
+      if (typeof (window as any).showPwaInstallPrompt === 'function') {
+        setTimeout(() => {
+          (window as any).showPwaInstallPrompt(
+            "Export Successful! Save App?",
+            "You exported your pacing spreadsheet. Install MCQTicker to run your next logged session with full offline support and fast loading!"
+          );
+        }, 1200);
+      }
+    });
+
+    // Expose undo/redo globally for the buttons
+    (window as any)._mcqUndo = undoLast;
+    (window as any)._mcqRedo = redoLast;
+
+    // Initialize UI from restored state
+    if (labelEl) labelEl.textContent = `Q. ${currentQuestionNum}`;
+    updateStats();
+    renderTable();
+    startTimer();
+  }
+
+  setupAnswerLogger();
+  document.addEventListener('astro:after-swap', setupAnswerLogger);
+</script>

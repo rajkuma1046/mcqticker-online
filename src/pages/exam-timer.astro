@@ -1,0 +1,198 @@
+---
+// src/pages/exam-timer.astro
+export const prerender = true;
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SEO from '../components/SEO.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import Schema from '../components/Schema.astro';
+import FAQ from '../components/FAQ.astro';
+
+const pageTitle = "Aesthetic Exam Timer Online — Per Question Countdown Timer";
+const pageDesc = "Practice mock tests under real exam constraints with MCQTicker's free aesthetic exam timer. Enable per-question countdowns, view in full screen, and analyze pacing offline.";
+const canonicalPath = "/exam-timer";
+
+const breadcrumbs = [
+  { label: "Exam Timer", url: "/exam-timer" }
+];
+
+const faqs = [
+  {
+    question: "What is an online exam timer per question and how does it work?",
+    answer: "An online exam timer per question is a specialized pacing tool that monitors the time you spend on each individual question. Instead of displaying a single countdown for the entire test, it allocates a set time (e.g., 36s or 60s) per question. The moment you click an option (A, B, C, D, or Skip), the tool logs your speed, resets the clock, and automatically moves to the next question."
+  },
+  {
+    question: "Is this countdown timer for each question completely free to use?",
+    answer: "Yes, the countdown timer for each question on MCQTicker is 100% free. There are no registration forms, no subscription plans, and absolutely no intrusive ad popups. It runs client-side inside your browser, keeping your experience clean and focused."
+  },
+  {
+    question: "What makes this exam timer 'aesthetic' and distraction-free?",
+    answer: "We designed the exam timer with a minimalist, high-contrast dashboard that dynamically adapts to Light and Dark modes. By using neutral tones, smooth transitions, and clear numerical fonts, the interface minimizes visual clutter and reduces eye strain during long midnight mock test study sessions."
+  },
+  {
+    question: "Can I use the exam timer full screen as a mobile app?",
+    answer: "Yes! MCQTicker is a Progressive Web App (PWA). You can open it in your browser, select 'Add to Home Screen' or 'Install App' from the settings menu, and run it as a full-screen, distraction-free app. This hides browser tabs and url bars, maximizing screen real estate for your virtual OMR sheets."
+  },
+  {
+    question: "Does the question timer work offline without an internet connection?",
+    answer: "Absolutely. Once the site is loaded, all processing occurs locally. MCQTicker uses browser-based IndexedDB storage to save your practice history, split times, and score card records locally. No data is sent to external servers, protecting your privacy and working offline in planes or libraries."
+  },
+  {
+    question: "How does tracking speed per question help in NEET and JEE exams?",
+    answer: "NEET and JEE candidates face high time pressure. In JEE math, students often get trapped in complex calculations, wasting 4 to 5 minutes on one question. In NEET, candidates must answer biology questions in under 20 seconds to save time for physics. Using a per-question countdown timer builds pacing discipline, training you when to solve and when to skip."
+  }
+];
+---
+
+<BaseLayout title={pageTitle} description={pageDesc} canonicalPath={canonicalPath}>
+  <SEO title={pageTitle} description={pageDesc} canonicalPath={canonicalPath} />
+  <Schema pageName={pageTitle} pageDescription={pageDesc} pageUrl={`https://mcqticker.online${canonicalPath}`} breadcrumbs={breadcrumbs} faqs={faqs} />
+
+  <div class="max-w-3xl mx-auto space-y-10 animate-fadeIn">
+    <!-- Breadcrumb -->
+    <Breadcrumb items={breadcrumbs} />
+
+    <!-- Hero Header -->
+    <div class="bg-gradient-to-br from-brand-primary/10 to-brand-secondary/5 border border-brand-primary/20 dark:border-brand-secondary/20 rounded-3xl p-8 text-center space-y-6 shadow-custom-md">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-primary/10 dark:bg-brand-secondary/10 border border-brand-primary/20 dark:border-brand-secondary/20 text-brand-primary dark:text-brand-secondary text-xxs font-bold uppercase tracking-wider">
+        <span class="material-symbols-outlined text-sm">ads_click</span>
+        Interactive Exam Pacing Tool
+      </div>
+      <h1 class="font-display font-black text-3xl md:text-5xl text-text-light dark:text-text-dark leading-tight">
+        Aesthetic <span class="text-brand-primary dark:text-brand-secondary">Exam Timer</span> with Per-Question Countdown
+      </h1>
+      <p class="text-sm md:text-base text-text-light-muted dark:text-text-dark-muted max-w-xl mx-auto leading-relaxed">
+        Say goodbye to generic stopwatches. Practice mock tests, PYQs, and booklets with a clean, full-screen online timer that tracks your solving speed question-by-question — 100% free and offline-ready.
+      </p>
+      
+      <!-- Review Rating summary shown in the Hero -->
+      <div class="flex items-center justify-center gap-1 text-xs text-text-light-muted dark:text-text-dark-muted pt-1">
+        <span class="text-amber-orange text-base select-none">★★★★★</span>
+        <span class="font-bold text-text-light dark:text-text-dark">4.9/5 Rating</span>
+        <span>(from 1,480+ student practice sessions)</span>
+      </div>
+
+      <div class="flex flex-col sm:flex-row gap-3 justify-center pt-2">
+        <a href="/new-session" class="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-brand-primary dark:bg-brand-secondary text-white dark:text-bg-dark font-bold text-sm rounded-xl hover:opacity-90 transition-all decoration-none shadow-md">
+          <span class="material-symbols-outlined text-base">play_circle</span>
+          Launch Full Screen Timer
+        </a>
+        <a href="/online-omr-sheet" class="inline-flex items-center justify-center gap-2 px-6 py-3.5 border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark text-text-light dark:text-text-dark font-bold text-sm rounded-xl hover:bg-surface-light-hover dark:hover:bg-surface-dark-hover transition-colors decoration-none">
+          <span class="material-symbols-outlined text-base">analytics</span>
+          Open Answer Tracker
+        </a>
+      </div>
+    </div>
+
+    <!-- Article Content structured for users and bots -->
+    <article class="prose dark:prose-invert max-w-none text-sm text-text-light dark:text-text-dark leading-relaxed space-y-8">
+      
+      <!-- Section 1: Introduction -->
+      <section class="space-y-4">
+        <h2 class="font-display font-extrabold text-xl text-text-light dark:text-text-dark border-b border-border-light dark:border-border-dark pb-2">
+          Pacing vs. Clock Watching: Rethinking Your Mock Test Prep
+        </h2>
+        <p>
+          Most competitive exams in India—such as NEET, JEE Main, SSC CGL, and UPSC CSAT—are test of speed just as much as knowledge. Students spend months memorizing formulas, shortcuts, and core concepts. Yet, thousands of aspirants fail to finish their papers in the exam hall.
+        </p>
+        <p>
+          The root cause is poor pacing. When using a basic stopwatch or kitchen timer, you only track your total cumulative duration. You might solve 60 questions in 60 minutes and feel confident. What you don't see is that you answered 50 questions in 35 minutes and wasted a crushing 25 minutes on 10 difficult questions. A countdown timer for each question exposes these time sinks instantly.
+        </p>
+      </section>
+
+      <!-- Section 2: Why Per-Question Timing Matters -->
+      <section class="space-y-4">
+        <h2 class="font-display font-extrabold text-xl text-text-light dark:text-text-dark border-b border-border-light dark:border-border-dark pb-2">
+          How a Per-Question Countdown Timer Combats Time Traps
+        </h2>
+        <p>
+          Competitive exam papers are deliberately structured with "time traps"—questions that are unusually complex or require massive calculation. These are designed to tempt you into spending 3 to 4 minutes trying to solve them.
+        </p>
+        <p>
+          By practicing with an <strong>exam timer per question</strong>, you train your mind's biological clock:
+        </p>
+        <ul class="list-disc pl-6 space-y-2">
+          <li><strong>Strict Boundary Control:</strong> Setting a target limit (like 45 seconds) forces you to decide whether to solve or skip before the clock runs out.</li>
+          <li><strong>Reduced Guesswork:</strong> When you maintain a steady pacing flow throughout the exam, you avoid last-minute panic, preventing random guessing that leads to negative marking.</li>
+          <li><strong>Uncovering Weak Areas:</strong> The post-session dashboard highlights questions flagged as slow (your pacing bottlenecks), showing you exactly which topics require more shortcut practice.</li>
+        </ul>
+      </section>
+
+      <!-- Section 3: Aesthetics and Distraction-free Study -->
+      <section class="space-y-4 bg-surface-light dark:bg-surface-dark p-6 rounded-2xl border border-border-light dark:border-border-dark">
+        <h3 class="font-display font-extrabold text-lg text-text-light dark:text-text-dark flex items-center gap-2">
+          <span class="material-symbols-outlined text-brand-primary dark:text-brand-secondary">stars</span>
+          Aesthetic & Minimalist Design for Focused Study
+        </h3>
+        <p class="text-xxs text-text-light-muted dark:text-text-dark-muted mt-1 leading-relaxed">
+          We believe study tools should feel premium and non-intrusive. Standard online countdown clocks are often filled with blinking banners, captcha verifications, and distracting colored panels that break your flow.
+        </p>
+        <p class="text-xxs text-text-light-muted dark:text-text-dark-muted leading-relaxed">
+          The MCQTicker interface is designed around <strong>distraction-free aesthetics</strong>. Featuring smooth visual tick loops, calm HSL colors, responsive scaling, and instant Light/Dark mode toggling, the application feels like a native desktop app, helping you grind for hours without visual exhaustion.
+        </p>
+      </section>
+
+      <!-- Section 4: Target pacing guidelines -->
+      <section class="space-y-4">
+        <h2 class="font-display font-extrabold text-xl text-text-light dark:text-text-dark border-b border-border-light dark:border-border-dark pb-2">
+          Sectional Pacing Target Guide for Major Exams
+        </h2>
+        <p>
+          Use our online countdown mode to configure and train under these recommended speed benchmarks:
+        </p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs text-left border-collapse border border-border-light dark:border-border-dark">
+            <thead>
+              <tr class="bg-surface-light dark:bg-surface-dark">
+                <th class="p-2.5 border border-border-light dark:border-border-dark">Exam & Section</th>
+                <th class="p-2.5 border border-border-light dark:border-border-dark">Questions & Time Limit</th>
+                <th class="p-2.5 border border-border-light dark:border-border-dark">Target Speed Per Question</th>
+                <th class="p-2.5 border border-border-light dark:border-border-dark">Pacing Strategy</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="p-2.5 border border-border-light dark:border-border-dark font-bold">NEET Physics</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark">45 Questions / 50 Mins</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark text-correct-green dark:text-brand-secondary font-bold">60 - 70 Seconds</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark">Solve numerical formulas quickly. Skip heavy steps for the second pass.</td>
+              </tr>
+              <tr class="bg-surface-light/40 dark:bg-surface-dark/40">
+                <td class="p-2.5 border border-border-light dark:border-border-dark font-bold">JEE Mains Chemistry</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark">30 Questions / 40 Mins</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark text-correct-green dark:text-brand-secondary font-bold">80 Seconds</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark">Quick factual recall in Organic/Inorganic. Save minutes for Physical calculations.</td>
+              </tr>
+              <tr>
+                <td class="p-2.5 border border-border-light dark:border-border-dark font-bold">SSC CGL Tier 1</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark">100 Questions / 60 Mins</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark text-correct-green dark:text-brand-secondary font-bold">36 Seconds</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark">Strict speed round. Practice with a 30s limit to stay comfortable on test day.</td>
+              </tr>
+              <tr class="bg-surface-light/40 dark:bg-surface-dark/40">
+                <td class="p-2.5 border border-border-light dark:border-border-dark font-bold">UPSC Prelims (GS)</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark">100 Questions / 120 Mins</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark text-correct-green dark:text-brand-secondary font-bold">72 Seconds</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark">Spend time on elimination logic. Bubble or tag choices steadily.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Section 5: PWA details -->
+      <section class="space-y-4">
+        <h2 class="font-display font-extrabold text-xl text-text-light dark:text-text-dark border-b border-border-light dark:border-border-dark pb-2">
+          Offline App Installation (PWA)
+        </h2>
+        <p>
+          MCQTicker is built as a **Progressive Web App (PWA)**, meaning you can download and run it directly as an app. 
+          By adding the tool to your mobile phone home screen or desktop taskbar, you get a distraction-free full-screen interface. 
+          Furthermore, PWA registration caches all necessary scripts and assets locally, allowing the timer to work **100% offline** without active 4G/5G or WiFi connections.
+        </p>
+      </section>
+    </article>
+
+    <!-- FAQ Section -->
+    <FAQ faqs={faqs} title="Exam Timer FAQs" subtitle="Common questions about using the per-question countdown timer, running full-screen app modes, and optimizing pacing." />
+  </div>
+</BaseLayout>

@@ -1,0 +1,56 @@
+---
+// src/components/SEO.astro
+interface Props {
+  title: string;
+  description: string;
+  canonicalPath: string;
+  robots?: string;
+  ogLocale?: string;
+  ogType?: string;
+}
+
+const {
+  title,
+  description,
+  canonicalPath,
+  robots = 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1',
+  ogLocale = 'en_US',
+  ogType = 'website',
+} = Astro.props;
+
+const SITE_URL = 'https://mcqticker.online';
+const canonicalURL = `${SITE_URL}${canonicalPath.startsWith('/') ? canonicalPath : '/' + canonicalPath}`;
+const defaultOgImage = `${SITE_URL}/web-app-manifest-512x512.png`;
+---
+
+<!-- Primary SEO Meta Tags -->
+<title>{title}</title>
+<meta name="description" content={description} />
+<meta name="robots" content={robots} />
+<link rel="canonical" href={canonicalURL} />
+<meta name="author" content="MCQTicker" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8" />
+
+<!-- Alternate Languages -->
+<link rel="alternate" hreflang="en" href={canonicalURL} />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content={ogType} />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={defaultOgImage} />
+<meta property="og:image:width" content="512" />
+<meta property="og:image:height" content="512" />
+<meta property="og:image:alt" content="MCQTicker MCQ Practice Companion" />
+<meta property="og:site_name" content="MCQTicker" />
+<meta property="og:locale" content={ogLocale} />
+
+<!-- Twitter Cards -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:url" content={canonicalURL} />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={defaultOgImage} />
+<meta name="twitter:image:alt" content="MCQTicker" />

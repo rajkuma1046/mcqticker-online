@@ -1,0 +1,129 @@
+---
+export const prerender = true;
+import BaseLayout from '../layouts/BaseLayout.astro';
+const lastUpdated = '19 June 2026';
+---
+
+<BaseLayout
+  title="Disclaimer — tap A B C D MCQ Ticker | mcqticker.online"
+  description="Disclaimer for mcqticker.online — tap A B C D MCQ Ticker. Understand our limitations, warranties, and educational purpose."
+  canonicalPath="/disclaimer"
+>
+  <div class="max-w-2xl mx-auto space-y-6 animate-fadeIn">
+    <!-- Header -->
+    <div class="text-center space-y-3 pb-4 border-b border-border-light dark:border-border-dark">
+      <h1 class="font-display font-black text-3xl text-brand-primary dark:text-brand-secondary">
+        Disclaimer
+      </h1>
+      <p class="text-xs text-text-light-muted dark:text-text-dark-muted">
+        Last updated: {lastUpdated} &nbsp;·&nbsp; Domain: <a href="https://mcqticker.online" class="underline hover:text-brand-primary dark:hover:text-brand-secondary">mcqticker.online</a>
+      </p>
+    </div>
+
+    <!-- Educational Purpose -->
+    <div class="policy-card">
+      <h2 class="policy-heading">
+        <span class="material-symbols-outlined policy-icon">school</span>
+        Educational Purpose
+      </h2>
+      <p class="policy-text">
+        <strong>tap A B C D MCQ Ticker</strong> (<a href="https://mcqticker.online" class="policy-link">mcqticker.online</a>) is provided solely for educational and practice purposes. The tool is designed to assist students and candidates in improving their time management and tracking their answers. We do not guarantee exam success, score improvements, or specific testing results.
+      </p>
+    </div>
+
+    <!-- No Warranties -->
+    <div class="policy-card">
+      <h2 class="policy-heading">
+        <span class="material-symbols-outlined policy-icon">warning</span>
+        "As Is" Basis
+      </h2>
+      <p class="policy-text">
+        The materials and services on this website are provided on an "as is" and "as available" basis. We make no warranties, expressed or implied, and hereby disclaim and negate all other warranties, including without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.
+      </p>
+    </div>
+
+    <!-- Limitation of Liability -->
+    <div class="policy-card">
+      <h2 class="policy-heading">
+        <span class="material-symbols-outlined policy-icon">block</span>
+        Limitation of Liability
+      </h2>
+      <p class="policy-text">
+        In no event shall tap A B C D MCQ Ticker, its developers, or its suppliers be liable for any damages (including, without limitation, damages for loss of data, loss of study history, or due to business/academic interruption) arising out of the use or inability to use the materials or tools on our website, even if we have been notified of the possibility of such damage.
+      </p>
+    </div>
+
+    <!-- Accuracy of Materials -->
+    <div class="policy-card">
+      <h2 class="policy-heading">
+        <span class="material-symbols-outlined policy-icon">info</span>
+        Accuracy of Materials
+      </h2>
+      <p class="policy-text">
+        The materials appearing on the website could include technical, typographical, or photographic errors. We do not warrant that any of the materials on its website are accurate, complete, or current. We may make changes to the materials contained on its website at any time without notice, but we do not make any commitment to update the materials.
+      </p>
+    </div>
+
+    <!-- Contact -->
+    <div class="policy-card">
+      <h2 class="policy-heading">
+        <span class="material-symbols-outlined policy-icon">mail</span>
+        Questions About This Disclaimer
+      </h2>
+      <p class="policy-text">
+        If you have questions about this Disclaimer, please contact us at:<br />
+        <a href="mailto:contact@mcqticker.online" class="policy-link font-bold">contact@mcqticker.online</a>
+      </p>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .policy-card {
+    background-color: var(--color-surface-light);
+    border: 1px solid var(--color-border-light);
+    border-radius: 1rem;
+    padding: 1.25rem 1.5rem;
+    space-y: 0.75rem;
+    box-shadow: var(--shadow-custom);
+  }
+  :global(.dark) .policy-card {
+    background-color: var(--color-surface-dark);
+    border-color: var(--color-border-dark);
+  }
+  .policy-heading {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 800;
+    font-size: 1rem;
+    color: var(--color-text-light);
+    margin-bottom: 0.75rem;
+  }
+  :global(.dark) .policy-heading {
+    color: var(--color-text-dark);
+  }
+  .policy-icon {
+    font-size: 1.15rem;
+    color: var(--color-brand-primary);
+  }
+  :global(.dark) .policy-icon {
+    color: var(--color-brand-secondary);
+  }
+  .policy-text {
+    font-size: 0.8rem;
+    line-height: 1.65;
+    color: var(--color-text-light);
+    margin-bottom: 0.6rem;
+  }
+  :global(.dark) .policy-text {
+    color: var(--color-text-dark);
+  }
+  .policy-link {
+    color: var(--color-brand-primary);
+    text-underline-offset: 2px;
+  }
+  :global(.dark) .policy-link {
+    color: var(--color-brand-secondary);
+  }
+</style>

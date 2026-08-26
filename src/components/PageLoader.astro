@@ -1,0 +1,221 @@
+---
+// src/components/PageLoader.astro
+---
+
+<div id="global-page-loader" class="loader-overlay" aria-hidden="true">
+  <div class="loader-content">
+    <div class="loader">
+      <div class="box a">A</div>
+      <div class="box b">B</div>
+      <div class="box c">C</div>
+      <div class="box d">D</div>
+    </div>
+    <div class="loading">LOADING...</div>
+  </div>
+</div>
+
+<style>
+.loader-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--color-bg-light, #f4f1ec);
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  pointer-events: auto;
+}
+
+/* When the dark theme is active on the html tag */
+:global(.dark) .loader-overlay {
+  background-color: var(--color-bg-dark, #0b0a09);
+}
+
+.loader-overlay.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.loader-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+}
+
+.loader {
+  display: flex;
+  gap: 8px;
+}
+
+@media (min-width: 640px) {
+  .loader {
+    gap: 12px;
+  }
+}
+
+.box {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 32px;
+  font-weight: 800;
+  
+  /* CSS Variables for theme adaptation */
+  --box-bg-inactive: #e2e2e2;
+  --box-color-inactive: var(--color-text-light-muted, #6b6560);
+  
+  background-color: var(--box-bg-inactive);
+  color: var(--box-color-inactive);
+  
+  animation-duration: 1.6s;
+  animation-iteration-count: infinite;
+  transition: transform 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+}
+
+@media (min-width: 640px) {
+  .box {
+    width: 90px;
+    height: 90px;
+    border-radius: 18px;
+    font-size: 48px;
+  }
+}
+
+:global(.dark) .box {
+  --box-bg-inactive: var(--color-surface-dark-hover, #1e1c19);
+  --box-color-inactive: var(--color-text-dark-muted, #9c958d);
+}
+
+.a {
+  animation-name: aFill;
+}
+
+.b {
+  animation-name: bFill;
+}
+
+.c {
+  animation-name: cFill;
+}
+
+.d {
+  animation-name: dFill;
+}
+
+@keyframes aFill {
+  0%, 20% {
+    background-color: #2196f3;
+    color: #fff;
+    transform: scale(1.08);
+  }
+  25%, 100% {
+    background-color: var(--box-bg-inactive);
+    color: var(--box-color-inactive);
+    transform: scale(1);
+  }
+}
+
+@keyframes bFill {
+  0%, 24% {
+    background-color: var(--box-bg-inactive);
+  }
+  25%, 45% {
+    background-color: #ff9800;
+    color: #fff;
+    transform: scale(1.08);
+  }
+  50%, 100% {
+    background-color: var(--box-bg-inactive);
+    color: var(--box-color-inactive);
+    transform: scale(1);
+  }
+}
+
+@keyframes cFill {
+  0%, 49% {
+    background-color: var(--box-bg-inactive);
+  }
+  50%, 70% {
+    background-color: #00c853;
+    color: #fff;
+    transform: scale(1.08);
+  }
+  75%, 100% {
+    background-color: var(--box-bg-inactive);
+    color: var(--box-color-inactive);
+    transform: scale(1);
+  }
+}
+
+@keyframes dFill {
+  0%, 74% {
+    background-color: var(--box-bg-inactive);
+  }
+  75%, 95% {
+    background-color: #ff2d75;
+    color: #fff;
+    transform: scale(1.08);
+  }
+  100% {
+    background-color: var(--box-bg-inactive);
+    color: var(--box-color-inactive);
+    transform: scale(1);
+  }
+}
+
+.loading {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-text-light-muted, #6b6560);
+  letter-spacing: 4px;
+  animation: pulseText 1.6s infinite ease-in-out;
+}
+
+:global(.dark) .loading {
+  color: var(--color-text-dark-muted, #9c958d);
+}
+
+@keyframes pulseText {
+  0%, 100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+</style>
+
+<script>
+  // Hide the loader
+  function hideLoader() {
+    const loader = document.getElementById('global-page-loader');
+    if (loader && !loader.classList.contains('hidden')) {
+      loader.classList.add('hidden');
+    }
+  }
+
+  // Show the loader
+  function showLoader() {
+    const loader = document.getElementById('global-page-loader');
+    if (loader && loader.classList.contains('hidden')) {
+      loader.classList.remove('hidden');
+    }
+  }
+
+  // Hook into Astro ClientRouter events
+  document.addEventListener('astro:before-preparation', showLoader);
+  document.addEventListener('astro:page-load', hideLoader);
+
+  // Fallback check to prevent infinite loading state if event has already fired
+  if (document.readyState === 'complete') {
+    hideLoader();
+  } else {
+    window.addEventListener('load', hideLoader);
+  }
+</script>

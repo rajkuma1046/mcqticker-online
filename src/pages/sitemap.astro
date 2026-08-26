@@ -1,0 +1,347 @@
+---
+// src/pages/sitemap.astro
+export const prerender = true;
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SEO from '../components/SEO.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import Schema from '../components/Schema.astro';
+
+const pageTitle = "Sitemap — Site Directory Explorer";
+const pageDesc = "Explore all available tools, practice sheets, OMR logs, timers, and info resources on mcqticker.online using our interactive directory tree.";
+const canonicalPath = "/sitemap";
+
+const breadcrumbs = [
+  { label: "Sitemap Directory", url: "/sitemap" }
+];
+---
+
+<BaseLayout title={pageTitle} description={pageDesc} canonicalPath={canonicalPath} ogLocale="en_US">
+  <SEO title={pageTitle} description={pageDesc} canonicalPath={canonicalPath} ogLocale="en_US" />
+  <Schema pageName={pageTitle} pageDescription={pageDesc} pageUrl={`https://mcqticker.online${canonicalPath}`} breadcrumbs={breadcrumbs} />
+
+  <div class="max-w-3xl mx-auto space-y-8 animate-fadeIn">
+    <!-- Breadcrumbs -->
+    <Breadcrumb items={breadcrumbs} />
+
+    <!-- Hero Header (Directory style) -->
+    <div class="bg-gradient-to-br from-zinc-700/10 to-zinc-500/5 dark:from-zinc-900/40 dark:to-zinc-800/10 border border-zinc-500/20 dark:border-zinc-700/30 rounded-3xl p-8 text-center space-y-6 shadow-custom-md">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-zinc-500/10 dark:bg-zinc-700/20 border border-zinc-500/20 dark:border-zinc-600/30 text-text-light dark:text-text-dark text-xxs font-bold uppercase tracking-wider">
+        <span class="material-symbols-outlined text-sm">code</span>
+        File Tree Directory
+      </div>
+      <h1 class="font-display font-black text-3xl md:text-5xl text-text-light dark:text-text-dark leading-tight">
+        mcqticker.online <span class="text-brand-primary dark:text-brand-secondary">Sitemap</span>
+      </h1>
+      <p class="text-sm md:text-base text-text-light-muted dark:text-text-dark-muted max-w-xl mx-auto leading-relaxed">
+        Navigate our entire platform using this interactive, developer-styled directory explorer. Filter items dynamically using the search bar below.
+      </p>
+    </div>
+
+    <!-- Interactive Directory Container -->
+    <section class="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-3xl p-6 shadow-custom-md space-y-6">
+      <!-- Search Filter Bar -->
+      <div class="flex items-center gap-3 bg-bg-light/60 dark:bg-bg-dark/60 border border-border-light dark:border-border-dark rounded-2xl px-4 py-3">
+        <span class="material-symbols-outlined text-text-light-muted dark:text-text-dark-muted text-base">search</span>
+        <input
+          id="sitemap-search"
+          type="text"
+          placeholder="Filter directories or pages (e.g. OMR, timer, ssc)..."
+          class="w-full text-xs bg-transparent border-none text-text-light dark:text-text-dark focus:outline-none placeholder-text-light-muted dark:placeholder-text-dark-muted"
+        />
+      </div>
+
+      <!-- Root Folder Explorer Layout -->
+      <div class="font-mono-custom text-xs space-y-4 border border-border-light dark:border-border-dark rounded-2xl p-5 bg-bg-light/35 dark:bg-bg-dark/35">
+        <!-- Root node -->
+        <div class="flex items-center gap-2 font-bold text-text-light dark:text-text-dark border-b border-border-light dark:border-border-dark pb-2.5">
+          <span class="material-symbols-outlined text-amber-500 text-sm">keyboard_arrow_down</span>
+          <span class="material-symbols-outlined text-brand-primary dark:text-brand-secondary text-sm">groups</span>
+          mcqticker-online/ <span class="text-3xs px-2 py-0.5 rounded bg-zinc-500/10 text-text-light-muted dark:text-text-dark-muted font-normal ml-2">Root Project</span>
+        </div>
+
+        <div class="pl-4 space-y-4">
+          <!-- FOLDER 1: Core Pages -->
+          <div class="folder-block space-y-2">
+            <div class="folder-title flex items-center gap-1.5 font-bold text-text-light dark:text-text-dark">
+              <span class="material-symbols-outlined text-zinc-500 dark:text-zinc-400 text-xs">keyboard_arrow_down</span>
+              <span class="material-symbols-outlined text-sky-500 text-sm">home</span>
+              core/
+              <span class="text-3xs px-1.5 py-0.5 bg-sky-500/10 text-sky-700 dark:text-sky-400 rounded font-normal">Core App</span>
+            </div>
+            <div class="pl-6 border-l border-border-light dark:border-border-dark space-y-2">
+              <div class="file-item flex items-start gap-2 py-0.5" data-search="home index homepage landing main dashboard">
+                <span class="text-text-light-muted dark:text-text-dark-muted font-normal">├─</span>
+                <span class="material-symbols-outlined text-sky-500 text-xs">description</span>
+                <a href="/" class="hover:underline text-text-light dark:text-text-dark font-bold">index.astro</a>
+                <span class="text-xxs text-text-light-muted dark:text-text-dark-muted italic">— Homepage & Practice Dashboard</span>
+              </div>
+              <div class="file-item flex items-start gap-2 py-0.5" data-search="new session practice start launch config">
+                <span class="text-text-light-muted dark:text-text-dark-muted font-normal">├─</span>
+                <span class="material-symbols-outlined text-sky-500 text-xs">description</span>
+                <a href="/new-session" class="hover:underline text-text-light dark:text-text-dark font-bold">new-session.astro</a>
+                <span class="text-xxs text-text-light-muted dark:text-text-dark-muted italic">— Launch custom session timer settings</span>
+              </div>
+              <div class="file-item flex items-start gap-2 py-0.5" data-search="active test running active-test session">
+                <span class="text-text-light-muted dark:text-text-dark-muted font-normal">├─</span>
+                <span class="material-symbols-outlined text-sky-500 text-xs">description</span>
+                <a href="/active-test" class="hover:underline text-text-light dark:text-text-dark font-bold">active-test.astro</a>
+                <span class="text-xxs text-text-light-muted dark:text-text-dark-muted italic">— Dynamic running logging sheet</span>
+              </div>
+              <div class="file-item flex items-start gap-2 py-0.5" data-search="todo tasks study planner calendar tracker daily goals">
+                <span class="text-text-light-muted dark:text-text-dark-muted font-normal">├─</span>
+                <span class="material-symbols-outlined text-sky-500 text-xs">description</span>
+                <a href="/todo" class="hover:underline text-text-light dark:text-text-dark font-bold">todo.astro</a>
+                <span class="text-xxs text-text-light-muted dark:text-text-dark-muted italic">— Study To-Do List & Daily Task Planner</span>
+              </div>
+              <div class="file-item flex items-start gap-2 py-0.5" data-search="reviews testimonials feedback rating stars">
+                <span class="text-text-light-muted dark:text-text-dark-muted font-normal">└─</span>
+                <span class="material-symbols-outlined text-sky-500 text-xs">description</span>
+                <a href="/reviews" class="hover:underline text-text-light dark:text-text-dark font-bold">reviews.astro</a>
+                <span class="text-xxs text-text-light-muted dark:text-text-dark-muted italic">— User feedback & application reviews</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- FOLDER 2: Study Tools -->
+          <div class="folder-block space-y-2">
+            <div class="folder-title flex items-center gap-1.5 font-bold text-text-light dark:text-text-dark">
+              <span class="material-symbols-outlined text-zinc-500 dark:text-zinc-400 text-xs">keyboard_arrow_down</span>
+              <span class="material-symbols-outlined text-emerald-500 text-sm">settings</span>
+              tools/
+              <span class="text-3xs px-1.5 py-0.5 bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 rounded font-normal">Interactive Tools</span>
+            </div>
+            <div class="pl-6 border-l border-border-light dark:border-border-dark space-y-2">
+              <div class="file-item flex items-start gap-2 py-0.5" data-search="practice mcq from book with timer book solve metadata journal history list">
+                <span class="text-text-light-muted dark:text-text-dark-muted font-normal">├─</span>
+                <span class="material-symbols-outlined text-emerald-500 text-xs">description</span>
+                <a href="/practice-mcq-from-book-with-timer" class="hover:underline text-text-light dark:text-text-dark font-bold">practice-mcq-from-book-with-timer.astro</a>
+                <span class="text-xxs text-text-light-muted dark:text-text-dark-muted italic">— Solve physical textbooks with digital stopwatch</span>
+              </div>
+              <div class="file-item flex items-start gap-2 py-0.5" data-search="book practice sync standalone html offline tracker">
+                <span class="text-text-light-muted dark:text-text-dark-muted font-normal">├─</span>
+                <span class="material-symbols-outlined text-emerald-500 text-xs">code</span>
+                <a href="/book-practice.html" class="hover:underline text-text-light dark:text-text-dark font-bold">book-practice.html</a>
+                <span class="text-xxs text-text-light-muted dark:text-text-dark-muted italic">— Standalone MCQ Speed & Accuracy Tracker</span>
+              </div>
+              <div class="file-item flex items-start gap-2 py-0.5" data-search="mcq timer stopwatch question tracking">
+                <span class="text-text-light-muted dark:text-text-dark-muted font-normal">├─</span>
+                <span class="material-symbols-outlined text-emerald-500 text-xs">description</span>
+                <a href="/mcq-timer" class="hover:underline text-text-light dark:text-text-dark font-bold">mcq-timer.astro</a>
+                <span class="text-xxs text-text-light-muted dark:text-text-dark-muted italic">— Advanced stopwatch & timer binding</span>
+              </div>
+              <div class="file-item flex items-start gap-2 py-0.5" data-search="exam timer general count overall mock">
+                <span class="text-text-light-muted dark:text-text-dark-muted font-normal">├─</span>
+                <span class="material-symbols-outlined text-emerald-500 text-xs">description</span>
+                <a href="/exam-timer" class="hover:underline text-text-light dark:text-text-dark font-bold">exam-timer.astro</a>
+                <span class="text-xxs text-text-light-muted dark:text-text-dark-muted italic">— Simulated total exam-time constraints</span>
+              </div>
+              <div class="file-item flex items-start gap-2 py-0.5" data-search="answer tracker logging responses">
+                <span class="text-text-light-muted dark:text-text-dark-muted font-normal">├─</span>
+                <span class="material-symbols-outlined text-emerald-500 text-xs">description</span>
+                <a href="/answer-tracker" class="hover:underline text-text-light dark:text-text-dark font-bold">answer-tracker.astro</a>
+                <span class="text-xxs text-text-light-muted dark:text-text-dark-muted italic">— Log responses, Advance index</span>
+              </div>
+              <div class="file-item flex items-start gap-2 py-0.5" data-search="question speed calculator pacing bottlenecks">
+                <span class="text-text-light-muted dark:text-text-dark-muted font-normal">├─</span>
+                <span class="material-symbols-outlined text-emerald-500 text-xs">description</span>
+                <a href="/question-speed-calculator" class="hover:underline text-text-light dark:text-text-dark font-bold">question-speed-calculator.astro</a>
+                <span class="text-xxs text-text-light-muted dark:text-text-dark-muted italic">— Identify slow topics & timing deviation</span>
+              </div>
+              <div class="file-item flex items-start gap-2 py-0.5" data-search="online omr sheet bubble coloring grids">
+                <span class="text-text-light-muted dark:text-text-dark-muted font-normal">├─</span>
+                <span class="material-symbols-outlined text-emerald-500 text-xs">description</span>
+                <a href="/online-omr-sheet" class="hover:underline text-text-light dark:text-text-dark font-bold">online-omr-sheet.astro</a>
+                <span class="text-xxs text-text-light-muted dark:text-text-dark-muted italic">— Interactive digital bubble sheet</span>
+              </div>
+              <div class="file-item flex items-start gap-2 py-0.5" data-search="omr sheet checker answer key evaluator grading scanner score">
+                <span class="text-text-light-muted dark:text-text-dark-muted font-normal">├─</span>
+                <span class="material-symbols-outlined text-emerald-500 text-xs">description</span>
+                <a href="/omr-sheet-checker" class="hover:underline text-text-light dark:text-text-dark font-bold">omr-sheet-checker.astro</a>
+                <span class="text-xxs text-text-light-muted dark:text-text-dark-muted italic">— Automated OMR grading & key evaluator</span>
+              </div>
+              <div class="file-item flex items-start gap-2 py-0.5" data-search="ssc mcq practice timer cgl tier pacing mock">
+                <span class="text-text-light-muted dark:text-text-dark-muted font-normal">├─</span>
+                <span class="material-symbols-outlined text-emerald-500 text-xs">description</span>
+                <a href="/ssc-mcq-practice-timer" class="hover:underline text-text-light dark:text-text-dark font-bold">ssc-mcq-practice-timer.astro</a>
+                <span class="text-xxs text-text-light-muted dark:text-text-dark-muted italic">— Target CGL 36-second countdown timer</span>
+              </div>
+              <div class="file-item flex items-start gap-2 py-0.5" data-search="teacher attendance calendar student roll roster class offline tracker">
+                <span class="text-text-light-muted dark:text-text-dark-muted font-normal">├─</span>
+                <span class="material-symbols-outlined text-emerald-500 text-xs">description</span>
+                <a href="/teacher-attendance-calendar" class="hover:underline text-text-light dark:text-text-dark font-bold">teacher-attendance-calendar.astro</a>
+                <span class="text-xxs text-text-light-muted dark:text-text-dark-muted italic">— Visual class attendance calendar & CSV export</span>
+              </div>
+              <div class="file-item flex items-start gap-2 py-0.5" data-search="pomodoro timer focus studies clocks breaks tasks ticking">
+                <span class="text-text-light-muted dark:text-text-dark-muted font-normal">└─</span>
+                <span class="material-symbols-outlined text-emerald-500 text-xs">description</span>
+                <a href="/pomodoro-timer" class="hover:underline text-text-light dark:text-text-dark font-bold">pomodoro-timer.astro</a>
+                <span class="text-xxs text-text-light-muted dark:text-text-dark-muted italic">— Focus study timer with tasks & streaking</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- FOLDER 3: Specialized Landing Pages -->
+          <div class="folder-block space-y-2">
+            <div class="folder-title flex items-center gap-1.5 font-bold text-text-light dark:text-text-dark">
+              <span class="material-symbols-outlined text-zinc-500 dark:text-zinc-400 text-xs">keyboard_arrow_down</span>
+              <span class="material-symbols-outlined text-amber-500 text-sm">star</span>
+              landing-pages/
+              <span class="text-3xs px-1.5 py-0.5 bg-amber-500/10 text-amber-700 dark:text-amber-400 rounded font-normal">SEO Landing Sheets</span>
+            </div>
+            <div class="pl-6 border-l border-border-light dark:border-border-dark space-y-2">
+              <div class="file-item flex items-start gap-2 py-0.5" data-search="bio-data shubh bandhan marriage matrimonial gotra hindi biodata">
+                <span class="text-text-light-muted dark:text-text-dark-muted font-normal">├─</span>
+                <span class="material-symbols-outlined text-amber-500 text-xs">favorite</span>
+                <a href="/bio-data.html" class="hover:underline text-text-light dark:text-text-dark font-bold">bio-data.html</a>
+                <span class="text-xxs text-text-light-muted dark:text-text-dark-muted italic">— Shubh-Bandhan 4-Gotra Marriage Biodata Maker</span>
+              </div>
+              <div class="file-item flex items-start gap-2 py-0.5" data-search="mcq option selector online free format log copy clipboard">
+                <span class="text-text-light-muted dark:text-text-dark-muted font-normal">├─</span>
+                <span class="material-symbols-outlined text-amber-500 text-xs">description</span>
+                <a href="/mcq-option-selector-online-free" class="hover:underline text-text-light dark:text-text-dark font-bold">mcq-option-selector-online-free.astro</a>
+                <span class="text-xxs text-text-light-muted dark:text-text-dark-muted italic">— Multi-format quick selector grid</span>
+              </div>
+              <div class="file-item flex items-start gap-2 py-0.5" data-search="mark mcq answers online no typing mobile thumb game targets">
+                <span class="text-text-light-muted dark:text-text-dark-muted font-normal">├─</span>
+                <span class="material-symbols-outlined text-amber-500 text-xs">description</span>
+                <a href="/mark-mcq-answers-online-no-typing" class="hover:underline text-text-light dark:text-text-dark font-bold">mark-mcq-answers-online-no-typing.astro</a>
+                <span class="text-xxs text-text-light-muted dark:text-text-dark-muted italic">— Mobile OMR keypad click advancing</span>
+              </div>
+              <div class="file-item flex items-start gap-2 py-0.5" data-search="mcq answer logger with timer split stopwatch pacing csv export">
+                <span class="text-text-light-muted dark:text-text-dark-muted font-normal">├─</span>
+                <span class="material-symbols-outlined text-amber-500 text-xs">description</span>
+                <a href="/mcq-answer-logger-with-timer" class="hover:underline text-text-light dark:text-text-dark font-bold">mcq-answer-logger-with-timer.astro</a>
+                <span class="text-xxs text-text-light-muted dark:text-text-dark-muted italic">— Timing split records & time traps</span>
+              </div>
+              <div class="file-item flex items-start gap-2 py-0.5" data-search="tick mcq options online free checkmark animations ticking cbse neet jee">
+                <span class="text-text-light-muted dark:text-text-dark-muted font-normal">├─</span>
+                <span class="material-symbols-outlined text-amber-500 text-xs">description</span>
+                <a href="/tick-mcq-options-online-free" class="hover:underline text-text-light dark:text-text-dark font-bold">tick-mcq-options-online-free.astro</a>
+                <span class="text-xxs text-text-light-muted dark:text-text-dark-muted italic">— South Asian checkbox tick-mark sheet</span>
+              </div>
+              <div class="file-item flex items-start gap-2 py-0.5" data-search="mcq bubble sheet online pdf OMR printable template reports">
+                <span class="text-text-light-muted dark:text-text-dark-muted font-normal">├─</span>
+                <span class="material-symbols-outlined text-amber-500 text-xs">description</span>
+                <a href="/mcq-bubble-sheet-online" class="hover:underline text-text-light dark:text-text-dark font-bold">mcq-bubble-sheet-online.astro</a>
+                <span class="text-xxs text-text-light-muted dark:text-text-dark-muted italic">— Shade bubbles & generate PDF mockup cards</span>
+              </div>
+              <div class="file-item flex items-start gap-2 py-0.5" data-search="select mcq answer and check score score accuracy scoreboard grade grader">
+                <span class="text-text-light-muted dark:text-text-dark-muted font-normal">├─</span>
+                <span class="material-symbols-outlined text-amber-500 text-xs">description</span>
+                <a href="/select-mcq-answer-and-check-score" class="hover:underline text-text-light dark:text-text-dark font-bold">select-mcq-answer-and-check-score.astro</a>
+                <span class="text-xxs text-text-light-muted dark:text-text-dark-muted italic">— Grader checker compare with key</span>
+              </div>
+              <div class="file-item flex items-start gap-2 py-0.5" data-search="mcq answer sheet online interactive sections csv load key export">
+                <span class="text-text-light-muted dark:text-text-dark-muted font-normal">└─</span>
+                <span class="material-symbols-outlined text-amber-500 text-xs">description</span>
+                <a href="/mcq-answer-sheet-online-interactive" class="hover:underline text-text-light dark:text-text-dark font-bold">mcq-answer-sheet-online-interactive.astro</a>
+                <span class="text-xxs text-text-light-muted dark:text-text-dark-muted italic">— Section tabs & custom key files</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- FOLDER 4: Info & Legal -->
+          <div class="folder-block space-y-2">
+            <div class="folder-title flex items-center gap-1.5 font-bold text-text-light dark:text-text-dark">
+              <span class="material-symbols-outlined text-zinc-500 dark:text-zinc-400 text-xs">keyboard_arrow_down</span>
+              <span class="material-symbols-outlined text-purple-500 text-sm">info</span>
+              info/
+              <span class="text-3xs px-1.5 py-0.5 bg-purple-500/10 text-purple-700 dark:text-purple-400 rounded font-normal">Informational Pages</span>
+            </div>
+            <div class="pl-6 border-l border-border-light dark:border-border-dark space-y-2">
+              <div class="file-item flex items-start gap-2 py-0.5" data-search="about team mission student contact info">
+                <span class="text-text-light-muted dark:text-text-dark-muted font-normal">├─</span>
+                <span class="material-symbols-outlined text-purple-500 text-xs">description</span>
+                <a href="/about" class="hover:underline text-text-light dark:text-text-dark font-bold">about.astro</a>
+                <span class="text-xxs text-text-light-muted dark:text-text-dark-muted italic">— About our mission and student grinds</span>
+              </div>
+              <div class="file-item flex items-start gap-2 py-0.5" data-search="about-tool features logging offline details">
+                <span class="text-text-light-muted dark:text-text-dark-muted font-normal">├─</span>
+                <span class="material-symbols-outlined text-purple-500 text-xs">description</span>
+                <a href="/about-tool" class="hover:underline text-text-light dark:text-text-dark font-bold">about-tool.astro</a>
+                <span class="text-xxs text-text-light-muted dark:text-text-dark-muted italic">— In-depth description of tool parameters</span>
+              </div>
+              <div class="file-item flex items-start gap-2 py-0.5" data-search="contact feedback issues support contact-us">
+                <span class="text-text-light-muted dark:text-text-dark-muted font-normal">├─</span>
+                <span class="material-symbols-outlined text-purple-500 text-xs">description</span>
+                <a href="/contact" class="hover:underline text-text-light dark:text-text-dark font-bold">contact.astro</a>
+                <span class="text-xxs text-text-light-muted dark:text-text-dark-muted italic">— Get in touch with us</span>
+              </div>
+              <div class="file-item flex items-start gap-2 py-0.5" data-search="faq frequently questions pacing offline settings">
+                <span class="text-text-light-muted dark:text-text-dark-muted font-normal">├─</span>
+                <span class="material-symbols-outlined text-purple-500 text-xs">description</span>
+                <a href="/faq" class="hover:underline text-text-light dark:text-text-dark font-bold">faq.astro</a>
+                <span class="text-xxs text-text-light-muted dark:text-text-dark-muted italic">— Frequently Asked Questions</span>
+              </div>
+              <div class="file-item flex items-start gap-2 py-0.5" data-search="blog updates articles guidelines tips">
+                <span class="text-text-light-muted dark:text-text-dark-muted font-normal">├─</span>
+                <span class="material-symbols-outlined text-purple-500 text-xs">description</span>
+                <a href="/blog" class="hover:underline text-text-light dark:text-text-dark font-bold">blog.astro</a>
+                <span class="text-xxs text-text-light-muted dark:text-text-dark-muted italic">— Study tips & pacing guide blog posts</span>
+              </div>
+              <div class="file-item flex items-start gap-2 py-0.5" data-search="disclaimer general responsibilities liability">
+                <span class="text-text-light-muted dark:text-text-dark-muted font-normal">├─</span>
+                <span class="material-symbols-outlined text-purple-500 text-xs">description</span>
+                <a href="/disclaimer" class="hover:underline text-text-light dark:text-text-dark font-bold">disclaimer.astro</a>
+                <span class="text-xxs text-text-light-muted dark:text-text-dark-muted italic">— Limitation of liability guidelines</span>
+              </div>
+              <div class="file-item flex items-start gap-2 py-0.5" data-search="privacy policies security data localstorage">
+                <span class="text-text-light-muted dark:text-text-dark-muted font-normal">├─</span>
+                <span class="material-symbols-outlined text-purple-500 text-xs">description</span>
+                <a href="/privacy" class="hover:underline text-text-light dark:text-text-dark font-bold">privacy.astro</a>
+                <span class="text-xxs text-text-light-muted dark:text-text-dark-muted italic">— Data privacy documentation</span>
+              </div>
+              <div class="file-item flex items-start gap-2 py-0.5" data-search="terms conditions requirements rules rules-use">
+                <span class="text-text-light-muted dark:text-text-dark-muted font-normal">└─</span>
+                <span class="material-symbols-outlined text-purple-500 text-xs">description</span>
+                <a href="/terms" class="hover:underline text-text-light dark:text-text-dark font-bold">terms.astro</a>
+                <span class="text-xxs text-text-light-muted dark:text-text-dark-muted italic">— Terms and Conditions</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<script>
+  function setupSitemapSearch() {
+    const searchInput = document.getElementById('sitemap-search') as HTMLInputElement | null;
+    const fileItems = document.querySelectorAll('.file-item');
+    const folderBlocks = document.querySelectorAll('.folder-block');
+
+    if (!searchInput) return;
+
+    searchInput.addEventListener('input', function() {
+      const filter = searchInput.value.toLowerCase().trim();
+
+      fileItems.forEach(item => {
+        const searchData = item.getAttribute('data-search') || '';
+        const textContent = item.textContent?.toLowerCase() || '';
+        const match = searchData.includes(filter) || textContent.includes(filter);
+
+        if (match || filter === '') {
+          item.classList.remove('hidden');
+          item.classList.add('flex');
+        } else {
+          item.classList.add('hidden');
+          item.classList.remove('flex');
+        }
+      });
+
+      // Hide folder block if all files inside are hidden
+      folderBlocks.forEach(block => {
+        const visibleFiles = block.querySelectorAll('.file-item:not(.hidden)');
+        if (visibleFiles.length === 0 && filter !== '') {
+          block.classList.add('hidden');
+        } else {
+          block.classList.remove('hidden');
+        }
+      });
+    });
+  }
+
+  setupSitemapSearch();
+  document.addEventListener('astro:after-swap', setupSitemapSearch);
+</script>

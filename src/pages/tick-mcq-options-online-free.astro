@@ -1,0 +1,254 @@
+---
+// src/pages/tick-mcq-options-online-free.astro
+export const prerender = true;
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SEO from '../components/SEO.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import Schema from '../components/Schema.astro';
+import FAQ from '../components/FAQ.astro';
+
+const pageTitle = "Tick MCQ Options Online Free — Satisfaction Tick Answer Sheet";
+const pageDesc = "Tick MCQ options online free. Replicate physical tick-mark exam answer sheets digitally. Instant option logs, micro-animations, and printable reports.";
+const canonicalPath = "/tick-mcq-options-online-free";
+
+const breadcrumbs = [
+  { label: "Tick MCQ Options", url: "/tick-mcq-options-online-free" }
+];
+
+const faqs = [
+  {
+    question: "What does it mean to tick MCQ options online?",
+    answer: "In South Asian educational contexts, students commonly refer to selecting answers on multiple-choice papers as 'ticking' the correct options. This free online ticking sheet lets you log those ticks digitally, removing the need for pencil and paper."
+  },
+  {
+    question: "How does the digital tick-mark sheet work?",
+    answer: "You simply click or tap A, B, C, or D. The system immediately registers a green tick mark in your selected option box, keeping a visual count of all ticked responses."
+  },
+  {
+    question: "Can I use this tick sheet for CBSE, JEE, or NEET practice?",
+    answer: "Yes! Ticking options on this online sheet is perfect for practicing past year questions (PYQs) from books. It helps CBSE board students, JEE, and NEET candidates log answers quickly."
+  },
+  {
+    question: "Is there a print option for the ticked sheet?",
+    answer: "Yes, you can click the 'Print Ticked Sheet' button to open a optimized, clean layout that you can save as a PDF or send to a printer."
+  }
+];
+---
+
+<BaseLayout title={pageTitle} description={pageDesc} canonicalPath={canonicalPath} ogLocale="en_US">
+  <SEO title={pageTitle} description={pageDesc} canonicalPath={canonicalPath} ogLocale="en_US" />
+  <Schema pageName={pageTitle} pageDescription={pageDesc} pageUrl={`https://mcqticker.online${canonicalPath}`} breadcrumbs={breadcrumbs} faqs={faqs} />
+
+  <div class="max-w-3xl mx-auto space-y-10 animate-fadeIn">
+    <!-- Breadcrumbs -->
+    <Breadcrumb items={breadcrumbs} />
+
+    <!-- Hero Section (Purple Theme) -->
+    <div class="bg-gradient-to-br from-purple-600/10 to-violet-500/5 dark:from-purple-950/20 dark:to-violet-900/10 border border-purple-500/20 dark:border-purple-400/20 rounded-3xl p-8 text-center space-y-6 shadow-custom-md">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-500/10 dark:bg-purple-400/10 border border-purple-500/20 dark:border-purple-400/20 text-purple-700 dark:text-purple-400 text-xxs font-bold uppercase tracking-wider">
+        <span class="material-symbols-outlined text-sm">ads_click</span>
+        Satisfying Ticking Console
+      </div>
+      <h1 class="font-display font-black text-3xl md:text-5xl text-text-light dark:text-text-dark leading-tight">
+        Tick MCQ Options <span class="text-purple-600 dark:text-purple-400">Online Free</span>
+      </h1>
+      <p class="text-sm md:text-base text-text-light-muted dark:text-text-dark-muted max-w-xl mx-auto leading-relaxed">
+        Prefer ticking your answers instead of coloring bubbles? Mark your textbook answers on this digital tick sheet. Clean, animated, and built for CBSE/NEET candidates.
+      </p>
+    </div>
+
+    <!-- Ticking Grid Widget -->
+    <section class="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-3xl p-6 shadow-custom-md space-y-6">
+      <!-- Widget Header -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border-light dark:border-border-dark pb-5">
+        <div>
+          <h2 class="font-display font-extrabold text-base text-text-light dark:text-text-dark">Tick-Mark Answer Sheet</h2>
+          <p class="text-xxs text-text-light-muted dark:text-text-dark-muted mt-0.5">Click your chosen option to apply a tick mark</p>
+        </div>
+        <div class="px-3 py-1 rounded-full bg-purple-500/10 text-purple-800 dark:text-purple-300 text-3xs font-bold border border-purple-500/20">
+          Ticking Console Active
+        </div>
+      </div>
+
+      <!-- Config & Stats -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-bg-light/50 dark:bg-bg-dark/50 p-4 rounded-2xl border border-border-light dark:border-border-dark">
+        <div class="flex items-center justify-between">
+          <span class="text-xxs font-bold text-text-light-muted dark:text-text-dark-muted uppercase">Ticked Items:</span>
+          <span id="ticked-stats" class="text-xs font-black text-purple-600 dark:text-purple-400">0 / 20</span>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="text-xxs font-bold text-text-light-muted dark:text-text-dark-muted uppercase">Questions to Tick:</span>
+          <select id="ticking-count" class="text-xxs p-1 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark text-text-light dark:text-text-dark rounded-lg cursor-pointer focus:outline-none">
+            <option value="10">10 Questions</option>
+            <option value="20" selected>20 Questions</option>
+            <option value="30">30 Questions</option>
+            <option value="50">50 Questions</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Ticking Table -->
+      <div class="border border-border-light dark:border-border-dark rounded-2xl overflow-hidden">
+        <div class="max-h-[300px] overflow-y-auto">
+          <table class="w-full text-xs text-center border-collapse">
+            <thead>
+              <tr class="bg-bg-light/65 dark:bg-bg-dark/65 border-b border-border-light dark:border-border-dark sticky top-0">
+                <th class="p-3 text-left font-bold text-xxs uppercase tracking-wider text-text-light-muted dark:text-text-dark-muted w-1/4">Q. Number</th>
+                <th class="p-3 font-bold text-xxs uppercase tracking-wider text-text-light-muted dark:text-text-dark-muted">Option A</th>
+                <th class="p-3 font-bold text-xxs uppercase tracking-wider text-text-light-muted dark:text-text-dark-muted">Option B</th>
+                <th class="p-3 font-bold text-xxs uppercase tracking-wider text-text-light-muted dark:text-text-dark-muted">Option C</th>
+                <th class="p-3 font-bold text-xxs uppercase tracking-wider text-text-light-muted dark:text-text-dark-muted">Option D</th>
+              </tr>
+            </thead>
+            <tbody id="ticking-table-body">
+              <!-- Rows injected here -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex items-center justify-between pt-4 border-t border-border-light dark:border-border-dark">
+        <div class="flex items-center gap-2">
+          <button id="print-ticked" class="px-4 py-2.5 bg-purple-600 hover:bg-purple-700 dark:bg-purple-500 dark:hover:bg-purple-600 text-white dark:text-bg-dark font-black text-xs rounded-xl shadow-sm cursor-pointer flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-sm">edit_note</span>
+            Print Ticked Sheet
+          </button>
+          <button id="reset-ticking" class="px-4 py-2.5 border border-border-light dark:border-border-dark text-text-light dark:text-text-dark font-bold text-xs rounded-xl hover:bg-surface-light-hover dark:hover:bg-surface-dark-hover transition-colors cursor-pointer">
+            Clear Ticks
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Content -->
+    <article class="prose dark:prose-invert max-w-none text-sm text-text-light dark:text-text-dark leading-relaxed space-y-8">
+      <section class="space-y-4">
+        <h2 class="font-display font-extrabold text-xl text-text-light dark:text-text-dark border-b border-border-light dark:border-border-dark pb-2">
+          Tick MCQ options free: Replace paper scrap sheets
+        </h2>
+        <p>
+          Students across India and South Asia preparing for competitive mock exams commonly use the term "tick sheet" or "tick options". Physical booklets contain thousands of multiple choice questions, and marking them directly in the books ruins them for future review sessions.
+        </p>
+        <p>
+          This free online tool offers an <strong>interactive tick sheet</strong>. Tap option boxes to overlay a green checkmark instantly. Review your complete progress visually and print out your logged sheet for grading.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h3 class="font-display font-bold text-lg text-text-light dark:text-text-dark">Optimized for CBSE, NEET, & JEE Grinds</h3>
+        <p>
+          Whether practicing physics formulas or biology facts, this ticking logger compiles your options without modifying physical books. Perfect for offline libraries, home self-study, and coaching center practice.
+        </p>
+      </section>
+    </article>
+
+    <!-- FAQs -->
+    <FAQ faqs={faqs} title="Tick MCQ Options FAQs" subtitle="Common questions about using our satisfying online tick sheet." />
+  </div>
+</BaseLayout>
+
+<script>
+  function setupTickingSheet() {
+    let answers: Record<number, string> = {};
+    const countSelect = document.getElementById('ticking-count') as HTMLSelectElement | null;
+    const tableBody = document.getElementById('ticking-table-body');
+    const statsEl = document.getElementById('ticked-stats');
+    const resetBtn = document.getElementById('reset-ticking');
+    const printBtn = document.getElementById('print-ticked');
+
+    if (!tableBody) return;
+
+    function renderTickingTable() {
+      if (!tableBody || !countSelect) return;
+      const count = parseInt(countSelect.value) || 20;
+      tableBody.innerHTML = '';
+
+      for (let i = 1; i <= count; i++) {
+        const tr = document.createElement('tr');
+        tr.className = 'border-b border-border-light/40 dark:border-border-dark/40 hover:bg-bg-light/10 dark:hover:bg-bg-dark/10 transition-colors';
+
+        // Q Num Cell
+        const tdNum = document.createElement('td');
+        tdNum.className = 'p-3 text-left font-bold text-text-light dark:text-text-dark';
+        tdNum.textContent = `Q. ${i}`;
+        tr.appendChild(tdNum);
+
+        // Options A, B, C, D Cells
+        ['A', 'B', 'C', 'D'].forEach(opt => {
+          const tdOpt = document.createElement('td');
+          tdOpt.className = 'p-3';
+
+          const btn = document.createElement('button');
+          btn.className = `w-10 h-10 rounded-full border flex items-center justify-center mx-auto transition-all cursor-pointer ${
+            answers[i] === opt
+              ? 'bg-purple-600 border-purple-600 text-white dark:bg-purple-500 dark:border-purple-500 dark:text-bg-dark scale-105 shadow-sm font-black'
+              : 'border-border-light bg-surface-light dark:border-border-dark dark:bg-surface-dark text-text-light-muted dark:text-text-dark-muted hover:bg-surface-light-hover dark:hover:bg-surface-dark-hover'
+          }`;
+          
+          if (answers[i] === opt) {
+            btn.innerHTML = '<span class="material-symbols-outlined text-sm font-black">check</span>';
+          } else {
+            btn.textContent = opt;
+          }
+
+          btn.addEventListener('click', () => {
+            if (answers[i] === opt) {
+              delete answers[i];
+            } else {
+              answers[i] = opt;
+            }
+            renderTickingTable();
+            updateTickingStats();
+          });
+
+          tdOpt.appendChild(btn);
+          tr.appendChild(tdOpt);
+        });
+
+        tableBody.appendChild(tr);
+      }
+      updateTickingStats();
+    }
+
+    function updateTickingStats() {
+      if (!statsEl || !countSelect) return;
+      const count = parseInt(countSelect.value) || 20;
+      const ticked = Object.keys(answers).length;
+      statsEl.textContent = `${ticked} / ${count}`;
+
+      // Prompt PWA on completion
+      if (ticked === count && ticked > 0) {
+        if (typeof (window as any).showPwaInstallPrompt === 'function') {
+          setTimeout(() => {
+            (window as any).showPwaInstallPrompt(
+              "Ticking Sheet Complete! Save App?",
+              "All options ticked! Add MCQTicker to your home screen to tick questions instantly offline during your next study session."
+            );
+          }, 800);
+        }
+      }
+    }
+
+    countSelect?.addEventListener('change', () => {
+      answers = {};
+      renderTickingTable();
+    });
+
+    resetBtn?.addEventListener('click', () => {
+      if (confirm('Are you sure you want to clear all tick marks?')) {
+        answers = {};
+        renderTickingTable();
+      }
+    });
+
+    printBtn?.addEventListener('click', () => {
+      window.print();
+    });
+
+    renderTickingTable();
+  }
+
+  setupTickingSheet();
+  document.addEventListener('astro:after-swap', setupTickingSheet);
+</script>

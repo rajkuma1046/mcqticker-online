@@ -1,0 +1,108 @@
+---
+// src/pages/pomodoro-timer.astro
+export const prerender = true;
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SEO from '../components/SEO.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import Schema from '../components/Schema.astro';
+import FAQ from '../components/FAQ.astro';
+import PomodoroTimer from '../components/PomodoroTimer';
+
+const pageTitle = "Aesthetic Pomodoro Timer Online — Free Study Focus Clock";
+const pageDesc = "Boost your exam prep and study productivity with our free online aesthetic Pomodoro timer. Manage tasks, enjoy offline ambient noise, track streaks, and analyze daily focus stats.";
+const canonicalPath = "/pomodoro-timer";
+
+const breadcrumbs = [
+  { label: "Pomodoro Timer", url: "/pomodoro-timer" }
+];
+
+const faqs = [
+  {
+    question: "What is the Pomodoro Technique and how does it improve exam prep?",
+    answer: "The Pomodoro Technique is a time-management method that breaks your study session into highly focused blocks (usually 25 minutes, called 'Pomodoros') followed by brief breaks (5 minutes). This prevents mental fatigue, keeps your brain fresh for complex topics, and builds high concentration stamina necessary for exams like NEET, JEE, SSC, and UPSC."
+  },
+  {
+    question: "Can I customize the timer durations?",
+    answer: "Absolutely! You can change the focus block duration, short break duration, and long break duration anywhere between 1 to 90 minutes. You can also specify the frequency of long break triggers (e.g. after every 4 focus blocks)."
+  },
+  {
+    question: "Does the Pomodoro timer work offline?",
+    answer: "Yes! As a Progressive Web App (PWA), all assets, layouts, and synthesizer scripts are cached locally. You can use the timer, complete tasks, and track statistics with zero internet connection."
+  },
+  {
+    question: "How do the ambient background sounds work without internet?",
+    answer: "We use the browser's native Web Audio API to synthesize ambient soundscapes (like rain, café hum, forest birds, and white noise) programmatically in real-time. This means we do not download or stream heavy audio files, keeping the tool extremely lightweight and offline-proof."
+  },
+  {
+    question: "Is my task list and study history private?",
+    answer: "Yes, 100%. All your tasks, settings, streaks, and focus history are stored locally in your browser's localStorage. No data is ever uploaded to any server, keeping your study habits completely private."
+  }
+];
+---
+
+<BaseLayout title={pageTitle} description={pageDesc} canonicalPath={canonicalPath} containerClass="max-w-[1400px]">
+  <SEO title={pageTitle} description={pageDesc} canonicalPath={canonicalPath} />
+  <Schema pageName={pageTitle} pageDescription={pageDesc} pageUrl={`https://mcqticker.online${canonicalPath}`} breadcrumbs={breadcrumbs} faqs={faqs} />
+
+  <div class="max-w-6xl mx-auto space-y-10 animate-fadeIn">
+    <!-- Breadcrumb -->
+    <div class="px-2 md:px-4">
+      <Breadcrumb items={breadcrumbs} />
+    </div>
+
+    <!-- Hero Header -->
+    <div class="mx-2 md:mx-4 bg-gradient-to-br from-brand-primary/10 to-brand-secondary/5 border border-brand-primary/20 dark:border-brand-secondary/20 rounded-3xl p-6 md:p-8 text-center space-y-4 shadow-custom-md">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-primary/10 dark:bg-brand-secondary/10 border border-brand-primary/20 dark:border-brand-secondary/20 text-brand-primary dark:text-brand-secondary text-xxs font-bold uppercase tracking-wider">
+        <span class="material-symbols-outlined text-sm">schedule</span>
+        Focused Grind Tool
+      </div>
+      <h1 class="font-display font-black text-3xl md:text-5xl text-text-light dark:text-text-dark leading-tight">
+        Aesthetic <span class="text-brand-primary dark:text-brand-secondary">Pomodoro Timer</span> with Tasks & Stats
+      </h1>
+      <p class="text-xs md:text-sm text-text-light-muted dark:text-text-dark-muted max-w-xl mx-auto leading-relaxed">
+        Supercharge your midnight study sessions. Group your chapters, log your focus splits, play offline-synthesized white noise, and track your daily streaks — completely free and offline.
+      </p>
+    </div>
+
+    <!-- Pomodoro Timer Interactive App -->
+    <PomodoroTimer client:only="react" />
+
+    <!-- Editorial content explaining the benefits of Pomodoro for MCQ preparation -->
+    <article class="mx-2 md:mx-4 prose dark:prose-invert max-w-none text-xs md:text-sm text-text-light dark:text-text-dark leading-relaxed space-y-8 pt-6">
+      <section class="space-y-4 border-t border-border-light dark:border-border-dark pt-8">
+        <h2 class="font-display font-extrabold text-lg md:text-xl text-text-light dark:text-text-dark">
+          How to Combine the Pomodoro Technique with MCQ Pacing Practice
+        </h2>
+        <p>
+          Students prepping for competitive exams like NEET, JEE, or SSC face two distinct challenges: memorization stamina and solving speed. While our <a href="/mcq-timer" class="text-brand-primary dark:text-brand-secondary hover:underline font-bold">MCQ Timer</a> and <a href="/online-omr-sheet" class="text-brand-primary dark:text-brand-secondary hover:underline font-bold">OMR Sheets</a> train your question-by-question speed, the <strong>Pomodoro Timer</strong> helps you build the hours of deep focus required to review theoretical syllabus material.
+        </p>
+        <p>
+          We recommend a hybrid study routine:
+        </p>
+        <ul class="list-disc pl-6 space-y-2">
+          <li><strong>Theoretical Review (Focus Phase):</strong> Set a 25 or 50-minute Focus block to read textbook chapters, note formulas, or review past mistakes without picking up your phone.</li>
+          <li><strong>Practice Drill (Focus Phase):</strong> Set a task called "Solve 30 Physics PYQs" and attempt them using our digital sheets. Mark it off when completed.</li>
+          <li><strong>Active Recovery (Break Phase):</strong> During the 5-minute break, close your eyes, stretch, or do light breathing. Avoid social media, as it causes cognitive clutter and ruins the next focus block.</li>
+        </ul>
+      </section>
+
+      <section class="space-y-4 bg-surface-light dark:bg-surface-dark p-5 rounded-2xl border border-border-light dark:border-border-dark">
+        <h3 class="font-display font-bold text-sm md:text-base text-text-light dark:text-text-dark flex items-center gap-2">
+          <span class="material-symbols-outlined text-brand-primary dark:text-brand-secondary">stars</span>
+          Synthesizing Sound Offline for Distraction-free Studying
+        </h3>
+        <p class="text-xxs md:text-xs text-text-light-muted dark:text-text-dark-muted leading-relaxed">
+          Standard websites load large sound loops over the network, causing battery drain and breaking when you lose internet connection in libraries or study rooms. This Pomodoro clock synthesizes gentle white noise, falling rain, forest trees, café whispers, and clock ticks on-the-fly using mathematical audio waveforms.
+        </p>
+        <p class="text-xxs md:text-xs text-text-light-muted dark:text-text-dark-muted leading-relaxed">
+          This means you enjoy premium, loop-free focus soundscapes offline, keeping you in the zone with zero bandwidth and absolute privacy.
+        </p>
+      </section>
+    </article>
+
+    <!-- FAQ Section -->
+    <div class="mx-2 md:mx-4 pb-10">
+      <FAQ faqs={faqs} title="Pomodoro Timer FAQs" subtitle="Answers to common queries about focus blocks, breaks, customization, keyboard controls, and ambient noises." />
+    </div>
+  </div>
+</BaseLayout>

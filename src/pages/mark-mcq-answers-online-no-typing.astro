@@ -1,0 +1,304 @@
+---
+// src/pages/mark-mcq-answers-online-no-typing.astro
+export const prerender = true;
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SEO from '../components/SEO.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import Schema from '../components/Schema.astro';
+import FAQ from '../components/FAQ.astro';
+
+const pageTitle = "Mark MCQ Answers Online No Typing — Mobile OMR Keypad";
+const pageDesc = "Mark your MCQ answers online with zero typing! Large, thumb-friendly tap buttons with auto-advance and instant review grid. Perfect for mobile users.";
+const canonicalPath = "/mark-mcq-answers-online-no-typing";
+
+const breadcrumbs = [
+  { label: "No Typing MCQ Marker", url: "/mark-mcq-answers-online-no-typing" }
+];
+
+const faqs = [
+  {
+    question: "How do I mark MCQ answers online without typing?",
+    answer: "Our mobile OMR keypad lets you tap large virtual buttons (A, B, C, D, or Skip) to instantly log your answers. The tool automatically advances to the next question, removing all typing requirements."
+  },
+  {
+    question: "Is this tool responsive on small mobile screens?",
+    answer: "Yes, it is designed from the ground up for mobile users. The layout fits perfectly on modern smartphones, featuring large thumb targets so you can practice comfortably with one hand."
+  },
+  {
+    question: "Can I navigate back and forth to change my answers?",
+    answer: "Absolutely. You can use the Previous and Next buttons, or click any question number in the review grid to jump directly to that question and edit its logged answer."
+  },
+  {
+    question: "What happens when I finish the practice sheet?",
+    answer: "Once you mark all questions, you can copy the logged answers to grade them, or install the app to practice offline during your next study session."
+  }
+];
+---
+
+<BaseLayout title={pageTitle} description={pageDesc} canonicalPath={canonicalPath} ogLocale="en_US">
+  <SEO title={pageTitle} description={pageDesc} canonicalPath={canonicalPath} ogLocale="en_US" />
+  <Schema pageName={pageTitle} pageDescription={pageDesc} pageUrl={`https://mcqticker.online${canonicalPath}`} breadcrumbs={breadcrumbs} faqs={faqs} />
+
+  <div class="max-w-3xl mx-auto space-y-10 animate-fadeIn">
+    <!-- Breadcrumbs -->
+    <Breadcrumb items={breadcrumbs} />
+
+    <!-- Hero Section (Indigo Theme) -->
+    <div class="bg-gradient-to-br from-indigo-600/10 to-sky-500/5 dark:from-indigo-950/20 dark:to-sky-900/10 border border-indigo-500/20 dark:border-indigo-400/20 rounded-3xl p-8 text-center space-y-6 shadow-custom-md">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-500/10 dark:bg-indigo-400/10 border border-indigo-500/20 dark:border-indigo-400/20 text-indigo-700 dark:text-indigo-400 text-xxs font-bold uppercase tracking-wider">
+        <span class="material-symbols-outlined text-sm">install_mobile</span>
+        Mobile-Optimized Interface
+      </div>
+      <h1 class="font-display font-black text-3xl md:text-5xl text-text-light dark:text-text-dark leading-tight">
+        Mark MCQ Answers <span class="text-indigo-600 dark:text-indigo-400">Online Without Typing</span>
+      </h1>
+      <p class="text-sm md:text-base text-text-light-muted dark:text-text-dark-muted max-w-xl mx-auto leading-relaxed">
+        Engineered for thumb-tapping mobile users. Tap A, B, C, D, or Skip. The console automatically records and advances so you can focus on your textbook.
+      </p>
+    </div>
+
+    <!-- Interactive Mobile OMR Console -->
+    <section class="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-3xl p-6 shadow-custom-md space-y-6">
+      <div class="flex items-center justify-between border-b border-border-light dark:border-border-dark pb-4">
+        <div>
+          <h2 class="font-display font-extrabold text-base text-text-light dark:text-text-dark font-sans">Thumb OMR Keypad</h2>
+          <p class="text-xxs text-text-light-muted dark:text-text-dark-muted">No keyboard required. Ideal for mobile multitasking.</p>
+        </div>
+        <!-- Status indicator -->
+        <div class="px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-800 dark:text-indigo-300 text-3xs font-bold border border-indigo-500/20">
+          Active Sheet
+        </div>
+      </div>
+
+      <!-- Question Navigation & Display Panel -->
+      <div class="flex items-center justify-between bg-bg-light/65 dark:bg-bg-dark/65 p-5 rounded-2xl border border-border-light dark:border-border-dark text-center">
+        <button id="prev-btn" class="w-10 h-10 flex items-center justify-center rounded-xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark text-text-light dark:text-text-dark hover:bg-surface-light-hover dark:hover:bg-surface-dark-hover transition-colors cursor-pointer">
+          <span class="material-symbols-outlined text-base">chevron_left</span>
+        </button>
+
+        <div class="space-y-1">
+          <div class="text-3xs font-black text-text-light-muted dark:text-text-dark-muted uppercase tracking-widest">Active Question</div>
+          <div id="active-q-num" class="text-3xl font-black text-indigo-600 dark:text-indigo-400">Q. 1</div>
+          <div id="active-q-status" class="text-3xs text-text-light-muted dark:text-text-dark-muted">Unanswered</div>
+        </div>
+
+        <button id="next-btn" class="w-10 h-10 flex items-center justify-center rounded-xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark text-text-light dark:text-text-dark hover:bg-surface-light-hover dark:hover:bg-surface-dark-hover transition-colors cursor-pointer">
+          <span class="material-symbols-outlined text-base">chevron_right</span>
+        </button>
+      </div>
+
+      <!-- Keypad (The Tap Console) -->
+      <div class="grid grid-cols-4 gap-3">
+        <button data-opt="A" class="keypad-btn py-5 rounded-2xl border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark text-lg font-black text-text-light dark:text-text-dark hover:scale-102 hover:border-indigo-500/40 dark:hover:border-indigo-400/40 transition-all cursor-pointer">A</button>
+        <button data-opt="B" class="keypad-btn py-5 rounded-2xl border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark text-lg font-black text-text-light dark:text-text-dark hover:scale-102 hover:border-indigo-500/40 dark:hover:border-indigo-400/40 transition-all cursor-pointer">B</button>
+        <button data-opt="C" class="keypad-btn py-5 rounded-2xl border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark text-lg font-black text-text-light dark:text-text-dark hover:scale-102 hover:border-indigo-500/40 dark:hover:border-indigo-400/40 transition-all cursor-pointer">C</button>
+        <button data-opt="D" class="keypad-btn py-5 rounded-2xl border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark text-lg font-black text-text-light dark:text-text-dark hover:scale-102 hover:border-indigo-500/40 dark:hover:border-indigo-400/40 transition-all cursor-pointer">D</button>
+      </div>
+
+      <div class="grid grid-cols-1">
+        <button id="skip-btn" class="py-3.5 rounded-xl border border-border-light dark:border-border-dark bg-surface-light hover:bg-surface-light-hover dark:bg-surface-dark dark:hover:bg-surface-dark-hover text-xxs font-black text-text-light-muted dark:text-text-dark-muted transition-colors cursor-pointer uppercase tracking-wider flex items-center justify-center gap-1">
+          <span class="material-symbols-outlined text-xs">block</span>
+          Skip Question
+        </button>
+      </div>
+
+      <!-- Quick OMR Review Grid -->
+      <div class="space-y-2">
+        <h3 class="text-3xs font-black text-text-light-muted dark:text-text-dark-muted uppercase tracking-widest block">Response Matrix (Click to jump)</h3>
+        <div id="grid-matrix" class="grid grid-cols-10 gap-1.5 max-h-[120px] overflow-y-auto pr-1">
+          <!-- Matrices will go here -->
+        </div>
+      </div>
+
+      <!-- Action Footer -->
+      <div class="flex items-center justify-between pt-4 border-t border-border-light dark:border-border-dark">
+        <button id="export-btn" class="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white dark:text-bg-dark font-black text-xs rounded-xl shadow-sm cursor-pointer flex items-center gap-1.5">
+          <span class="material-symbols-outlined text-sm">send</span>
+          Share Log
+        </button>
+        <button id="clear-btn" class="px-4 py-2.5 border border-border-light dark:border-border-dark text-text-light dark:text-text-dark font-bold text-xs rounded-xl hover:bg-surface-light-hover dark:hover:bg-surface-dark-hover transition-colors cursor-pointer">
+          Reset
+        </button>
+      </div>
+    </section>
+
+    <!-- Content -->
+    <article class="prose dark:prose-invert max-w-none text-sm text-text-light dark:text-text-dark leading-relaxed space-y-8">
+      <section class="space-y-4">
+        <h2 class="font-display font-extrabold text-xl text-text-light dark:text-text-dark border-b border-border-light dark:border-border-dark pb-2">
+          Why Typing MCQ Answers ruins study efficiency
+        </h2>
+        <p>
+          Students often use digital note pads or chat windows to list answers while preparing for competitive tests. However, repeatedly shifting your gaze from the exam book, opening a text field, and typing `1. A`, `2. B` is highly disruptive. It breaks your concentration, fatigues your fingers, and increases pacing errors.
+        </p>
+        <p>
+          Our <strong>mark MCQ answers online no typing</strong> dashboard is optimized to replicate actual OMR sheets on mobile. Designed for single-hand operations, it presents four simple, massive key pads. Tapping logs the option immediately and shifts focus to the next number, maintaining your solving momentum.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h3 class="font-display font-bold text-lg text-text-light dark:text-text-dark">Designed Specifically for Mobile Grinds</h3>
+        <p>
+          Mobile study sessions are common for aspirants during commutes or casual study runs. This console adapts beautifully to vertical smartphone screens, turning your phone into an interactive response pad. With clean transitions, large touch zones, and clear visual indicators of unanswered questions, it represents the modern way to practice.
+        </p>
+      </section>
+    </article>
+
+    <!-- FAQ -->
+    <FAQ faqs={faqs} title="No-Typing MCQ Marker FAQs" subtitle="Common questions about using our touch-first OMR keypad." />
+  </div>
+</BaseLayout>
+
+<script>
+  function setupNoTypingMarker() {
+    const totalQuestions = 30;
+    let activeIndex = 1;
+    let answers: Record<number, string> = {};
+
+    const activeQNumEl = document.getElementById('active-q-num');
+    const activeQStatusEl = document.getElementById('active-q-status');
+    const matrixGrid = document.getElementById('grid-matrix');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const skipBtn = document.getElementById('skip-btn');
+    const exportBtn = document.getElementById('export-btn');
+    const clearBtn = document.getElementById('clear-btn');
+    const keypadBtns = document.querySelectorAll('.keypad-btn');
+
+    function renderActiveQuestion() {
+      if (!activeQNumEl || !activeQStatusEl) return;
+      activeQNumEl.textContent = `Q. ${activeIndex}`;
+      
+      const ans = answers[activeIndex];
+      if (ans) {
+        activeQStatusEl.textContent = `Marked: Option ${ans}`;
+        activeQStatusEl.className = 'text-3xs text-indigo-500 font-bold dark:text-indigo-400';
+      } else {
+        activeQStatusEl.textContent = `Unanswered`;
+        activeQStatusEl.className = 'text-3xs text-text-light-muted dark:text-text-dark-muted';
+      }
+
+      // Highlight active keypad buttons
+      keypadBtns.forEach(btn => {
+        const opt = btn.getAttribute('data-opt');
+        if (opt === ans) {
+          btn.className = 'keypad-btn py-5 rounded-2xl border bg-indigo-600 border-indigo-600 text-white dark:bg-indigo-500 dark:border-indigo-500 dark:text-bg-dark text-lg font-black scale-102 shadow-sm cursor-pointer';
+        } else {
+          btn.className = 'keypad-btn py-5 rounded-2xl border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark text-lg font-black text-text-light dark:text-text-dark hover:scale-102 hover:border-indigo-500/40 dark:hover:border-indigo-400/40 transition-all cursor-pointer';
+        }
+      });
+
+      renderMatrix();
+    }
+
+    function renderMatrix() {
+      if (!matrixGrid) return;
+      matrixGrid.innerHTML = '';
+
+      for (let i = 1; i <= totalQuestions; i++) {
+        const item = document.createElement('button');
+        const isCurrent = i === activeIndex;
+        const isAnswered = !!answers[i];
+
+        let baseClasses = 'h-8 text-3xs font-black rounded-lg border flex items-center justify-center transition-all cursor-pointer ';
+        if (isCurrent) {
+          baseClasses += 'border-indigo-600 bg-indigo-50 dark:border-indigo-400 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 ring-2 ring-indigo-500/20';
+        } else if (isAnswered) {
+          baseClasses += 'border-indigo-600/30 bg-indigo-500/10 text-indigo-700 dark:text-indigo-400';
+        } else {
+          baseClasses += 'border-border-light bg-surface-light dark:border-border-dark dark:bg-surface-dark text-text-light-muted dark:text-text-dark-muted';
+        }
+
+        item.className = baseClasses;
+        item.textContent = `${i}${answers[i] ? `:${answers[i]}` : ''}`;
+        item.addEventListener('click', () => {
+          activeIndex = i;
+          renderActiveQuestion();
+        });
+
+        matrixGrid.appendChild(item);
+      }
+    }
+
+    function handleOptionSelect(opt: string) {
+      answers[activeIndex] = opt;
+      renderActiveQuestion();
+
+      // Check if session completed
+      const totalAnswers = Object.keys(answers).length;
+      if (totalAnswers === totalQuestions) {
+        if (typeof (window as any).showPwaInstallPrompt === 'function') {
+          setTimeout(() => {
+            (window as any).showPwaInstallPrompt(
+              "Full Session Completed!",
+              "Excellent job logging all 30 responses without typing. Install MCQTicker to run full offline sessions directly from your home screen!"
+            );
+          }, 800);
+        }
+      }
+
+      // Auto advance to next question
+      if (activeIndex < totalQuestions) {
+        setTimeout(() => {
+          activeIndex++;
+          renderActiveQuestion();
+        }, 150);
+      }
+    }
+
+    keypadBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const opt = btn.getAttribute('data-opt');
+        if (opt) handleOptionSelect(opt);
+      });
+    });
+
+    prevBtn?.addEventListener('click', () => {
+      if (activeIndex > 1) {
+        activeIndex--;
+        renderActiveQuestion();
+      }
+    });
+
+    nextBtn?.addEventListener('click', () => {
+      if (activeIndex < totalQuestions) {
+        activeIndex++;
+        renderActiveQuestion();
+      }
+    });
+
+    skipBtn?.addEventListener('click', () => {
+      delete answers[activeIndex];
+      renderActiveQuestion();
+      if (activeIndex < totalQuestions) {
+        activeIndex++;
+        renderActiveQuestion();
+      }
+    });
+
+    clearBtn?.addEventListener('click', () => {
+      if (confirm('Reset your answer sheet?')) {
+        answers = {};
+        activeIndex = 1;
+        renderActiveQuestion();
+      }
+    });
+
+    exportBtn?.addEventListener('click', () => {
+      let txt = 'My Marked Answers (No Typing):\n';
+      for (let i = 1; i <= totalQuestions; i++) {
+        txt += `Q${i}: ${answers[i] || 'Unanswered'}\n`;
+      }
+      navigator.clipboard.writeText(txt).then(() => {
+        alert('Answers copied to clipboard! Share it with your friends or teacher.');
+      }).catch(err => {
+        console.error('Failed to copy answers:', err);
+      });
+    });
+
+    renderActiveQuestion();
+  }
+
+  setupNoTypingMarker();
+  document.addEventListener('astro:after-swap', setupNoTypingMarker);
+</script>

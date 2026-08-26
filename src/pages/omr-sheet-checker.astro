@@ -1,0 +1,531 @@
+---
+// src/pages/omr-sheet-checker.astro
+export const prerender = true;
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SEO from '../components/SEO.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import Schema from '../components/Schema.astro';
+import FAQ from '../components/FAQ.astro';
+
+const pageTitle = "OMR Sheet Checker — Upload & Grade OMR Answers Online Free | mcqticker.online";
+const pageDesc = "Upload your OMR answer sheet image or PDF and check scores instantly. Free online OMR sheet checker with answer key comparison, accuracy reports, and per-question analysis.";
+const canonicalPath = "/omr-sheet-checker";
+
+const breadcrumbs = [
+  { label: "OMR Sheet Checker", url: "/omr-sheet-checker" }
+];
+
+const faqs = [
+  {
+    question: "How does the OMR sheet checker work?",
+    answer: "Upload a photo or scan of your filled OMR answer sheet for reference. Then enter the correct answer key and your responses in the grading grid. The tool instantly compares your answers against the key and generates a detailed score report with accuracy percentage."
+  },
+  {
+    question: "What image formats are supported for OMR sheet upload?",
+    answer: "You can upload JPEG, PNG, WebP images, or PDF files. Simply take a clear photo of your filled OMR sheet or scan it. The image is displayed alongside the grading interface for easy reference."
+  },
+  {
+    question: "Can I check OMR sheets for NEET, JEE, SSC, and UPSC exams?",
+    answer: "Yes. The checker supports any number of questions (up to 200) with A/B/C/D options. Configure the total questions to match your exam format — whether it's NEET (180+20), JEE (75), SSC (100), or UPSC Prelims (100)."
+  },
+  {
+    question: "Does this tool use OCR to read my OMR sheet?",
+    answer: "Currently, the tool provides a visual reference of your uploaded OMR sheet alongside a manual grading grid. You enter your marked answers and the correct answer key, and the tool calculates your score instantly. This ensures 100% accuracy in grading."
+  },
+  {
+    question: "Is my uploaded OMR sheet stored on any server?",
+    answer: "No. All processing happens entirely in your browser. Your uploaded image never leaves your device. No data is sent to any server, ensuring complete privacy."
+  },
+  {
+    question: "Can I grade multiple OMR sheets in one session?",
+    answer: "Yes. After grading one sheet, you can reset the checker and grade another. Each grading result can be reviewed before starting a new one."
+  },
+  {
+    question: "Does the checker support negative marking?",
+    answer: "Yes. You can configure positive marks for correct answers and negative marks for wrong answers. The final score accounts for both, giving you an accurate exam-style result."
+  },
+  {
+    question: "Can I save or export my OMR checking results?",
+    answer: "The grading results are displayed on screen with detailed per-question breakdown. You can take a screenshot or use your browser's print function to save the results as PDF."
+  }
+];
+---
+
+<BaseLayout title={pageTitle} description={pageDesc} canonicalPath={canonicalPath}>
+  <SEO title={pageTitle} description={pageDesc} canonicalPath={canonicalPath} />
+  <Schema pageName={pageTitle} pageDescription={pageDesc} pageUrl={`https://mcqticker.online${canonicalPath}`} breadcrumbs={breadcrumbs} faqs={faqs} />
+
+  <div class="max-w-3xl mx-auto space-y-10 animate-fadeIn">
+    <!-- Breadcrumb -->
+    <Breadcrumb items={breadcrumbs} />
+
+    <!-- Hero Header -->
+    <div class="bg-gradient-to-br from-brand-primary/10 to-brand-secondary/5 border border-brand-primary/20 dark:border-brand-secondary/20 rounded-3xl p-8 text-center space-y-6 shadow-custom-md">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-primary/10 dark:bg-brand-secondary/10 border border-brand-primary/20 dark:border-brand-secondary/20 text-brand-primary dark:text-brand-secondary text-xxs font-bold uppercase tracking-wider">
+        <span class="material-symbols-outlined text-sm">task_alt</span>
+        OMR Answer Checker
+      </div>
+      <h1 class="font-display font-black text-3xl md:text-5xl text-text-light dark:text-text-dark leading-tight">
+        Upload & Grade Your <span class="text-brand-primary dark:text-brand-secondary">OMR Sheet</span> Instantly
+      </h1>
+      <p class="text-sm md:text-base text-text-light-muted dark:text-text-dark-muted max-w-xl mx-auto leading-relaxed">
+        Upload your filled OMR answer sheet image, enter the answer key, and get instant scores with per-question accuracy — 100% free, 100% offline.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-3 justify-center pt-2">
+        <a href="#omr-checker-tool" class="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-brand-primary dark:bg-brand-secondary text-white dark:text-bg-dark font-bold text-sm rounded-xl hover:opacity-90 transition-all decoration-none shadow-md">
+          <span class="material-symbols-outlined text-base">check_circle</span>
+          Start Checking OMR Sheet
+        </a>
+        <a href="/online-omr-sheet" class="inline-flex items-center justify-center gap-2 px-6 py-3.5 border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark text-text-light dark:text-text-dark font-bold text-sm rounded-xl hover:bg-surface-light-hover dark:hover:bg-surface-dark-hover transition-colors decoration-none">
+          <span class="material-symbols-outlined text-base">description</span>
+          Practice with Digital OMR
+        </a>
+      </div>
+    </div>
+
+    <!-- OMR Checker Tool -->
+    <div id="omr-checker-tool" class="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-2xl shadow-custom-md overflow-hidden">
+      <div class="px-6 py-5 border-b border-border-light dark:border-border-dark bg-brand-primary/5 dark:bg-brand-secondary/5">
+        <h2 class="font-display font-extrabold text-xl text-brand-primary dark:text-brand-secondary flex items-center gap-2">
+          <span class="material-symbols-outlined text-xl">check_circle</span>
+          OMR Sheet Checker
+        </h2>
+        <p class="text-xs text-text-light-muted dark:text-text-dark-muted mt-1">
+          Upload your sheet, configure settings, enter answers, and check your score.
+        </p>
+      </div>
+
+      <div class="p-6 space-y-6">
+        <!-- Step 1: Upload OMR Image -->
+        <div class="space-y-3">
+          <h3 class="font-bold text-sm text-text-light dark:text-text-dark flex items-center gap-2">
+            <span class="inline-flex w-6 h-6 items-center justify-center rounded-full bg-brand-primary dark:bg-brand-secondary text-white dark:text-bg-dark text-xs font-bold">1</span>
+            Upload OMR Sheet (Image / PDF)
+          </h3>
+          <div id="upload-zone" class="relative border-2 border-dashed border-border-light dark:border-border-dark rounded-xl p-8 text-center cursor-pointer hover:border-brand-primary dark:hover:border-brand-secondary transition-colors bg-bg-light dark:bg-bg-dark">
+            <input type="file" id="omr-file-input" accept="image/*,.pdf" class="absolute inset-0 opacity-0 cursor-pointer" />
+            <span class="material-symbols-outlined text-4xl text-text-light-muted dark:text-text-dark-muted">cloud_off</span>
+            <p class="text-xs text-text-light-muted dark:text-text-dark-muted mt-2 font-bold">Click or drag to upload your OMR sheet</p>
+            <p class="text-xxs text-text-light-muted dark:text-text-dark-muted mt-1">Supports JPG, PNG, WebP, PDF — stays on your device</p>
+          </div>
+          <div id="omr-preview-container" class="hidden">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-bold text-text-light dark:text-text-dark">📄 Uploaded Sheet Preview</span>
+              <button id="remove-omr-file" class="text-xxs text-wrong-red font-bold cursor-pointer hover:underline">Remove</button>
+            </div>
+            <div class="max-h-80 overflow-y-auto rounded-xl border border-border-light dark:border-border-dark bg-bg-light dark:bg-bg-dark">
+              <img id="omr-preview-img" class="w-full object-contain" alt="OMR Sheet Preview" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2: Configure -->
+        <div class="space-y-3">
+          <h3 class="font-bold text-sm text-text-light dark:text-text-dark flex items-center gap-2">
+            <span class="inline-flex w-6 h-6 items-center justify-center rounded-full bg-brand-primary dark:bg-brand-secondary text-white dark:text-bg-dark text-xs font-bold">2</span>
+            Configure Exam Settings
+          </h3>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+              <label for="omr-total-q" class="block text-xxs font-bold uppercase tracking-wider text-text-light-muted dark:text-text-dark-muted mb-1">Total Questions</label>
+              <input type="number" id="omr-total-q" min="1" max="200" value="30" class="w-full px-3 py-2 rounded-lg border border-border-light dark:border-border-dark bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark font-mono-custom text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary dark:focus:ring-brand-secondary" />
+            </div>
+            <div>
+              <label for="omr-correct-marks" class="block text-xxs font-bold uppercase tracking-wider text-text-light-muted dark:text-text-dark-muted mb-1">Marks per Correct</label>
+              <input type="number" id="omr-correct-marks" min="0" step="0.25" value="4" class="w-full px-3 py-2 rounded-lg border border-border-light dark:border-border-dark bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark font-mono-custom text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary dark:focus:ring-brand-secondary" />
+            </div>
+            <div>
+              <label for="omr-negative-marks" class="block text-xxs font-bold uppercase tracking-wider text-text-light-muted dark:text-text-dark-muted mb-1">Negative Marking</label>
+              <input type="number" id="omr-negative-marks" min="0" step="0.25" value="1" class="w-full px-3 py-2 rounded-lg border border-border-light dark:border-border-dark bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark font-mono-custom text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary dark:focus:ring-brand-secondary" />
+            </div>
+          </div>
+          <button id="generate-grid-btn" class="w-full py-3 bg-brand-primary dark:bg-brand-secondary text-white dark:text-bg-dark font-bold text-sm rounded-xl hover:opacity-90 transition-all cursor-pointer shadow-md">
+            Generate Answer Grid ⚡
+          </button>
+        </div>
+
+        <!-- Step 3: Answer Grid -->
+        <div id="answer-grid-section" class="hidden space-y-4">
+          <h3 class="font-bold text-sm text-text-light dark:text-text-dark flex items-center gap-2">
+            <span class="inline-flex w-6 h-6 items-center justify-center rounded-full bg-brand-primary dark:bg-brand-secondary text-white dark:text-bg-dark text-xs font-bold">3</span>
+            Enter Answer Key & Your Responses
+          </h3>
+          <p class="text-xxs text-text-light-muted dark:text-text-dark-muted">
+            Click on the bubbles to set the <strong class="text-correct-green">correct answer key</strong> (top row) and <strong class="text-brand-primary dark:text-brand-secondary">your responses</strong> (bottom row) for each question.
+          </p>
+          <div id="answer-grid" class="space-y-1 max-h-96 overflow-y-auto pr-1"></div>
+          <button id="check-score-btn" class="w-full py-3.5 bg-correct-green hover:opacity-90 text-white font-bold text-sm rounded-xl transition-all cursor-pointer shadow-md flex items-center justify-center gap-2">
+            <span class="material-symbols-outlined text-base">task_alt</span>
+            Check Score & Grade OMR
+          </button>
+        </div>
+
+        <!-- Step 4: Results -->
+        <div id="results-section" class="hidden space-y-4">
+          <h3 class="font-bold text-sm text-text-light dark:text-text-dark flex items-center gap-2">
+            <span class="inline-flex w-6 h-6 items-center justify-center rounded-full bg-correct-green text-white text-xs font-bold">✓</span>
+            Grading Results
+          </h3>
+          <div id="results-summary" class="grid grid-cols-2 sm:grid-cols-4 gap-3"></div>
+          <div id="results-detail" class="space-y-1 max-h-72 overflow-y-auto pr-1"></div>
+          <button id="reset-checker-btn" class="w-full py-3 border border-border-light dark:border-border-dark bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark font-bold text-sm rounded-xl hover:bg-surface-light-hover dark:hover:bg-surface-dark-hover transition-colors cursor-pointer">
+            Reset & Check Another Sheet
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Article Content -->
+    <article class="prose dark:prose-invert max-w-none text-sm text-text-light dark:text-text-dark leading-relaxed space-y-8">
+      
+      <section class="space-y-4">
+        <h2 class="font-display font-extrabold text-xl text-text-light dark:text-text-dark border-b border-border-light dark:border-border-dark pb-2">
+          Why Manual OMR Sheet Checking Is Slow and Error-Prone
+        </h2>
+        <p>
+          After every mock test, students spend 5-15 minutes manually comparing their filled OMR sheet against the answer key — question by question, line by line. This manual checking process is tedious, prone to miscounting, and offers no insights beyond a raw score.
+        </p>
+        <p>
+          Common problems with manual OMR checking include:
+        </p>
+        <ul class="list-disc pl-6 space-y-2">
+          <li><strong>Miscounting:</strong> Losing track of question numbers while comparing answers leads to incorrect scores.</li>
+          <li><strong>No Negative Marking Calculation:</strong> Manually computing negative marks across 100+ questions is arithmetic-heavy and error-prone.</li>
+          <li><strong>No Analytics:</strong> Paper-based checking gives you a score but no breakdown of performance patterns.</li>
+        </ul>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="font-display font-extrabold text-xl text-text-light dark:text-text-dark border-b border-border-light dark:border-border-dark pb-2">
+          How MCQTicker Checks Your OMR Sheet
+        </h2>
+        <p>
+          Our <a href="/omr-sheet-checker" class="text-brand-primary dark:text-brand-secondary font-bold">OMR Sheet Checker</a> streamlines the grading process into three simple steps:
+        </p>
+        <ol class="list-decimal pl-6 space-y-3">
+          <li>
+            <strong>Upload Your Sheet:</strong> Take a photo of your filled OMR answer sheet and upload it. The image is displayed as a visual reference while you enter data.
+          </li>
+          <li>
+            <strong>Enter Answers:</strong> Use the bubble grid to mark the correct answer key and your responses. Click on A, B, C, or D for each question.
+          </li>
+          <li>
+            <strong>Get Instant Results:</strong> The checker compares every answer, applies positive and negative marking, and shows your total score, accuracy percentage, and per-question breakdown.
+          </li>
+        </ol>
+      </section>
+
+      <!-- Features -->
+      <section class="space-y-4 bg-surface-light dark:bg-surface-dark p-6 rounded-2xl border border-border-light dark:border-border-dark">
+        <h3 class="font-display font-extrabold text-lg text-text-light dark:text-text-dark flex items-center gap-2">
+          <span class="material-symbols-outlined text-brand-primary dark:text-brand-secondary">stars</span>
+          Key Features of the OMR Checker
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
+          <div>
+            <h4 class="font-bold text-xs text-text-light dark:text-text-dark">📸 Upload OMR Sheet Image</h4>
+            <p class="text-xxs text-text-light-muted dark:text-text-dark-muted mt-1">
+              Upload a photo or scan of your OMR sheet. It is displayed alongside the grading grid for easy cross-referencing.
+            </p>
+          </div>
+          <div>
+            <h4 class="font-bold text-xs text-text-light dark:text-text-dark">⚡ Instant Score Calculation</h4>
+            <p class="text-xxs text-text-light-muted dark:text-text-dark-muted mt-1">
+              Get your total score, accuracy, correct/wrong/skipped count in under a second.
+            </p>
+          </div>
+          <div>
+            <h4 class="font-bold text-xs text-text-light dark:text-text-dark">➖ Configurable Negative Marking</h4>
+            <p class="text-xxs text-text-light-muted dark:text-text-dark-muted mt-1">
+              Set custom positive marks per correct answer and negative marks per wrong answer to match your exam's marking scheme.
+            </p>
+          </div>
+          <div>
+            <h4 class="font-bold text-xs text-text-light dark:text-text-dark">🔒 100% Offline & Private</h4>
+            <p class="text-xxs text-text-light-muted dark:text-text-dark-muted mt-1">
+              Your uploaded images and answer data never leave your browser. All processing is local.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Comparison -->
+      <section class="space-y-4">
+        <h2 class="font-display font-extrabold text-xl text-text-light dark:text-text-dark border-b border-border-light dark:border-border-dark pb-2">
+          Manual Checking vs. MCQTicker OMR Checker
+        </h2>
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs text-left border-collapse border border-border-light dark:border-border-dark">
+            <thead>
+              <tr class="bg-surface-light dark:bg-surface-dark">
+                <th class="p-2.5 border border-border-light dark:border-border-dark">Feature</th>
+                <th class="p-2.5 border border-border-light dark:border-border-dark">Manual Checking</th>
+                <th class="p-2.5 border border-border-light dark:border-border-dark">MCQTicker Checker</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="p-2.5 border border-border-light dark:border-border-dark font-bold">Grading Speed</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark">5–15 minutes</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark text-correct-green dark:text-brand-secondary font-bold">Instant (under 1 second)</td>
+              </tr>
+              <tr class="bg-surface-light/40 dark:bg-surface-dark/40">
+                <td class="p-2.5 border border-border-light dark:border-border-dark font-bold">Negative Marking</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark">Manual arithmetic</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark text-correct-green dark:text-brand-secondary font-bold">Automatic calculation</td>
+              </tr>
+              <tr>
+                <td class="p-2.5 border border-border-light dark:border-border-dark font-bold">Per-Question Breakdown</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark">Not available</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark text-correct-green dark:text-brand-secondary font-bold">Color-coded per-question results</td>
+              </tr>
+              <tr class="bg-surface-light/40 dark:bg-surface-dark/40">
+                <td class="p-2.5 border border-border-light dark:border-border-dark font-bold">OMR Sheet Reference</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark">Physical paper only</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark text-correct-green dark:text-brand-secondary font-bold">Uploaded image displayed alongside</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Internal Links -->
+      <section class="space-y-4">
+        <p>
+          At <strong>MCQTicker</strong>, all your practice data stays private. Read our <a href="/privacy" class="text-brand-primary dark:text-brand-secondary underline">privacy policy</a>. For more study tools, try the <a href="/online-omr-sheet" class="text-brand-primary dark:text-brand-secondary font-bold">digital OMR sheet</a>, our <a href="/answer-tracker" class="text-brand-primary dark:text-brand-secondary font-bold">answer tracker</a>, or the <a href="/mcq-timer" class="text-brand-primary dark:text-brand-secondary font-bold">MCQ timer</a>.
+        </p>
+      </section>
+    </article>
+
+    <!-- FAQ -->
+    <FAQ faqs={faqs} title="OMR Sheet Checker FAQs" subtitle="Common questions about uploading OMR sheets, grading answers, negative marking, and privacy." />
+  </div>
+</BaseLayout>
+
+<script>
+  function initOMRChecker() {
+    const fileInput = document.getElementById('omr-file-input') as HTMLInputElement | null;
+    const uploadZone = document.getElementById('upload-zone');
+    const previewContainer = document.getElementById('omr-preview-container');
+    const previewImg = document.getElementById('omr-preview-img') as HTMLImageElement | null;
+    const removeBtn = document.getElementById('remove-omr-file');
+    const generateBtn = document.getElementById('generate-grid-btn');
+    const answerGridSection = document.getElementById('answer-grid-section');
+    const answerGrid = document.getElementById('answer-grid');
+    const checkScoreBtn = document.getElementById('check-score-btn');
+    const resultsSection = document.getElementById('results-section');
+    const resultsSummary = document.getElementById('results-summary');
+    const resultsDetail = document.getElementById('results-detail');
+    const resetBtn = document.getElementById('reset-checker-btn');
+
+    if (!fileInput || !uploadZone || !previewContainer || !previewImg || !removeBtn) return;
+    if (!generateBtn || !answerGridSection || !answerGrid || !checkScoreBtn) return;
+    if (!resultsSection || !resultsSummary || !resultsDetail || !resetBtn) return;
+
+    // State
+    let answerKey: (string | null)[] = [];
+    let userAnswers: (string | null)[] = [];
+    let totalQ = 30;
+
+    // File upload
+    fileInput.addEventListener('change', () => {
+      const file = fileInput.files?.[0];
+      if (!file) return;
+
+      if (file.type === 'application/pdf') {
+        // For PDF, show a placeholder message
+        previewImg.src = '';
+        previewImg.alt = 'PDF uploaded — open in your PDF viewer for reference';
+        previewImg.style.display = 'none';
+        const pdfNotice = document.createElement('div');
+        pdfNotice.className = 'p-6 text-center text-xs text-text-light-muted dark:text-text-dark-muted';
+        pdfNotice.innerHTML = `<span class="material-symbols-outlined text-3xl block mb-2">description</span><strong>${file.name}</strong> uploaded — PDF preview not supported, open in your PDF viewer for reference.`;
+        pdfNotice.id = 'pdf-notice';
+        const existing = document.getElementById('pdf-notice');
+        if (existing) existing.remove();
+        previewImg.parentElement?.appendChild(pdfNotice);
+      } else {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          previewImg.src = e.target?.result as string;
+          previewImg.style.display = 'block';
+          const existing = document.getElementById('pdf-notice');
+          if (existing) existing.remove();
+        };
+        reader.readAsDataURL(file);
+      }
+
+      uploadZone.classList.add('hidden');
+      previewContainer.classList.remove('hidden');
+    });
+
+    removeBtn.addEventListener('click', () => {
+      fileInput.value = '';
+      previewImg.src = '';
+      previewImg.style.display = 'block';
+      const existing = document.getElementById('pdf-notice');
+      if (existing) existing.remove();
+      previewContainer.classList.add('hidden');
+      uploadZone.classList.remove('hidden');
+    });
+
+    // Generate grid
+    generateBtn.addEventListener('click', () => {
+      const qInput = document.getElementById('omr-total-q') as HTMLInputElement;
+      totalQ = Math.max(1, Math.min(200, parseInt(qInput.value) || 30));
+      qInput.value = String(totalQ);
+      answerKey = new Array(totalQ).fill(null);
+      userAnswers = new Array(totalQ).fill(null);
+
+      answerGrid.innerHTML = '';
+      const options = ['A', 'B', 'C', 'D'];
+
+      for (let i = 0; i < totalQ; i++) {
+        const row = document.createElement('div');
+        row.className = 'flex items-center gap-2 p-2 rounded-lg bg-bg-light dark:bg-bg-dark border border-border-light dark:border-border-dark';
+        
+        const qLabel = `<span class="w-8 text-center font-mono-custom font-bold text-xs text-text-light-muted dark:text-text-dark-muted flex-shrink-0">Q${i + 1}</span>`;
+
+        const keyBubbles = options.map(opt => {
+          return `<button data-q="${i}" data-type="key" data-opt="${opt}" class="omr-bubble key-bubble w-7 h-7 rounded-full border-2 border-correct-green/40 text-xxs font-bold cursor-pointer transition-all hover:border-correct-green flex items-center justify-center bg-transparent text-text-light-muted dark:text-text-dark-muted">${opt}</button>`;
+        }).join('');
+
+        const divider = `<span class="w-px h-6 bg-border-light dark:bg-border-dark flex-shrink-0"></span>`;
+
+        const userBubbles = options.map(opt => {
+          return `<button data-q="${i}" data-type="user" data-opt="${opt}" class="omr-bubble user-bubble w-7 h-7 rounded-full border-2 border-brand-primary/40 dark:border-brand-secondary/40 text-xxs font-bold cursor-pointer transition-all hover:border-brand-primary dark:hover:border-brand-secondary flex items-center justify-center bg-transparent text-text-light-muted dark:text-text-dark-muted">${opt}</button>`;
+        }).join('');
+
+        row.innerHTML = `
+          ${qLabel}
+          <span class="text-xxs font-bold text-correct-green flex-shrink-0 w-6 text-center">Key</span>
+          ${keyBubbles}
+          ${divider}
+          <span class="text-xxs font-bold text-brand-primary dark:text-brand-secondary flex-shrink-0 w-8 text-center">Yours</span>
+          ${userBubbles}
+        `;
+
+        answerGrid.appendChild(row);
+      }
+
+      // Attach bubble click handlers
+      answerGrid.querySelectorAll('.omr-bubble').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const el = e.currentTarget as HTMLElement;
+          const q = parseInt(el.dataset.q || '0');
+          const type = el.dataset.type;
+          const opt = el.dataset.opt || '';
+          const isKey = type === 'key';
+
+          if (isKey) {
+            answerKey[q] = answerKey[q] === opt ? null : opt;
+          } else {
+            userAnswers[q] = userAnswers[q] === opt ? null : opt;
+          }
+
+          // Update visual state
+          const siblings = answerGrid.querySelectorAll(`.omr-bubble[data-q="${q}"][data-type="${type}"]`);
+          siblings.forEach(sib => {
+            const sibEl = sib as HTMLElement;
+            const sibOpt = sibEl.dataset.opt || '';
+            const selected = isKey ? answerKey[q] === sibOpt : userAnswers[q] === sibOpt;
+            if (selected) {
+              if (isKey) {
+                sibEl.classList.add('bg-correct-green', 'text-white', 'border-correct-green');
+                sibEl.classList.remove('bg-transparent', 'text-text-light-muted', 'dark:text-text-dark-muted');
+              } else {
+                sibEl.classList.add('bg-brand-primary', 'dark:bg-brand-secondary', 'text-white', 'dark:text-bg-dark', 'border-brand-primary', 'dark:border-brand-secondary');
+                sibEl.classList.remove('bg-transparent', 'text-text-light-muted', 'dark:text-text-dark-muted');
+              }
+            } else {
+              sibEl.classList.remove('bg-correct-green', 'bg-brand-primary', 'dark:bg-brand-secondary', 'text-white', 'dark:text-bg-dark', 'border-correct-green', 'border-brand-primary', 'dark:border-brand-secondary');
+              sibEl.classList.add('bg-transparent', 'text-text-light-muted', 'dark:text-text-dark-muted');
+            }
+          });
+        });
+      });
+
+      answerGridSection.classList.remove('hidden');
+      resultsSection.classList.add('hidden');
+    });
+
+    // Check score
+    checkScoreBtn.addEventListener('click', () => {
+      const correctMarks = parseFloat((document.getElementById('omr-correct-marks') as HTMLInputElement).value) || 4;
+      const negativeMarks = parseFloat((document.getElementById('omr-negative-marks') as HTMLInputElement).value) || 1;
+
+      let correct = 0, wrong = 0, skipped = 0;
+      const details: { qNo: number; key: string | null; user: string | null; status: 'correct' | 'wrong' | 'skipped' }[] = [];
+
+      for (let i = 0; i < totalQ; i++) {
+        const key = answerKey[i];
+        const user = userAnswers[i];
+
+        if (!user) {
+          skipped++;
+          details.push({ qNo: i + 1, key, user, status: 'skipped' });
+        } else if (key && user === key) {
+          correct++;
+          details.push({ qNo: i + 1, key, user, status: 'correct' });
+        } else {
+          wrong++;
+          details.push({ qNo: i + 1, key, user, status: 'wrong' });
+        }
+      }
+
+      const totalScore = (correct * correctMarks) - (wrong * negativeMarks);
+      const maxScore = totalQ * correctMarks;
+      const accuracy = totalQ > 0 ? Math.round((correct / totalQ) * 100) : 0;
+
+      resultsSummary.innerHTML = `
+        <div class="p-3 rounded-xl bg-bg-light dark:bg-bg-dark border border-border-light dark:border-border-dark text-center">
+          <span class="block text-xxs uppercase tracking-wider font-bold text-text-light-muted dark:text-text-dark-muted">Score</span>
+          <span class="font-mono-custom font-black text-xl text-brand-primary dark:text-brand-secondary">${totalScore.toFixed(1)}</span>
+          <span class="block text-xxs text-text-light-muted dark:text-text-dark-muted">/ ${maxScore}</span>
+        </div>
+        <div class="p-3 rounded-xl bg-bg-light dark:bg-bg-dark border border-border-light dark:border-border-dark text-center">
+          <span class="block text-xxs uppercase tracking-wider font-bold text-text-light-muted dark:text-text-dark-muted">Accuracy</span>
+          <span class="font-mono-custom font-black text-xl text-correct-green">${accuracy}%</span>
+        </div>
+        <div class="p-3 rounded-xl bg-bg-light dark:bg-bg-dark border border-border-light dark:border-border-dark text-center">
+          <span class="block text-xxs uppercase tracking-wider font-bold text-text-light-muted dark:text-text-dark-muted">Correct</span>
+          <span class="font-mono-custom font-black text-lg text-correct-green">${correct}</span>
+          <span class="block text-xxs text-text-light-muted dark:text-text-dark-muted">/ ${totalQ}</span>
+        </div>
+        <div class="p-3 rounded-xl bg-bg-light dark:bg-bg-dark border border-border-light dark:border-border-dark text-center">
+          <span class="block text-xxs uppercase tracking-wider font-bold text-text-light-muted dark:text-text-dark-muted">Wrong</span>
+          <span class="font-mono-custom font-black text-lg text-wrong-red">${wrong}</span>
+          <span class="block text-xxs text-text-light-muted dark:text-text-dark-muted">Skipped: ${skipped}</span>
+        </div>
+      `;
+
+      resultsDetail.innerHTML = details.map(d => {
+        const statusColor = d.status === 'correct' ? 'text-correct-green bg-correct-green/10 border-correct-green/30' :
+                            d.status === 'wrong' ? 'text-wrong-red bg-wrong-red/10 border-wrong-red/30' :
+                            'text-text-light-muted dark:text-text-dark-muted bg-bg-light dark:bg-bg-dark border-border-light dark:border-border-dark';
+        const icon = d.status === 'correct' ? '✓' : d.status === 'wrong' ? '✗' : '—';
+        return `<div class="flex items-center gap-3 p-2 rounded-lg border ${statusColor} text-xs">
+          <span class="font-mono-custom font-bold w-8">Q${d.qNo}</span>
+          <span class="font-bold w-5 text-center">${icon}</span>
+          <span>Key: <strong>${d.key || '—'}</strong></span>
+          <span>Yours: <strong>${d.user || 'skip'}</strong></span>
+        </div>`;
+      }).join('');
+
+      resultsSection.classList.remove('hidden');
+      resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    // Reset
+    resetBtn.addEventListener('click', () => {
+      resultsSection.classList.add('hidden');
+      answerGridSection.classList.add('hidden');
+      answerGrid.innerHTML = '';
+      answerKey = [];
+      userAnswers = [];
+    });
+  }
+
+  initOMRChecker();
+  document.addEventListener('astro:after-swap', initOMRChecker);
+</script>

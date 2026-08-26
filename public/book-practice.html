@@ -1,0 +1,1917 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Practice MCQ from Book with Timer — Speed & Accuracy Tracker | tap A B C D</title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Practice MCQs directly from physical textbooks with digital stopwatch, question timer, automatic option logging, accuracy reports, and pacing analytics." />
+  <meta name="keywords" content="practice mcq from book with timer, mcq speed and accuracy tracker, mcq stopwatch online, solve book mcqs online, neet book mcq timer, jee mcq timer, physical book mcq tracker, tap A B C D" />
+  <meta name="author" content="tap A B C D — MCQ Ticker" />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+  <link rel="canonical" href="https://mcqticker.online/book-practice.html" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://mcqticker.online/book-practice.html" />
+  <meta property="og:title" content="Practice MCQ from Book with Timer — Speed & Accuracy Tracker" />
+  <meta property="og:description" content="Practice MCQs directly from physical textbooks with digital stopwatch, question timer, automatic option logging, accuracy reports, and pacing analytics." />
+  <meta property="og:image" content="https://mcqticker.online/web-app-manifest-512x512.png" />
+  <meta property="og:site_name" content="tap A B C D — MCQ Ticker" />
+  <meta property="og:locale" content="en_IN" />
+
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://mcqticker.online/book-practice.html" />
+  <meta name="twitter:title" content="Practice MCQ from Book with Timer — Speed & Accuracy Tracker" />
+  <meta name="twitter:description" content="Practice MCQs directly from physical textbooks with digital stopwatch, question timer, automatic option logging, accuracy reports, and pacing analytics." />
+  <meta name="twitter:image" content="https://mcqticker.online/web-app-manifest-512x512.png" />
+
+  <!-- Favicon Suite -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <meta name="theme-color" content="#e07a5f" />
+
+  <!-- JSON-LD: WebApplication Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Practice MCQ from Book with Timer — MCQ Speed & Accuracy Tracker",
+    "url": "https://mcqticker.online/book-practice.html",
+    "description": "Practice MCQs directly from physical textbooks with digital stopwatch, question timer, automatic option logging, accuracy reports, and pacing analytics.",
+    "applicationCategory": "EducationalApplication",
+    "operatingSystem": "All",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "INR"
+    }
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+    
+    <style>
+    :root {
+      --bg: #12110f;
+      --surface: #1a1916;
+      --surface2: #24221f;
+      --surface3: #322f2a;
+      --border: #35322d;
+      --text: #f3eee7;
+      --text2: #a79f95;
+      --text3: #6e675e;
+      --accent: #e07a5f;
+      --accent-light: #2c1914;
+      --accent-mid: #c4624e;
+      --green: #4ade80;
+      --green-light: #0d2c1b;
+      --green-border: #1e5e3a;
+      --blue: #60a5fa;
+      --blue-light: #10243e;
+      --amber: #fbbf24;
+      --amber-light: #2d2003;
+      --amber-border: #6d4e07;
+      --red: #f87171;
+      --red-light: #301010;
+      --red-border: #6d1c1c;
+      --skip: #c4b5fd;
+      --skip-light: #201736;
+      --shadow: 0 4px 16px rgba(0,0,0,0.35);
+    }
+    body.light {
+      --bg: #f4f1ea;
+      --surface: #ffffff;
+      --surface2: #eee8dc;
+      --surface3: #e0d8c8;
+      --border: #dcd4c5;
+      --text: #191714;
+      --text2: #675f56;
+      --text3: #9b9389;
+      --accent: #8b3a2a;
+      --accent-light: #faece7;
+      --accent-mid: #c4624e;
+      --green: #1f7a4d;
+      --green-light: #d8f3e5;
+      --green-border: #8ad3ad;
+      --blue: #1d4e89;
+      --blue-light: #dce8f7;
+      --amber: #8a5a00;
+      --amber-light: #fef0cc;
+      --amber-border: #ecd089;
+      --red: #991b1b;
+      --red-light: #fee2e2;
+      --red-border: #f8a5a5;
+      --skip: #5a4e6b;
+      --skip-light: #ede8f5;
+      --shadow: 0 2px 10px rgba(0,0,0,0.06);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding-bottom: 50px;
+    }
+
+    /* TOP BAR */
+    .topbar {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 18px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .topbar-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.18rem; font-weight: 800;
+      color: var(--accent);
+      letter-spacing: -0.02em;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .topbar-actions { display: flex; gap: 8px; }
+    .icon-btn {
+      height: 38px; padding: 0 12px;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      border-radius: 10px;
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      cursor: pointer; font-size: 0.88rem; font-weight: 600;
+      color: var(--text);
+      transition: all 0.15s ease;
+    }
+    .icon-btn:active { transform: scale(0.95); background: var(--accent-light); }
+
+    /* WRAPPER */
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    /* VIEW SWITCHING */
+    .view { display: none; }
+    .view.active { display: block; }
+
+    /* BACK BUTTON */
+    .nav-back {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: none; border: none; color: var(--text2);
+      font-size: 0.95rem; font-weight: 600; cursor: pointer;
+      margin-bottom: 14px; padding: 4px 0;
+      transition: color 0.15s;
+    }
+    .nav-back:hover { color: var(--accent); }
+
+    /* HEADINGS */
+    .view-heading {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.65rem; font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+
+    /* OVERALL PERFORMANCE CARDS (2-Column Grid) */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .metric-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px 14px;
+      text-align: center;
+      box-shadow: var(--shadow);
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .metric-val {
+      font-family: 'DM Mono', monospace;
+      font-size: 2.1rem; font-weight: 700;
+      line-height: 1.1; margin-bottom: 6px;
+    }
+    .metric-lbl {
+      font-size: 0.72rem; color: var(--text2);
+      font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .c-accent { color: var(--accent); }
+    .c-green { color: var(--green); }
+    .c-red { color: var(--red); }
+    .c-text { color: var(--text); }
+
+    /* SESSIONS LIST */
+    .section-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 12px; margin-top: 10px;
+    }
+    .section-title {
+      font-size: 0.85rem; font-weight: 700; color: var(--text2);
+      text-transform: uppercase; letter-spacing: 0.06em;
+    }
+    
+    .add-bar {
+      display: flex; gap: 8px; margin-bottom: 16px;
+    }
+    .add-bar input {
+      flex: 1; padding: 11px 14px;
+      border: 1px solid var(--border); border-radius: 12px;
+      background: var(--surface); color: var(--text);
+      font-size: 0.95rem; outline: none;
+    }
+    .add-bar input:focus { border-color: var(--accent); }
+    .add-bar button {
+      padding: 11px 18px; background: var(--accent);
+      color: #fff; border: none; border-radius: 12px;
+      font-weight: 700; font-size: 0.9rem; cursor: pointer;
+    }
+
+    .session-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px 18px;
+      margin-bottom: 12px;
+      box-shadow: var(--shadow);
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 12px;
+      transition: transform 0.12s, border-color 0.12s;
+    }
+    .session-card:hover { border-color: var(--accent-mid); }
+    .session-info h4 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.15rem; font-weight: 700; margin-bottom: 4px;
+    }
+    .session-meta {
+      font-size: 0.8rem; color: var(--text2); font-family: 'DM Mono', monospace;
+    }
+    .session-btns { display: flex; gap: 8px; }
+    .btn-resume {
+      padding: 8px 16px; background: var(--accent); color: #fff;
+      border: none; border-radius: 10px; font-weight: 700; font-size: 0.85rem;
+      cursor: pointer;
+    }
+    .btn-del-sm {
+      padding: 8px 10px; background: var(--surface2); color: var(--text3);
+      border: 1px solid var(--border); border-radius: 10px; cursor: pointer;
+    }
+    .btn-del-sm:hover { color: var(--red); border-color: var(--red); }
+
+    /* PRACTICE VIEW CARD */
+    .practice-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+    .subject-header {
+      background: var(--accent);
+      padding: 14px 18px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .subject-title {
+      font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 700; color: #fff;
+    }
+    .subject-header-actions button {
+      background: rgba(255,255,255,0.2); border: none; color: #fff;
+      padding: 6px 10px; border-radius: 8px; font-size: 0.78rem; font-weight: 600;
+      cursor: pointer; margin-left: 4px;
+    }
+    .practice-body { padding: 16px; }
+
+    /* SCORECARD */
+    .scorecard {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
+      background: var(--surface2); padding: 12px 10px; border-radius: 14px;
+      border: 1px solid var(--border); text-align: center; margin-bottom: 14px;
+    }
+    .sc-val { font-family: 'DM Mono', monospace; font-size: 1.2rem; font-weight: 700; }
+    .sc-lbl { font-size: 0.68rem; color: var(--text2); text-transform: uppercase; font-weight: 600; }
+
+    /* PAUSE BANNER */
+    .pause-banner {
+      display: none; margin-bottom: 12px; padding: 10px 14px;
+      background: var(--amber-light); border: 1px solid var(--amber-border);
+      border-radius: 12px; font-size: 0.85rem; color: var(--amber);
+      font-weight: 700; text-align: center;
+    }
+    .pause-banner.visible { display: block; }
+
+    /* TIMER ROW */
+    .timer-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 14px; background: var(--surface2); border-radius: 12px;
+      border: 1px solid var(--border); margin-bottom: 12px;
+    }
+    .timer-val {
+      font-family: 'DM Mono', monospace; font-size: 1.5rem; font-weight: 700;
+      color: var(--accent);
+    }
+    .timer-val.paused { color: var(--amber); }
+    .pause-btn {
+      padding: 8px 16px; border-radius: 10px;
+      border: 1.5px solid var(--accent-mid); background: var(--accent-light);
+      color: var(--accent); font-weight: 700; font-size: 0.88rem; cursor: pointer;
+    }
+    .pause-btn.paused { background: var(--amber-light); border-color: var(--amber); color: var(--amber); }
+
+    /* CONFIG ROW */
+    .config-row { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+    .config-box {
+      flex: 1; min-width: 130px; display: flex; align-items: center; gap: 6px;
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 10px; padding: 6px 10px;
+    }
+    .config-box label { font-size: 0.72rem; color: var(--text2); }
+    .config-box select, .config-box input {
+      width: 100%; border: none; background: transparent; color: var(--text);
+      font-size: 0.85rem; font-weight: 600; outline: none;
+    }
+
+    /* Q DISPLAY */
+    .q-display { text-align: center; margin-bottom: 12px; }
+    .q-num {
+      font-family: 'Syne', sans-serif; font-size: 2.3rem; font-weight: 800;
+      color: var(--accent); line-height: 1;
+    }
+    .q-lbl { font-size: 0.8rem; color: var(--text3); }
+
+    /* OPTIONS */
+    .options-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;
+    }
+    .opt-btn {
+      padding: 16px 12px; border-radius: 14px; border: 1.5px solid var(--border);
+      background: var(--surface2); color: var(--text); font-family: 'Syne', sans-serif;
+      font-size: 1.3rem; font-weight: 800; cursor: pointer;
+      display: flex; align-items: center; justify-content: space-between;
+      min-height: 62px; transition: transform 0.08s, border-color 0.15s, background 0.15s;
+    }
+    .opt-btn .opt-hint {
+      font-size: 0.75rem; color: var(--text3); font-family: 'DM Mono', monospace;
+      background: var(--surface3); padding: 2px 6px; border-radius: 6px;
+    }
+    .opt-btn:active { transform: scale(0.96); }
+    .opt-btn[data-letter="a"]:active { background: var(--green-light); border-color: var(--green); color: var(--green); }
+    .opt-btn[data-letter="b"]:active { background: var(--blue-light); border-color: var(--blue); color: var(--blue); }
+    .opt-btn[data-letter="c"]:active { background: var(--amber-light); border-color: var(--amber); color: var(--amber); }
+    .opt-btn[data-letter="d"]:active { background: var(--skip-light); border-color: var(--skip); color: var(--skip); }
+
+    .skip-btn {
+      width: 100%; padding: 11px; background: var(--skip-light);
+      border: 1.5px dashed var(--skip); border-radius: 12px; color: var(--skip);
+      font-weight: 700; font-size: 0.9rem; cursor: pointer; margin-bottom: 12px;
+    }
+    .skip-btn:active { transform: scale(0.98); }
+
+    .action-row { display: flex; gap: 8px; margin-bottom: 14px; }
+    .action-row button {
+      flex: 1; padding: 10px; border-radius: 10px; border: 1px solid var(--border);
+      background: var(--surface2); color: var(--text2); font-weight: 600; font-size: 0.85rem;
+      cursor: pointer;
+    }
+
+    /* LOG LIST & CATEGORY STYLES */
+    .log-header {
+      display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;
+    }
+    .log-title { font-size: 0.78rem; font-weight: 700; color: var(--text2); text-transform: uppercase; }
+    .avg-badge {
+      font-family: 'DM Mono', monospace; font-size: 0.75rem; padding: 3px 8px;
+      background: var(--accent-light); color: var(--accent); border-radius: 20px; font-weight: 600;
+    }
+    .log-list {
+      max-height: 290px; overflow-y: auto; border: 1px solid var(--border);
+      border-radius: 14px; background: var(--surface2); padding: 6px;
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .log-item {
+      display: flex; align-items: center; padding: 10px 14px;
+      background: var(--surface); border-radius: 10px;
+      border: 1.5px solid var(--border); font-size: 0.9rem; gap: 10px;
+      transition: all 0.2s ease;
+    }
+
+    /* Category UI states */
+    .log-item.status-correct {
+      background: var(--green-light);
+      border-color: var(--green-border);
+    }
+    .log-item.status-wrong {
+      background: var(--red-light);
+      border-color: var(--red-border);
+    }
+    .log-item.status-skip {
+      background: var(--skip-light);
+      border-color: var(--skip);
+      border-style: dashed;
+    }
+    .log-item.status-overtime {
+      border-color: var(--amber) !important;
+    }
+
+    .log-qnum {
+      font-family: 'DM Mono', monospace; font-size: 0.85rem; color: var(--text2);
+      min-width: 38px; font-weight: 700;
+    }
+    .log-opt {
+      font-family: 'Syne', sans-serif; font-size: 1.05rem; font-weight: 800;
+      min-width: 28px;
+    }
+    .log-opt.a { color: var(--green); }
+    .log-opt.b { color: var(--blue); }
+    .log-opt.c { color: var(--amber); }
+    .log-opt.d { color: var(--skip); }
+    .log-opt.skip { color: var(--skip); font-size: 0.8rem; font-family: 'DM Mono', monospace; }
+
+    .log-time {
+      font-family: 'DM Mono', monospace; font-size: 0.78rem; color: var(--text3);
+      margin-left: auto; display: flex; align-items: center; gap: 4px;
+    }
+    .overtime-tag {
+      font-size: 0.68rem; padding: 2px 6px; border-radius: 6px;
+      background: var(--amber-light); color: var(--amber); font-weight: 700;
+    }
+
+    /* MARK BUTTONS & ANIMATIONS */
+    .log-mark { display: flex; gap: 4px; }
+    .mark-btn {
+      background: none; border: none; cursor: pointer;
+      font-size: 1.15rem; padding: 2px 4px; opacity: 0.35;
+      transition: transform 0.15s, opacity 0.15s;
+    }
+    .mark-btn:hover { opacity: 0.8; }
+    .mark-btn.active-tick {
+      opacity: 1;
+      animation: popTick 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .mark-btn.active-cross {
+      opacity: 1;
+      animation: popTick 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes popTick {
+      0% { transform: scale(0.7); }
+      60% { transform: scale(1.3); }
+      100% { transform: scale(1); }
+    }
+
+    /* TOAST */
+    #toast {
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+      background: #111; color: #fff; padding: 10px 22px; border-radius: 30px;
+      font-size: 0.88rem; font-weight: 600; z-index: 1000; opacity: 0; pointer-events: none;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.4); transition: opacity 0.25s;
+    }
+    #file-import-input { display: none; }
+
+    /* ══════════════════════════════════════
+       AUTH OVERLAY — Advanced Animated UI
+       ══════════════════════════════════════ */
+    .auth-overlay {
+      position: fixed; inset: 0; z-index: 10000;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--bg);
+      transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+                  transform 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+                  filter 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .auth-overlay.hidden {
+      opacity: 0; pointer-events: none;
+      transform: scale(1.08); filter: blur(12px);
+    }
+
+    /* Animated Background Orbs */
+    .auth-bg { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+    .auth-orb {
+      position: absolute; border-radius: 50%;
+      filter: blur(100px); opacity: 0.22;
+    }
+    .auth-orb-1 {
+      width: 350px; height: 350px; background: var(--accent);
+      top: 5%; left: 15%;
+      animation: orbDrift1 12s ease-in-out infinite;
+    }
+    .auth-orb-2 {
+      width: 250px; height: 250px; background: #60a5fa;
+      top: 55%; right: 10%;
+      animation: orbDrift2 15s ease-in-out infinite;
+    }
+    .auth-orb-3 {
+      width: 280px; height: 280px; background: #4ade80;
+      bottom: 5%; left: 35%;
+      animation: orbDrift3 18s ease-in-out infinite;
+    }
+    .auth-orb-4 {
+      width: 180px; height: 180px; background: #c4b5fd;
+      top: 30%; right: 30%;
+      animation: orbDrift1 14s ease-in-out infinite reverse;
+    }
+    @keyframes orbDrift1 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(40px, -60px) scale(1.15); }
+      66% { transform: translate(-30px, 30px) scale(0.85); }
+    }
+    @keyframes orbDrift2 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(-50px, -30px) scale(1.1); }
+      66% { transform: translate(30px, 50px) scale(0.9); }
+    }
+    @keyframes orbDrift3 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      25% { transform: translate(60px, -20px) scale(1.08); }
+      50% { transform: translate(-40px, -40px) scale(0.92); }
+      75% { transform: translate(20px, 40px) scale(1.05); }
+    }
+
+    /* Glass Card */
+    .auth-card {
+      position: relative;
+      background: rgba(26, 25, 22, 0.75);
+      backdrop-filter: blur(50px); -webkit-backdrop-filter: blur(50px);
+      border: 1px solid rgba(224, 122, 95, 0.15);
+      border-radius: 28px;
+      padding: 44px 36px 36px;
+      width: 100%; max-width: 400px; margin: 0 16px;
+      box-shadow:
+        0 30px 80px rgba(0,0,0,0.5),
+        0 0 0 1px rgba(255,255,255,0.03) inset,
+        0 1px 0 rgba(255,255,255,0.05) inset;
+      animation: cardAppear 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    body.light .auth-card {
+      background: rgba(255, 255, 255, 0.85);
+      border-color: rgba(139, 58, 42, 0.15);
+      box-shadow: 0 30px 80px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.03) inset;
+    }
+    @keyframes cardAppear {
+      from { opacity: 0; transform: translateY(40px) scale(0.92) rotateX(8deg); filter: blur(4px); }
+      to { opacity: 1; transform: translateY(0) scale(1) rotateX(0deg); filter: blur(0); }
+    }
+
+    /* Animated border glow */
+    .auth-card::before {
+      content: ''; position: absolute; inset: -1px;
+      border-radius: 29px; padding: 1px;
+      background: linear-gradient(135deg,
+        var(--accent) 0%, transparent 25%,
+        transparent 50%, #60a5fa 75%, transparent 100%);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor; mask-composite: exclude;
+      opacity: 0.4; animation: borderGlow 6s linear infinite;
+    }
+    @keyframes borderGlow { to { filter: hue-rotate(360deg); } }
+
+    /* Logo */
+    .auth-logo {
+      font-size: 2.8rem; text-align: center;
+      margin-bottom: 6px; line-height: 1;
+      animation: logoBounce 2s ease-in-out infinite;
+    }
+    @keyframes logoBounce {
+      0%, 100% { transform: translateY(0) scale(1); filter: drop-shadow(0 0 8px rgba(224,122,95,0.2)); }
+      50% { transform: translateY(-6px) scale(1.08); filter: drop-shadow(0 8px 20px rgba(224,122,95,0.5)); }
+    }
+    .auth-title {
+      font-family: 'Syne', sans-serif; font-size: 1.65rem; font-weight: 800;
+      text-align: center; color: var(--text); margin-bottom: 4px; letter-spacing: -0.02em;
+    }
+    .auth-subtitle {
+      font-size: 0.82rem; color: var(--text3); text-align: center;
+      margin-bottom: 28px; transition: opacity 0.3s;
+    }
+
+    /* Staggered form animation */
+    .auth-form-inner > * {
+      opacity: 0; transform: translateY(12px);
+      animation: formStagger 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    .auth-form-inner > *:nth-child(1) { animation-delay: 0.3s; }
+    .auth-form-inner > *:nth-child(2) { animation-delay: 0.4s; }
+    .auth-form-inner > *:nth-child(3) { animation-delay: 0.5s; }
+    .auth-form-inner > *:nth-child(4) { animation-delay: 0.55s; }
+    @keyframes formStagger { to { opacity: 1; transform: translateY(0); } }
+
+    /* Input group */
+    .auth-input-wrap { position: relative; margin-bottom: 20px; }
+    .auth-input-wrap input {
+      width: 100%; padding: 15px 16px 15px 44px;
+      background: var(--surface2); border: 1.5px solid var(--border);
+      border-radius: 14px; color: var(--text);
+      font-size: 0.92rem; outline: none;
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .auth-input-wrap input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px rgba(224,122,95,0.1), 0 0 30px rgba(224,122,95,0.06);
+      background: var(--surface);
+    }
+    .auth-input-wrap .auth-ico {
+      position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+      font-size: 1.1rem; opacity: 0.4; transition: all 0.3s; pointer-events: none;
+    }
+    .auth-input-wrap input:focus ~ .auth-ico {
+      opacity: 1; transform: translateY(-50%) scale(1.15);
+    }
+    .auth-input-wrap label {
+      position: absolute; left: 44px; top: 50%; transform: translateY(-50%);
+      color: var(--text3); font-size: 0.88rem;
+      pointer-events: none; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .auth-input-wrap input:focus + label,
+    .auth-input-wrap input:not(:placeholder-shown) + label {
+      top: -8px; left: 12px; font-size: 0.7rem;
+      color: var(--accent); background: var(--bg);
+      padding: 2px 8px; font-weight: 700;
+      letter-spacing: 0.03em; border-radius: 4px;
+    }
+    body.light .auth-input-wrap input:focus + label,
+    body.light .auth-input-wrap input:not(:placeholder-shown) + label {
+      background: var(--surface);
+    }
+
+    /* Error */
+    .auth-error {
+      color: var(--red); font-size: 0.8rem; font-weight: 600;
+      text-align: center; min-height: 22px; margin-bottom: 8px;
+      transition: all 0.3s;
+    }
+    .auth-error.shake {
+      animation: authShake 0.45s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+    }
+    @keyframes authShake {
+      0%, 100% { transform: translateX(0); }
+      15% { transform: translateX(-10px); }
+      30% { transform: translateX(10px); }
+      45% { transform: translateX(-6px); }
+      60% { transform: translateX(6px); }
+      75% { transform: translateX(-2px); }
+    }
+
+    /* Submit button */
+    .auth-submit-btn {
+      width: 100%; padding: 15px 20px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-mid));
+      color: #fff; border: none; border-radius: 14px;
+      font-size: 0.95rem; font-weight: 800;
+      font-family: 'Syne', sans-serif; letter-spacing: 0.02em;
+      cursor: pointer; position: relative; overflow: hidden;
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+    }
+    .auth-submit-btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 35px rgba(224,122,95,0.35);
+    }
+    .auth-submit-btn:active:not(:disabled) { transform: translateY(0) scale(0.97); }
+    .auth-submit-btn:disabled { opacity: 0.7; cursor: not-allowed; }
+    .auth-submit-btn::after {
+      content: ''; position: absolute; top: 0; left: -100%;
+      width: 200%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+      transition: left 0.7s ease;
+    }
+    .auth-submit-btn:hover::after { left: 100%; }
+
+    /* Spinner */
+    .auth-spin {
+      display: none; width: 18px; height: 18px;
+      border: 2.5px solid rgba(255,255,255,0.25);
+      border-top-color: #fff; border-radius: 50%;
+      animation: authSpinAnim 0.7s linear infinite;
+    }
+    .auth-submit-btn.loading .auth-spin { display: block; }
+    .auth-submit-btn.loading .auth-btn-label { opacity: 0.6; }
+    @keyframes authSpinAnim { to { transform: rotate(360deg); } }
+
+    /* Mode switch */
+    .auth-mode-switch {
+      text-align: center; margin-top: 22px;
+      font-size: 0.82rem; color: var(--text3);
+    }
+    .auth-mode-switch button {
+      background: none; border: none; color: var(--accent);
+      font-weight: 700; cursor: pointer; font-size: 0.82rem;
+      padding: 4px 10px; border-radius: 8px;
+      transition: all 0.25s; position: relative;
+    }
+    .auth-mode-switch button:hover {
+      background: var(--accent-light); transform: translateY(-1px);
+    }
+    .auth-mode-switch button::after {
+      content: ''; position: absolute;
+      bottom: 1px; left: 10px; right: 10px; height: 1.5px;
+      background: var(--accent); transform: scaleX(0); transition: transform 0.3s;
+    }
+    .auth-mode-switch button:hover::after { transform: scaleX(1); }
+
+    /* Sync indicator */
+    .sync-indicator {
+      font-size: 0.8rem; font-weight: 700;
+      padding: 5px 10px; border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--surface2); color: var(--text2);
+      display: inline-flex; align-items: center; gap: 5px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .sync-indicator.syncing {
+      background: var(--blue-light); border-color: var(--blue); color: var(--blue);
+      animation: syncPulse 1.2s ease-in-out infinite;
+    }
+    .sync-indicator.synced {
+      background: var(--green-light); border-color: var(--green-border); color: var(--green);
+    }
+    .sync-indicator.error {
+      background: var(--amber-light); border-color: var(--amber-border); color: var(--amber);
+    }
+    @keyframes syncPulse {
+      0%, 100% { opacity: 0.7; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.04); }
+    }
+
+    /* Success animation */
+    .auth-success-check {
+      display: none; text-align: center; font-size: 3.5rem;
+      animation: successPop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      margin: 20px 0;
+    }
+    @keyframes successPop {
+      0% { transform: scale(0) rotate(-20deg); opacity: 0; }
+      60% { transform: scale(1.2) rotate(5deg); }
+      100% { transform: scale(1) rotate(0deg); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- AUTH OVERLAY -->
+  <div id="auth-overlay" class="auth-overlay">
+    <div class="auth-bg">
+      <div class="auth-orb auth-orb-1"></div>
+      <div class="auth-orb auth-orb-2"></div>
+      <div class="auth-orb auth-orb-3"></div>
+      <div class="auth-orb auth-orb-4"></div>
+    </div>
+    <div class="auth-card">
+      <div class="auth-logo">⚡</div>
+      <div class="auth-title">MCQ Tracker</div>
+      <div class="auth-subtitle" id="auth-subtitle">Sign in to sync your progress across devices</div>
+      <div id="auth-success" class="auth-success-check">✅</div>
+      <form id="auth-form" class="auth-form-inner" onsubmit="handleAuthSubmit(event)">
+        <div class="auth-input-wrap">
+          <input type="email" id="auth-email" placeholder=" " required autocomplete="email">
+          <label for="auth-email">Email Address</label>
+          <span class="auth-ico">✉️</span>
+        </div>
+        <div class="auth-input-wrap">
+          <input type="password" id="auth-password" placeholder=" " required autocomplete="current-password" minlength="6">
+          <label for="auth-password">Password</label>
+          <span class="auth-ico">🔒</span>
+        </div>
+        <div class="auth-error" id="auth-error"></div>
+        <button type="submit" class="auth-submit-btn" id="auth-submit-btn">
+          <span class="auth-btn-label" id="auth-btn-label">Sign In</span>
+          <div class="auth-spin" id="auth-spin"></div>
+        </button>
+      </form>
+      <div class="auth-mode-switch">
+        <span id="auth-mode-text">Don't have an account?</span>
+        <button onclick="toggleAuthMode()" id="auth-mode-btn">Create Account</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div class="topbar-title">⚡ MCQ Tracker</div>
+    <div class="topbar-actions">
+      <span class="sync-indicator" id="sync-indicator">☁️ Synced</span>
+      <button class="icon-btn" onclick="exportFullBackup()" title="Export full JSON backup">📤 Backup</button>
+      <button class="icon-btn" onclick="document.getElementById('file-import-input').click()" title="Import JSON backup">📥 Restore</button>
+      <button class="icon-btn" onclick="toggleTheme()" title="Toggle Dark/Light mode">🌗</button>
+      <button class="icon-btn" id="logout-btn" onclick="handleLogout()" title="Logout" style="display:none">🚪</button>
+    </div>
+  </div>
+
+  <input type="file" id="file-import-input" accept=".json" onchange="importFullBackup(event)">
+
+  <div class="container">
+
+    <!-- ── HOME VIEW ── -->
+    <div id="view-home" class="view active">
+      <div class="view-heading">Overall Performance</div>
+
+      <!-- OVERALL PERFORMANCE 6-CARD GRID -->
+      <div class="metrics-grid">
+        <!-- Row 1 -->
+        <div class="metric-card">
+          <div class="metric-val c-accent" id="g-total-q">0</div>
+          <div class="metric-lbl">TOTAL QUESTIONS</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-val c-green" id="g-accuracy">—</div>
+          <div class="metric-lbl">GLOBAL ACCURACY</div>
+        </div>
+        <!-- Row 2 -->
+        <div class="metric-card">
+          <div class="metric-val c-green" id="g-total-correct">0</div>
+          <div class="metric-lbl">TOTAL CORRECT</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-val c-red" id="g-total-wrong">0</div>
+          <div class="metric-lbl">TOTAL WRONG</div>
+        </div>
+        <!-- Row 3 (In Line) -->
+        <div class="metric-card">
+          <div class="metric-val c-accent" id="g-total-time">0:00</div>
+          <div class="metric-lbl">TOTAL TIME SPENT</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-val c-accent" id="g-avg-time">0:00</div>
+          <div class="metric-lbl">GLOBAL AVG. TIME / Q</div>
+        </div>
+      </div>
+
+      <!-- SESSIONS SECTION -->
+      <div class="section-header">
+        <div class="section-title">Practice Sessions</div>
+      </div>
+
+      <div class="add-bar">
+        <input type="text" id="home-new-subject" placeholder="New subject / paper (e.g. Reasoning Set 1)...">
+        <button onclick="createNewSession()">+ Add</button>
+      </div>
+
+      <div id="sessions-list"></div>
+    </div>
+
+    <!-- ── PRACTICE SESSION VIEW ── -->
+    <div id="view-session" class="view">
+      <button class="nav-back" onclick="showHomeView()">← Back to Home</button>
+
+      <div class="practice-card">
+        <div class="subject-header">
+          <div class="subject-title" id="p-subject-name">Subject</div>
+          <div class="subject-header-actions">
+          
+            <button onclick="exportCurrentCSV()">📥 CSV</button>
+            <button onclick="resetCurrentSessionAnswers()" style=" background: red; color:#ffb4b4;" >Reset</button>
+          </div>
+        </div>
+
+        <div class="practice-body">
+          <!-- SCORECARD -->
+          <div class="scorecard">
+            <div><div class="sc-val c-accent" id="sc-score">0.0</div><div class="sc-lbl">Score</div></div>
+            <div><div class="sc-val c-green" id="sc-acc">—</div><div class="sc-lbl">Accuracy</div></div>
+            <div><div class="sc-val c-green" id="sc-correct">0</div><div class="sc-lbl">Correct (✅)</div></div>
+            <div><div class="sc-val c-red" id="sc-wrong">0</div><div class="sc-lbl">Wrong (❌)</div></div>
+          </div>
+
+          <!-- PAUSE BANNER -->
+          <div class="pause-banner" id="p-pause-banner">⏸️ SESSION PAUSED — Click Resume to start timing</div>
+
+          <!-- TIMER -->
+          <div class="timer-row">
+            <div>
+              <div style="font-size:0.75rem; color:var(--text2); font-weight:600;">Time on current Q</div>
+              <div class="timer-val paused" id="p-timer-val">0:00</div>
+            </div>
+            <button class="pause-btn paused" id="p-pause-btn" onclick="toggleCurrentPause()">▶ Resume</button>
+          </div>
+
+          <!-- CONFIG -->
+          <div class="config-row">
+            <div class="config-box" style="flex:1.4;">
+              <label>Marking:</label>
+              <select id="p-scheme-sel" onchange="changeMarkingScheme(this.value)">
+                <option value="ssc_t1">SSC Tier-1 (+2 / -0.5)</option>
+                <option value="ssc_t2">SSC Tier-2 (+3 / -1.0)</option>
+                <option value="upsc">UPSC (+2 / -0.66)</option>
+                <option value="bank">Banking (+1 / -0.25)</option>
+                <option value="none">Standard (+1 / 0)</option>
+              </select>
+            </div>
+            <div class="config-box" style="max-width:110px;">
+              <label>Start Q#:</label>
+              <input type="number" id="p-startq" min="1" onchange="setStartQuestion(this.value)">
+            </div>
+          </div>
+
+          <!-- QUESTION NUMBER -->
+          <div class="q-display">
+            <div class="q-num" id="p-qnum">Q 1</div>
+            <div class="q-lbl">Current Question</div>
+          </div>
+
+          <!-- OPTION BUTTONS -->
+          <div class="options-grid" id="p-opts-grid"></div>
+          <button class="skip-btn" onclick="skipCurrentQuestion()">⏭ Skip this question [S]</button>
+
+          <!-- UNDO / REDO -->
+          <div class="action-row">
+            <button onclick="undoAnswer()">↩ Undo (Z)</button>
+            <button onclick="redoAnswer()">↪ Redo (Y)</button>
+          </div>
+
+          <!-- ANSWERS LOG -->
+          <div class="log-header">
+            <div class="log-title">Answer History</div>
+            <div class="avg-badge" id="p-avg-pace">Avg: —</div>
+          </div>
+          <div class="log-list" id="p-log-list"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="toast"></div>
+
+  <script>
+    /* ── DATA STORE ── */
+    let SESSIONS = {};
+    let activeSubject = null;
+    let timerInterval = null;
+    let currentUser = null;
+    let cloudSaveTimer = null;
+    let authMode = 'login';
+    let hasPendingSync = false;
+    let isSyncing = false;
+
+    const SCHEMES = {
+      'ssc_t1': { name: 'SSC Tier-1 (+2 / -0.5)', pos: 2, neg: 0.5 },
+      'ssc_t2': { name: 'SSC Tier-2 (+3 / -1.0)', pos: 3, neg: 1.0 },
+      'upsc':   { name: 'UPSC (+2 / -0.66)', pos: 2, neg: 0.66 },
+      'bank':   { name: 'Banking (+1 / -0.25)', pos: 1, neg: 0.25 },
+      'none':   { name: 'Standard (+1 / 0)', pos: 1, neg: 0 }
+    };
+
+    /* ── STORAGE: LOCAL + CLOUD SYNC ── */
+    function loadLocalSessions() {
+      const raw = localStorage.getItem('mcq_all_sessions');
+      if (raw) {
+        try { SESSIONS = JSON.parse(raw); } catch (e) { SESSIONS = {}; }
+      } else {
+        // Migrate old individual keys if present
+        SESSIONS = {};
+        Object.keys(localStorage).forEach(k => {
+          if (k.startsWith('mq_') && !k.startsWith('mq_marks_') && !k.startsWith('mq_meta_') && k !== 'mq_dark' && k !== 'mcq_theme') {
+            const name = k.replace('mq_', '');
+            const answers = JSON.parse(localStorage.getItem(k) || '{}');
+            const marks = JSON.parse(localStorage.getItem('mq_marks_' + name) || '{}');
+            SESSIONS[name] = {
+              name,
+              currentQ: Object.keys(answers).length ? Math.max(...Object.keys(answers).map(Number)) + 1 : 1,
+              answers,
+              marks,
+              scheme: 'ssc_t1',
+              undoStack: [],
+              redoStack: [],
+              updatedAt: Date.now()
+            };
+          }
+        });
+        saveLocalOnly();
+      }
+
+      // Ensure each session has required stacks and timestamps
+      Object.values(SESSIONS).forEach(s => {
+        if (!s.undoStack) s.undoStack = [];
+        if (!s.redoStack) s.redoStack = [];
+        if (!s.updatedAt) s.updatedAt = Date.now();
+      });
+    }
+
+    function saveLocalOnly() {
+      localStorage.setItem('mcq_all_sessions', JSON.stringify(SESSIONS));
+    }
+
+    async function loadAllSessions() {
+      loadLocalSessions();
+      if (!currentUser) return;
+
+      showSyncStatus('syncing');
+      try {
+        const res = await fetch('/api/mcq-sessions');
+        if (res.ok) {
+          const data = await res.json();
+          const cloud = data.sessions || {};
+          const local = { ...SESSIONS };
+
+          const allKeys = Array.from(new Set([...Object.keys(local), ...Object.keys(cloud)]));
+          let merged = {};
+          let needPush = false;
+
+          allKeys.forEach(k => {
+            const loc = local[k];
+            const cld = cloud[k];
+
+            if (loc && !cld) {
+              // Only exists locally -> preserve & push to cloud
+              merged[k] = loc;
+              needPush = true;
+            } else if (!loc && cld) {
+              // Only exists in cloud -> accept cloud
+              merged[k] = cld;
+            } else if (loc && cld) {
+              const locTime = loc.updatedAt || 0;
+              const cldTime = cld.updatedAt || 0;
+
+              if (locTime > cldTime) {
+                // Local is newer -> preserve local & trigger push
+                merged[k] = loc;
+                needPush = true;
+              } else {
+                // Cloud is newer or equal -> accept cloud
+                merged[k] = cld;
+              }
+            }
+          });
+
+          // Ensure stacks & fields are initialized
+          Object.values(merged).forEach(s => {
+            if (!s.undoStack) s.undoStack = [];
+            if (!s.redoStack) s.redoStack = [];
+            if (!s.updatedAt) s.updatedAt = Date.now();
+          });
+
+          SESSIONS = merged;
+          saveLocalOnly();
+
+          if (needPush) {
+            hasPendingSync = true;
+            await cloudSaveNow();
+          } else {
+            hasPendingSync = false;
+            showSyncStatus('synced');
+          }
+        } else {
+          hasPendingSync = true;
+          showSyncStatus('error');
+        }
+      } catch (e) {
+        console.error('Cloud load failed, using local data:', e);
+        hasPendingSync = true;
+        showSyncStatus('error');
+      }
+    }
+
+    function saveAllSessions() {
+      saveLocalOnly();
+      if (currentUser) debouncedCloudSave();
+    }
+
+    /* ── THEME ── */
+    function toggleTheme() {
+      document.body.classList.toggle('light');
+      localStorage.setItem('mcq_theme', document.body.classList.contains('light') ? 'light' : 'dark');
+    }
+    if (localStorage.getItem('mcq_theme') === 'light') document.body.classList.add('light');
+
+    /* ── HOME SCREEN METRICS ── */
+    function renderHomeScreen() {
+      let totalQ = 0, totalCorrect = 0, totalWrong = 0, totalTimeSec = 0;
+
+      Object.values(SESSIONS).forEach(s => {
+        Object.entries(s.answers || {}).forEach(([q, d]) => {
+          totalQ++;
+          totalTimeSec += d.raw || 0;
+          if (s.marks && s.marks[q] === 'tick') totalCorrect++;
+          if (s.marks && s.marks[q] === 'cross') totalWrong++;
+        });
+      });
+
+      const evaluated = totalCorrect + totalWrong;
+      const accuracy = evaluated > 0 ? ((totalCorrect / evaluated) * 100).toFixed(1) + '%' : '—';
+      const avgTimeSec = totalQ > 0 ? totalTimeSec / totalQ : 0;
+
+      document.getElementById('g-total-q').textContent = totalQ;
+      document.getElementById('g-accuracy').textContent = accuracy;
+      document.getElementById('g-total-correct').textContent = totalCorrect;
+      document.getElementById('g-total-wrong').textContent = totalWrong;
+      document.getElementById('g-total-time').textContent = fmtTime(totalTimeSec);
+      document.getElementById('g-avg-time').textContent = fmtTime(avgTimeSec);
+
+      // Render Sessions List
+      const list = document.getElementById('sessions-list');
+      list.innerHTML = '';
+      const names = Object.keys(SESSIONS);
+
+      if (!names.length) {
+        list.innerHTML = `<div style="text-align:center; padding:30px; color:var(--text3);">No active practice sessions. Add one above!</div>`;
+        return;
+      }
+
+      names.forEach(name => {
+        const s = SESSIONS[name];
+        const count = Object.keys(s.answers || {}).length;
+        let c = 0, w = 0;
+        Object.keys(s.marks || {}).forEach(k => {
+          if (s.marks[k] === 'tick') c++;
+          if (s.marks[k] === 'cross') w++;
+        });
+        const acc = (c + w) > 0 ? Math.round((c / (c + w)) * 100) + '%' : '—';
+
+        const card = document.createElement('div');
+        card.className = 'session-card';
+        card.innerHTML = `
+          <div class="session-info">
+            <h4>${escHtml(name)}</h4>
+            <div class="session-meta">Q Answered: ${count} · Acc: ${acc} · Next: Q${s.currentQ || (count + 1)}</div>
+          </div>
+          <div class="session-btns">
+            <button class="btn-resume" onclick="openSession('${escHtml(name)}')">Practice ▶</button>
+            <button class="btn-del-sm" onclick="deleteSession('${escHtml(name)}')">✕</button>
+          </div>
+        `;
+        list.appendChild(card);
+      });
+    }
+
+    function createNewSession() {
+      const inp = document.getElementById('home-new-subject');
+      const name = inp.value.trim();
+      if (!name) return showToast('Please enter a session name');
+      if (SESSIONS[name]) return showToast('Session already exists');
+
+      SESSIONS[name] = {
+        name,
+        currentQ: 1,
+        answers: {},
+        marks: {},
+        scheme: 'ssc_t1',
+        undoStack: [],
+        redoStack: [],
+        updatedAt: Date.now()
+      };
+      saveAllSessions();
+      inp.value = '';
+      openSession(name);
+    }
+
+    function deleteSession(name) {
+      if (!confirm(`Delete session "${name}" and all answers?`)) return;
+      delete SESSIONS[name];
+      saveAllSessions();
+      renderHomeScreen();
+      showToast('Session deleted');
+    }
+
+    /* ── SESSION VIEW NAVIGATION ── */
+    function openSession(name) {
+      activeSubject = name;
+      const s = SESSIONS[name];
+      if (!s.undoStack) s.undoStack = [];
+      if (!s.redoStack) s.redoStack = [];
+      s.restoredElapsed = 0;
+
+      // Session timer is PAUSED BY DEFAULT when loaded
+      s.paused = true;
+      s.pausedAt = Date.now();
+      s.startTime = Date.now();
+      s.pauseAccum = 0;
+
+      document.getElementById('view-home').classList.remove('active');
+      document.getElementById('view-session').classList.add('active');
+
+      document.getElementById('p-subject-name').textContent = name;
+      document.getElementById('p-scheme-sel').value = s.scheme || 'ssc_t1';
+
+      // Set pause UI
+      const pauseBtn = document.getElementById('p-pause-btn');
+      const pauseBanner = document.getElementById('p-pause-banner');
+      const timerVal = document.getElementById('p-timer-val');
+
+      if (pauseBtn) {
+        pauseBtn.textContent = '▶ Resume';
+        pauseBtn.classList.add('paused');
+      }
+      if (pauseBanner) pauseBanner.classList.add('visible');
+      if (timerVal) {
+        timerVal.textContent = '0:00';
+        timerVal.className = 'timer-val paused';
+      }
+
+      clearInterval(timerInterval);
+      timerInterval = setInterval(tickSessionTimer, 300);
+
+      renderSessionOpts();
+      renderSessionLog();
+      updateSessionScorecard();
+    }
+
+    function showHomeView() {
+      clearInterval(timerInterval);
+      activeSubject = null;
+      document.getElementById('view-session').classList.remove('active');
+      document.getElementById('view-home').classList.add('active');
+      renderHomeScreen();
+    }
+
+    /* ── SESSION TIMER ── */
+    function tickSessionTimer() {
+      if (!activeSubject || !SESSIONS[activeSubject]) return;
+      const s = SESSIONS[activeSubject];
+      if (s.paused) return;
+
+      const sec = getCurrentElapsedSec();
+      const timerEl = document.getElementById('p-timer-val');
+      if (timerEl) timerEl.textContent = fmtTime(sec);
+    }
+
+    function toggleCurrentPause() {
+      if (!activeSubject || !SESSIONS[activeSubject]) return;
+      const s = SESSIONS[activeSubject];
+      const btn = document.getElementById('p-pause-btn');
+      const banner = document.getElementById('p-pause-banner');
+      const timerEl = document.getElementById('p-timer-val');
+
+      if (!s.paused) {
+        // Pause
+        s.paused = true;
+        s.pausedAt = Date.now();
+        if (btn) {
+          btn.textContent = '▶ Resume';
+          btn.classList.add('paused');
+        }
+        if (banner) banner.classList.add('visible');
+        if (timerEl) timerEl.classList.add('paused');
+      } else {
+        // Resume
+        if (s.pausedAt) {
+          const duration = (Date.now() - s.pausedAt) / 1000;
+          s.pauseAccum = (s.pauseAccum || 0) + duration;
+        }
+        s.paused = false;
+        s.pausedAt = null;
+        if (btn) {
+          btn.textContent = '⏸ Pause';
+          btn.classList.remove('paused');
+        }
+        if (banner) banner.classList.remove('visible');
+        if (timerEl) {
+          timerEl.classList.remove('paused');
+          timerEl.textContent = fmtTime(getCurrentElapsedSec());
+        }
+      }
+    }
+
+    function getCurrentElapsedSec() {
+      if (!activeSubject || !SESSIONS[activeSubject]) return 0;
+      const s = SESSIONS[activeSubject];
+      let accum = s.pauseAccum || 0;
+      if (s.paused && s.pausedAt) {
+        accum += (Date.now() - s.pausedAt) / 1000;
+      }
+      const running = ((Date.now() - (s.startTime || Date.now())) / 1000) - accum;
+      const total = (s.restoredElapsed || 0) + running;
+      return Math.max(0, total);
+    }
+
+    /* ── SAVE ANSWERS ── */
+    function saveAnswer(opt) {
+      if (!activeSubject) return;
+      const s = SESSIONS[activeSubject];
+      if (s.paused) {
+        toggleCurrentPause();
+      }
+
+      if (navigator.vibrate) navigator.vibrate(20);
+
+      const rawSec = getCurrentElapsedSec();
+      const prevAns = s.answers[s.currentQ] ? { ...s.answers[s.currentQ] } : null;
+
+      if (!s.undoStack) s.undoStack = [];
+      s.undoStack.push({
+        q: s.currentQ,
+        prevAnswer: prevAns,
+        newAnswer: { opt, time: fmtTime(rawSec), raw: rawSec },
+        timeSpentOnThisQ: rawSec,
+        nextQ: s.currentQ + 1
+      });
+      s.redoStack = [];
+
+      s.answers[s.currentQ] = { opt, time: fmtTime(rawSec), raw: rawSec };
+      s.currentQ++;
+
+      // Reset question timer for next question
+      s.restoredElapsed = 0;
+      s.startTime = Date.now();
+      s.pauseAccum = 0;
+      s.updatedAt = Date.now();
+
+      saveAllSessions();
+      renderSessionOpts();
+      renderSessionLog();
+      updateSessionScorecard();
+    }
+
+    function skipCurrentQuestion() { saveAnswer('skipped'); }
+
+    /* ── RENDER OPTIONS ── */
+    function renderSessionOpts() {
+      const s = SESSIONS[activeSubject];
+      document.getElementById('p-qnum').textContent = 'Q ' + s.currentQ;
+      document.getElementById('p-startq').value = s.currentQ;
+
+      const grid = document.getElementById('p-opts-grid');
+      grid.innerHTML = '';
+      const letters = ['a', 'b', 'c', 'd'];
+      letters.forEach((l, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'opt-btn';
+        btn.dataset.letter = l;
+        btn.innerHTML = `<span>${l.toUpperCase()}</span><span class="opt-hint">${i+1}</span>`;
+        btn.onclick = () => saveAnswer(l);
+        grid.appendChild(btn);
+      });
+    }
+
+    /* ── RENDER LOG LIST WITH CATEGORIES ── */
+    function renderSessionLog() {
+      const s = SESSIONS[activeSubject];
+      const list = document.getElementById('p-log-list');
+      const avgEl = document.getElementById('p-avg-pace');
+      list.innerHTML = '';
+
+      const entries = Object.entries(s.answers || {}).sort((a,b) => Number(a[0]) - Number(b[0]));
+      let totalTime = 0, count = 0;
+
+      [...entries].reverse().forEach(([q, data]) => {
+        const isSkip = data.opt === 'skipped';
+        const isOvertime = (data.raw || 0) > 240; // > 4 mins
+        const mark = (!isSkip && s.marks) ? (s.marks[q] || null) : null;
+
+        let statusClass = '';
+        if (isSkip) {
+          statusClass = ' status-skip';
+        } else if (mark === 'tick') {
+          statusClass = ' status-correct';
+        } else if (mark === 'cross') {
+          statusClass = ' status-wrong';
+        }
+        if (isOvertime) statusClass += ' status-overtime';
+
+        const item = document.createElement('div');
+        item.className = 'log-item' + statusClass;
+
+        const optDisplay = isSkip ? 'SKIP' : data.opt.toUpperCase();
+        const optClass = isSkip ? 'skip' : data.opt;
+
+        // Hide / Disable mark buttons for skipped questions; display [SKIPPED] badge
+        let markHTML = '';
+        if (!isSkip) {
+          markHTML = `
+            <div class="log-mark">
+              <button class="mark-btn ${mark==='tick'?'active-tick':''}" onclick="setQuestionMark('${q}', 'tick')" title="Mark Correct">✅</button>
+              <button class="mark-btn ${mark==='cross'?'active-cross':''}" onclick="setQuestionMark('${q}', 'cross')" title="Mark Wrong">❌</button>
+            </div>
+          `;
+        } else {
+          markHTML = `<span style="font-size:0.75rem; color:var(--skip); font-weight:700; background:var(--skip-light); padding:3px 8px; border-radius:6px; border:1px solid var(--skip);">[SKIPPED]</span>`;
+        }
+
+        item.innerHTML = `
+          <span class="log-qnum">Q${q}</span>
+          <span class="log-opt ${optClass}">${optDisplay}</span>
+          <span class="log-time">
+            ${data.time}
+            ${isOvertime ? '<span class="overtime-tag">⏱️ >4m</span>' : ''}
+          </span>
+          ${markHTML}
+        `;
+        list.appendChild(item);
+        totalTime += data.raw || 0;
+        count++;
+      });
+
+      avgEl.textContent = count ? 'Avg: ' + fmtTime(totalTime / count) : 'Avg: —';
+    }
+
+    function setQuestionMark(q, mark) {
+      const s = SESSIONS[activeSubject];
+      if (!s) return;
+      // Do not allow marking skipped questions
+      if (s.answers[q] && s.answers[q].opt === 'skipped') return;
+
+      if (!s.marks) s.marks = {};
+      if (s.marks[q] === mark) {
+        delete s.marks[q];
+      } else {
+        s.marks[q] = mark;
+      }
+      s.updatedAt = Date.now();
+      saveAllSessions();
+      renderSessionLog();
+      updateSessionScorecard();
+    }
+
+    function updateSessionScorecard() {
+      const s = SESSIONS[activeSubject];
+      const scheme = SCHEMES[s.scheme || 'ssc_t1'];
+
+      let correct = 0, wrong = 0;
+      Object.keys(s.marks || {}).forEach(q => {
+        if (s.marks[q] === 'tick') correct++;
+        if (s.marks[q] === 'cross') wrong++;
+      });
+
+      const score = (correct * scheme.pos) - (wrong * scheme.neg);
+      const evaluated = correct + wrong;
+      const acc = evaluated > 0 ? ((correct / evaluated) * 100).toFixed(1) + '%' : '—';
+
+      document.getElementById('sc-score').textContent = (score % 1 === 0 ? score : score.toFixed(2));
+      document.getElementById('sc-acc').textContent = acc;
+      document.getElementById('sc-correct').textContent = correct;
+      document.getElementById('sc-wrong').textContent = wrong;
+    }
+
+    /* ── MULTI-LEVEL UNDO / REDO WITH CUMULATIVE TIMING ── */
+    function undoAnswer() {
+      const s = SESSIONS[activeSubject];
+      if (!s || !s.undoStack || !s.undoStack.length) return showToast('Nothing to undo');
+      const action = s.undoStack.pop();
+      if (!s.redoStack) s.redoStack = [];
+      s.redoStack.push(action);
+
+      if (action.prevAnswer) {
+        s.answers[action.q] = action.prevAnswer;
+      } else {
+        delete s.answers[action.q];
+      }
+      s.currentQ = action.q;
+      
+      // Restore exact time spent on that question & pause timer
+      s.restoredElapsed = action.timeSpentOnThisQ || (action.newAnswer && action.newAnswer.raw) || 0;
+      s.paused = true;
+      s.pausedAt = Date.now();
+      s.startTime = Date.now();
+      s.pauseAccum = 0;
+      s.updatedAt = Date.now();
+
+      const btn = document.getElementById('p-pause-btn');
+      const banner = document.getElementById('p-pause-banner');
+      const timerEl = document.getElementById('p-timer-val');
+      
+      if (btn) {
+        btn.textContent = '▶ Resume';
+        btn.classList.add('paused');
+      }
+      if (banner) banner.classList.add('visible');
+      if (timerEl) {
+        timerEl.textContent = fmtTime(s.restoredElapsed);
+        timerEl.className = 'timer-val paused';
+      }
+
+      saveAllSessions();
+      renderSessionOpts();
+      renderSessionLog();
+      updateSessionScorecard();
+      
+      showToast(`Restored Q${s.currentQ}. Timer paused at ${fmtTime(s.restoredElapsed)}.`);
+    }
+
+    function redoAnswer() {
+      const s = SESSIONS[activeSubject];
+      if (!s || !s.redoStack || !s.redoStack.length) return showToast('Nothing to redo');
+      const action = s.redoStack.pop();
+      if (!s.undoStack) s.undoStack = [];
+      s.undoStack.push(action);
+
+      s.answers[action.q] = action.newAnswer;
+      s.currentQ = action.nextQ;
+      
+      // Reset timer & pause
+      s.restoredElapsed = 0;
+      s.startTime = Date.now();
+      s.pauseAccum = 0;
+      s.paused = true;
+      s.pausedAt = Date.now();
+      s.updatedAt = Date.now();
+
+      const btn = document.getElementById('p-pause-btn');
+      const banner = document.getElementById('p-pause-banner');
+      const timerEl = document.getElementById('p-timer-val');
+      
+      if (btn) {
+        btn.textContent = '▶ Resume';
+        btn.classList.add('paused');
+      }
+      if (banner) banner.classList.add('visible');
+      if (timerEl) {
+        timerEl.textContent = '0:00';
+        timerEl.className = 'timer-val paused';
+      }
+
+      saveAllSessions();
+      renderSessionOpts();
+      renderSessionLog();
+      updateSessionScorecard();
+
+      const optLabel = action.newAnswer.opt === 'skipped' ? 'SKIP' : action.newAnswer.opt.toUpperCase();
+      showToast(`Re-applied Q${action.q} (${optLabel}). Next: Q${s.currentQ}`);
+    }
+
+    function changeMarkingScheme(val) {
+      SESSIONS[activeSubject].scheme = val;
+      SESSIONS[activeSubject].updatedAt = Date.now();
+      saveAllSessions();
+      updateSessionScorecard();
+    }
+
+    function setStartQuestion(val) {
+      const q = parseInt(val);
+      if (!q || q < 1) return;
+      SESSIONS[activeSubject].currentQ = q;
+      SESSIONS[activeSubject].restoredElapsed = 0;
+      SESSIONS[activeSubject].startTime = Date.now();
+      SESSIONS[activeSubject].pauseAccum = 0;
+      SESSIONS[activeSubject].updatedAt = Date.now();
+      saveAllSessions();
+      renderSessionOpts();
+    }
+
+    function resetCurrentSessionAnswers() {
+      if (!confirm(`Reset all answers for "${activeSubject}"?`)) return;
+      const s = SESSIONS[activeSubject];
+      s.answers = {}; s.marks = {}; s.undoStack = []; s.redoStack = [];
+      s.currentQ = 1;
+      s.restoredElapsed = 0;
+      s.updatedAt = Date.now();
+      saveAllSessions();
+      renderSessionOpts();
+      renderSessionLog();
+      updateSessionScorecard();
+      showToast('Session reset');
+    }
+
+    /* ── FULL BACKUP EXPORT & IMPORT (JSON) ── */
+    function exportFullBackup() {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(SESSIONS, null, 2));
+      const a = document.createElement('a');
+      a.setAttribute("href", dataStr);
+      a.setAttribute("download", `MCQ_Tracker_Backup_${new Date().toISOString().slice(0,10)}.json`);
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      showToast('Full backup downloaded!');
+    }
+
+    function importFullBackup(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        try {
+          const parsed = JSON.parse(event.target.result);
+          if (typeof parsed !== 'object') throw new Error('Invalid format');
+          SESSIONS = parsed;
+          Object.values(SESSIONS).forEach(s => {
+            if (!s.undoStack) s.undoStack = [];
+            if (!s.redoStack) s.redoStack = [];
+            if (!s.updatedAt) s.updatedAt = Date.now();
+          });
+          saveAllSessions();
+          renderHomeScreen();
+          showToast('Data imported successfully!');
+        } catch (err) {
+          alert('Failed to import JSON: Invalid backup file.');
+        }
+      };
+      reader.readAsText(file);
+      e.target.value = '';
+    }
+
+    /* ── RESILIENT CLOUD SYNC & CONFLICT RESOLUTION ── */
+    function debouncedCloudSave() {
+      clearTimeout(cloudSaveTimer);
+      hasPendingSync = true;
+      showSyncStatus('syncing');
+      cloudSaveTimer = setTimeout(cloudSaveNow, 250);
+    }
+
+    async function cloudSaveNow() {
+      if (!currentUser) return;
+      if (isSyncing) return;
+      isSyncing = true;
+      showSyncStatus('syncing');
+
+      try {
+        const res = await fetch('/api/mcq-sessions', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ sessions: SESSIONS })
+        });
+        if (res.ok) {
+          hasPendingSync = false;
+          showSyncStatus('synced');
+        } else {
+          console.error('Cloud save failed:', await res.text());
+          hasPendingSync = true;
+          showSyncStatus('error');
+        }
+      } catch (e) {
+        console.error('Cloud save error:', e);
+        hasPendingSync = true;
+        showSyncStatus('error');
+      } finally {
+        isSyncing = false;
+      }
+    }
+
+    function showSyncStatus(status) {
+      const el = document.getElementById('sync-indicator');
+      if (!el) return;
+      el.className = 'sync-indicator';
+      if (status === 'syncing') {
+        el.textContent = '🔄 Syncing...';
+        el.classList.add('syncing');
+      } else if (status === 'synced') {
+        el.textContent = '☁️ Synced';
+        el.classList.add('synced');
+      } else if (status === 'error') {
+        el.textContent = '⚠️ Local Safe';
+        el.classList.add('error');
+      }
+    }
+
+    // Periodic auto-retry every 5 seconds if pending sync exists
+    setInterval(() => {
+      if (hasPendingSync && currentUser && navigator.onLine && !isSyncing) {
+        cloudSaveNow();
+      }
+    }, 5000);
+
+    // Auto-retry on reconnect
+    window.addEventListener('online', () => {
+      if (hasPendingSync && currentUser && !isSyncing) {
+        cloudSaveNow();
+      }
+    });
+
+    // Prevent data loss on tab close/switch
+    function flushPendingData() {
+      if (!currentUser || !hasPendingSync) return;
+      try {
+        fetch('/api/mcq-sessions', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          keepalive: true,
+          body: JSON.stringify({ sessions: SESSIONS })
+        });
+      } catch (e) {
+        console.warn('Flush pending data error:', e);
+      }
+    }
+
+    window.addEventListener('beforeunload', () => {
+      flushPendingData();
+    });
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'hidden') {
+        flushPendingData();
+      }
+    });
+
+    /* ── AUTH FUNCTIONS ── */
+    async function checkAuth() {
+      try {
+        const res = await fetch('/api/auth/me');
+        const data = await res.json();
+        if (data.authenticated && data.user) {
+          currentUser = data.user;
+          return true;
+        }
+      } catch (e) {
+        console.error('Auth check error:', e);
+      }
+      currentUser = null;
+      return false;
+    }
+
+    function toggleAuthMode() {
+      authMode = authMode === 'login' ? 'register' : 'login';
+      document.getElementById('auth-subtitle').textContent =
+        authMode === 'login'
+          ? 'Sign in to sync your progress across devices'
+          : 'Create a free account to save your data';
+      document.getElementById('auth-btn-label').textContent =
+        authMode === 'login' ? 'Sign In' : 'Create Account';
+      document.getElementById('auth-mode-text').textContent =
+        authMode === 'login' ? "Don't have an account?" : 'Already have an account?';
+      document.getElementById('auth-mode-btn').textContent =
+        authMode === 'login' ? 'Create Account' : 'Sign In';
+      document.getElementById('auth-error').textContent = '';
+      document.getElementById('auth-error').classList.remove('shake');
+    }
+
+    async function handleAuthSubmit(e) {
+      e.preventDefault();
+      const email = document.getElementById('auth-email').value.trim();
+      const password = document.getElementById('auth-password').value;
+      const errEl = document.getElementById('auth-error');
+      const btn = document.getElementById('auth-submit-btn');
+
+      if (!email || !password) {
+        errEl.textContent = 'Please fill in both fields.';
+        errEl.classList.remove('shake');
+        void errEl.offsetWidth;
+        errEl.classList.add('shake');
+        return;
+      }
+      if (password.length < 6) {
+        errEl.textContent = 'Password must be at least 6 characters.';
+        errEl.classList.remove('shake');
+        void errEl.offsetWidth;
+        errEl.classList.add('shake');
+        return;
+      }
+
+      btn.classList.add('loading');
+      btn.disabled = true;
+      errEl.textContent = '';
+
+      const endpoint = authMode === 'login' ? '/api/auth/login' : '/api/auth/register';
+
+      try {
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+        const data = await res.json();
+
+        if (!res.ok) {
+          errEl.textContent = data.error || 'Authentication failed. Please try again.';
+          errEl.classList.remove('shake');
+          void errEl.offsetWidth;
+          errEl.classList.add('shake');
+        } else if (data.user) {
+          currentUser = data.user;
+
+          // Show success animation
+          document.getElementById('auth-form').style.display = 'none';
+          document.querySelector('.auth-mode-switch').style.display = 'none';
+          document.getElementById('auth-subtitle').textContent = 'Welcome back!';
+          const successEl = document.getElementById('auth-success');
+          successEl.style.display = 'block';
+
+          // Load data from cloud and render
+          await loadAllSessions();
+          renderHomeScreen();
+
+          setTimeout(() => {
+            document.getElementById('auth-overlay').classList.add('hidden');
+            document.getElementById('logout-btn').style.display = '';
+          }, 800);
+        }
+      } catch (err) {
+        errEl.textContent = 'Network error. Please check your connection.';
+        errEl.classList.remove('shake');
+        void errEl.offsetWidth;
+        errEl.classList.add('shake');
+      } finally {
+        btn.classList.remove('loading');
+        btn.disabled = false;
+      }
+    }
+
+    async function handleLogout() {
+      if (!confirm('Log out? Your data is saved in the cloud.')) return;
+      try {
+        await fetch('/api/auth/logout', { method: 'POST' });
+      } catch (e) { console.error('Logout error:', e); }
+
+      currentUser = null;
+      SESSIONS = {};
+      document.getElementById('logout-btn').style.display = 'none';
+
+      // Reset and show auth overlay
+      const overlay = document.getElementById('auth-overlay');
+      overlay.classList.remove('hidden');
+      document.getElementById('auth-form').style.display = '';
+      document.querySelector('.auth-mode-switch').style.display = '';
+      document.getElementById('auth-success').style.display = 'none';
+      document.getElementById('auth-subtitle').textContent = 'Sign in to sync your progress across devices';
+      document.getElementById('auth-email').value = '';
+      document.getElementById('auth-password').value = '';
+      document.getElementById('auth-error').textContent = '';
+
+      renderHomeScreen();
+      showToast('Logged out successfully');
+    }
+
+    /* ── EXPORT CSV & COPY SUMMARY ── */
+    function copyCurrentSummary() {
+      const s = SESSIONS[activeSubject];
+      let correct = 0, wrong = 0, skipped = 0, totalTime = 0, count = 0;
+
+      Object.entries(s.answers || {}).forEach(([q, d]) => {
+        if (d.opt === 'skipped') skipped++;
+        if (s.marks && s.marks[q] === 'tick') correct++;
+        if (s.marks && s.marks[q] === 'cross') wrong++;
+        totalTime += d.raw || 0;
+        count++;
+      });
+
+      const scheme = SCHEMES[s.scheme || 'ssc_t1'];
+      const score = (correct * scheme.pos) - (wrong * scheme.neg);
+      const acc = (correct + wrong) > 0 ? ((correct / (correct + wrong)) * 100).toFixed(1) + '%' : 'N/A';
+      const avg = count ? fmtTime(totalTime / count) : '0:00';
+
+      const summary = `📊 *MCQ Practice Summary: ${activeSubject}*\n` +
+        `• Questions Attempted: ${count} (Skipped: ${skipped})\n` +
+        `• Correct: ${correct} | Wrong: ${wrong}\n` +
+        `• Accuracy: ${acc}\n` +
+        `• Score: ${score} (${scheme.name})\n` +
+        `• Total Time: ${fmtTime(totalTime)} (Avg: ${avg}/Q)`;
+
+      navigator.clipboard.writeText(summary).then(() => showToast('Summary copied!'));
+    }
+
+    function exportCurrentCSV() {
+      const s = SESSIONS[activeSubject];
+      let csv = 'Question,Option,Time_Formatted,Time_Seconds,Status\n';
+      Object.entries(s.answers || {}).sort((a,b) => Number(a[0]) - Number(b[0])).forEach(([q, d]) => {
+        let status = 'Unmarked';
+        if (s.marks && s.marks[q] === 'tick') status = 'Correct';
+        if (s.marks && s.marks[q] === 'cross') status = 'Wrong';
+        if (d.opt === 'skipped') status = 'Skipped';
+        csv += `${q},${d.opt.toUpperCase()},${d.time},${(d.raw || 0).toFixed(1)},${status}\n`;
+      });
+
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${activeSubject.replace(/\s+/g, '_')}_Log.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    /* ── UTILS ── */
+    function fmtTime(sec) {
+      sec = Math.max(0, Math.floor(sec));
+      const m = Math.floor(sec / 60), s = sec % 60;
+      return `${m}:${s < 10 ? '0' : ''}${s}`;
+    }
+
+    function escHtml(s) {
+      return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.style.opacity = '1';
+      clearTimeout(t._timer);
+      t._timer = setTimeout(() => t.style.opacity = '0', 2200);
+    }
+
+    /* ── KEYBOARD SHORTCUTS ── */
+    window.addEventListener('keydown', e => {
+      const tag = document.activeElement.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+
+      if (!activeSubject) return;
+
+      const key = e.key.toLowerCase();
+      if (key === 'a' || key === '1') { e.preventDefault(); saveAnswer('a'); }
+      else if (key === 'b' || key === '2') { e.preventDefault(); saveAnswer('b'); }
+      else if (key === 'c' || key === '3') { e.preventDefault(); saveAnswer('c'); }
+      else if (key === 'd' || key === '4') { e.preventDefault(); saveAnswer('d'); }
+      else if (key === 's') { e.preventDefault(); skipCurrentQuestion(); }
+      else if (key === ' ' || e.code === 'Space') { e.preventDefault(); toggleCurrentPause(); }
+      else if ((e.ctrlKey && key === 'z') || key === 'z') { e.preventDefault(); undoAnswer(); }
+      else if ((e.ctrlKey && key === 'y') || key === 'y') { e.preventDefault(); redoAnswer(); }
+      else if (key === 'escape') { e.preventDefault(); showHomeView(); }
+    });
+
+    /* ── INIT ── */
+    window.addEventListener('DOMContentLoaded', async () => {
+      const isAuthed = await checkAuth();
+
+      if (isAuthed) {
+        document.getElementById('auth-overlay').classList.add('hidden');
+        document.getElementById('logout-btn').style.display = '';
+        await loadAllSessions();
+      } else {
+        // Show auth overlay (visible by default), load local for fallback
+        loadLocalSessions();
+      }
+      renderHomeScreen();
+    });
+  </script>
+</body>
+</html>

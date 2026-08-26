@@ -1,0 +1,312 @@
+---
+// src/pages/ssc-mcq-practice-timer.astro
+export const prerender = true;
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SEO from '../components/SEO.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import Schema from '../components/Schema.astro';
+import FAQ from '../components/FAQ.astro';
+
+const pageTitle = "SSC MCQ Practice Timer — Mock Test Speed Practice for CGL & CHSL";
+const pageDesc = "Boost your SSC exam speed with MCQTicker's free SSC MCQ Practice Timer. Solve CGL & CHSL mock questions, track per-question time, and analyze pacing.";
+const canonicalPath = "/ssc-mcq-practice-timer";
+
+const breadcrumbs = [
+  { label: "SSC MCQ Practice Timer", url: "/ssc-mcq-practice-timer" }
+];
+
+const faqs = [
+  {
+    question: "What is the SSC MCQ Practice Timer and who is it for?",
+    answer: "The SSC MCQ Practice Timer is a specialized exam pacing tool designed specifically for SSC (Staff Selection Commission) aspirants. It helps candidates practicing for CGL, CHSL, MTS, and CPO mock exams build the high speed required for the exam."
+  },
+  {
+    question: "Why is speed so critical for the SSC CGL Tier 1 exam?",
+    answer: "In SSC CGL Tier 1, you have only 60 minutes to answer 100 questions. That is a tight window of just 36 seconds per question. Candidates must solve questions quickly to finish the paper."
+  },
+  {
+    question: "How does MCQTicker help improve my SSC question solving speed?",
+    answer: "MCQTicker allows you to practice with a digital stopwatch or a strict countdown timer set to 30 or 36 seconds. This helps you build the muscle memory to answer or skip questions quickly."
+  },
+  {
+    question: "Can I use this mock test timer offline while studying from practice books?",
+    answer: "Yes. MCQTicker is a Progressive Web App (PWA) that runs offline in your browser. All session history and analytics are stored locally on your device via IndexedDB."
+  },
+  {
+    question: "Does the SSC practice tool support question-by-question analytics?",
+    answer: "Yes. At the end of a session, MCQTicker displays detailed pacing and speed charts, highlighting the exact questions that took too long and showing you where you need to improve."
+  },
+  {
+    question: "Is this SSC speed practice tool completely free?",
+    answer: "Yes, it is 100% free with no hidden charges, signups, or subscription limits. We want to support all candidates preparing for their exams."
+  },
+  {
+    question: "How do I grade my virtual answer sheet for SSC PYQs?",
+    answer: "After finishing a practice sheet, enter or paste the correct answer key. The grader compares it with your logged answers and calculates your score instantly."
+  },
+  {
+    question: "What is a good target time for the Quantitative Aptitude section of SSC CGL?",
+    answer: "You should aim for 35–45 seconds per math question during practice. Learning shortcut tricks and formulas is essential to meet this target."
+  },
+  {
+    question: "How does tracking speed per question reduce negative marking in SSC exams?",
+    answer: "It helps prevent last-minute panic. When candidates run out of time, they often make random guesses. Maintaining a steady pace throughout the test reduces the need for guessing."
+  },
+  {
+    question: "Does MCQTicker support timing practice on mobile browsers?",
+    answer: "Yes. The MCQTicker interface is fully responsive and optimized for mobile screens, making it easy to tap options and track times on your smartphone."
+  }
+];
+---
+
+<BaseLayout title={pageTitle} description={pageDesc} canonicalPath={canonicalPath}>
+  <SEO title={pageTitle} description={pageDesc} canonicalPath={canonicalPath} />
+  <Schema pageName={pageTitle} pageDescription={pageDesc} pageUrl={`https://mcqticker.online${canonicalPath}`} breadcrumbs={breadcrumbs} faqs={faqs} />
+
+  <div class="max-w-3xl mx-auto space-y-10 animate-fadeIn">
+    <!-- Breadcrumb -->
+    <Breadcrumb items={breadcrumbs} />
+
+    <!-- Hero Header -->
+    <div class="bg-gradient-to-br from-brand-primary/10 to-brand-secondary/5 border border-brand-primary/20 dark:border-brand-secondary/20 rounded-3xl p-8 text-center space-y-6 shadow-custom-md">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-primary/10 dark:bg-brand-secondary/10 border border-brand-primary/20 dark:border-brand-secondary/20 text-brand-primary dark:text-brand-secondary text-xxs font-bold uppercase tracking-wider">
+        <span class="material-symbols-outlined text-sm">bolt</span>
+        SSC Pacing & Exam Prep
+      </div>
+      <h1 class="font-display font-black text-3xl md:text-5xl text-text-light dark:text-text-dark leading-tight">
+        Master Pacing with the <span class="text-brand-primary dark:text-brand-secondary">SSC MCQ Practice Timer</span>
+      </h1>
+      <p class="text-sm md:text-base text-text-light-muted dark:text-text-dark-muted max-w-xl mx-auto leading-relaxed">
+        Beat the 36-second clock. Practice SSC CGL, CHSL, and MTS mock tests, log your responses, and identify slow calculation areas offline.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-3 justify-center pt-2">
+        <a href="/new-session" class="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-brand-primary dark:bg-brand-secondary text-white dark:text-bg-dark font-bold text-sm rounded-xl hover:opacity-90 transition-all decoration-none shadow-md">
+          <span class="material-symbols-outlined text-base">bolt</span>
+          Start SSC Speed Practice
+        </a>
+        <a href="/online-omr-sheet" class="inline-flex items-center justify-center gap-2 px-6 py-3.5 border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark text-text-light dark:text-text-dark font-bold text-sm rounded-xl hover:bg-surface-light-hover dark:hover:bg-surface-dark-hover transition-colors decoration-none">
+          <span class="material-symbols-outlined text-base">school</span>
+          View Online OMR Sheet
+        </a>
+      </div>
+    </div>
+
+    <!-- Article Content -->
+    <article class="prose dark:prose-invert max-w-none text-sm text-text-light dark:text-text-dark leading-relaxed space-y-8">
+      
+      <!-- Section 1: Intro & Keyword Clustering -->
+      <section class="space-y-4">
+        <h2 class="font-display font-extrabold text-xl text-text-light dark:text-text-dark border-b border-border-light dark:border-border-dark pb-2">
+          The 36-Second Challenge: Solving SSC CGL Mock Tests Under Time Constraints
+        </h2>
+        <p>
+          The Staff Selection Commission (SSC) exams, especially SSC CGL (Combined Graduate Level) and CHSL (Combined Higher Secondary Level), are known for their tight time limits. In SSC CGL Tier 1, candidates have exactly 60 minutes to answer 100 questions. These questions span four major areas: Quantitative Aptitude, General Intelligence and Reasoning, English Comprehension, and General Awareness.
+        </p>
+        <p>
+          When you deduct the time needed to read questions and select answers, you have only **35 to 36 seconds per question**. This means speed and efficiency are just as important as knowing the subject matter.
+        </p>
+        <p>
+          To help you prepare, we developed the <strong>MCQTicker SSC MCQ Practice Timer</strong>—a custom exam prep tool. It serves as an active <a href="/ssc-mcq-practice-timer" class="text-brand-primary dark:text-brand-secondary font-bold">SSC question timer</a> and response logger, helping candidates practice timed sessions and analyze pacing.
+        </p>
+      </section>
+
+      <!-- Section 2: Problem Statement -->
+      <section class="space-y-4">
+        <h2 class="font-display font-extrabold text-xl text-text-light dark:text-text-dark border-b border-border-light dark:border-border-dark pb-2">
+          The Problem: Getting Stuck on Complex Math and Reasoning Questions
+        </h2>
+        <p>
+          Many SSC candidates fail mock tests because they get stuck on single, complex math or reasoning questions. Spending two to three minutes trying to solve a tough puzzle leaves you with very little time for easier questions, such as those in English or General Awareness.
+        </p>
+        <p>
+          This pacing failure creates several problems:
+        </p>
+        <ul class="list-disc pl-6 space-y-2">
+          <li><strong>Rushed Decisions:</strong> Realizing you have only 10 minutes left for 30 questions leads to panic and mistakes.</li>
+          <li><strong>Unread Questions:</strong> Candidates often leave the exam hall complaining they didn't have time to look at the last 15 questions.</li>
+          <li><strong>High Negative Marks:</strong> Guessing answers in a hurry leads to incorrect choices and penalty marks.</li>
+        </ul>
+      </section>
+
+      <!-- Section 3: Why Students Need This Tool -->
+      <section class="space-y-4">
+        <h2 class="font-display font-extrabold text-xl text-text-light dark:text-text-dark border-b border-border-light dark:border-border-dark pb-2">
+          Why You Need a Dedicated SSC Practice Tool
+        </h2>
+        <p>
+          The solution is to build a steady solving rhythm. Using MCQTicker trains you to recognize when a question is taking too much time, helping you make faster skip decisions.
+        </p>
+        <p>
+          The tool is easy to use. Instead of writing answers on paper, tap option buttons on your screen. The app acts as an <a href="/online-omr-sheet" class="text-brand-primary dark:text-brand-secondary font-bold">online OMR sheet</a> and stopwatch, logging split times and option choices automatically.
+        </p>
+        <p>
+          Whether practicing from books, past-year papers, or PDFs, MCQTicker provides the analytical feedback you need to optimize your prep.
+        </p>
+      </section>
+
+      <!-- Section 4: Features -->
+      <section class="space-y-4 bg-surface-light dark:bg-surface-dark p-6 rounded-2xl border border-border-light dark:border-border-dark">
+        <h3 class="font-display font-extrabold text-lg text-text-light dark:text-text-dark flex items-center gap-2">
+          <span class="material-symbols-outlined text-brand-primary dark:text-brand-secondary">stars</span>
+          Key Features of MCQTicker SSC MCQ Practice Timer
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
+          <div>
+            <h4 class="font-bold text-xs text-text-light dark:text-text-dark">⏱️ 36-Second Target Timer</h4>
+            <p class="text-xxs text-text-light-muted dark:text-text-dark-muted mt-1">
+              Use <strong>Timer Binding Mode</strong> to set a strict 36s countdown per question, replicating the pressure of the SSC Tier 1 exam.
+            </p>
+          </div>
+          <div>
+            <h4 class="font-bold text-xs text-text-light dark:text-text-dark">📝 Tap-to-Log Interface</h4>
+            <p class="text-xxs text-text-light-muted dark:text-text-dark-muted mt-1">
+              Log answers using large, tactile buttons optimized for mobile and desktop screens. Zero typing required.
+            </p>
+          </div>
+          <div>
+            <h4 class="font-bold text-xs text-text-light dark:text-text-dark">📊 Speed Performance Metrics</h4>
+            <p class="text-xxs text-text-light-muted dark:text-text-dark-muted mt-1">
+              Review speed charts to see the exact time spent on each question and locate calculation bottlenecks.
+            </p>
+          </div>
+          <div>
+            <h4 class="font-bold text-xs text-text-light dark:text-text-dark">🔒 Secure Local Storage</h4>
+            <p class="text-xxs text-text-light-muted dark:text-text-dark-muted mt-1">
+              All practice data is saved directly in your browser. Your study logs remain completely private.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 5: How It Works -->
+      <section class="space-y-4">
+        <h2 class="font-display font-extrabold text-xl text-text-light dark:text-text-dark border-b border-border-light dark:border-border-dark pb-2">
+          How It Works: Step-by-Step Practice Guide
+        </h2>
+        <p>
+          Start practicing with MCQTicker in four simple steps:
+        </p>
+        <ol class="list-decimal pl-6 space-y-3">
+          <li>
+            <strong>Set Up a Session:</strong> Choose a subject and configure the number of questions on the homepage.
+          </li>
+          <li>
+            <strong>Select Answers:</strong> Solve questions from your booklet. Tap A, B, C, or D on your screen. Use the 'Skip' button to leave an answer blank.
+          </li>
+          <li>
+            <strong>Grade Your Session:</strong> When you complete the mock test, enter the correct answers to grade your entries instantly.
+          </li>
+          <li>
+            <strong>Analyze Pacing:</strong> Check the speed charts to locate questions that took too much time.
+          </li>
+        </ol>
+      </section>
+
+      <!-- Section 6: Benefits -->
+      <section class="space-y-4">
+        <h2 class="font-display font-extrabold text-xl text-text-light dark:text-text-dark border-b border-border-light dark:border-border-dark pb-2">
+          The Benefits: Why Speed Practice Boosts Scores
+        </h2>
+        <p>
+          Practicing regularly with a dedicated SSC mock timer offers several advantages:
+        </p>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div class="p-4 rounded-xl bg-bg-light dark:bg-bg-dark border border-border-light dark:border-border-dark">
+            <h4 class="font-bold text-xs text-text-light dark:text-text-dark">Eliminate Hesitation</h4>
+            <p class="text-xxs text-text-light-muted dark:text-text-dark-muted mt-1">
+              Build the confidence to skip tough calculation questions and focus on easy marks.
+            </p>
+          </div>
+          <div class="p-4 rounded-xl bg-bg-light dark:bg-bg-dark border border-border-light dark:border-border-dark">
+            <h4 class="font-bold text-xs text-text-light dark:text-text-dark">Improve Stamina</h4>
+            <p class="text-xxs text-text-light-muted dark:text-text-dark-muted mt-1">
+              Develop the mental stamina needed to solve 100 questions in 60 minutes.
+            </p>
+          </div>
+          <div class="p-4 rounded-xl bg-bg-light dark:bg-bg-dark border border-border-light dark:border-border-dark">
+            <h4 class="font-bold text-xs text-text-light dark:text-text-dark">Reduce Guesswork</h4>
+            <p class="text-xxs text-text-light-muted dark:text-text-dark-muted mt-1">
+              Maintaining a steady pace prevents last-minute panic and reduces negative marks.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 7: Sectional Target Benchmarks -->
+      <section class="space-y-4">
+        <h2 class="font-display font-extrabold text-xl text-text-light dark:text-text-dark border-b border-border-light dark:border-border-dark pb-2">
+          SSC CGL Tier 1 Sectional Pacing Benchmarks
+        </h2>
+        <p>
+          Here is a breakdown of target speeds for each section in the SSC CGL Tier 1 exam:
+        </p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs text-left border-collapse border border-border-light dark:border-border-dark">
+            <thead>
+              <tr class="bg-surface-light dark:bg-surface-dark">
+                <th class="p-2.5 border border-border-light dark:border-border-dark">Section Name</th>
+                <th class="p-2.5 border border-border-light dark:border-border-dark">Questions</th>
+                <th class="p-2.5 border border-border-light dark:border-border-dark">Target Time</th>
+                <th class="p-2.5 border border-border-light dark:border-border-dark">Target Speed Per Question</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="p-2.5 border border-border-light dark:border-border-dark font-bold">Quantitative Aptitude</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark">25 Questions</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark">22 - 25 Minutes</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark text-correct-green dark:text-brand-secondary font-bold">50 - 60 seconds</td>
+              </tr>
+              <tr class="bg-surface-light/40 dark:bg-surface-dark/40">
+                <td class="p-2.5 border border-border-light dark:border-border-dark font-bold">General Intelligence & Reasoning</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark">25 Questions</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark">15 - 18 Minutes</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark text-correct-green dark:text-brand-secondary font-bold">35 - 40 seconds</td>
+              </tr>
+              <tr>
+                <td class="p-2.5 border border-border-light dark:border-border-dark font-bold">English Comprehension</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark">25 Questions</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark">10 - 12 Minutes</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark text-correct-green dark:text-brand-secondary font-bold">25 - 30 seconds</td>
+              </tr>
+              <tr class="bg-surface-light/40 dark:bg-surface-dark/40">
+                <td class="p-2.5 border border-border-light dark:border-border-dark font-bold">General Awareness</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark">25 Questions</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark">5 - 7 Minutes</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark text-correct-green dark:text-brand-secondary font-bold">12 - 15 seconds</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Section 8: Pacing Tips -->
+      <section class="space-y-4">
+        <h2 class="font-display font-extrabold text-xl text-text-light dark:text-text-dark border-b border-border-light dark:border-border-dark pb-2">
+          Pacing Tips for the Exam Hall
+        </h2>
+        <ul class="list-disc pl-6 space-y-3">
+          <li>
+            <strong>Start with General Awareness:</strong> Answer GA questions first. Since they don't require calculations, you can finish this section in 5–7 minutes, helping you build early confidence.
+          </li>
+          <li>
+            <strong>Practice under pressure:</strong> Set your target limit to 30 seconds during practice. Training with tighter limits makes the real exam feel manageable.
+          </li>
+          <li>
+            <strong>Track skip decisions:</strong> In exams with negative marking, skipping a question is often the best choice. Use the "Skip" button to track your skipping decisions.
+          </li>
+        </ul>
+      </section>
+
+      <!-- Section 9: Brand and Internal Links -->
+      <section class="space-y-4">
+        <p>
+          At <strong>MCQTicker</strong>, we prioritize your data privacy. All practice history and speed calculations are processed and saved locally in your browser. Read our <a href="/privacy" class="text-brand-primary dark:text-brand-secondary underline">privacy policy</a> and review our <a href="/terms" class="text-brand-primary dark:text-brand-secondary underline">terms of service</a>. For more practice options, check out our <a href="/answer-tracker" class="text-brand-primary dark:text-brand-secondary font-bold">answer tracker</a> and try our <a href="/mcq-timer" class="text-brand-primary dark:text-brand-secondary font-bold">MCQ timer</a>.
+        </p>
+      </section>
+    </article>
+
+    <!-- FAQ Accordion Component -->
+    <FAQ faqs={faqs} title="SSC MCQ Practice Timer FAQs" subtitle="Common questions about improving solving speeds, managing sectional time limits, and preparing for SSC exams." />
+  </div>
+</BaseLayout>

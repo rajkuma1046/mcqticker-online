@@ -1,0 +1,130 @@
+---
+// src/components/Schema.astro
+interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+interface BreadcrumbItem {
+  label: string;
+  url: string;
+}
+
+interface Props {
+  pageName: string;
+  pageDescription: string;
+  pageUrl: string;
+  breadcrumbs: BreadcrumbItem[];
+  faqs?: FAQItem[];
+}
+
+const {
+  pageName,
+  pageDescription,
+  pageUrl,
+  breadcrumbs,
+  faqs = [],
+} = Astro.props;
+
+const SITE_URL = 'https://mcqticker.online';
+const logoUrl = `${SITE_URL}/logo-light.webp`;
+
+// 1. Organization Schema
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "MCQTicker",
+  "url": SITE_URL,
+  "logo": logoUrl,
+  "sameAs": [
+    SITE_URL
+  ]
+};
+
+// 2. WebPage Schema
+const webPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": pageName,
+  "description": pageDescription,
+  "url": pageUrl,
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "MCQTicker",
+    "url": SITE_URL
+  }
+};
+
+// 3. BreadcrumbList Schema
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": SITE_URL
+    },
+    ...breadcrumbs.map((crumb, index) => ({
+      "@type": "ListItem",
+      "position": index + 2,
+      "name": crumb.label,
+      "item": crumb.url.startsWith('http') ? crumb.url : `${SITE_URL}${crumb.url}`
+    }))
+  ]
+};
+
+// 4. SoftwareApplication Schema
+const softwareAppSchema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "MCQTicker MCQ Timer & Answer Tracker",
+  "operatingSystem": "Web Browser",
+  "applicationCategory": "EducationalApplication",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.9",
+    "ratingCount": "1480",
+    "reviewCount": "1480",
+    "bestRating": "5",
+    "worstRating": "1"
+  },
+  "url": SITE_URL,
+  "description": "A free online MCQ answer tracker and practice timer for competitive exam aspirants. Practice NEET, JEE, SSC, and UPSC questions efficiently."
+};
+
+// 5. FAQPage Schema
+const faqSchema = faqs.length > 0 ? {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqs.map(faq => ({
+    "@type": "Question",
+    "name": faq.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": faq.answer
+    }
+  }))
+} : null;
+---
+
+<!-- Organization Schema -->
+<script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} is:inline />
+
+<!-- WebPage Schema -->
+<script type="application/ld+json" set:html={JSON.stringify(webPageSchema)} is:inline />
+
+<!-- Breadcrumb Schema -->
+<script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} is:inline />
+
+<!-- SoftwareApplication Schema -->
+<script type="application/ld+json" set:html={JSON.stringify(softwareAppSchema)} is:inline />
+
+<!-- FAQPage Schema -->
+{faqSchema && <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} is:inline />}

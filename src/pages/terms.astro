@@ -1,0 +1,146 @@
+---
+export const prerender = true;
+import BaseLayout from '../layouts/BaseLayout.astro';
+const lastUpdated = '18 June 2026';
+---
+
+<BaseLayout
+  title="Terms and Conditions — tap A B C D MCQ Ticker | mcqticker.online"
+  description="Terms and conditions for using mcqticker.online — tap A B C D MCQ Ticker."
+  canonicalPath="/terms"
+>
+  <div class="max-w-2xl mx-auto space-y-6 animate-fadeIn">
+    <!-- Header -->
+    <div class="text-center space-y-3 pb-4 border-b border-border-light dark:border-border-dark">
+      <h1 class="font-display font-black text-3xl text-brand-primary dark:text-brand-secondary">
+        Terms & Conditions
+      </h1>
+      <p class="text-xs text-text-light-muted dark:text-text-dark-muted">
+        Last updated: {lastUpdated} &nbsp;·&nbsp; Domain: <a href="https://mcqticker.online" class="underline hover:text-brand-primary dark:hover:text-brand-secondary">mcqticker.online</a>
+      </p>
+    </div>
+
+    <!-- Introduction -->
+    <div class="policy-card">
+      <h2 class="policy-heading">
+        <span class="material-symbols-outlined policy-icon">gavel</span>
+        Introduction
+      </h2>
+      <p class="policy-text">
+        Welcome to <strong>tap A B C D MCQ Ticker</strong>. By accessing or using our website (<a href="https://mcqticker.online" class="policy-link">mcqticker.online</a>), you agree to comply with and be bound by these Terms and Conditions. If you do not agree with any part of these terms, please do not use our website.
+      </p>
+    </div>
+
+    <!-- Use License -->
+    <div class="policy-card">
+      <h2 class="policy-heading">
+        <span class="material-symbols-outlined policy-icon">description</span>
+        Use License
+      </h2>
+      <p class="policy-text">
+        Our tool is provided entirely for free for educational and personal use. We grant you a limited, non-exclusive, non-transferable license to use the website.
+      </p>
+      <ul class="policy-list">
+        <li>You may use the tool to practice MCQs and track your answers.</li>
+        <li>You may not attempt to reverse engineer any software contained on the website.</li>
+        <li>You may not use the tool for any illegal or unauthorized purpose.</li>
+      </ul>
+    </div>
+
+    <!-- Disclaimer -->
+    <div class="policy-card">
+      <h2 class="policy-heading">
+        <span class="material-symbols-outlined policy-icon">warning</span>
+        Disclaimer
+      </h2>
+      <p class="policy-text">
+        The materials on tap A B C D MCQ Ticker are provided on an 'as is' basis. We make no warranties, expressed or implied, and hereby disclaim all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.
+      </p>
+    </div>
+
+    <!-- Limitations -->
+    <div class="policy-card">
+      <h2 class="policy-heading">
+        <span class="material-symbols-outlined policy-icon">block</span>
+        Limitations
+      </h2>
+      <p class="policy-text">
+        In no event shall tap A B C D MCQ Ticker or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on our website, even if we have been notified orally or in writing of the possibility of such damage.
+      </p>
+    </div>
+
+    <!-- Contact -->
+    <div class="policy-card">
+      <h2 class="policy-heading">
+        <span class="material-symbols-outlined policy-icon">mail</span>
+        Questions About These Terms
+      </h2>
+      <p class="policy-text">
+        If you have questions about these Terms and Conditions, please contact us at:<br />
+        <a href="mailto:contact@mcqticker.online" class="policy-link font-bold">contact@mcqticker.online</a>
+      </p>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .policy-card {
+    background-color: var(--color-surface-light);
+    border: 1px solid var(--color-border-light);
+    border-radius: 1rem;
+    padding: 1.25rem 1.5rem;
+    space-y: 0.75rem;
+    box-shadow: var(--shadow-custom);
+  }
+  :global(.dark) .policy-card {
+    background-color: var(--color-surface-dark);
+    border-color: var(--color-border-dark);
+  }
+  .policy-heading {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 800;
+    font-size: 1rem;
+    color: var(--color-text-light);
+    margin-bottom: 0.75rem;
+  }
+  :global(.dark) .policy-heading {
+    color: var(--color-text-dark);
+  }
+  .policy-icon {
+    font-size: 1.15rem;
+    color: var(--color-brand-primary);
+  }
+  :global(.dark) .policy-icon {
+    color: var(--color-brand-secondary);
+  }
+  .policy-text {
+    font-size: 0.8rem;
+    line-height: 1.65;
+    color: var(--color-text-light);
+    margin-bottom: 0.6rem;
+  }
+  :global(.dark) .policy-text {
+    color: var(--color-text-dark);
+  }
+  .policy-list {
+    font-size: 0.78rem;
+    line-height: 1.65;
+    color: var(--color-text-light-muted);
+    list-style: disc;
+    padding-left: 1.25rem;
+    margin-bottom: 0.6rem;
+    space-y: 0.25rem;
+  }
+  :global(.dark) .policy-list {
+    color: var(--color-text-dark-muted);
+  }
+  .policy-link {
+    color: var(--color-brand-primary);
+    text-underline-offset: 2px;
+  }
+  :global(.dark) .policy-link {
+    color: var(--color-brand-secondary);
+  }
+</style>

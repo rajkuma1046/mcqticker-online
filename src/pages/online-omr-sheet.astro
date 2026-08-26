@@ -1,0 +1,307 @@
+---
+// src/pages/online-omr-sheet.astro
+export const prerender = true;
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SEO from '../components/SEO.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import Schema from '../components/Schema.astro';
+import FAQ from '../components/FAQ.astro';
+
+const pageTitle = "Online OMR Sheet — Interactive Digital Bubble Sheet & Practice Tool";
+const pageDesc = "Log and grade mock tests digitally with MCQTicker's free Online OMR Sheet. Practice bubble selection, track per-question time, and analyze metrics offline.";
+const canonicalPath = "/online-omr-sheet";
+
+const breadcrumbs = [
+  { label: "Online OMR Sheet", url: "/online-omr-sheet" }
+];
+
+const faqs = [
+  {
+    question: "What is an online OMR sheet and how does it replace paper ones?",
+    answer: "An online OMR (Optical Mark Recognition) sheet is a digital version of the traditional bubble response sheets used in offline exams. It allows you to select options (A, B, C, or D) on a screen, tracking responses and times digitally."
+  },
+  {
+    question: "Why should I use a digital OMR sheet alternative like MCQTicker?",
+    answer: "Paper OMR sheets are messy, expensive to print, and time-consuming to evaluate. A digital sheet evaluates your responses instantly, tracks your time per question, and stores your practice history automatically."
+  },
+  {
+    question: "Does practicing with a virtual OMR sheet prevent bubbling mistakes?",
+    answer: "Yes. Bubbling mistakes often occur when students lose track of rows on paper. Practicing with a virtual sheet teaches you to verify the question number with the logged option, reducing errors."
+  },
+  {
+    question: "Is this online OMR practice tool free for mock exams?",
+    answer: "Yes. The virtual OMR and option logger on MCQTicker is 100% free with no signups, payment details, or hidden limits."
+  },
+  {
+    question: "How do I enter correct answers to grade my virtual OMR sheet?",
+    answer: "Once you complete your practice session, you can input or copy the correct answer key into our grader. The system compares it with your logged answers and shows your score instantly."
+  },
+  {
+    question: "Can I use the MCQ marking sheet offline on my tablet?",
+    answer: "Yes. MCQTicker is a Progressive Web App (PWA). Once loaded in your browser, it runs completely offline, saving all session history locally on your device."
+  },
+  {
+    question: "Does the digital OMR alternative save my past practice sheets?",
+    answer: "Yes. All practice session logs and response records are saved locally on your device using browser IndexedDB storage. You can review past performance in the History dashboard."
+  },
+  {
+    question: "How does an online answer sheet track my speed?",
+    answer: "MCQTicker records the exact timestamp of every bubble selection. This allows you to see the exact time spent on each question and locate pacing bottlenecks."
+  },
+  {
+    question: "Can I practice offline exams like NEET and UPSC using this tool?",
+    answer: "Yes, that is the primary use case. Place your physical question booklet next to your tablet or phone, and tap the bubble responses on MCQTicker as you solve."
+  },
+  {
+    question: "Does MCQTicker support skip logging for difficult questions?",
+    answer: "Yes. There is a skip feature that allows you to leave a bubble blank, helping you practice skipping questions to avoid negative marks."
+  }
+];
+---
+
+<BaseLayout title={pageTitle} description={pageDesc} canonicalPath={canonicalPath}>
+  <SEO title={pageTitle} description={pageDesc} canonicalPath={canonicalPath} />
+  <Schema pageName={pageTitle} pageDescription={pageDesc} pageUrl={`https://mcqticker.online${canonicalPath}`} breadcrumbs={breadcrumbs} faqs={faqs} />
+
+  <div class="max-w-3xl mx-auto space-y-10 animate-fadeIn">
+    <!-- Breadcrumb -->
+    <Breadcrumb items={breadcrumbs} />
+
+    <!-- Hero Header -->
+    <div class="bg-gradient-to-br from-brand-primary/10 to-brand-secondary/5 border border-brand-primary/20 dark:border-brand-secondary/20 rounded-3xl p-8 text-center space-y-6 shadow-custom-md">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-primary/10 dark:bg-brand-secondary/10 border border-brand-primary/20 dark:border-brand-secondary/20 text-brand-primary dark:text-brand-secondary text-xxs font-bold uppercase tracking-wider">
+        <span class="material-symbols-outlined text-sm">school</span>
+        Digital OMR Alternative
+      </div>
+      <h1 class="font-display font-black text-3xl md:text-5xl text-text-light dark:text-text-dark leading-tight">
+        Practice Smarter with a Free <span class="text-brand-primary dark:text-brand-secondary">Online OMR Sheet</span>
+      </h1>
+      <p class="text-sm md:text-base text-text-light-muted dark:text-text-dark-muted max-w-xl mx-auto leading-relaxed">
+        Stop printing paper sheets. Log mock exam bubbles online, grade sessions instantly, and track question split times offline — zero printing costs.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-3 justify-center pt-2">
+        <a href="/new-session" class="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-brand-primary dark:bg-brand-secondary text-white dark:text-bg-dark font-bold text-sm rounded-xl hover:opacity-90 transition-all decoration-none shadow-md">
+          <span class="material-symbols-outlined text-base">bolt</span>
+          Open Digital OMR Sheet
+        </a>
+        <a href="/question-speed-calculator" class="inline-flex items-center justify-center gap-2 px-6 py-3.5 border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark text-text-light dark:text-text-dark font-bold text-sm rounded-xl hover:bg-surface-light-hover dark:hover:bg-surface-dark-hover transition-colors decoration-none">
+          <span class="material-symbols-outlined text-base">analytics</span>
+          View Speed Calculator
+        </a>
+      </div>
+    </div>
+
+    <!-- Article Content -->
+    <article class="prose dark:prose-invert max-w-none text-sm text-text-light dark:text-text-dark leading-relaxed space-y-8">
+      
+      <!-- Section 1: Intro & Keyword Clustering -->
+      <section class="space-y-4">
+        <h2 class="font-display font-extrabold text-xl text-text-light dark:text-text-dark border-b border-border-light dark:border-border-dark pb-2">
+          Why Paper OMR Sheets Slow Down Your Exam Preparation
+        </h2>
+        <p>
+          Offline competitive examinations, such as NEET, UPSC Prelims, and various state government recruitments, rely on physical Optical Mark Recognition (OMR) sheets. To practice, students purchase bubble sheet booklets or print PDFs, filling in circles with a black or blue pen.
+        </p>
+        <p>
+          While practicing with physical bubbles is necessary before the exam, using them for daily practice creates several inefficiencies:
+        </p>
+        <ul class="list-disc pl-6 space-y-2">
+          <li><strong>High Cost:</strong> Printing hundreds of sheets is expensive and generates paper waste.</li>
+          <li><strong>Messy Evaluations:</strong> Manually grading sheets using answer booklets takes significant time.</li>
+          <li><strong>No Time Analysis:</strong> Paper sheets cannot show you the exact duration spent on each question.</li>
+        </ul>
+        <p>
+          To solve these challenges, we created the <strong>MCQTicker Online OMR Sheet</strong>—a modern <a href="/online-omr-sheet" class="text-brand-primary dark:text-brand-secondary font-bold">digital OMR sheet</a> and option logger. It helps you practice option selection digitally, evaluate mock tests instantly, and analyze time metrics offline.
+        </p>
+      </section>
+
+      <!-- Section 2: Problem Statement -->
+      <section class="space-y-4">
+        <h2 class="font-display font-extrabold text-xl text-text-light dark:text-text-dark border-b border-border-light dark:border-border-dark pb-2">
+          The Problem: Bubbling Errors and Row Shifting
+        </h2>
+        <p>
+          A common mistake during offline exams is the "row shifting error." This happens when you skip a question on your booklet but accidentally bubble it on your OMR sheet, shifting all subsequent answers off by one line. A single mistake can spoil an entire exam.
+        </p>
+        <p>
+          Row shifting occurs due to a lack of alignment discipline between the question booklet and the bubble sheet. Daily practice with a structured virtual tool helps you develop the habit of verifying question numbers before logging options, reducing errors on the real test.
+        </p>
+      </section>
+
+      <!-- Section 3: Why Students Need This Tool -->
+      <section class="space-y-4">
+        <h2 class="font-display font-extrabold text-xl text-text-light dark:text-text-dark border-b border-border-light dark:border-border-dark pb-2">
+          Why You Need a Dedicated Virtual OMR Sheet
+        </h2>
+        <p>
+          A digital OMR alternative manages the logistics for you. As you read questions from physical books or PDFs, tap options on your screen. The tool logs your selections, tracks your speed per question, and displays performance metrics.
+        </p>
+        <p>
+          This keeps you in a focused study flow. When you finish, grading your answers is instant. The app calculates your score, highlights wrong answers, and saves the session to your history dashboard.
+        </p>
+        <p>
+          By bridging the gap between offline books and digital metrics, MCQTicker acts as a premium digital companion for students practicing from coaching modules, textbooks, or past-year papers.
+        </p>
+      </section>
+
+      <!-- Section 4: Features -->
+      <section class="space-y-4 bg-surface-light dark:bg-surface-dark p-6 rounded-2xl border border-border-light dark:border-border-dark">
+        <h3 class="font-display font-extrabold text-lg text-text-light dark:text-text-dark flex items-center gap-2">
+          <span class="material-symbols-outlined text-brand-primary dark:text-brand-secondary">stars</span>
+          Key Features of MCQTicker OMR Practice Tool
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
+          <div>
+            <h4 class="font-bold text-xs text-text-light dark:text-text-dark">🟢 Interactive Bubble Matrix</h4>
+            <p class="text-xxs text-text-light-muted dark:text-text-dark-muted mt-1">
+              Select choices via an easy-to-use bubble interface optimized for mobile and desktop screens.
+            </p>
+          </div>
+          <div>
+            <h4 class="font-bold text-xs text-text-light dark:text-text-dark">⏱️ Integrated Pacing Timer</h4>
+            <p class="text-xxs text-text-light-muted dark:text-text-dark-muted mt-1">
+              Track the exact duration of each bubble selection, helping you locate pacing bottlenecks.
+            </p>
+          </div>
+          <div>
+            <h4 class="font-bold text-xs text-text-light dark:text-text-dark">🎯 Instant Answer Key Matching</h4>
+            <p class="text-xxs text-text-light-muted dark:text-text-dark-muted mt-1">
+              Input correct answer keys after your practice session to instantly score your responses.
+            </p>
+          </div>
+          <div>
+            <h4 class="font-bold text-xs text-text-light dark:text-text-dark">🔒 Secure Local Privacy</h4>
+            <p class="text-xxs text-text-light-muted dark:text-text-dark-muted mt-1">
+              All performance data and sheet logs remain on your device. We do not store your information on our servers.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 5: How It Works -->
+      <section class="space-y-4">
+        <h2 class="font-display font-extrabold text-xl text-text-light dark:text-text-dark border-b border-border-light dark:border-border-dark pb-2">
+          How It Works: Step-by-Step Practice Guide
+        </h2>
+        <p>
+          Follow these steps to start practicing with MCQTicker:
+        </p>
+        <ol class="list-decimal pl-6 space-y-3">
+          <li>
+            <strong>Set Up a Session:</strong> Choose a subject and configure the number of questions on the homepage.
+          </li>
+          <li>
+            <strong>Select Answers:</strong> Solve questions from your book. Tap A, B, C, or D on your screen. Use the 'Skip' button to leave a bubble blank.
+          </li>
+          <li>
+            <strong>Grade the Sheet:</strong> When you complete the session, enter the correct answers. The app grades your sheet automatically.
+          </li>
+          <li>
+            <strong>Analyze Pacing:</strong> Review the speed charts to locate questions that took too much time.
+          </li>
+        </ol>
+      </section>
+
+      <!-- Section 6: Benefits -->
+      <section class="space-y-4">
+        <h2 class="font-display font-extrabold text-xl text-text-light dark:text-text-dark border-b border-border-light dark:border-border-dark pb-2">
+          The Benefits: Why Virtual OMR Sheets Enhance Study
+        </h2>
+        <p>
+          Using an online bubble sheet provides several key benefits:
+        </p>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div class="p-4 rounded-xl bg-bg-light dark:bg-bg-dark border border-border-light dark:border-border-dark">
+            <h4 class="font-bold text-xs text-text-light dark:text-text-dark">Reduce Mistakes</h4>
+            <p class="text-xxs text-text-light-muted dark:text-text-dark-muted mt-1">
+              Develop alignment discipline to avoid bubbling errors on the real exam.
+            </p>
+          </div>
+          <div class="p-4 rounded-xl bg-bg-light dark:bg-bg-dark border border-border-light dark:border-border-dark">
+            <h4 class="font-bold text-xs text-text-light dark:text-text-dark">Save Printing Costs</h4>
+            <p class="text-xxs text-text-light-muted dark:text-text-dark-muted mt-1">
+              Eliminate paper waste and printing expenses during daily practice sessions.
+            </p>
+          </div>
+          <div class="p-4 rounded-xl bg-bg-light dark:bg-bg-dark border border-border-light dark:border-border-dark">
+            <h4 class="font-bold text-xs text-text-light dark:text-text-dark">Track Speed Trends</h4>
+            <p class="text-xxs text-text-light-muted dark:text-text-dark-muted mt-1">
+              Monitor your average speed per bubble to see if your pacing is improving over time.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 7: Paper vs. Digital Comparison -->
+      <section class="space-y-4">
+        <h2 class="font-display font-extrabold text-xl text-text-light dark:text-text-dark border-b border-border-light dark:border-border-dark pb-2">
+          Paper OMR vs. MCQTicker Online Sheet
+        </h2>
+        <p>
+          Here is a comparison of how digital OMR alternatives improve on traditional paper methods:
+        </p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs text-left border-collapse border border-border-light dark:border-border-dark">
+            <thead>
+              <tr class="bg-surface-light dark:bg-surface-dark">
+                <th class="p-2.5 border border-border-light dark:border-border-dark">Feature</th>
+                <th class="p-2.5 border border-border-light dark:border-border-dark">Paper OMR Sheet</th>
+                <th class="p-2.5 border border-border-light dark:border-border-dark">MCQTicker Digital OMR</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="p-2.5 border border-border-light dark:border-border-dark font-bold">Evaluation Speed</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark">5 - 10 minutes (manual comparison)</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark text-correct-green dark:text-brand-secondary font-bold">Instant (automatic grading)</td>
+              </tr>
+              <tr class="bg-surface-light/40 dark:bg-surface-dark/40">
+                <td class="p-2.5 border border-border-light dark:border-border-dark font-bold">Per-Question Timing</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark">None (overall total time only)</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark text-correct-green dark:text-brand-secondary font-bold">Logged for every bubble selection</td>
+              </tr>
+              <tr>
+                <td class="p-2.5 border border-border-light dark:border-border-dark font-bold">Data Storage</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark">Scattered paper sheets (easily lost)</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark text-correct-green dark:text-brand-secondary font-bold">Unified history ledger stored locally</td>
+              </tr>
+              <tr class="bg-surface-light/40 dark:bg-surface-dark/40">
+                <td class="p-2.5 border border-border-light dark:border-border-dark font-bold">Setup Cost</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark">Continuous printing expenses</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark text-correct-green dark:text-brand-secondary font-bold">100% Free, no printing required</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Section 8: Tips for Success -->
+      <section class="space-y-4">
+        <h2 class="font-display font-extrabold text-xl text-text-light dark:text-text-dark border-b border-border-light dark:border-border-dark pb-2">
+          Pacing Tips for High-Stakes Exams
+        </h2>
+        <ul class="list-disc pl-6 space-y-3">
+          <li>
+            <strong>Use a Virtual Sheet for daily study:</strong> If your exam is offline (like NEET or UPSC), use a virtual OMR sheet alongside a printed bubble page. This helps you build pacing skills before transferring answers.
+          </li>
+          <li>
+            <strong>Track bubble selection speeds:</strong> Analyze your time logs. If you notice your speed drops in the middle of a session, try taking brief 10-second deep-breathing breaks to regain focus.
+          </li>
+          <li>
+            <strong>Skip tough questions:</strong> In exams with negative marking, skipping is often the best choice. Use the "Skip" button to track your skipping decisions and see how it affects your overall score.
+          </li>
+        </ul>
+      </section>
+
+      <!-- Section 9: Brand and Internal Links -->
+      <section class="space-y-4">
+        <p>
+          At <strong>MCQTicker</strong>, we prioritize your data privacy. All practice history and speed calculations are processed and saved locally in your browser. Read our <a href="/privacy" class="text-brand-primary dark:text-brand-secondary underline">privacy policy</a> and review our <a href="/terms" class="text-brand-primary dark:text-brand-secondary underline">terms of service</a>. For more practice options, check out our <a href="/answer-tracker" class="text-brand-primary dark:text-brand-secondary font-bold">answer tracker</a> and try our <a href="/mcq-timer" class="text-brand-primary dark:text-brand-secondary font-bold">MCQ timer</a>.
+        </p>
+      </section>
+    </article>
+
+    <!-- FAQ Accordion Component -->
+    <FAQ faqs={faqs} title="Online OMR Sheet FAQs" subtitle="Common questions about virtual bubble sheets, offline practice, grading, and bubbling error prevention." />
+  </div>
+</BaseLayout>

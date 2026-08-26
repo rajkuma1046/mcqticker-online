@@ -1,0 +1,76 @@
+---
+// src/components/FAQ.astro
+interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  faqs: FAQItem[];
+  title?: string;
+  subtitle?: string;
+}
+
+const {
+  faqs,
+  title = "Frequently Asked Questions",
+  subtitle = "Find quick answers to common questions about MCQTicker tools and exam practice techniques.",
+} = Astro.props;
+---
+
+<section class="faq-section space-y-6 pt-10 border-t border-border-light dark:border-border-dark" aria-label="FAQ">
+  <div class="text-center max-w-xl mx-auto space-y-2 mb-8">
+    <h2 class="font-display font-black text-2xl text-text-light dark:text-text-dark tracking-tight">
+      {title}
+    </h2>
+    <p class="text-xs text-text-light-muted dark:text-text-dark-muted leading-relaxed">
+      {subtitle}
+    </p>
+  </div>
+
+  <div class="max-w-3xl mx-auto space-y-4">
+    {faqs.map((faq, index) => (
+      <details
+        class="faq-details group border border-border-light dark:border-border-dark rounded-2xl bg-surface-light dark:bg-surface-dark shadow-custom transition-all duration-300 overflow-hidden"
+        itemscope
+        itemprop="mainEntity"
+        itemtype="https://schema.org/Question"
+      >
+        <summary
+          class="flex items-center justify-between gap-4 px-6 py-5 cursor-pointer select-none font-bold text-sm text-text-light dark:text-text-dark hover:bg-surface-light-hover dark:hover:bg-surface-dark-hover transition-colors"
+          itemprop="name"
+        >
+          <span>{faq.question}</span>
+          <span class="material-symbols-outlined text-xl text-brand-primary dark:text-brand-secondary transition-transform duration-300 group-open:rotate-180">
+            keyboard_arrow_down
+          </span>
+        </summary>
+        <div
+          class="px-6 pb-5 pt-1 text-xs text-text-light-muted dark:text-text-dark-muted leading-relaxed border-t border-border-light/40 dark:border-border-dark/40"
+          itemscope
+          itemprop="acceptedAnswer"
+          itemtype="https://schema.org/Answer"
+        >
+          <div itemprop="text">
+            {faq.answer}
+          </div>
+        </div>
+      </details>
+    ))}
+  </div>
+</section>
+
+<style>
+  /* Extra transitions for details summary click */
+  .faq-details[open] {
+    border-color: var(--color-brand-primary);
+    box-shadow: 0 8px 24px rgba(139, 58, 42, 0.06);
+  }
+  :global(.dark) .faq-details[open] {
+    border-color: var(--color-brand-secondary);
+    box-shadow: 0 8px 24px rgba(224, 122, 95, 0.06);
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+</style>

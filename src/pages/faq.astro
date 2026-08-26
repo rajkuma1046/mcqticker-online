@@ -1,0 +1,87 @@
+---
+// src/pages/faq.astro
+export const prerender = true;
+import BaseLayout from '../layouts/BaseLayout.astro';
+import FAQ from '../components/FAQ.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+
+const pageTitle = "Frequently Asked Questions — tap A B C D MCQ Ticker";
+const pageDesc = "Find answers to general questions about MCQTicker: features, offline capabilities, local data privacy, and time tracking settings.";
+
+const breadcrumbs = [
+  { label: "FAQ", url: "/faq" }
+];
+
+const generalFaqs = [
+  {
+    question: "What is tap A B C D MCQ Ticker?",
+    answer: "tap A B C D MCQ Ticker is a free, offline-capable web tool that allows students to practice multiple-choice questions (MCQs) from textbooks or PDFs by tapping response options on screen, automatically tracking time and pacing."
+  },
+  {
+    question: "How does the MCQ Timer work?",
+    answer: "It runs in your browser. Every time you tap A, B, C, or D, the app logs your response and records the exact seconds spent on that question, then moves to the next question automatically."
+  },
+  {
+    question: "Can I use the tool offline?",
+    answer: "Yes. MCQTicker is a Progressive Web App (PWA). Once loaded, it works completely offline. All data is saved on your device using IndexedDB, so no active internet connection is needed."
+  },
+  {
+    question: "Is my session history saved?",
+    answer: "Yes, all past practice sessions are saved locally in your browser's IndexedDB. You can review your historical accuracy, average speed, and session list in the History dashboard."
+  },
+  {
+    question: "How do I check my correct and wrong answers?",
+    answer: "At the end of your session, you can enter the correct answer key. The app compares it with your logged answers and shows you a detailed breakdown of correct, incorrect, and skipped questions."
+  },
+  {
+    question: "What is Timer Binding mode?",
+    answer: "Timer Binding mode lets you set a strict countdown limit per question (like 30, 45, or 60 seconds). The timer alerts you or moves to the next question when the limit is reached, helping you build exam-level pacing."
+  },
+  {
+    question: "Do I need to sign up or create an account?",
+    answer: "No. MCQTicker requires no signup, login, email address, or user accounts. You can start practicing immediately."
+  },
+  {
+    question: "Is my personal data shared with third parties?",
+    answer: "No. All your practice data, answers, and times are stored locally in your browser and are never uploaded to any remote server or shared with anyone."
+  },
+  {
+    question: "Can I use this tool on my mobile phone?",
+    answer: "Yes. MCQTicker is fully responsive and mobile-friendly, optimized for thumb tapping while reading physical books or question sheets."
+  },
+  {
+    question: "How do I install the app on my home screen?",
+    answer: "In most browsers, you will see an 'Install App' or 'Add to Home Screen' option in the address bar or browser menu. This installs MCQTicker as a PWA, allowing you to launch it in full-screen."
+  }
+];
+---
+
+<BaseLayout title={pageTitle} description={pageDesc} canonicalPath="/faq">
+  <div class="max-w-3xl mx-auto space-y-6 animate-fadeIn">
+    <!-- Breadcrumb -->
+    <Breadcrumb items={breadcrumbs} />
+
+    <!-- Hero Header -->
+    <div class="text-center space-y-3 pb-4 border-b border-border-light dark:border-border-dark">
+      <h1 class="font-display font-black text-3xl text-brand-primary dark:text-brand-secondary">
+        FAQ Center
+      </h1>
+      <p class="text-sm text-text-light-muted dark:text-text-dark-muted max-w-lg mx-auto leading-relaxed">
+        Have questions about using MCQTicker? Find quick answers about timers, local storage, privacy, and speed practice.
+      </p>
+    </div>
+
+    <!-- FAQ Accordion -->
+    <FAQ faqs={generalFaqs} title="General Questions" subtitle="Quick help for using our interactive MCQ tools." />
+
+    <!-- CTA -->
+    <div class="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-2xl p-7 text-center space-y-4 shadow-custom mt-8">
+      <h2 class="font-display font-bold text-lg text-text-light dark:text-text-dark">Ready to Practice?</h2>
+      <p class="text-xs text-text-light-muted dark:text-text-dark-muted">No signup required. Launch a practice session now.</p>
+      <a href="/new-session" class="inline-flex items-center gap-2 px-5 py-3 bg-brand-primary dark:bg-brand-secondary text-white dark:text-bg-dark font-bold text-sm rounded-xl hover:opacity-90 transition-opacity decoration-none shadow-md">
+        <span class="material-symbols-outlined text-base">bolt</span>
+        Start a Session
+      </a>
+    </div>
+  </div>
+</BaseLayout>

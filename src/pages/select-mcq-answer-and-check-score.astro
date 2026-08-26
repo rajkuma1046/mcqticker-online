@@ -1,0 +1,324 @@
+---
+// src/pages/select-mcq-answer-and-check-score.astro
+export const prerender = true;
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SEO from '../components/SEO.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import Schema from '../components/Schema.astro';
+import FAQ from '../components/FAQ.astro';
+
+const pageTitle = "Select MCQ Answer and Check Score — Online Mock Grader";
+const pageDesc = "Select MCQ answers online, paste your answer keys, and check your practice score instantly. Get a detailed accuracy card and correct/wrong breakdown.";
+const canonicalPath = "/select-mcq-answer-and-check-score";
+
+const breadcrumbs = [
+  { label: "Grader and Scoreboard", url: "/select-mcq-answer-and-check-score" }
+];
+
+const faqs = [
+  {
+    question: "How do I check my MCQ practice score online?",
+    answer: "Enter your selected answers in the 'Your Answers' column, then enter the official answers in the 'Answer Key' column. Click 'Check My Score' to calculate your accuracy instantly."
+  },
+  {
+    question: "What grading statistics are displayed?",
+    answer: "The scoreboard outputs your accuracy percentage, correct answers count, incorrect answers count, and skipped items count, along with a question-by-question side-by-side comparison."
+  },
+  {
+    question: "Does it support custom marking systems like negative marks?",
+    answer: "Currently, it calculates absolute accuracy (correct vs total answered), which is the standard baseline metric. It also flags incorrect items so you can manually compute negative deductions depending on your target exam (e.g. -0.25 for SSC, -1 for NEET)."
+  },
+  {
+    question: "Is my answer key secure?",
+    answer: "Yes, 100%. All processing and scoring calculations occur locally in your web browser. No answer data or exam keys are transmitted to our servers."
+  }
+];
+---
+
+<BaseLayout title={pageTitle} description={pageDesc} canonicalPath={canonicalPath} ogLocale="en_US">
+  <SEO title={pageTitle} description={pageDesc} canonicalPath={canonicalPath} ogLocale="en_US" />
+  <Schema pageName={pageTitle} pageDescription={pageDesc} pageUrl={`https://mcqticker.online${canonicalPath}`} breadcrumbs={breadcrumbs} faqs={faqs} />
+
+  <div class="max-w-3xl mx-auto space-y-10 animate-fadeIn">
+    <!-- Breadcrumbs -->
+    <Breadcrumb items={breadcrumbs} />
+
+    <!-- Hero Section (Teal Theme) -->
+    <div class="bg-gradient-to-br from-teal-600/10 to-cyan-500/5 dark:from-teal-950/20 dark:to-cyan-900/10 border border-teal-500/20 dark:border-teal-400/20 rounded-3xl p-8 text-center space-y-6 shadow-custom-md">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-teal-500/10 dark:bg-teal-400/10 border border-teal-500/20 dark:border-teal-400/20 text-teal-700 dark:text-teal-400 text-xxs font-bold uppercase tracking-wider">
+        <span class="material-symbols-outlined text-sm">bolt</span>
+        Instant Score Grader
+      </div>
+      <h1 class="font-display font-black text-3xl md:text-5xl text-text-light dark:text-text-dark leading-tight">
+        Select MCQ Answer & <span class="text-teal-600 dark:text-teal-400">Check Score Online</span>
+      </h1>
+      <p class="text-sm md:text-base text-text-light-muted dark:text-text-dark-muted max-w-xl mx-auto leading-relaxed">
+        Verify your mock scores in seconds. Log your responses, enter the answer key, and unlock a beautifully compiled scorecard showing your performance.
+      </p>
+    </div>
+
+    <!-- Split Grader Scoreboard Widget -->
+    <section class="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-3xl p-6 shadow-custom-md space-y-6">
+      <!-- Widget Header -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border-light dark:border-border-dark pb-5">
+        <div>
+          <h2 class="font-display font-extrabold text-base text-text-light dark:text-text-dark">Scoreboard Grader</h2>
+          <p class="text-xxs text-text-light-muted dark:text-text-dark-muted mt-0.5">Compare your practice sheet with the target answer key</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <select id="grader-count" class="text-xxs p-2 bg-bg-light dark:bg-bg-dark border border-border-light dark:border-border-dark text-text-light dark:text-text-dark rounded-xl cursor-pointer focus:outline-none">
+            <option value="5">5 Questions</option>
+            <option value="10" selected>10 Questions</option>
+            <option value="20">20 Questions</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Split Table Columns -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Column Left: Your Answers -->
+        <div class="space-y-3">
+          <h3 class="text-xxs font-black text-text-light-muted dark:text-text-dark-muted uppercase tracking-widest text-center">Your Logged Answers</h3>
+          <div id="user-side-grid" class="space-y-2 max-h-[250px] overflow-y-auto pr-1">
+            <!-- User inputs injected here -->
+          </div>
+        </div>
+
+        <!-- Column Right: Answer Key -->
+        <div class="space-y-3">
+          <h3 class="text-xxs font-black text-text-light-muted dark:text-text-dark-muted uppercase tracking-widest text-center">Official Answer Key</h3>
+          <div id="key-side-grid" class="space-y-2 max-h-[250px] overflow-y-auto pr-1">
+            <!-- Key inputs injected here -->
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA grader action -->
+      <div class="pt-4 border-t border-border-light dark:border-border-dark text-center">
+        <button id="calculate-score-btn" class="w-full sm:w-auto px-8 py-3.5 bg-teal-600 hover:bg-teal-700 dark:bg-teal-500 dark:hover:bg-teal-600 text-white dark:text-bg-dark font-black text-xs rounded-xl shadow-md cursor-pointer flex items-center justify-center gap-2 mx-auto">
+          <span class="material-symbols-outlined text-base">bar_chart</span>
+          Check My Score & Accuracy
+        </button>
+      </div>
+
+      <!-- Dynamic Scoreboard Report Panel -->
+      <div id="report-card-panel" class="hidden bg-bg-light/40 dark:bg-bg-dark/40 border border-border-light dark:border-border-dark p-6 rounded-2xl space-y-6 animate-fadeIn">
+        <h3 class="font-display font-extrabold text-base text-text-light dark:text-text-dark text-center border-b border-border-light dark:border-border-dark pb-3">Practice Performance Report</h3>
+        
+        <!-- Stats -->
+        <div class="grid grid-cols-3 gap-3 text-center">
+          <div class="p-3 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-xl">
+            <div class="text-3xs font-bold text-text-light-muted dark:text-text-dark-muted uppercase tracking-wide">Accuracy</div>
+            <div id="report-accuracy" class="text-xl font-black text-teal-600 dark:text-teal-400">0%</div>
+          </div>
+          <div class="p-3 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-xl">
+            <div class="text-3xs font-bold text-text-light-muted dark:text-text-dark-muted uppercase tracking-wide">Correct</div>
+            <div id="report-correct" class="text-xl font-black text-emerald-600 dark:text-emerald-400">0</div>
+          </div>
+          <div class="p-3 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-xl">
+            <div class="text-3xs font-bold text-text-light-muted dark:text-text-dark-muted uppercase tracking-wide">Incorrect</div>
+            <div id="report-wrong" class="text-xl font-black text-wrong-red dark:text-red-400">0</div>
+          </div>
+        </div>
+
+        <!-- Question audit detail -->
+        <div class="space-y-2">
+          <h4 class="text-3xs font-black text-text-light-muted dark:text-text-dark-muted uppercase tracking-widest">Question-by-Question Grading</h4>
+          <div id="report-detail-list" class="space-y-1.5 max-h-[150px] overflow-y-auto pr-1">
+            <!-- Graded splits injected here -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Content -->
+    <article class="prose dark:prose-invert max-w-none text-sm text-text-light dark:text-text-dark leading-relaxed space-y-8">
+      <section class="space-y-4">
+        <h2 class="font-display font-extrabold text-xl text-text-light dark:text-text-dark border-b border-border-light dark:border-border-dark pb-2">
+          Check Score Online: Stop Manual Exam Grading Errors
+        </h2>
+        <p>
+          Grading test responses manually is slow and prone to errors. You look up question 1, match it against your notebook, look up question 2, and so on. Keeping track of correct answers, wrong selections, and skipped questions takes several minutes per sheet.
+        </p>
+        <p>
+          Our <strong>select MCQ answer and check score</strong> calculator simplifies this workflow. By setting up side-by-side columns, you enter your answers and the official key simultaneously. Click to compile, and our engine will perform the comparison instantly, producing a detailed scorecard.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h3 class="font-display font-bold text-lg text-text-light dark:text-text-dark">Understand Mock Accuracy Metrics</h3>
+        <p>
+          Reviewing absolute correctness scores is critical during early mock testing. Our dynamic dashboard isolates incorrect items so you can focus your review on the exact concepts you failed, raising your study efficiency.
+        </p>
+      </section>
+    </article>
+
+    <!-- FAQs -->
+    <FAQ faqs={faqs} title="Score Check FAQs" subtitle="Common questions about grading your multiple choice practice sheets." />
+  </div>
+</BaseLayout>
+
+<script>
+  function setupScoreGrader() {
+    let userAnswers: Record<number, string> = {};
+    let keyAnswers: Record<number, string> = {};
+
+    const countSelect = document.getElementById('grader-count') as HTMLSelectElement | null;
+    const userGrid = document.getElementById('user-side-grid');
+    const keyGrid = document.getElementById('key-side-grid');
+    const calculateBtn = document.getElementById('calculate-score-btn');
+    const reportPanel = document.getElementById('report-card-panel');
+
+    // Report Elements
+    const repAccuracy = document.getElementById('report-accuracy');
+    const repCorrect = document.getElementById('report-correct');
+    const repWrong = document.getElementById('report-wrong');
+    const repList = document.getElementById('report-detail-list');
+
+    if (!userGrid || !keyGrid) return;
+
+    function renderGraderInputs() {
+      if (!userGrid || !keyGrid || !countSelect) return;
+      const count = parseInt(countSelect.value) || 10;
+      userGrid.innerHTML = '';
+      keyGrid.innerHTML = '';
+
+      for (let i = 1; i <= count; i++) {
+        // User Side Row
+        const userRow = document.createElement('div');
+        userRow.className = 'flex items-center justify-between p-2.5 bg-bg-light/35 dark:bg-bg-dark/35 border border-border-light/40 dark:border-border-dark/40 rounded-xl';
+        
+        const userLabel = document.createElement('span');
+        userLabel.className = 'text-xxs font-bold text-text-light dark:text-text-dark';
+        userLabel.textContent = `Q. ${i}`;
+        userRow.appendChild(userLabel);
+
+        const userOpts = document.createElement('div');
+        userOpts.className = 'flex gap-1';
+        ['A', 'B', 'C', 'D'].forEach(opt => {
+          const btn = document.createElement('button');
+          btn.className = `w-7 h-7 rounded text-3xs font-bold transition-all cursor-pointer ${
+            userAnswers[i] === opt
+              ? 'bg-teal-600 text-white dark:bg-teal-500 dark:text-bg-dark font-black'
+              : 'border border-border-light bg-surface-light dark:border-border-dark dark:bg-surface-dark text-text-light-muted dark:text-text-dark-muted hover:bg-surface-light-hover dark:hover:bg-surface-dark-hover'
+          }`;
+          btn.textContent = opt;
+          btn.addEventListener('click', () => {
+            if (userAnswers[i] === opt) {
+              delete userAnswers[i];
+            } else {
+              userAnswers[i] = opt;
+            }
+            renderGraderInputs();
+          });
+          userOpts.appendChild(btn);
+        });
+        userRow.appendChild(userOpts);
+        userGrid.appendChild(userRow);
+
+        // Key Side Row
+        const keyRow = document.createElement('div');
+        keyRow.className = 'flex items-center justify-between p-2.5 bg-bg-light/35 dark:bg-bg-dark/35 border border-border-light/40 dark:border-border-dark/40 rounded-xl';
+        
+        const keyLabel = document.createElement('span');
+        keyLabel.className = 'text-xxs font-bold text-text-light dark:text-text-dark';
+        keyLabel.textContent = `Key. ${i}`;
+        keyRow.appendChild(keyLabel);
+
+        const keyOpts = document.createElement('div');
+        keyOpts.className = 'flex gap-1';
+        ['A', 'B', 'C', 'D'].forEach(opt => {
+          const btn = document.createElement('button');
+          btn.className = `w-7 h-7 rounded text-3xs font-bold transition-all cursor-pointer ${
+            keyAnswers[i] === opt
+              ? 'bg-cyan-600 text-white dark:bg-cyan-400 dark:text-bg-dark font-black'
+              : 'border border-border-light bg-surface-light dark:border-border-dark dark:bg-surface-dark text-text-light-muted dark:text-text-dark-muted hover:bg-surface-light-hover dark:hover:bg-surface-dark-hover'
+          }`;
+          btn.textContent = opt;
+          btn.addEventListener('click', () => {
+            if (keyAnswers[i] === opt) {
+              delete keyAnswers[i];
+            } else {
+              keyAnswers[i] = opt;
+            }
+            renderGraderInputs();
+          });
+          keyOpts.appendChild(btn);
+        });
+        keyRow.appendChild(keyOpts);
+        keyGrid.appendChild(keyRow);
+      }
+    }
+
+    countSelect?.addEventListener('change', () => {
+      userAnswers = {};
+      keyAnswers = {};
+      reportPanel?.classList.add('hidden');
+      renderGraderInputs();
+    });
+
+    calculateBtn?.addEventListener('click', () => {
+      if (!countSelect || !reportPanel || !repAccuracy || !repCorrect || !repWrong || !repList) return;
+      const count = parseInt(countSelect.value) || 10;
+
+      let correct = 0;
+      let wrong = 0;
+
+      repList.innerHTML = '';
+
+      for (let i = 1; i <= count; i++) {
+        const uAns = userAnswers[i] || 'None';
+        const kAns = keyAnswers[i] || 'None';
+        const isMatch = uAns === kAns && uAns !== 'None';
+        
+        if (isMatch) correct++;
+        else if (uAns !== 'None') wrong++;
+
+        const row = document.createElement('div');
+        row.className = 'flex items-center justify-between p-2.5 rounded-lg border border-border-light/40 dark:border-border-dark/40 text-xxs';
+        
+        const label = document.createElement('span');
+        label.className = 'font-bold text-text-light dark:text-text-dark';
+        label.textContent = `Question ${i}:`;
+
+        const details = document.createElement('div');
+        details.className = 'flex items-center gap-2';
+        details.innerHTML = `
+          <span>Your Answer: <strong class="font-bold">${uAns}</strong></span>
+          <span>Key: <strong class="font-bold">${kAns}</strong></span>
+          <span class="material-symbols-outlined text-xs font-black ${isMatch ? 'text-emerald-500' : 'text-wrong-red'}">
+            ${isMatch ? 'check_circle' : 'block'}
+          </span>
+        `;
+        row.appendChild(label);
+        row.appendChild(details);
+        repList.appendChild(row);
+      }
+
+      const totalAttempted = correct + wrong;
+      const accuracy = totalAttempted > 0 ? Math.round((correct / count) * 100) : 0;
+
+      repAccuracy.textContent = `${accuracy}%`;
+      repCorrect.textContent = correct.toString();
+      repWrong.textContent = wrong.toString();
+
+      reportPanel.classList.remove('hidden');
+      reportPanel.scrollIntoView({ behavior: 'smooth' });
+
+      // Offer PWA install prompt when they successfully grade a mock sheet
+      if (typeof (window as any).showPwaInstallPrompt === 'function') {
+        setTimeout(() => {
+          (window as any).showPwaInstallPrompt(
+            "Mock Score Graded! Save App?",
+            "Your mock sheet is graded. Install MCQTicker to run full timed mock logger sessions directly from your phone screen!"
+          );
+        }, 1200);
+      }
+    });
+
+    renderGraderInputs();
+  }
+
+  setupScoreGrader();
+  document.addEventListener('astro:after-swap', setupScoreGrader);
+</script>

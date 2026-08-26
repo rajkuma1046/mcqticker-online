@@ -9,8 +9,7 @@ import imgPreview2 from '../assets/preview-2.jpg';
 import imgPreview3 from '../assets/preview-3.png';
 import imgPreview4 from '../assets/preview-4.png';
 import imgPreview5 from '../assets/preview-5.png';
-import imgPreview6 from '../assets/preview-6.png';
-import imgPreview7 from '../assets/preview-7.png';
+import imgPreview8 from '../assets/preview-8.png';
 import imgLogo from '../assets/logo-light.webp';
 
 const slides = [
@@ -45,14 +44,9 @@ const slides = [
     caption: 'Interactive MCQ Option Logger',
   },
   {
-    src: imgPreview6,
-    alt: 'MCQ ticker analytics dashboard — track accuracy, speed and pacing trendlines',
-    caption: 'Comprehensive Analytics & Trendlines',
-  },
-  {
-    src: imgPreview7,
-    alt: 'MCQ answer review mode — view grading, accuracy, and live answer log',
-    caption: 'Detailed Answer Review & Grading',
+    src: imgPreview8,
+    alt: 'MCQ practice screen — active session with options and question navigation',
+    caption: 'Active Practice & Focus Screen',
   },
   {
     src: imgLogo,
@@ -123,7 +117,7 @@ const slides = [
     <div class="absolute bottom-5 left-1/2 -translate-x-1/2 flex gap-1.5 z-10" id="slider-dots">
       {slides.map((_, i) => (
         <button
-          class={`w-2 h-2 rounded-full transition-all duration-300 cursor-pointer ${i === 0 ? 'bg-brand-primary dark:bg-brand-secondary scale-125' : 'bg-brand-primary/30 dark:bg-brand-secondary/30 hover:bg-brand-primary/60 dark:hover:bg-brand-secondary/60'}`}
+          class={`relative w-2 h-2 rounded-full transition-all duration-300 cursor-pointer before:absolute before:w-12 before:h-12 before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:content-[''] ${i === 0 ? 'bg-brand-primary dark:bg-brand-secondary scale-125' : 'bg-brand-primary/30 dark:bg-brand-secondary/30 hover:bg-brand-primary/60 dark:hover:bg-brand-secondary/60'}`}
           data-dot={i}
           aria-label={`Go to slide ${i + 1}`}
         />
@@ -175,18 +169,6 @@ const slides = [
         "url": "https://mcqticker.online/preview-5.png",
         "name": "MCQ Main Option Logger — Interactive MCQ Bubble Sheet Online",
         "description": "Interactive MCQ option logger and bubble sheet showing tick MCQ options online free"
-      },
-      {
-        "@type": "ImageObject",
-        "url": "https://mcqticker.online/preview-6.png",
-        "name": "MCQ Ticker Analytics Dashboard — Track Accuracy and Speed",
-        "description": "Comprehensive analytics dashboard showing pacing trendlines, accuracy score, and average speed per question"
-      },
-      {
-        "@type": "ImageObject",
-        "url": "https://mcqticker.online/preview-7.png",
-        "name": "MCQ Answer Review Mode — View Grading and Live Answer Log",
-        "description": "Detailed answer review interface showing correct and wrong answers in the live answer log grid"
       }
     ]
   }
@@ -195,7 +177,7 @@ const slides = [
 
 <script is:inline>
 (function () {
-  var TOTAL = 9;
+  var TOTAL = 8;
   var current = 0;
   var autoTimer = null;
 

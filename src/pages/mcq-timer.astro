@@ -1,0 +1,312 @@
+---
+// src/pages/mcq-timer.astro
+export const prerender = true;
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SEO from '../components/SEO.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import Schema from '../components/Schema.astro';
+import FAQ from '../components/FAQ.astro';
+
+const pageTitle = "MCQ Timer — Free Question Time Tracker for Competitive Exams";
+const pageDesc = "Boost your speed with MCQTicker's free MCQ Timer. Track per-question pace, set custom speed limits, and analyze test performance offline.";
+const canonicalPath = "/mcq-timer";
+
+const breadcrumbs = [
+  { label: "MCQ Timer", url: "/mcq-timer" }
+];
+
+const faqs = [
+  {
+    question: "What is an MCQ Timer, and how is it different from a normal stopwatch?",
+    answer: "An MCQ Timer, unlike a standard stopwatch, tracks time per question. While a traditional stopwatch only tracks overall session time, tools like MCQTicker log the exact duration you spend on each individual question, helping you identify time-draining questions."
+  },
+  {
+    question: "Why is per-question time tracking important for competitive exams?",
+    answer: "For exams like NEET, JEE, SSC CGL, and UPSC CSAT, time management is critical. Tracking time per question helps you analyze pacing, identify concepts that take too long to solve, and build the speed required to finish the actual exam on time."
+  },
+  {
+    question: "How does the MCQ practice timer at MCQTicker help improve exam speed?",
+    answer: "The MCQTicker practice timer works by logging your responses instantly as you tap them. By reviewing the question log after a session, you can see which questions exceeded your target duration and adjust your approach for mock tests."
+  },
+  {
+    question: "Is there a countdown timer option for competitive exam prep?",
+    answer: "Yes! MCQTicker offers two main modes: a Stopwatch mode which counts up per question, and a Timer Binding (countdown) mode. The countdown timer sets a strict limit (e.g., 60 seconds) per question, forcing you to skip or decide quickly, replicating the pressure of the real exam."
+  },
+  {
+    question: "Can I use the MCQ Timer offline while studying from books?",
+    answer: "Yes. MCQTicker is built as a Progressive Web App (PWA). Once loaded in your browser, it runs completely offline, saving all session history locally on your device via IndexedDB. You can study anywhere without an internet connection."
+  },
+  {
+    question: "How do I bind a timer limit to each question on MCQTicker?",
+    answer: "When starting a new session on the MCQTicker home page, choose the 'Timer Binding' mode. Select your desired time limit per question (e.g., 45, 60, or 90 seconds). The timer will alert you or auto-advance when the limit is reached."
+  },
+  {
+    question: "Is this question timer tool free to use for JEE and NEET prep?",
+    answer: "Absolutely! The MCQ practice timer on MCQTicker is 100% free with no hidden charges, subscription walls, or email signups. We believe in providing high-quality tools to help every student succeed."
+  },
+  {
+    question: "How does tracking question speed prevent negative marking?",
+    answer: "Negative marking often occurs due to rushed, last-minute guesses. By tracking your speed during practice, you learn to pace yourself evenly, leaving enough time to read and solve questions carefully without panic."
+  },
+  {
+    question: "Can the MCQ Timer run on mobile browsers?",
+    answer: "Yes. The MCQTicker website is fully responsive, optimized for both desktop and mobile layouts. You can even install it on your mobile home screen for a full-screen, app-like practice experience."
+  },
+  {
+    question: "How do I analyze my results after a timed session?",
+    answer: "After finishing your timed session, enter the answer key for your practice sheet. The analytics dashboard will compute your accuracy percentage, average speed, and highlight the exact questions where you spent too much time."
+  }
+];
+---
+
+<BaseLayout title={pageTitle} description={pageDesc} canonicalPath={canonicalPath}>
+  <SEO title={pageTitle} description={pageDesc} canonicalPath={canonicalPath} />
+  <Schema pageName={pageTitle} pageDescription={pageDesc} pageUrl={`https://mcqticker.online${canonicalPath}`} breadcrumbs={breadcrumbs} faqs={faqs} />
+
+  <div class="max-w-3xl mx-auto space-y-10 animate-fadeIn">
+    <!-- Breadcrumb -->
+    <Breadcrumb items={breadcrumbs} />
+
+    <!-- Hero Header -->
+    <div class="bg-gradient-to-br from-brand-primary/10 to-brand-secondary/5 border border-brand-primary/20 dark:border-brand-secondary/20 rounded-3xl p-8 text-center space-y-6 shadow-custom-md">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-primary/10 dark:bg-brand-secondary/10 border border-brand-primary/20 dark:border-brand-secondary/20 text-brand-primary dark:text-brand-secondary text-xxs font-bold uppercase tracking-wider">
+        <span class="material-symbols-outlined text-sm">timer</span>
+        Smart MCQ Practice Companion
+      </div>
+      <h1 class="font-display font-black text-3xl md:text-5xl text-text-light dark:text-text-dark leading-tight">
+        Master Your Pacing with the Ultimate <span class="text-brand-primary dark:text-brand-secondary">MCQ Timer</span>
+      </h1>
+      <p class="text-sm md:text-base text-text-light-muted dark:text-text-dark-muted max-w-xl mx-auto leading-relaxed">
+        Stop using generic stopwatches. Track exact split times, maintain optimal question pacing, and log response accuracy offline — entirely free.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-3 justify-center pt-2">
+        <a href="/new-session" class="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-brand-primary dark:bg-brand-secondary text-white dark:text-bg-dark font-bold text-sm rounded-xl hover:opacity-90 transition-all decoration-none shadow-md">
+          <span class="material-symbols-outlined text-base">play_circle</span>
+          Launch Practice Timer
+        </a>
+        <a href="/" class="inline-flex items-center justify-center gap-2 px-6 py-3.5 border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark text-text-light dark:text-text-dark font-bold text-sm rounded-xl hover:bg-surface-light-hover dark:hover:bg-surface-dark-hover transition-colors decoration-none">
+          <span class="material-symbols-outlined text-base">home</span>
+          Go to Dashboard
+        </a>
+      </div>
+    </div>
+
+    <!-- Article Content -->
+    <article class="prose dark:prose-invert max-w-none text-sm text-text-light dark:text-text-dark leading-relaxed space-y-8">
+      
+      <!-- Section 1: Intro & Keyword Clustering -->
+      <section class="space-y-4">
+        <h2 class="font-display font-extrabold text-xl text-text-light dark:text-text-dark border-b border-border-light dark:border-border-dark pb-2">
+          Why Traditional Stopwatches Fail Competitive Exam Aspirants
+        </h2>
+        <p>
+          Preparing for competitive exams like JEE, NEET, UPSC, or SSC CGL requires more than just academic knowledge. It demands razor-sharp time management. Many students practice Multiple Choice Questions (MCQs) using standard wall clocks, mobile phone timers, or basic stopwatches. However, these traditional tools are fundamentally inadequate for high-stakes test preparation. 
+        </p>
+        <p>
+          A generic stopwatch tells you only one thing: how long you took in total. It fails to log the micro-analytics of your session. If you solve 50 questions in 50 minutes, you might assume your pace is perfect. But what if you solved 40 questions in 30 minutes, and spent a staggering 20 minutes on just 10 difficult questions? A standard stopwatch hides these dangerous patterns, leaving you unprepared for the real exam pressure.
+        </p>
+        <p>
+          That is why we developed the <strong>MCQTicker MCQ Timer</strong>—a custom-built <a href="/question-speed-calculator" class="text-brand-primary dark:text-brand-secondary font-bold">question speed calculator</a> and pacing helper. It functions as a dedicated <a href="/answer-tracker" class="text-brand-primary dark:text-brand-secondary font-bold">answer tracker</a>, allowing you to log answers instantly while compiling split times for every single question.
+        </p>
+      </section>
+
+      <!-- Section 2: Problem Statement -->
+      <section class="space-y-4">
+        <h2 class="font-display font-extrabold text-xl text-text-light dark:text-text-dark border-b border-border-light dark:border-border-dark pb-2">
+          The Problem: The Invisible Time Traps in MCQ Exams
+        </h2>
+        <p>
+          Competitive examinations are deliberately designed to test speed and decision-making. Examiners regularly insert "speed traps"—unusually complex or calculation-heavy questions designed to suck up your precious minutes. Students who lack structured pacing discipline get stuck on these questions, wasting time that could have been used to easily answer five other questions later in the test.
+        </p>
+        <p>
+          This pacing failure leads to three major issues:
+        </p>
+        <ul class="list-disc pl-6 space-y-2">
+          <li><strong>Exam Panic:</strong> Realizing you have only 10 minutes left for 20 questions triggers a spike in stress, leading to silly mistakes and poor reasoning.</li>
+          <li><strong>Unread Questions:</strong> Many students leave exams complaining that they didn't even have time to read the final 10–15 questions, some of which might have been very easy.</li>
+          <li><strong>High Negative Marking:</strong> Rushing to bubble answers in the final minutes leads to guessing, which ruins accuracy scores due to negative penalty marks.</li>
+        </ul>
+      </section>
+
+      <!-- Section 3: Why Students Need This Tool -->
+      <section class="space-y-4">
+        <h2 class="font-display font-extrabold text-xl text-text-light dark:text-text-dark border-b border-border-light dark:border-border-dark pb-2">
+          Why You Need a Dedicated Question Time Tracker
+        </h2>
+        <p>
+          The solution is simple: you must train your biological clock to recognize when a question has taken too long. By using <strong>MCQTicker</strong>, you build an intuitive feel for exam pacing. 
+        </p>
+        <p>
+          Our web-based tool eliminates all friction. Instead of writing down your start and end times on paper or typing them out, you simply tap option buttons on your phone or laptop screen as you read your printed books or PDFs. The tool acts as a digital <a href="/online-omr-sheet" class="text-brand-primary dark:text-brand-secondary font-bold">online OMR sheet</a> and stopwatch combined, logging response durations in the background.
+        </p>
+        <p>
+          Whether you are preparing from physical coaching modules, printed past-year papers (PYQs), or reference textbooks, MCQTicker bridges the gap between traditional study materials and modern analytics.
+        </p>
+      </section>
+
+      <!-- Section 4: Features -->
+      <section class="space-y-4 bg-surface-light dark:bg-surface-dark p-6 rounded-2xl border border-border-light dark:border-border-dark">
+        <h3 class="font-display font-extrabold text-lg text-text-light dark:text-text-dark flex items-center gap-2">
+          <span class="material-symbols-outlined text-brand-primary dark:text-brand-secondary">stars</span>
+          Key Features of MCQTicker MCQ Practice Timer
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
+          <div>
+            <h4 class="font-bold text-xs text-text-light dark:text-text-dark">⏱️ Dual Pacing Modes</h4>
+            <p class="text-xxs text-text-light-muted dark:text-text-dark-muted mt-1">
+              Choose <strong>Stopwatch Mode</strong> to log free-flowing time per question, or <strong>Timer Binding Mode</strong> to enforce a strict countdown limit per question (e.g., 45s, 60s, or 90s).
+            </p>
+          </div>
+          <div>
+            <h4 class="font-bold text-xs text-text-light dark:text-text-dark">📱 Zero-Typing Answer Logging</h4>
+            <p class="text-xxs text-text-light-muted dark:text-text-dark-muted mt-1">
+              Tap A, B, C, or D to instantly log responses and start the timer for the next question. No keyboard required.
+            </p>
+          </div>
+          <div>
+            <h4 class="font-bold text-xs text-text-light dark:text-text-dark">📊 Question-by-Question Analytics</h4>
+            <p class="text-xxs text-text-light-muted dark:text-text-dark-muted mt-1">
+              Review interactive charts showing exactly how many seconds you spent on each question and see which topics slowed you down.
+            </p>
+          </div>
+          <div>
+            <h4 class="font-bold text-xs text-text-light dark:text-text-dark">🔌 100% Offline Capability</h4>
+            <p class="text-xxs text-text-light-muted dark:text-text-dark-muted mt-1">
+              As a Progressive Web App (PWA), MCQTicker stores all data locally in your browser (IndexedDB). No internet is needed after the first load.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 5: How It Works -->
+      <section class="space-y-4">
+        <h2 class="font-display font-extrabold text-xl text-text-light dark:text-text-dark border-b border-border-light dark:border-border-dark pb-2">
+          How It Works: Step-by-Step Practice Guide
+        </h2>
+        <p>
+          Getting started with MCQTicker is simple and requires zero setup:
+        </p>
+        <ol class="list-decimal pl-6 space-y-3">
+          <li>
+            <strong>Set Up Your Session:</strong> Go to the homepage, specify the subject or topic, and select the number of questions you plan to practice.
+          </li>
+          <li>
+            <strong>Select Timer Settings:</strong> Choose Stopwatch mode for relaxed practice, or Timer Binding to set a target limit per question.
+          </li>
+          <li>
+            <strong>Solve and Tap:</strong> Place your textbook or question PDF next to your device. As you solve each question, tap the corresponding answer option on the screen. The timer logs the time and advances immediately.
+          </li>
+          <li>
+            <strong>Verify with Answer Key:</strong> Once finished, copy the answer key into the grader. The tool will calculate your accuracy percentage, speed metrics, and display comprehensive performance charts.
+          </li>
+        </ol>
+      </section>
+
+      <!-- Section 6: Benefits -->
+      <section class="space-y-4">
+        <h2 class="font-display font-extrabold text-xl text-text-light dark:text-text-dark border-b border-border-light dark:border-border-dark pb-2">
+          The Benefits: What You Gain by Tracking Your Time
+        </h2>
+        <p>
+          Consistently using an MCQ practice timer transforms your approach to competitive exams:
+        </p>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div class="p-4 rounded-xl bg-bg-light dark:bg-bg-dark border border-border-light dark:border-border-dark">
+            <h4 class="font-bold text-xs text-text-light dark:text-text-dark">Eliminate Indecision</h4>
+            <p class="text-xxs text-text-light-muted dark:text-text-dark-muted mt-1">
+              Learn when to skip a tough question. Giving up early on a time-wasting puzzle is a strategic win in examinations.
+            </p>
+          </div>
+          <div class="p-4 rounded-xl bg-bg-light dark:bg-bg-dark border border-border-light dark:border-border-dark">
+            <h4 class="font-bold text-xs text-text-light dark:text-text-dark">Improve Muscle Memory</h4>
+            <p class="text-xxs text-text-light-muted dark:text-text-dark-muted mt-1">
+              Develop a natural sense of how long 60 seconds feels, preventing you from losing track of time during the real exam.
+            </p>
+          </div>
+          <div class="p-4 rounded-xl bg-bg-light dark:bg-bg-dark border border-border-light dark:border-border-dark">
+            <h4 class="font-bold text-xs text-text-light dark:text-text-dark">Find Weak Areas</h4>
+            <p class="text-xxs text-text-light-muted dark:text-text-dark-muted mt-1">
+              Identify chapters where your average speed is slow, showing you exactly where you need to practice more shortcuts.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 7: Exam-Specific Usage -->
+      <section class="space-y-4">
+        <h2 class="font-display font-extrabold text-xl text-text-light dark:text-text-dark border-b border-border-light dark:border-border-dark pb-2">
+          Exam-Specific Pacing Benchmarks
+        </h2>
+        <p>
+          Different competitive exams require different pacing strategies. Here are the target speeds you should aim to train for using the MCQ timer:
+        </p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs text-left border-collapse border border-border-light dark:border-border-dark">
+            <thead>
+              <tr class="bg-surface-light dark:bg-surface-dark">
+                <th class="p-2.5 border border-border-light dark:border-border-dark">Exam Category</th>
+                <th class="p-2.5 border border-border-light dark:border-border-dark">Total Questions & Time</th>
+                <th class="p-2.5 border border-border-light dark:border-border-dark">Target Speed Per Question</th>
+                <th class="p-2.5 border border-border-light dark:border-border-dark">Pacing Strategy</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="p-2.5 border border-border-light dark:border-border-dark font-bold">NEET (Biology)</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark">100 Questions / 40 Mins</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark">20 - 30 Seconds</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark">Strict recall. If you don't know it in 15 seconds, skip immediately.</td>
+              </tr>
+              <tr class="bg-surface-light/40 dark:bg-surface-dark/40">
+                <td class="p-2.5 border border-border-light dark:border-border-dark font-bold">JEE Mains (Maths)</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark">30 Questions / 60 Mins</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark">120 Seconds (2 Mins)</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark">Deep calculations. Dedicate time for steps but flag if exceeding 3 mins.</td>
+              </tr>
+              <tr>
+                <td class="p-2.5 border border-border-light dark:border-border-dark font-bold">SSC CGL (Tier 1)</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark">100 Questions / 60 Mins</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark">36 Seconds</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark">Ultra-fast round. Use our specialized <a href="/ssc-mcq-practice-timer" class="text-brand-primary dark:text-brand-secondary font-bold">SSC MCQ practice timer</a> for CGL-focused pacing.</td>
+              </tr>
+              <tr class="bg-surface-light/40 dark:bg-surface-dark/40">
+                <td class="p-2.5 border border-border-light dark:border-border-dark font-bold">UPSC Prelims (CSAT)</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark">80 Questions / 120 Mins</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark">90 Seconds</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark">Logical reasoning. Read passages quickly and maintain a steady rhythm.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Section 8: Tips for Time Management -->
+      <section class="space-y-4">
+        <h2 class="font-display font-extrabold text-xl text-text-light dark:text-text-dark border-b border-border-light dark:border-border-dark pb-2">
+          Pro-Tips for Better Time Management During MCQ Practice
+        </h2>
+        <ul class="list-disc pl-6 space-y-3">
+          <li>
+            <strong>Apply the Two-Pass Rule:</strong> Go through the test paper in two rounds. In the first round, answer only the easy, straightforward questions. In the second round, use your remaining time to tackle the complex, calculation-heavy problems.
+          </li>
+          <li>
+            <strong>Set Timer Constraints:</strong> When practicing at home, set a countdown limit that is 10% faster than the actual exam speed. Training under tougher conditions makes the real test feel manageable.
+          </li>
+          <li>
+            <strong>Log Your Skip Rates:</strong> Use the "Skip" option on MCQTicker. Skipping is a skill. A high-accuracy profile with appropriate skips is always better than guessing blindly and accumulating negative marks.
+          </li>
+        </ul>
+      </section>
+
+      <!-- Section 9: CTA & Legal Mentions -->
+      <section class="space-y-4">
+        <p>
+          At <strong>MCQTicker</strong>, we protect your privacy. Unlike other platforms that upload your exam records to remote databases, our application stores your progress locally on your device. For more information, please read our <a href="/privacy" class="text-brand-primary dark:text-brand-secondary underline">privacy policy</a> and review our <a href="/terms" class="text-brand-primary dark:text-brand-secondary underline">terms & conditions</a>. If you have questions or want to report a bug, visit our <a href="/about" class="text-brand-primary dark:text-brand-secondary underline">about page</a>.
+        </p>
+      </section>
+    </article>
+
+    <!-- FAQ Accordion Component -->
+    <FAQ faqs={faqs} title="MCQ Timer FAQs" subtitle="Common questions about using timer-binding, tracking question speed, and optimizing competitive exam practice." />
+  </div>
+</BaseLayout>

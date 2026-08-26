@@ -1,0 +1,336 @@
+---
+// src/pages/question-speed-calculator.astro
+export const prerender = true;
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SEO from '../components/SEO.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import Schema from '../components/Schema.astro';
+import FAQ from '../components/FAQ.astro';
+
+const pageTitle = "Question Speed Calculator — Average Time Per Question Analyzer";
+const pageDesc = "Measure and analyze your question solving speed with MCQTicker's free calculator. Identify bottlenecks and improve pacing for competitive exams.";
+const canonicalPath = "/question-speed-calculator";
+
+const breadcrumbs = [
+  { label: "Question Speed Calculator", url: "/question-speed-calculator" }
+];
+
+const faqs = [
+  {
+    question: "What is a question speed calculator and how does it work?",
+    answer: "A question speed calculator is an analytical tool that measures the time you take to solve each question in a test. It divides the total time spent by the number of completed questions to give you your average speed, while highlighting slow and fast questions."
+  },
+  {
+    question: "How does MCQTicker help calculate my average time per question?",
+    answer: "When you practice using MCQTicker, each tap on A, B, C, or D creates a time stamp. At the end of the session, the tool divides your active time by the number of questions to calculate your exact average seconds per question."
+  },
+  {
+    question: "What is a good average time per question for competitive exams?",
+    answer: "It depends on the exam. For banking exams, you should aim for 30–45 seconds per question. For JEE Maths, 120 seconds (2 minutes) is standard, while NEET Biology requires a fast pace of 20–30 seconds."
+  },
+  {
+    question: "How does tracking question solving speed improve mock test scores?",
+    answer: "Analyzing your solving speed helps you identify topics where you hesitate. Once you find these bottlenecks, you can practice specific shortcuts to bring your speed down to target levels."
+  },
+  {
+    question: "Does MCQTicker highlight questions where I took too much time?",
+    answer: "Yes. The analytics dashboard flags 'slow questions' where your response time exceeded the average or target speed, helping you target reviews to these specific topics."
+  },
+  {
+    question: "Can I use the question pace calculator offline?",
+    answer: "Yes. MCQTicker is a Progressive Web App (PWA) that runs offline in your browser. All timing calculations and history logs are processed locally on your device."
+  },
+  {
+    question: "Is this exam speed calculator free for all students?",
+    answer: "Yes, completely. MCQTicker is a free educational tool designed to help aspirants prepare for competitive exams. No accounts, signups, or subscription fees are required."
+  },
+  {
+    question: "Why does my solving speed drop during longer mock sessions?",
+    answer: "A drop in speed is usually due to cognitive fatigue. Tracking your speed per question allows you to see exactly when fatigue sets in, helping you plan your test-taking stamina and breaks."
+  },
+  {
+    question: "How can I improve my question speed for calculations?",
+    answer: "Improving calculation speed requires learning mental math shortcuts, practicing regularly with a timer, and using a pace tracker to monitor progress over time."
+  },
+  {
+    question: "Does the speed analyzer support custom targets?",
+    answer: "Yes. When you configure your session in the Timer Binding mode, you can set a custom target limit (like 45s, 60s, or 90s) to practice maintaining a specific exam-level pace."
+  },
+  {
+    question: "How to calculate how many minutes per question are allowed for a test?",
+    answer: "To calculate how many minutes per question you have on a test, divide the total test duration in minutes by the total number of questions. For example, a 60-minute test with 50 questions yields 1.2 minutes (or 72 seconds) per question. MCQTicker handles these calculations automatically so you do not have to compute them manually."
+  },
+  {
+    question: "How many questions per minute should you target in competitive exams?",
+    answer: "It depends on the test section. For quick-recall sections (like biology or general knowledge), target 2 to 3 questions per minute. For analytical parts (like math or physics), aim for 0.5 to 1 question per minute. Monitoring your average time per question on a test helps you hit these marks."
+  },
+  {
+    question: "Does the speed tracker feature a grade calculator?",
+    answer: "Yes. At the end of your practice session, you can enter the correct keys into the integrated grade calculator. It compares the answer key against your logged choices, scoring your test while mapping your accuracy directly alongside your question-by-question speed logs."
+  }
+];
+---
+
+<BaseLayout title={pageTitle} description={pageDesc} canonicalPath={canonicalPath}>
+  <SEO title={pageTitle} description={pageDesc} canonicalPath={canonicalPath} />
+  <Schema pageName={pageTitle} pageDescription={pageDesc} pageUrl={`https://mcqticker.online${canonicalPath}`} breadcrumbs={breadcrumbs} faqs={faqs} />
+
+  <div class="max-w-3xl mx-auto space-y-10 animate-fadeIn">
+    <!-- Breadcrumb -->
+    <Breadcrumb items={breadcrumbs} />
+
+    <!-- Hero Header -->
+    <div class="bg-gradient-to-br from-brand-primary/10 to-brand-secondary/5 border border-brand-primary/20 dark:border-brand-secondary/20 rounded-3xl p-8 text-center space-y-6 shadow-custom-md">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-primary/10 dark:bg-brand-secondary/10 border border-brand-primary/20 dark:border-brand-secondary/20 text-brand-primary dark:text-brand-secondary text-xxs font-bold uppercase tracking-wider">
+        <span class="material-symbols-outlined text-sm">analytics</span>
+        Pacing & Speed Analytics
+      </div>
+      <h1 class="font-display font-black text-3xl md:text-5xl text-text-light dark:text-text-dark leading-tight">
+        Optimize Pacing with a <span class="text-brand-primary dark:text-brand-secondary">Question Speed Calculator</span>
+      </h1>
+      <p class="text-sm md:text-base text-text-light-muted dark:text-text-dark-muted max-w-xl mx-auto leading-relaxed">
+        Identify pacing bottlenecks. Track your average time per question, analyze speed trends, and build the muscle memory required to beat the exam clock.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-3 justify-center pt-2">
+        <a href="/new-session" class="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-brand-primary dark:bg-brand-secondary text-white dark:text-bg-dark font-bold text-sm rounded-xl hover:opacity-90 transition-all decoration-none shadow-md">
+          <span class="material-symbols-outlined text-base">bolt</span>
+          Analyze Solving Speed
+        </a>
+        <a href="/answer-tracker" class="inline-flex items-center justify-center gap-2 px-6 py-3.5 border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark text-text-light dark:text-text-dark font-bold text-sm rounded-xl hover:bg-surface-light-hover dark:hover:bg-surface-dark-hover transition-colors decoration-none">
+          <span class="material-symbols-outlined text-base">edit_note</span>
+          View Answer Tracker
+        </a>
+      </div>
+    </div>
+
+    <!-- Article Content -->
+    <article class="prose dark:prose-invert max-w-none text-sm text-text-light dark:text-text-dark leading-relaxed space-y-8">
+      
+      <!-- Section 1: Intro & Keyword Clustering -->
+      <section class="space-y-4">
+        <h2 class="font-display font-extrabold text-xl text-text-light dark:text-text-dark border-b border-border-light dark:border-border-dark pb-2">
+          The Science of Speed: Why Scoring Requires Smart Pacing
+        </h2>
+        <p>
+          Ask any student who struggled in a competitive exam why they fell short. The answer is rarely, "I didn't know the material." Instead, it is almost always, "I ran out of time." In modern competitive exams, academic capability is only half the battle. The other half is raw, efficient execution speed.
+        </p>
+        <p>
+          This is where a **Question Speed Calculator** becomes essential. If you don't track your speed per question, you cannot optimize your performance. You might know how to solve a complex math or physics problem, but if it takes you five minutes to do so in an exam where you only have one minute per question, that correct answer actually costs you marks by preventing you from answering other questions.
+        </p>
+        <p>
+          The <strong>MCQTicker Question Speed Calculator</strong> is designed to analyze your pacing. By logging the exact duration of each response, the app acts as an active <a href="/question-speed-calculator" class="text-brand-primary dark:text-brand-secondary font-bold">question pace calculator</a>, showing you where you hesitate and helping you adjust your strategy.
+        </p>
+        <div class="bg-bg-light dark:bg-bg-dark border border-border-light dark:border-border-dark p-5 rounded-2xl space-y-3 mt-4">
+          <h3 class="font-bold text-xs text-text-light dark:text-text-dark uppercase tracking-wider flex items-center gap-2">
+            <span class="material-symbols-outlined text-sm text-brand-primary dark:text-brand-secondary">gavel</span>
+            📐 How to Calculate Minutes Per Question & Questions Per Minute
+          </h3>
+          <p class="text-xxs text-text-light-muted dark:text-text-dark-muted leading-relaxed">
+            Understanding test speed metrics is essential to planning your pacing strategy:
+          </p>
+          <ul class="list-disc pl-4 text-xxs text-text-light-muted dark:text-text-dark-muted space-y-1.5">
+            <li><strong>How to calculate how many minutes per question:</strong> Divide the total test duration in minutes by the number of questions. <br/><span class="font-mono text-[10px] text-brand-primary dark:text-brand-secondary">Formula: (Total Minutes) ÷ (Total Questions) = Minutes Per Question</span>. For example, a 60-minute test with 100 questions allows exactly 0.6 minutes (36 seconds) per question.</li>
+            <li><strong>How to calculate questions per minute:</strong> Divide the total number of questions by the total test duration in minutes. <br/><span class="font-mono text-[10px] text-brand-primary dark:text-brand-secondary">Formula: (Total Questions) ÷ (Total Minutes) = Questions Per Minute</span>. For example, 100 questions in 60 minutes requires solving 1.67 questions per minute.</li>
+            <li><strong>Average time per question on a test:</strong> To find your actual speed after practicing, divide your total active time in seconds by the number of answered questions.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Section 2: Problem Statement -->
+      <section class="space-y-4">
+        <h2 class="font-display font-extrabold text-xl text-text-light dark:text-text-dark border-b border-border-light dark:border-border-dark pb-2">
+          The Problem: The Danger of the "Sunk Cost Fallacy" in Tests
+        </h2>
+        <p>
+          One of the biggest obstacles to maintaining a good exam pace is a psychological trap known as the "Sunk Cost Fallacy." This occurs when a student spends two minutes trying to solve a question, fails to find the answer, and decides to spend another three minutes because they have "already invested so much time."
+        </p>
+        <p>
+          This is a recipe for exam failure. In a balanced test, every question carries the same weight. Spending five minutes to get one correct answer while leaving four easy questions unread is a poor trade-off. 
+        </p>
+        <p>
+          Without a tool to measure and review your speed, you cannot identify these time-wasting habits. You need clear, data-driven feedback to teach you when to skip difficult questions and focus on high-yield opportunities.
+        </p>
+      </section>
+
+      <!-- Section 3: Why Students Need This Tool -->
+      <section class="space-y-4">
+        <h2 class="font-display font-extrabold text-xl text-text-light dark:text-text-dark border-b border-border-light dark:border-border-dark pb-2">
+          How an MCQ Speed Analyzer Changes Your Preparation
+        </h2>
+        <p>
+          Using an interactive speed analyzer changes how you practice. Instead of reviewing only whether your answers were correct, you analyze your efficiency. 
+        </p>
+        <p>
+          MCQTicker does this automatically. Every time you log an answer on our digital <a href="/online-omr-sheet" class="text-brand-primary dark:text-brand-secondary font-bold">online OMR sheet</a>, use our built-in <a href="/mcq-timer" class="text-brand-primary dark:text-brand-secondary font-bold">MCQ timer</a>, or grade your scorecard with the integrated <strong>grade calculator</strong>, the tool records the duration of each decision.
+        </p>
+        <p>
+          When you review your session, the dashboard highlights your average time per question and flags slow responses. This allows you to identify specific topics or concepts that slow you down, showing you exactly where you need to study shortcuts.
+        </p>
+      </section>
+
+      <!-- Section 4: Features -->
+      <section class="space-y-4 bg-surface-light dark:bg-surface-dark p-6 rounded-2xl border border-border-light dark:border-border-dark">
+        <h3 class="font-display font-extrabold text-lg text-text-light dark:text-text-dark flex items-center gap-2">
+          <span class="material-symbols-outlined text-brand-primary dark:text-brand-secondary">stars</span>
+          Key Features of MCQTicker Speed Calculator
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
+          <div>
+            <h4 class="font-bold text-xs text-text-light dark:text-text-dark">📊 Average Speed Metrics</h4>
+            <p class="text-xxs text-text-light-muted dark:text-text-dark-muted mt-1">
+              Track your exact average time per question, overall active speed, and total session duration automatically.
+            </p>
+          </div>
+          <div>
+            <h4 class="font-bold text-xs text-text-light dark:text-text-dark">⚠️ Time-Suck Warning Flags</h4>
+            <p class="text-xxs text-text-light-muted dark:text-text-dark-muted mt-1">
+              The tool automatically highlights questions where you spent more than 1.5x your average time, identifying speed bottlenecks.
+            </p>
+          </div>
+          <div>
+            <h4 class="font-bold text-xs text-text-light dark:text-text-dark">📈 Historical Performance Trends</h4>
+            <p class="text-xxs text-text-light-muted dark:text-text-dark-muted mt-1">
+              Monitor your average speed across sessions to see if your pacing is improving over time.
+            </p>
+          </div>
+          <div>
+            <h4 class="font-bold text-xs text-text-light dark:text-text-dark">🔒 Secure Local Analytics</h4>
+            <p class="text-xxs text-text-light-muted dark:text-text-dark-muted mt-1">
+              All speed calculations are computed directly in your browser. Your study data remains completely private.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 5: How It Works -->
+      <section class="space-y-4">
+        <h2 class="font-display font-extrabold text-xl text-text-light dark:text-text-dark border-b border-border-light dark:border-border-dark pb-2">
+          How It Works: Step-by-Step Pacing Analysis
+        </h2>
+        <p>
+          Follow these steps to analyze your solving speed:
+        </p>
+        <ol class="list-decimal pl-6 space-y-3">
+          <li>
+            <strong>Set Up a Session:</strong> Choose a subject and configure the number of questions on the homepage.
+          </li>
+          <li>
+            <strong>Practice at Your Pace:</strong> Tap options on screen to log answers as you solve questions from your books or sheets.
+          </li>
+          <li>
+            <strong>Review Pacing Graphs:</strong> After the session, check the speed charts to see the exact time spent on each question.
+          </li>
+          <li>
+            <strong>Target Weak Areas:</strong> Note which topics took the longest and focus your revision on those areas.
+          </li>
+        </ol>
+      </section>
+
+      <!-- Section 6: Benefits -->
+      <section class="space-y-4">
+        <h2 class="font-display font-extrabold text-xl text-text-light dark:text-text-dark border-b border-border-light dark:border-border-dark pb-2">
+          The Benefits: Why Tracking Question Pacing Works
+        </h2>
+        <p>
+          Analyzing your question speed offers several key benefits:
+        </p>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div class="p-4 rounded-xl bg-bg-light dark:bg-bg-dark border border-border-light dark:border-border-dark">
+            <h4 class="font-bold text-xs text-text-light dark:text-text-dark">Improve Exam Strategy</h4>
+            <p class="text-xxs text-text-light-muted dark:text-text-dark-muted mt-1">
+              Identify where you lose time and learn to make faster skip decisions.
+            </p>
+          </div>
+          <div class="p-4 rounded-xl bg-bg-light dark:bg-bg-dark border border-border-light dark:border-border-dark">
+            <h4 class="font-bold text-xs text-text-light dark:text-text-dark">Build Pacing Consistency</h4>
+            <p class="text-xxs text-text-light-muted dark:text-text-dark-muted mt-1">
+              Develop a steady rhythm, reducing panic and calculation errors.
+            </p>
+          </div>
+          <div class="p-4 rounded-xl bg-bg-light dark:bg-bg-dark border border-border-light dark:border-border-dark">
+            <h4 class="font-bold text-xs text-text-light dark:text-text-dark">Optimize Study Time</h4>
+            <p class="text-xxs text-text-light-muted dark:text-text-dark-muted mt-1">
+              Focus your practice on areas where you are slow, maximizing score improvements.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 7: Exam-Specific Benchmarks -->
+      <section class="space-y-4">
+        <h2 class="font-display font-extrabold text-xl text-text-light dark:text-text-dark border-b border-border-light dark:border-border-dark pb-2">
+          Speed Benchmarks for Major Exams
+        </h2>
+        <p>
+          Here are target speeds for major competitive exams to help you guide your practice:
+        </p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs text-left border-collapse border border-border-light dark:border-border-dark">
+            <thead>
+              <tr class="bg-surface-light dark:bg-surface-dark">
+                <th class="p-2.5 border border-border-light dark:border-border-dark">Exam Name</th>
+                <th class="p-2.5 border border-border-light dark:border-border-dark">Average Time Limit</th>
+                <th class="p-2.5 border border-border-light dark:border-border-dark">Target Speed</th>
+                <th class="p-2.5 border border-border-light dark:border-border-dark">Pacing Recommendation</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="p-2.5 border border-border-light dark:border-border-dark font-bold">NEET (Physics/Chemistry)</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark">60 seconds</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark text-correct-green dark:text-brand-secondary font-bold">45 - 50 seconds</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark">Quickly identify formula patterns and skip long calculations.</td>
+              </tr>
+              <tr class="bg-surface-light/40 dark:bg-surface-dark/40">
+                <td class="p-2.5 border border-border-light dark:border-border-dark font-bold">JEE Advanced</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark">180 seconds (3 mins)</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark text-correct-green dark:text-brand-secondary font-bold">120 - 150 seconds</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark">Prioritize accuracy. Work step-by-step but track overall pace.</td>
+              </tr>
+              <tr>
+                <td class="p-2.5 border border-border-light dark:border-border-dark font-bold">SSC CGL (Maths)</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark">48 seconds</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark text-correct-green dark:text-brand-secondary font-bold">35 - 40 seconds</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark">Learn short tricks. Solve similar questions using our specialized <a href="/ssc-mcq-practice-timer" class="text-brand-primary dark:text-brand-secondary font-bold">SSC MCQ practice timer</a>.</td>
+              </tr>
+              <tr class="bg-surface-light/40 dark:bg-surface-dark/40">
+                <td class="p-2.5 border border-border-light dark:border-border-dark font-bold">CAT (Quantitative Aptitude)</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark">120 seconds (2 mins)</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark text-correct-green dark:text-brand-secondary font-bold">90 - 100 seconds</td>
+                <td class="p-2.5 border border-border-light dark:border-border-dark">Read questions carefully. Eliminate choices to narrow options quickly.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Section 8: Tips for Practice -->
+      <section class="space-y-4">
+        <h2 class="font-display font-extrabold text-xl text-text-light dark:text-text-dark border-b border-border-light dark:border-border-dark pb-2">
+          Practical Tips to Speed Up MCQ Solving
+        </h2>
+        <ul class="list-disc pl-6 space-y-3">
+          <li>
+            <strong>Option Elimination:</strong> Often, you don't need to solve a math question fully. Check the final digits, plug options back into the equation, or eliminate choices that are logically incorrect.
+          </li>
+          <li>
+            <strong>Use the 1.5x Rule:</strong> If you exceed 1.5 times the target time for a question, skip it immediately. You can return to it later if time permits.
+          </li>
+          <li>
+            <strong>Practice Under Pressure:</strong> Set timer constraints that are slightly faster than the actual exam pace during home practice.
+          </li>
+        </ul>
+      </section>
+
+      <!-- Section 9: Brand and Internal Links -->
+      <section class="space-y-4">
+        <p>
+          At <strong>MCQTicker</strong>, we protect your data privacy. All practice history and speed calculations are processed and saved locally in your browser. Read our <a href="/privacy" class="text-brand-primary dark:text-brand-secondary underline">privacy policy</a> and review our <a href="/terms" class="text-brand-primary dark:text-brand-secondary underline">terms of service</a>. For more practice options, check out our <a href="/answer-tracker" class="text-brand-primary dark:text-brand-secondary font-bold">answer tracker</a> and try our <a href="/mcq-timer" class="text-brand-primary dark:text-brand-secondary font-bold">MCQ timer</a>.
+        </p>
+      </section>
+    </article>
+
+    <!-- FAQ Accordion Component -->
+    <FAQ faqs={faqs} title="Question Speed Calculator FAQs" subtitle="Common questions about calculating average times, improving solving speeds, and analyzing performance." />
+  </div>
+</BaseLayout>

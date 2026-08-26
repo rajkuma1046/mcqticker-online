@@ -1,0 +1,151 @@
+---
+// src/components/PwaInstallPrompt.astro
+---
+
+<div
+  id="pwa-install-modal"
+  class="fixed inset-0 z-100 hidden items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fadeIn"
+>
+  <div
+    class="w-full max-w-md bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-3xl p-6 shadow-custom-md text-center space-y-5 relative"
+  >
+    <!-- Close Button -->
+    <button
+      id="pwa-close-btn"
+      class="absolute top-4 right-4 text-text-light-muted dark:text-text-dark-muted hover:text-text-light dark:hover:text-text-dark w-8 h-8 flex items-center justify-center rounded-xl bg-surface-light-hover dark:bg-surface-dark-hover border border-border-light dark:border-border-dark cursor-pointer"
+      aria-label="Close installation prompt"
+    >
+      <span class="material-symbols-outlined text-base">close</span>
+    </button>
+
+    <!-- Header Icon -->
+    <div class="mx-auto w-14 h-14 rounded-2xl bg-brand-primary/10 dark:bg-brand-secondary/10 border border-brand-primary/20 dark:border-brand-secondary/20 flex items-center justify-center text-brand-primary dark:text-brand-secondary">
+      <span class="material-symbols-outlined text-3xl">install_mobile</span>
+    </div>
+
+    <!-- Content -->
+    <div class="space-y-2">
+      <h3 id="pwa-prompt-title" class="font-display font-black text-lg md:text-xl text-text-light dark:text-text-dark">
+        Practice Offline Anytime!
+      </h3>
+      <p id="pwa-prompt-desc" class="text-xs text-text-light-muted dark:text-text-dark-muted leading-relaxed">
+        Save this tool to your home screen. Access it instantly without typing URLs, practice 100% offline, and save mobile data.
+      </p>
+    </div>
+
+    <!-- Action Buttons -->
+    <div id="pwa-standard-actions" class="flex flex-col gap-2.5 pt-2">
+      <button
+        id="pwa-install-btn"
+        class="w-full py-3 bg-brand-primary dark:bg-brand-secondary text-white dark:text-bg-dark font-bold text-sm rounded-xl hover:opacity-90 transition-all shadow-md cursor-pointer flex items-center justify-center gap-2"
+      >
+        <span class="material-symbols-outlined text-base">install_mobile</span>
+        Add to Home Screen
+      </button>
+      <button
+        id="pwa-dismiss-btn"
+        class="w-full py-3 border border-border-light dark:border-border-dark bg-transparent text-text-light-muted dark:text-text-dark-muted font-bold text-sm rounded-xl hover:bg-surface-light-hover dark:hover:bg-surface-dark-hover transition-colors cursor-pointer"
+      >
+        Maybe Later
+      </button>
+    </div>
+
+    <!-- iOS Specific Helper Instructions -->
+    <div id="pwa-ios-instructions" class="hidden text-left bg-surface-light-hover dark:bg-surface-dark-hover p-4 rounded-xl border border-border-light dark:border-border-dark space-y-3">
+      <p class="text-xs text-text-light dark:text-text-dark font-bold flex items-center gap-1.5">
+        <span class="material-symbols-outlined text-brand-primary dark:text-brand-secondary text-base">info</span>
+        iOS Safari Instructions:
+      </p>
+      <ol class="list-decimal pl-4 text-xxs text-text-light-muted dark:text-text-dark-muted space-y-2 leading-relaxed">
+        <li>Tap the <strong>Share</strong> button <span class="material-symbols-outlined text-xxs align-middle">share</span> at the bottom of the screen.</li>
+        <li>Scroll down and tap <strong>Add to Home Screen</strong> <span class="material-symbols-outlined text-xxs align-middle">add_box</span>.</li>
+        <li>Tap <strong>Add</strong> in the top-right corner to finish.</li>
+      </ol>
+      <button
+        id="pwa-ios-dismiss-btn"
+        class="w-full py-2 border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark text-text-light dark:text-text-dark font-bold text-xxs rounded-lg hover:bg-surface-light-hover dark:hover:bg-surface-dark-hover transition-colors cursor-pointer mt-1"
+      >
+        Got it, thanks!
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  let deferredPrompt: any = null;
+
+  // Listen to beforeinstallprompt event globally
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+  });
+
+  function initPwaModal() {
+    const modal = document.getElementById('pwa-install-modal');
+    const closeBtn = document.getElementById('pwa-close-btn');
+    const dismissBtn = document.getElementById('pwa-dismiss-btn');
+    const installBtn = document.getElementById('pwa-install-btn');
+    const iosDismissBtn = document.getElementById('pwa-ios-dismiss-btn');
+    const titleEl = document.getElementById('pwa-prompt-title');
+    const descEl = document.getElementById('pwa-prompt-desc');
+
+    if (!modal) return;
+
+    // Check if app is already running in standalone mode
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || (navigator as any).standalone;
+
+    // Global hook to show PWA prompt
+    (window as any).showPwaInstallPrompt = function(customTitle?: string, customDesc?: string) {
+      if (isStandalone) {
+        console.log('[PWA] Already running in standalone mode.');
+        return;
+      }
+
+      if (customTitle && titleEl) titleEl.textContent = customTitle;
+      if (customDesc && descEl) descEl.textContent = customDesc;
+
+      // Determine platform
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
+      const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+
+      if (isIOS) {
+        document.getElementById('pwa-standard-actions')?.classList.add('hidden');
+        document.getElementById('pwa-ios-instructions')?.classList.remove('hidden');
+      } else {
+        document.getElementById('pwa-standard-actions')?.classList.remove('hidden');
+        document.getElementById('pwa-ios-instructions')?.classList.add('hidden');
+      }
+    };
+
+    // Close handlers
+    const hideModal = () => {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    };
+
+    closeBtn?.addEventListener('click', hideModal);
+    dismissBtn?.addEventListener('click', hideModal);
+    iosDismissBtn?.addEventListener('click', hideModal);
+
+    // Install handler for standard browsers (Chrome, Edge, Android)
+    installBtn?.addEventListener('click', async () => {
+      hideModal();
+      if (!deferredPrompt) {
+        // Fallback to show that they can install from browser menu if event not fired yet
+        alert("To install, tap the 3-dots menu icon in your browser and click 'Install app' or 'Add to Home screen'.");
+        return;
+      }
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      console.log(`[PWA] Install prompt result: ${outcome}`);
+      deferredPrompt = null;
+    });
+  }
+
+  // Init on load
+  initPwaModal();
+  document.addEventListener('astro:page-load', initPwaModal);
+</script>

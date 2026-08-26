@@ -1,0 +1,81 @@
+---
+---
+<div
+  id="cookie-consent-banner"
+  class="fixed bottom-4 left-4 right-4 md:left-auto md:right-4 md:w-96 z-[100] bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark p-5 rounded-2xl shadow-xl transform translate-y-full opacity-0 transition-all duration-500 hidden"
+  role="dialog"
+  aria-live="polite"
+  aria-labelledby="cookie-heading"
+>
+  <div class="flex flex-col gap-3">
+    <div class="flex items-start gap-3">
+      <div class="bg-brand-primary/10 text-brand-primary dark:text-brand-secondary p-2 rounded-full">
+        <span class="material-symbols-outlined select-none" aria-hidden="true">cookie</span>
+      </div>
+      <div>
+        <h3 id="cookie-heading" class="text-sm font-bold text-text-light dark:text-text-dark mb-1">We value your privacy</h3>
+        <p class="text-xs text-text-light-muted dark:text-text-dark-muted leading-relaxed">
+          We use cookies to enhance your browsing experience, serve personalized content, and analyze our traffic. By clicking "Accept All", you consent to our use of cookies.
+        </p>
+      </div>
+    </div>
+    
+    <div class="flex items-center gap-2 mt-2">
+      <button
+        id="cookie-accept"
+        class="flex-1 bg-brand-primary hover:bg-brand-primary-hover text-white dark:bg-brand-secondary dark:text-bg-dark dark:hover:bg-brand-secondary/90 px-4 py-2 rounded-xl text-xs font-bold transition-colors"
+      >
+        Accept All
+      </button>
+      <button
+        id="cookie-decline"
+        class="flex-1 bg-surface-light-hover dark:bg-surface-dark-hover text-text-light dark:text-text-dark border border-border-light dark:border-border-dark hover:bg-border-light dark:hover:bg-border-dark px-4 py-2 rounded-xl text-xs font-bold transition-colors"
+      >
+        Decline
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  function setupCookieConsent() {
+    const banner = document.getElementById('cookie-consent-banner');
+    const acceptBtn = document.getElementById('cookie-accept');
+    const declineBtn = document.getElementById('cookie-decline');
+
+    if (!banner || !acceptBtn || !declineBtn) return;
+
+    // Check if user has already made a choice
+    const consentStatus = localStorage.getItem('cookie-consent');
+
+    if (!consentStatus) {
+      // Show the banner with a slight delay for better UX
+      setTimeout(() => {
+        banner.classList.remove('hidden');
+        // Trigger CSS transition without forced reflow
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            banner.classList.remove('translate-y-full', 'opacity-0');
+          });
+        });
+      }, 1000);
+    }
+
+    const hideBanner = (status: 'accepted' | 'declined') => {
+      localStorage.setItem('cookie-consent', status);
+      banner.classList.add('translate-y-full', 'opacity-0');
+      setTimeout(() => {
+        banner.classList.add('hidden');
+      }, 500); // Wait for transition to finish
+    };
+
+    acceptBtn.addEventListener('click', () => hideBanner('accepted'));
+    declineBtn.addEventListener('click', () => hideBanner('declined'));
+  }
+
+  // Run on page load
+  setupCookieConsent();
+
+  // Run on view transitions
+  document.addEventListener('astro:after-swap', setupCookieConsent);
+</script>

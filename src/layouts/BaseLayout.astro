@@ -228,27 +228,89 @@ const canonicalURL = `${SITE_URL}${canonicalPath}`;
   <body class="bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark font-sans min-h-dvh flex flex-col">
     <!-- Top Bar / Header -->
     <header class="sticky top-0 z-50 backdrop-blur-md bg-surface-light/90 dark:bg-surface-dark/90 border-b border-border-light dark:border-border-dark px-4 py-2.5 flex items-center justify-between transition-colors">
-      <a href="/" class="flex items-center gap-2.5 group decoration-none" aria-label="tap A B C D — Home">
-        <!-- Logo: show dark logo in dark mode, light logo in light mode -->
-        <picture>
-          <source srcset="/logo-dark.webp" media="(prefers-color-scheme: dark)" class="logo-dark-source" />
-          <img
-            id="site-logo"
-            src="/logo-light.webp"
-            alt="tap A B C D logo"
-            width="240"
-            height="80"
-            class="h-9 sm:h-11 md:h-14 lg:h-16 aspect-[3/1] object-contain transition-all duration-300 group-hover:opacity-85 logo-img"
-            fetchpriority="high"
-          />
-        </picture>
-      </a>
+      <div class="flex items-center gap-6">
+        <a href="/" class="flex items-center gap-2.5 group decoration-none" aria-label="tap A B C D — Home">
+          <!-- Logo: show dark logo in dark mode, light logo in light mode -->
+          <picture>
+            <source srcset="/logo-dark.webp" media="(prefers-color-scheme: dark)" class="logo-dark-source" />
+            <img
+              id="site-logo"
+              src="/logo-light.webp"
+              alt="tap A B C D logo"
+              width="240"
+              height="80"
+              class="h-9 sm:h-11 aspect-[3/1] object-contain transition-all duration-300 group-hover:opacity-85 logo-img"
+              fetchpriority="high"
+            />
+          </picture>
+        </a>
+
+        <!-- Desktop Navigation -->
+        <nav class="hidden md:flex items-center gap-4 border-l border-border-light dark:border-border-dark pl-6" aria-label="Main Navigation">
+          <a href="/todo" class="nav-link">To-Do List</a>
+          <a href="/practice-mcq-from-book-with-timer" class="nav-link">Book Practice</a>
+          <a href="/book-practice.html" class="nav-link">Book Practice (Sync)</a>
+          <a href="/teacher-attendance-calendar" class="nav-link">Teacher Attendance</a>
+          <a href="/pomodoro-timer" class="nav-link">Pomodoro Timer</a>
+        </nav>
+      </div>
 
       <div class="flex items-center gap-2">
         <ZoomControls />
         <ThemeToggle />
+
+        <!-- Mobile Menu Toggle Button -->
+        <button
+          id="mobile-menu-toggle"
+          class="md:hidden w-8 h-8 flex items-center justify-center rounded-xl bg-surface-light-hover dark:bg-surface-dark-hover border border-border-light dark:border-border-dark text-text-light dark:text-text-dark hover:opacity-80 cursor-pointer"
+          aria-label="Toggle Navigation Menu"
+          aria-expanded="false"
+        >
+          <span class="material-symbols-outlined text-base" id="menu-icon">menu</span>
+        </button>
       </div>
     </header>
+
+    <!-- Mobile Navigation Menu Dropdown -->
+    <nav
+      id="mobile-nav"
+      class="hidden md:hidden bg-surface-light dark:bg-surface-dark border-b border-border-light dark:border-border-dark px-4 py-3 flex flex-col gap-2 transition-all duration-300"
+      aria-label="Mobile Navigation"
+    >
+      <a href="/todo" class="mobile-nav-link">To-Do List</a>
+      <a href="/practice-mcq-from-book-with-timer" class="mobile-nav-link">Book Practice</a>
+      <a href="/book-practice.html" class="mobile-nav-link">Book Practice (Sync)</a>
+      <a href="/teacher-attendance-calendar" class="mobile-nav-link">Teacher Attendance</a>
+      <a href="/pomodoro-timer" class="mobile-nav-link">Pomodoro Timer</a>
+    </nav>
+
+    <!-- Script to toggle mobile menu -->
+    <script is:inline>
+      (function() {
+        function initMobileMenu() {
+          const toggleBtn = document.getElementById('mobile-menu-toggle');
+          const mobileNav = document.getElementById('mobile-nav');
+          const menuIcon = document.getElementById('menu-icon');
+
+          if (!toggleBtn || !mobileNav || !menuIcon) return;
+
+          toggleBtn.addEventListener('click', function() {
+            const isExpanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+            toggleBtn.setAttribute('aria-expanded', !isExpanded);
+            if (isExpanded) {
+              mobileNav.classList.add('hidden');
+              menuIcon.textContent = 'menu';
+            } else {
+              mobileNav.classList.remove('hidden');
+              menuIcon.textContent = 'close';
+            }
+          });
+        }
+
+        initMobileMenu();
+        document.addEventListener('astro:after-swap', initMobileMenu);
+      })();
+    </script>
 
     <!-- Main Content Area -->
     <main class={`flex-1 w-full mx-auto px-4 py-6 ${containerClass}`}>
@@ -277,14 +339,55 @@ const canonicalURL = `${SITE_URL}${canonicalPath}`;
             </p>
           </div>
 
-          <!-- Links -->
-          <nav class="flex flex-wrap gap-x-5 gap-y-2" aria-label="Footer Navigation">
-            <a href="/about-tool" class="footer-link">About the Tool</a>
-            <a href="/about" class="footer-link">About Us</a>
-            <a href="/reviews" class="footer-link">Reviews</a>
-            <a href="/privacy" class="footer-link">Privacy Policy</a>
-            <a href="/contact" class="footer-link">Contact Us</a>
-          </nav>
+          <!-- Links Grid -->
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10 w-full mt-6 mb-8 text-left">
+            <div class="flex flex-col gap-2.5">
+              <h3 class="font-bold text-xs uppercase tracking-wider text-text-light dark:text-text-dark mb-1">Core Tools</h3>
+              <a href="/practice-mcq-from-book-with-timer" class="footer-link">Book Practice</a>
+              <a href="/mcq-timer" class="footer-link">MCQ Timer</a>
+              <a href="/answer-tracker" class="footer-link">Answer Tracker</a>
+              <a href="/pomodoro-timer" class="footer-link">Pomodoro Timer</a>
+              <a href="/exam-timer" class="footer-link">Exam Timer</a>
+              <a href="/question-speed-calculator" class="footer-link">Speed Calculator</a>
+            </div>
+            
+            <div class="flex flex-col gap-2.5">
+              <h3 class="font-bold text-xs uppercase tracking-wider text-text-light dark:text-text-dark mb-1">Practice & OMR</h3>
+              <a href="/online-omr-sheet" class="footer-link">Online OMR Sheet</a>
+              <a href="/omr-sheet-checker" class="footer-link">OMR Sheet Checker</a>
+              <a href="/mcq-bubble-sheet-online" class="footer-link">MCQ Bubble Sheet</a>
+              <a href="/ssc-mcq-practice-timer" class="footer-link">SSC Practice Timer</a>
+              <a href="/mark-mcq-answers-online-no-typing" class="footer-link">Mark Answers Online</a>
+              <a href="/tick-mcq-options-online-free" class="footer-link">Tick MCQ Options</a>
+              <a href="/select-mcq-answer-and-check-score" class="footer-link">Check MCQ Score</a>
+            </div>
+            
+            <div class="flex flex-col gap-2.5">
+              <h3 class="font-bold text-xs uppercase tracking-wider text-text-light dark:text-text-dark mb-1">Account & Utilities</h3>
+              <a href="/new-session" class="footer-link">New Session</a>
+              <a href="/active-test" class="footer-link">Active Test</a>
+              <a href="/todo" class="footer-link">To-Do List</a>
+              <a href="/teacher-attendance-calendar" class="footer-link">Teacher Calendar</a>
+              <a href="/mcq-answer-logger-with-timer" class="footer-link">MCQ Answer Logger</a>
+              <a href="/mcq-answer-sheet-online-interactive" class="footer-link">Interactive Answer Sheet</a>
+              <a href="/mcq-option-selector-online-free" class="footer-link">MCQ Option Selector</a>
+              <a href="/bio-data.html" class="footer-link">Biodata Form</a>
+            </div>
+            
+            <div class="flex flex-col gap-2.5">
+              <h3 class="font-bold text-xs uppercase tracking-wider text-text-light dark:text-text-dark mb-1">Resources & Legal</h3>
+              <a href="/about" class="footer-link">About Us</a>
+              <a href="/about-tool" class="footer-link">About the Tool</a>
+              <a href="/blog" class="footer-link">Blog</a>
+              <a href="/faq" class="footer-link">FAQ</a>
+              <a href="/reviews" class="footer-link">Reviews</a>
+              <a href="/contact" class="footer-link">Contact Us</a>
+              <a href="/privacy" class="footer-link">Privacy Policy</a>
+              <a href="/terms" class="footer-link">Terms</a>
+              <a href="/disclaimer" class="footer-link">Disclaimer</a>
+              <a href="/sitemap" class="footer-link">Sitemap</a>
+            </div>
+          </div>
         </div>
 
         <!-- Divider -->
@@ -324,6 +427,43 @@ const canonicalURL = `${SITE_URL}${canonicalPath}`;
       }
       html.dark .footer-logo-img {
         content: url('/logo-dark.webp');
+      }
+
+      /* Header navigation links */
+      .nav-link {
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--color-text-light-muted);
+        text-decoration: none;
+        transition: color 0.15s ease;
+      }
+      .dark .nav-link {
+        color: var(--color-text-dark-muted);
+      }
+      .nav-link:hover {
+        color: var(--color-brand-primary);
+      }
+      .dark .nav-link:hover {
+        color: var(--color-brand-secondary);
+      }
+
+      .mobile-nav-link {
+        font-size: 0.85rem;
+        font-weight: 600;
+        padding: 0.5rem 0.75rem;
+        border-radius: 0.5rem;
+        color: var(--color-text-light);
+        text-decoration: none;
+        transition: background-color 0.15s ease;
+      }
+      .dark .mobile-nav-link {
+        color: var(--color-text-dark);
+      }
+      .mobile-nav-link:hover {
+        background-color: var(--color-surface-light-hover);
+      }
+      .dark .mobile-nav-link:hover {
+        background-color: var(--color-surface-dark-hover);
       }
 
       /* Footer links */

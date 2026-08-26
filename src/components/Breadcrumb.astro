@@ -1,0 +1,36 @@
+---
+// src/components/Breadcrumb.astro
+interface BreadcrumbItem {
+  label: string;
+  url?: string;
+}
+
+interface Props {
+  items: BreadcrumbItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<nav aria-label="Breadcrumb" class="w-full py-2.5 px-4 mb-6 rounded-xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark flex items-center gap-1.5 text-xs text-text-light-muted dark:text-text-dark-muted shadow-custom select-none">
+  <!-- Home link -->
+  <a href="/" class="flex items-center gap-1 hover:text-brand-primary dark:hover:text-brand-secondary transition-colors font-medium decoration-none">
+    <span class="material-symbols-outlined text-sm leading-none">home</span>
+    <span>Home</span>
+  </a>
+
+  {items.map((item, index) => (
+    <>
+      <span class="material-symbols-outlined text-xs leading-none text-text-light-muted/50 dark:text-text-dark-muted/50">chevron_right</span>
+      {item.url ? (
+        <a href={item.url} class="hover:text-brand-primary dark:hover:text-brand-secondary transition-colors font-medium decoration-none">
+          {item.label}
+        </a>
+      ) : (
+        <span class="font-bold text-text-light dark:text-text-dark" aria-current="page">
+          {item.label}
+        </span>
+      )}
+    </>
+  ))}
+</nav>
