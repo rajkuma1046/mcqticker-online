@@ -400,79 +400,88 @@
                     </div>
                 </section>
 
-                <!-- ५. लाइव फोटो कैप्चर (Live Camera Studio) -->
+                <!-- ५. लाइव फोटो कैप्चर (Multi-Photo Live Camera Studio & Gallery) -->
                 <section class="bg-rose-50/50 p-5 rounded-2xl border border-rose-200">
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
                         <div>
                             <h3 class="text-base font-bold text-rose-900 flex items-center gap-2">
-                                <i class="fa-solid fa-camera-retro text-rose-600"></i> ५. कन्या की लाइव HD फोटो (Live Photo Capture) <span class="text-red-500">*</span>
+                                <i class="fa-solid fa-camera-retro text-rose-600"></i> ५. कन्या की लाइव HD फोटो गैलरी (Live Photo Capture) <span class="text-red-500">*</span>
                             </h3>
-                            <p class="text-xs text-rose-700 mt-0.5">स्मार्ट फेस, सीधी व खुली आँखें, स्पष्टता व रोशनी सत्यापन के साथ ऑटो-कैप्चर।</p>
+                            <p class="text-xs text-rose-700 mt-0.5">3 सेकंड अंतराल पर मल्टीपल ऑटो-कैप्चर (अधिकतम 10 फोटो) व गैलरी सपोर्ट।</p>
                         </div>
                         <span id="aiModelStatusBadge" class="text-[11px] font-semibold bg-white text-rose-800 px-2.5 py-1 rounded-full border border-rose-200 self-start sm:self-auto flex items-center gap-1.5 shadow-sm">
                             <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span> AI मॉडल लोड हो रहा है...
                         </span>
                     </div>
 
-                    <!-- हिडन इनपुट फोटो डेटा के लिए (Base64 HD Image) -->
+                    <!-- हिडन इनपुट्स फोटो डेटा के लिए -->
                     <input type="hidden" name="photoData" id="photoDataInput" required>
+                    <input type="hidden" name="photosJson" id="photosJsonInput">
 
-                    <!-- व्यू A: कैमरा स्टैंडबाय लॉन्चर कार्ड -->
+                    <!-- व्यू A: कैमरा स्टैंडबाय लॉन्चर कार्ड (0 फोटो होने पर) -->
                     <div id="cameraStandbyContainer" class="space-y-3">
                         <div class="bg-gradient-to-br from-slate-900 via-rose-950 to-slate-900 rounded-2xl p-6 sm:p-8 text-center text-white border-2 border-dashed border-rose-400/60 shadow-md space-y-4">
                             <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-rose-600/30 text-rose-300 flex items-center justify-center text-3xl sm:text-4xl mx-auto border-2 border-rose-400/40 shadow-inner">
                                 <i class="fa-solid fa-camera-viewfinder"></i>
                             </div>
                             <div class="max-w-md mx-auto space-y-1.5">
-                                <h4 class="font-bold text-base sm:text-lg text-rose-100">लाइव HD कैमरा स्टूडियो खोलें</h4>
+                                <h4 class="font-bold text-base sm:text-lg text-rose-100">लाइव HD कैमरा स्टूडियो खोलें (3s ऑटो-कैप्चर)</h4>
                                 <p class="text-xs text-rose-200/80 leading-relaxed">
-                                    कैमरा चालू होते ही फुल-स्क्रीन स्टूडियो खुलेगा। चेहरा बीच में लाएं, <strong>आँखें सीधी व खुली रखें</strong> — सभी मानक मिलते ही फोटो <strong>ऑटो-कैप्चर</strong> हो जाएगी!
+                                    कैमरा चालू होते ही स्टूडियो खुलेगा। चेहरा बीच में लाएं और <strong>आँखें सीधी व खुली रखें</strong> — <strong>3 सेकंड के अंतराल पर स्वतः फोटो (अधिकतम 10)</strong> कैप्चर होंगी!
                                 </p>
                             </div>
 
                             <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
                                 <button type="button" onclick="startCamera()" class="px-6 py-3 bg-gradient-to-r from-rose-600 to-rose-700 hover:from-rose-500 hover:to-rose-600 text-white rounded-2xl text-sm font-bold transition flex items-center gap-2 shadow-xl hover:shadow-rose-600/40 ring-4 ring-rose-500/20">
-                                    <i class="fa-solid fa-video text-base"></i> <span>कैमरा चालू करें (Open Studio)</span>
+                                    <i class="fa-solid fa-video text-base"></i> <span>कैमरा चालू करें (Start 10 Photo Studio)</span>
                                 </button>
                             </div>
                         </div>
 
                         <!-- वैकल्पिक फ़ाइल अपलोड विकल्प -->
                         <div class="flex items-center justify-between pt-2 border-t border-rose-100/80 text-xs text-gray-600">
-                            <span>या डिवाइस से फोटो अपलोड करें:</span>
+                            <span>या डिवाइस से फोटो अपलोड करें (अधिकतम 10):</span>
                             <label class="cursor-pointer font-semibold text-rose-700 hover:text-rose-900 flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-xl border border-rose-200 shadow-sm hover:bg-rose-50 transition">
-                                <i class="fa-solid fa-arrow-up-from-bracket"></i> <span>गैलरी / फ़ाइल चुनें</span>
-                                <input type="file" id="filePhotoInput" accept="image/*" onchange="handleFileUpload(event)" class="hidden">
+                                <i class="fa-solid fa-arrow-up-from-bracket"></i> <span>गैलरी से चुनें (Select Images)</span>
+                                <input type="file" id="filePhotoInput" accept="image/*" multiple onchange="handleFileUpload(event)" class="hidden">
                             </label>
                         </div>
                     </div>
 
-                    <!-- व्यू B: कैप्चर की गई फोटो का प्रीव्यू कार्ड -->
-                    <div id="capturedPreviewCard" class="hidden bg-white p-4 rounded-2xl border border-emerald-200 shadow-sm space-y-3">
-                        <div class="flex flex-col sm:flex-row items-center gap-4">
-                            <div class="relative w-32 h-40 md:w-36 md:h-44 rounded-2xl overflow-hidden border-2 border-emerald-500 shadow-md shrink-0 bg-gray-100">
-                                <img id="capturedImagePreview" src="" alt="Candidate Photo" class="w-full h-full object-cover">
-                                <span class="absolute top-1.5 right-1.5 w-6 h-6 rounded-full bg-emerald-500 text-white flex items-center justify-center text-xs shadow">
-                                    <i class="fa-solid fa-check"></i>
+                    <!-- व्यू B: मल्टी-फोटो गैलरी प्रीव्यू कार्ड (कम से कम 1 फोटो होने पर) -->
+                    <div id="capturedPreviewCard" class="hidden bg-white p-4 sm:p-5 rounded-2xl border border-emerald-200 shadow-sm space-y-4">
+                        <div class="flex flex-wrap items-center justify-between gap-2 border-b border-gray-100 pb-3">
+                            <div class="flex items-center gap-2">
+                                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+                                <h4 class="font-bold text-gray-900 text-sm sm:text-base">दर्ज की गई फोटो गैलरी</h4>
+                                <span id="formPhotoCountBadge" class="text-xs bg-emerald-100 text-emerald-800 font-bold px-2.5 py-0.5 rounded-full border border-emerald-200">
+                                    0 / 10 फोटो
                                 </span>
                             </div>
-                            <div class="space-y-2 text-center sm:text-left flex-1">
-                                <div class="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full border border-emerald-200">
-                                    <i class="fa-solid fa-circle-check text-emerald-600"></i> AI गुणवत्ता व आँखें सत्यापित
-                                </div>
-                                <h4 class="font-bold text-gray-900 text-sm md:text-base">लाइव फोटो सफलतापूर्वक कैप्चर हो गई है</h4>
-                                <p class="text-xs text-gray-600">यह फोटो बायोडाटा में मुख्य प्रोफाइल चित्र के रूप में सुरक्षित रूप से दर्ज होगी।</p>
-                                
-                                <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2 pt-1">
-                                    <button type="button" onclick="retakePhoto()" class="px-3.5 py-2 bg-rose-50 hover:bg-rose-100 text-rose-700 rounded-xl text-xs font-bold transition flex items-center gap-1.5 border border-rose-200">
-                                        <i class="fa-solid fa-rotate-left"></i> पुनः फोटो लें (Retake)
-                                    </button>
-                                    <button type="button" onclick="removePhoto()" class="px-3.5 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-xs font-semibold transition flex items-center gap-1.5">
-                                        <i class="fa-solid fa-trash-can"></i> हटाएं
-                                    </button>
-                                </div>
+
+                            <!-- अतिरिक्त फोटो एक्शन बटन्स -->
+                            <div class="flex items-center gap-2">
+                                <button type="button" id="formAddMoreCameraBtn" onclick="startCamera()" class="px-3 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-700 rounded-xl text-xs font-bold transition flex items-center gap-1.5 border border-rose-200 shadow-2xs">
+                                    <i class="fa-solid fa-video"></i> <span>+ और फोटो लें</span>
+                                </button>
+                                <label id="formAddMoreUploadBtn" class="cursor-pointer px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-xs font-semibold transition flex items-center gap-1.5 border border-gray-200 shadow-2xs">
+                                    <i class="fa-solid fa-plus"></i> <span>+ अपलोड</span>
+                                    <input type="file" accept="image/*" multiple onchange="handleFileUpload(event)" class="hidden">
+                                </label>
+                                <button type="button" onclick="removeAllPhotos()" class="px-2.5 py-1.5 text-gray-400 hover:text-red-600 rounded-lg text-xs transition" title="सभी फोटो हटाएं">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
                             </div>
                         </div>
+
+                        <!-- फोटो थंबनेल्स ग्रिड -->
+                        <div id="photosGridContainer" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+                            <!-- जावास्क्रिप्ट द्वारा डायनामिक फोटो कार्ड्स रेंडर होंगे -->
+                        </div>
+                        
+                        <p class="text-[11px] text-gray-500 italic text-center sm:text-left">
+                            <i class="fa-solid fa-circle-info text-rose-500 mr-1"></i> पहली फोटो (★ स्टार वाली) मुख्य बायोडाटा प्रोफाइल चित्र के रूप में उपयोग होगी।
+                        </p>
                     </div>
                 </section>
 
@@ -575,25 +584,34 @@
                 <!-- डायनामिक कार्ड्स यहाँ लोड होंगे -->
             </div>
         </div>
-    <!-- ================= BIG LIVE CAMERA STUDIO MODAL ================= -->
-    <div id="cameraStudioModal" class="fixed inset-0 z-50 bg-slate-950/95 backdrop-blur-xl hidden flex-col items-center justify-between p-3 sm:p-5 fade-in select-none">
+    <!-- ================= BIG LIVE CAMERA STUDIO MODAL (10 Photo Sequence Studio) ================= -->
+    <div id="cameraStudioModal" class="fixed inset-0 z-50 bg-slate-950/95 backdrop-blur-xl hidden flex-col items-center justify-between p-2 sm:p-4 fade-in select-none">
         
-        <!-- Top Studio Bar with Title & Close -->
-        <div class="w-full max-w-4xl flex items-center justify-between px-2 mb-2">
+        <!-- Top Studio Bar with Title, Counter & Done Button -->
+        <div class="w-full max-w-4xl flex items-center justify-between px-2 mb-1.5">
             <div class="flex items-center gap-2 text-white">
                 <span class="w-3 h-3 rounded-full bg-rose-500 animate-ping"></span>
                 <span class="font-bold text-sm sm:text-base text-rose-300">AI लाइव फोटो स्टूडियो</span>
-                <span class="text-xs bg-slate-800/80 text-emerald-400 font-semibold px-2.5 py-0.5 rounded-full border border-emerald-500/30 hidden sm:inline-flex items-center gap-1">
-                    <i class="fa-solid fa-bolt-auto text-[10px]"></i> ऑटो-कैप्चर सक्रिय
+                <span id="studioPhotoCountBadge" class="text-xs bg-rose-900/80 text-rose-200 font-bold px-2.5 py-0.5 rounded-full border border-rose-500/40">
+                    कैप्चर: 0 / 10
+                </span>
+                <span class="text-[11px] bg-slate-800 text-emerald-400 font-semibold px-2 py-0.5 rounded-full border border-emerald-500/30 hidden md:inline-flex items-center gap-1">
+                    <i class="fa-solid fa-clock-rotate-left"></i> 3s अंतराल ऑटो
                 </span>
             </div>
-            <button type="button" onclick="stopCamera()" class="text-slate-300 hover:text-white bg-slate-800/80 hover:bg-slate-700 px-3.5 py-1.5 rounded-full transition text-xs font-semibold flex items-center gap-1.5 border border-slate-700 shadow-sm cursor-pointer">
-                <i class="fa-solid fa-xmark text-sm"></i> <span>स्टूडियो बंद करें</span>
-            </button>
+            
+            <div class="flex items-center gap-2">
+                <button type="button" onclick="stopCamera()" class="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl transition text-xs flex items-center gap-1.5 shadow-md cursor-pointer">
+                    <i class="fa-solid fa-circle-check"></i> <span>पूर्ण करें (Done)</span>
+                </button>
+                <button type="button" onclick="stopCamera()" class="text-slate-400 hover:text-white bg-slate-800/80 hover:bg-slate-700 p-1.5 rounded-full transition text-xs flex items-center justify-center cursor-pointer w-8 h-8" title="रद्द करें">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
+            </div>
         </div>
 
         <!-- Main Camera Big Viewport -->
-        <div class="relative w-full max-w-4xl bg-black rounded-3xl overflow-hidden shadow-2xl border-2 border-rose-500/30 flex-1 max-h-[75vh] flex items-center justify-center">
+        <div class="relative w-full max-w-4xl bg-black rounded-3xl overflow-hidden shadow-2xl border-2 border-rose-500/30 flex-1 max-h-[72vh] flex items-center justify-center">
             <!-- लाइव वीडियो एलिमेंट -->
             <video id="cameraVideo" autoplay playsinline muted class="w-full h-full object-cover"></video>
             
@@ -602,7 +620,7 @@
 
             <!-- बायोमेट्रिक ओवल गाइड (चेहरा व आँखें सही स्थिति में रखने के लिए) -->
             <div id="biometricGuide" class="absolute inset-0 pointer-events-none flex items-center justify-center">
-                <div id="ovalGuideFrame" class="w-56 h-72 sm:w-64 sm:h-84 md:w-72 md:h-96 border-3 border-dashed border-amber-400/90 rounded-[50%] transition-all duration-300 flex items-center justify-center relative shadow-2xl">
+                <div id="ovalGuideFrame" class="w-52 h-68 sm:w-64 sm:h-84 md:w-72 md:h-96 border-3 border-dashed border-amber-400/90 rounded-[50%] transition-all duration-300 flex items-center justify-center relative shadow-2xl">
                     <!-- Eye line guideline -->
                     <div class="absolute top-[35%] left-3 right-3 border-t border-dashed border-sky-400/50 flex justify-between px-6 text-[10px] text-sky-300 font-bold drop-shadow">
                         <span>👁️ बायाँ</span>
@@ -614,17 +632,17 @@
             <!-- शटर फ्लैश इफ़ेक्ट -->
             <div id="shutterFlash" class="hidden absolute inset-0 bg-white pointer-events-none z-40"></div>
 
-            <!-- ऑटो-कैप्चर सर्कुलर प्रोग्रेस व काउंटडाउन ओवरले -->
+            <!-- ऑटो-कैप्चर 3s सर्कुलर प्रोग्रेस व काउंटडाउन ओवरले -->
             <div id="autoCaptureOverlay" class="hidden absolute inset-0 pointer-events-none flex flex-col items-center justify-center z-30 bg-black/40 backdrop-blur-2xs transition-all">
                 <div class="relative flex items-center justify-center">
                     <svg class="w-28 h-28 transform -rotate-90">
                         <circle cx="56" cy="56" r="48" stroke="rgba(255, 255, 255, 0.2)" stroke-width="8" fill="transparent" />
                         <circle id="countdownProgressRing" cx="56" cy="56" r="48" stroke="#10b981" stroke-width="8" stroke-dasharray="301.59" stroke-dashoffset="301.59" stroke-linecap="round" fill="transparent" class="transition-all duration-100 ease-linear" />
                     </svg>
-                    <span id="countdownNumberText" class="absolute font-black text-4xl text-white drop-shadow-lg">1</span>
+                    <span id="countdownNumberText" class="absolute font-black text-3xl text-white drop-shadow-lg">3s</span>
                 </div>
-                <div class="mt-3 px-4 py-1.5 rounded-full bg-emerald-950/90 border border-emerald-500/60 text-emerald-300 font-bold text-xs shadow-lg flex items-center gap-1.5 animate-bounce">
-                    <i class="fa-solid fa-camera"></i> <span>मानक सही हैं! फोटो खींची जा रही है...</span>
+                <div class="mt-3 px-4 py-1.5 rounded-full bg-emerald-950/90 border border-emerald-500/60 text-emerald-300 font-bold text-xs shadow-lg flex items-center gap-1.5 animate-pulse">
+                    <i class="fa-solid fa-camera"></i> <span id="autoCaptureStatusMsg">अगली फोटो कैप्चर हो रही है... स्थिर रहें!</span>
                 </div>
             </div>
 
@@ -649,22 +667,27 @@
             </div>
 
             <!-- बॉटम रियल-टाइम वार्निंग / गाइडेंस बैनर -->
-            <div id="liveGuidanceBanner" class="absolute bottom-3 left-3 right-3 bg-black/85 backdrop-blur-md text-amber-300 px-4 py-2 rounded-xl text-xs font-semibold text-center border border-amber-500/40 flex items-center justify-center gap-2 shadow-lg z-20 transition-all max-w-lg mx-auto">
-                <i id="guidanceIcon" class="fa-solid fa-triangle-exclamation text-amber-400 text-sm"></i>
+            <div id="liveGuidanceBanner" class="absolute bottom-16 sm:bottom-20 left-3 right-3 bg-black/85 backdrop-blur-md text-amber-300 px-4 py-1.5 rounded-xl text-xs font-semibold text-center border border-amber-500/40 flex items-center justify-center gap-2 shadow-lg z-20 transition-all max-w-lg mx-auto">
+                <i id="guidanceIcon" class="fa-solid fa-triangle-exclamation text-amber-400 text-xs"></i>
                 <span id="guidanceText">कृपया चेहरे को ओवल गाइड के अंदर लाएं</span>
+            </div>
+
+            <!-- स्टूडियो बॉटम लाइव थंबनेल्स स्ट्रिप (इस सत्र में ली गई फोटो) -->
+            <div id="studioThumbnailsStrip" class="absolute bottom-2 left-2 right-2 flex items-center justify-center gap-1.5 overflow-x-auto py-1 z-20 pointer-events-none">
+                <!-- जावास्क्रिप्ट द्वारा थंबनेल्स इन्सर्ट होंगे -->
             </div>
         </div>
 
         <!-- बॉटम स्टूडियो टूल्स व बटन्स -->
-        <div id="cameraControls" class="w-full max-w-4xl flex items-center justify-center gap-3 pt-2.5">
-            <button type="button" onclick="switchCameraFacing()" class="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl font-semibold text-xs transition flex items-center gap-1.5 border border-slate-700 shadow" title="आगे/पीछे का कैमरा बदलें">
-                <i class="fa-solid fa-camera-rotate"></i> <span>कैमरा स्विच करें</span>
+        <div id="cameraControls" class="w-full max-w-4xl flex items-center justify-center gap-2.5 pt-2">
+            <button type="button" onclick="switchCameraFacing()" class="px-3.5 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl font-semibold text-xs transition flex items-center gap-1.5 border border-slate-700 shadow" title="आगे/पीछे का कैमरा बदलें">
+                <i class="fa-solid fa-camera-rotate"></i> <span class="hidden sm:inline">कैमरा स्विच</span>
             </button>
-            <button type="button" id="captureBtn" onclick="triggerCapture()" class="px-7 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl font-bold text-sm shadow-xl transition flex items-center gap-2 ring-4 ring-emerald-500/30">
-                <i class="fa-solid fa-camera text-base"></i> <span>मैन्युअल कैप्चर (Take Photo)</span>
+            <button type="button" id="captureBtn" onclick="triggerManualCapture()" class="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-xs sm:text-sm shadow-xl transition flex items-center gap-2 ring-4 ring-emerald-500/30">
+                <i class="fa-solid fa-camera text-base"></i> <span id="manualCaptureBtnText">मैन्युअल फोटो लें</span>
             </button>
             <button type="button" onclick="stopCamera()" class="px-4 py-2.5 bg-rose-950/80 hover:bg-rose-900 text-rose-200 rounded-xl font-semibold text-xs transition flex items-center gap-1.5 border border-rose-800/60 shadow">
-                <i class="fa-solid fa-stop"></i> <span>कैमरा रोकें</span>
+                <i class="fa-solid fa-check"></i> <span>पूर्ण करें</span>
             </button>
         </div>
     </div>
@@ -808,12 +831,19 @@
         }
 
         // ==========================================
-        // 4. Camera Stream Management & Big Studio Modal
+        // 4. Multi-Photo State & Stream Management
         // ==========================================
-        let autoCaptureStartTime = null;
-        const AUTO_CAPTURE_HOLD_MS = 1200; // 1.2s required stability before auto-snap
+        let capturedPhotos = []; // Array of { id, data, source: 'auto'|'manual'|'upload', timestamp }
+        const MAX_PHOTOS_LIMIT = 10;
+        const AUTO_CAPTURE_INTERVAL_MS = 3000; // 3 seconds interval between shots
+        let lastAutoCaptureTimestamp = 0;
 
         async function startCamera() {
+            if (capturedPhotos.length >= MAX_PHOTOS_LIMIT) {
+                alert(`अधिकतम ${MAX_PHOTOS_LIMIT} फोटो की सीमा पूर्ण हो चुकी है। और फोटो लेने के लिए पहले कोई फोटो हटाएं।`);
+                return;
+            }
+
             const studioModal = document.getElementById('cameraStudioModal');
             const video = document.getElementById('cameraVideo');
             const overlayCanvas = document.getElementById('faceOverlayCanvas');
@@ -842,7 +872,7 @@
                 await video.play();
 
                 isCameraRunning = true;
-                autoCaptureStartTime = null;
+                lastAutoCaptureTimestamp = Date.now(); // Start fresh 3s timer
 
                 // Display Big Studio Modal
                 if (studioModal) {
@@ -850,6 +880,9 @@
                     studioModal.classList.add('flex');
                     document.body.style.overflow = 'hidden';
                 }
+
+                updateStudioCounterUI();
+                renderStudioThumbnails();
 
                 // Start AI Model if not loaded
                 if (!blazeFaceModel && !isModelLoading) {
@@ -870,7 +903,6 @@
                 cameraStream = null;
             }
             isCameraRunning = false;
-            autoCaptureStartTime = null;
 
             if (analysisAnimId) {
                 cancelAnimationFrame(analysisAnimId);
@@ -888,6 +920,8 @@
             if (autoOverlay) {
                 autoOverlay.classList.add('hidden');
             }
+
+            renderFormPhotosGallery();
         }
 
         async function switchCameraFacing() {
@@ -898,7 +932,7 @@
         }
 
         // ==========================================
-        // 5. Real-Time Frame Quality Analysis Loop (Face + Eyes + Light + Sharpness)
+        // 5. Real-Time Frame Quality Analysis Loop
         // ==========================================
         async function analysisLoop(timestamp) {
             if (!isCameraRunning) return;
@@ -965,7 +999,6 @@
             } else if (facePredictions.length > 1) {
                 faceState = { pass: false, text: "एकाधिक चेहरे", warning: "केवल १ व्यक्ति का चेहरा होना चाहिए" };
                 eyeState = { pass: false, text: "अमान्य", warning: "फ्रेम में केवल १ व्यक्ति हो" };
-                // Highlight detected faces in red
                 ctx.strokeStyle = "rgba(239, 68, 68, 0.85)";
                 ctx.lineWidth = 3;
                 facePredictions.forEach(pred => {
@@ -1010,23 +1043,23 @@
                     const nose = pred.landmarks[2];      // [x, y]
                     const mouth = pred.landmarks[3];     // [x, y]
 
-                    // (A) Roll / Tilt Angle (Horizontal Eye Alignment)
+                    // (A) Roll / Tilt Angle
                     const eyeDx = Math.abs(leftEye[0] - rightEye[0]);
                     const eyeDy = Math.abs(leftEye[1] - rightEye[1]);
                     const tiltRatio = eyeDy / Math.max(eyeDx, 1);
 
-                    // (B) Yaw Angle (Straight Gaze into Camera vs Looking Sideways)
+                    // (B) Yaw Angle
                     const distLeftNose = Math.hypot(leftEye[0] - nose[0], leftEye[1] - nose[1]);
                     const distRightNose = Math.hypot(rightEye[0] - nose[0], rightEye[1] - nose[1]);
                     const yawRatio = Math.abs(distLeftNose - distRightNose) / Math.max(distLeftNose + distRightNose, 1);
 
-                    // (C) Pitch Angle (Looking Up / Down)
+                    // (C) Pitch Angle
                     const eyeMidY = (leftEye[1] + rightEye[1]) / 2;
                     const noseToEyeDist = nose[1] - eyeMidY;
                     const mouthToNoseDist = mouth[1] - nose[1];
                     const pitchRatio = noseToEyeDist / Math.max(mouthToNoseDist, 1);
 
-                    // (D) Eyes Open & Visible Inspection (Pixel Variance in Eye Patches)
+                    // (D) Eyes Open & Visible Inspection
                     const eyesOpen = checkEyesOpen(videoElement, leftEye, rightEye);
 
                     if (tiltRatio > 0.16) {
@@ -1045,7 +1078,6 @@
                     drawEyeGuides(ctx, rightEye, leftEye, nose, eyeState.pass);
 
                 } else {
-                    // Fallback when landmarks are not exposed
                     eyeState = { pass: true, text: "आँखें सीधी हैं", warning: "" };
                 }
 
@@ -1059,7 +1091,6 @@
             const roiW = faceBox ? Math.floor(faceBox.w) : Math.floor(vw * 0.5);
             const roiH = faceBox ? Math.floor(faceBox.h) : Math.floor(vh * 0.6);
 
-            // Temporary offscreen canvas for pixel extraction
             const sampleCanvas = document.createElement('canvas');
             sampleCanvas.width = 120;
             sampleCanvas.height = 120;
@@ -1079,7 +1110,6 @@
                 const r = pixels[idx];
                 const g = pixels[idx + 1];
                 const b = pixels[idx + 2];
-                // ITU-R BT.601 perceived luminance
                 const lum = 0.299 * r + 0.587 * g + 0.114 * b;
                 totalLum += lum;
                 grayMatrix[i] = lum;
@@ -1118,7 +1148,6 @@
             const lapMean = laplacianSum / lapCount;
             const lapVariance = (laplacianSumSq / lapCount) - (lapMean * lapMean);
 
-            // Sharpness threshold (Variance >= 11 is sharp/HD)
             if (lapVariance < 11) {
                 clarityState = { pass: false, text: "धुंधला (Blur)", warning: "फोटो धुंधली है: कृपया कैमरा स्थिर रखें" };
             } else {
@@ -1141,8 +1170,8 @@
             // Update UI HUD Badges & Oval Frame
             updateQualityHUD(faceState, eyeState, lightingState, clarityState, isAllPassed, warnings);
 
-            // Auto-Capture Execution Handler
-            handleAutoCapture(isAllPassed);
+            // Auto-Capture Multi-Photo Sequence Handler (3s interval, max 10 photos)
+            handleAutoCaptureSequence(isAllPassed);
         }
 
         // Check if eyes are open by analyzing pixel variance & contrast around eye landmarks
@@ -1153,11 +1182,9 @@
                 sampleCanvas.height = 32;
                 const sCtx = sampleCanvas.getContext('2d');
 
-                // Inspect Left Eye Patch (16x16)
                 sCtx.drawImage(videoElement, leftEye[0] - 12, leftEye[1] - 8, 24, 16, 0, 0, 16, 16);
                 const lData = sCtx.getImageData(0, 0, 16, 16).data;
 
-                // Inspect Right Eye Patch (16x16)
                 sCtx.drawImage(videoElement, rightEye[0] - 12, rightEye[1] - 8, 24, 16, 16, 0, 16, 16);
                 const rData = sCtx.getImageData(16, 0, 16, 16).data;
 
@@ -1177,10 +1204,9 @@
                 const lStdDev = calcEyeContrastVariance(lData, 0);
                 const rStdDev = calcEyeContrastVariance(rData, 0);
 
-                // Open eye with iris/pupil/sclera contrast has StdDev >= 12
                 return (lStdDev >= 11 && rStdDev >= 11);
             } catch (e) {
-                return true; // Graceful fallback
+                return true;
             }
         }
 
@@ -1191,21 +1217,18 @@
             ctx.fillStyle = isPass ? "rgba(16, 185, 129, 0.2)" : "rgba(245, 158, 11, 0.2)";
             ctx.lineWidth = 2;
 
-            // Draw circles on both eyes
             [rightEye, leftEye].forEach(eye => {
                 ctx.beginPath();
                 ctx.arc(eye[0], eye[1], 8, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.stroke();
 
-                // Small center dot
                 ctx.fillStyle = isPass ? "#10b981" : "#f59e0b";
                 ctx.beginPath();
                 ctx.arc(eye[0], eye[1], 2.5, 0, Math.PI * 2);
                 ctx.fill();
             });
 
-            // Connect Eye Line
             ctx.beginPath();
             ctx.setLineDash([4, 4]);
             ctx.moveTo(rightEye[0], rightEye[1]);
@@ -1289,63 +1312,99 @@
 
             // 3. Guidance Banner
             if (banner && bannerText && bannerIcon) {
-                if (isAllPassed) {
-                    banner.className = "absolute bottom-3 left-3 right-3 bg-emerald-950/90 backdrop-blur-md text-emerald-300 px-4 py-2 rounded-xl text-xs font-bold text-center border border-emerald-500/50 flex items-center justify-center gap-2 shadow-xl z-20 transition-all max-w-lg mx-auto";
-                    bannerIcon.className = "fa-solid fa-circle-check text-emerald-400 text-sm";
-                    bannerText.innerText = "सभी मानक सही हैं! ऑटो-कैप्चर शुरू...";
-                    if (captureBtn) captureBtn.className = "px-7 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl font-bold text-sm shadow-xl transition flex items-center gap-2 ring-4 ring-emerald-400/40";
+                if (capturedPhotos.length >= MAX_PHOTOS_LIMIT) {
+                    banner.className = "absolute bottom-16 sm:bottom-20 left-3 right-3 bg-emerald-950/95 backdrop-blur-md text-emerald-300 px-4 py-1.5 rounded-xl text-xs font-bold text-center border border-emerald-500/60 flex items-center justify-center gap-2 shadow-xl z-20 transition-all max-w-lg mx-auto";
+                    bannerIcon.className = "fa-solid fa-circle-check text-emerald-400 text-xs";
+                    bannerText.innerText = `अधिकतम ${MAX_PHOTOS_LIMIT} फोटो सीमा पूर्ण! ऊपर 'पूर्ण करें' पर क्लिक करें।`;
+                } else if (isAllPassed) {
+                    banner.className = "absolute bottom-16 sm:bottom-20 left-3 right-3 bg-emerald-950/90 backdrop-blur-md text-emerald-300 px-4 py-1.5 rounded-xl text-xs font-bold text-center border border-emerald-500/50 flex items-center justify-center gap-2 shadow-xl z-20 transition-all max-w-lg mx-auto";
+                    bannerIcon.className = "fa-solid fa-circle-check text-emerald-400 text-xs";
+                    bannerText.innerText = `मानक सही हैं! फोटो ${capturedPhotos.length + 1}/${MAX_PHOTOS_LIMIT} कैप्चर हो रही है...`;
                 } else {
-                    banner.className = "absolute bottom-3 left-3 right-3 bg-black/85 backdrop-blur-md text-amber-300 px-4 py-2 rounded-xl text-xs font-semibold text-center border border-amber-500/40 flex items-center justify-center gap-2 shadow-lg z-20 transition-all max-w-lg mx-auto";
-                    bannerIcon.className = "fa-solid fa-triangle-exclamation text-amber-400 text-sm";
+                    banner.className = "absolute bottom-16 sm:bottom-20 left-3 right-3 bg-black/85 backdrop-blur-md text-amber-300 px-4 py-1.5 rounded-xl text-xs font-semibold text-center border border-amber-500/40 flex items-center justify-center gap-2 shadow-lg z-20 transition-all max-w-lg mx-auto";
+                    bannerIcon.className = "fa-solid fa-triangle-exclamation text-amber-400 text-xs";
                     bannerText.innerText = warnings[0] || "कृपया चेहरे को ओवल गाइड के अंदर लाएं";
-                    if (captureBtn) captureBtn.className = "px-7 py-3 bg-rose-600 hover:bg-rose-700 text-white rounded-2xl font-bold text-sm shadow-md transition flex items-center gap-2";
                 }
             }
         }
 
         // ==========================================
-        // 6. Auto-Capture Countdown Handler & Image Snap
+        // 6. Multi-Photo Auto-Capture Sequence (3s Interval & 10 Photo Limit)
         // ==========================================
-        function handleAutoCapture(isAllPassed) {
+        function handleAutoCaptureSequence(isAllPassed) {
+            if (capturedPhotos.length >= MAX_PHOTOS_LIMIT) {
+                const overlay = document.getElementById('autoCaptureOverlay');
+                if (overlay) overlay.classList.add('hidden');
+                return;
+            }
+
             const overlay = document.getElementById('autoCaptureOverlay');
             const ring = document.getElementById('countdownProgressRing');
             const numText = document.getElementById('countdownNumberText');
+            const statusMsg = document.getElementById('autoCaptureStatusMsg');
 
             if (isAllPassed && isCameraRunning) {
-                if (!autoCaptureStartTime) {
-                    autoCaptureStartTime = Date.now();
-                }
+                const timeSinceLast = Date.now() - lastAutoCaptureTimestamp;
 
-                const elapsed = Date.now() - autoCaptureStartTime;
-                const progress = Math.min(1, elapsed / AUTO_CAPTURE_HOLD_MS);
+                if (timeSinceLast < AUTO_CAPTURE_INTERVAL_MS) {
+                    // Show 3s countdown animation
+                    if (overlay) overlay.classList.remove('hidden');
+                    const progress = Math.min(1, timeSinceLast / AUTO_CAPTURE_INTERVAL_MS);
 
-                if (overlay) overlay.classList.remove('hidden');
+                    if (ring) {
+                        const circumference = 301.59;
+                        ring.style.strokeDashoffset = (circumference * (1 - progress)).toString();
+                    }
 
-                if (ring) {
-                    const circumference = 301.59;
-                    ring.style.strokeDashoffset = (circumference * (1 - progress)).toString();
-                }
+                    const remainingSec = Math.max(1, Math.ceil((AUTO_CAPTURE_INTERVAL_MS - timeSinceLast) / 1000));
+                    if (numText) {
+                        numText.innerText = `${remainingSec}s`;
+                    }
+                    if (statusMsg) {
+                        statusMsg.innerText = `फोटो ${capturedPhotos.length + 1} of ${MAX_PHOTOS_LIMIT} कैप्चर हो रही है... स्थिर रहें!`;
+                    }
 
-                if (numText) {
-                    const remainingTenths = Math.max(1, Math.ceil((AUTO_CAPTURE_HOLD_MS - elapsed) / 400));
-                    numText.innerText = remainingTenths.toString();
-                }
-
-                if (elapsed >= AUTO_CAPTURE_HOLD_MS) {
-                    autoCaptureStartTime = null;
+                } else {
+                    // 3s interval elapsed and criteria maintained -> Take snapshot!
                     if (overlay) overlay.classList.add('hidden');
-                    triggerCapture();
+                    captureAndAddPhoto('auto');
+                    lastAutoCaptureTimestamp = Date.now(); // Reset 3s interval for next shot
+
+                    if (capturedPhotos.length >= MAX_PHOTOS_LIMIT) {
+                        showToast(`अधिकतम ${MAX_PHOTOS_LIMIT} फोटो सफलतापूर्वक कैप्चर हो गईं!`);
+                        setTimeout(() => stopCamera(), 600);
+                    }
                 }
+
             } else {
-                autoCaptureStartTime = null;
+                // If pose breaks, pause countdown and reset timer
                 if (overlay) overlay.classList.add('hidden');
                 if (ring) ring.style.strokeDashoffset = "301.59";
+                lastAutoCaptureTimestamp = Date.now();
             }
         }
 
-        async function triggerCapture() {
+        // Manual Snap Button Trigger
+        function triggerManualCapture() {
+            if (!isCameraRunning) return;
+            if (capturedPhotos.length >= MAX_PHOTOS_LIMIT) {
+                alert(`अधिकतम ${MAX_PHOTOS_LIMIT} फोटो की सीमा पूर्ण हो चुकी है।`);
+                return;
+            }
+
+            captureAndAddPhoto('manual');
+            lastAutoCaptureTimestamp = Date.now(); // Reset interval for auto-shots
+
+            if (capturedPhotos.length >= MAX_PHOTOS_LIMIT) {
+                showToast(`अधिकतम ${MAX_PHOTOS_LIMIT} फोटो पूर्ण हो गईं!`);
+                setTimeout(() => stopCamera(), 600);
+            }
+        }
+
+        // Snap current video frame & add to capturedPhotos array
+        function captureAndAddPhoto(source = 'auto') {
             const video = document.getElementById('cameraVideo');
-            if (!video || !isCameraRunning) return;
+            if (!video) return;
 
             // Flash effect
             const flash = document.getElementById('shutterFlash');
@@ -1353,12 +1412,11 @@
                 flash.classList.remove('hidden', 'flash-animation');
                 void flash.offsetWidth; // Trigger reflow
                 flash.classList.add('flash-animation');
-                setTimeout(() => flash.classList.add('hidden'), 350);
+                setTimeout(() => flash.classList.add('hidden'), 300);
             }
 
             playShutterSound();
 
-            // High Resolution Export Canvas
             const vw = video.videoWidth || 1280;
             const vh = video.videoHeight || 720;
             
@@ -1378,94 +1436,222 @@
             const capCtx = captureCanvas.getContext('2d');
             capCtx.drawImage(video, cropX, cropY, cropW, cropH, 0, 0, 600, 800);
 
-            // Compress to optimized JPEG Base64 (~120-180KB)
             const photoBase64 = captureCanvas.toDataURL('image/jpeg', 0.88);
 
-            // Save and present preview
-            setCapturedPhoto(photoBase64);
-            stopCamera();
-            showToast("लाइव फोटो सफलतापूर्वक कैप्चर हो गई! (AI Auto Captured)");
+            const newPhotoItem = {
+                id: 'p_' + Date.now() + '_' + Math.random().toString(36).substring(2, 6),
+                data: photoBase64,
+                source: source, // 'auto' or 'manual' or 'upload'
+                timestamp: Date.now()
+            };
+
+            capturedPhotos.push(newPhotoItem);
+
+            // Sync hidden inputs
+            syncPhotosInputData();
+
+            // Update UI
+            updateStudioCounterUI();
+            renderStudioThumbnails();
+            showToast(`फोटो #${capturedPhotos.length} कैप्चर (${source === 'auto' ? 'AI Auto' : 'Manual'})`);
         }
 
-        // Set photo data to form and update preview UI
-        function setCapturedPhoto(base64Data) {
-            document.getElementById('photoDataInput').value = base64Data;
-            document.getElementById('capturedImagePreview').src = base64Data;
-
-            const standby = document.getElementById('cameraStandbyContainer');
-            const previewCard = document.getElementById('capturedPreviewCard');
-
-            if (standby) standby.classList.add('hidden');
-            if (previewCard) previewCard.classList.remove('hidden');
+        function updateStudioCounterUI() {
+            const countBadge = document.getElementById('studioPhotoCountBadge');
+            const manualBtnText = document.getElementById('manualCaptureBtnText');
+            if (countBadge) {
+                countBadge.innerText = `कैप्चर: ${capturedPhotos.length} / ${MAX_PHOTOS_LIMIT}`;
+            }
+            if (manualBtnText) {
+                manualBtnText.innerText = `मैन्युअल फोटो लें (${capturedPhotos.length}/${MAX_PHOTOS_LIMIT})`;
+            }
         }
 
-        function retakePhoto() {
-            document.getElementById('photoDataInput').value = '';
-            document.getElementById('capturedImagePreview').src = '';
-            
-            const standby = document.getElementById('cameraStandbyContainer');
-            const previewCard = document.getElementById('capturedPreviewCard');
+        // Render mini-thumbnails inside the live camera studio
+        function renderStudioThumbnails() {
+            const strip = document.getElementById('studioThumbnailsStrip');
+            if (!strip) return;
 
-            if (previewCard) previewCard.classList.add('hidden');
-            if (standby) standby.classList.remove('hidden');
-
-            startCamera();
-        }
-
-        function removePhoto() {
-            document.getElementById('photoDataInput').value = '';
-            document.getElementById('capturedImagePreview').src = '';
-
-            const standby = document.getElementById('cameraStandbyContainer');
-            const previewCard = document.getElementById('capturedPreviewCard');
-
-            if (previewCard) previewCard.classList.add('hidden');
-            if (standby) standby.classList.remove('hidden');
-
-            stopCamera();
-        }
-
-        // File Upload Fallback with AI Quality Inspection
-        function handleFileUpload(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            if (!file.type.startsWith('image/')) {
-                alert("कृपया एक वैध फोटो फ़ाइल (JPG/PNG) चुनें।");
+            if (capturedPhotos.length === 0) {
+                strip.innerHTML = '';
                 return;
             }
 
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                const img = new Image();
-                img.onload = function () {
-                    const canvas = document.createElement('canvas');
-                    canvas.width = 600;
-                    canvas.height = 800;
-                    const ctx = canvas.getContext('2d');
+            strip.innerHTML = capturedPhotos.map((p, idx) => `
+                <div class="relative w-11 h-14 sm:w-12 sm:h-16 rounded-xl overflow-hidden border-2 ${p.source === 'auto' ? 'border-emerald-400' : 'border-blue-400'} shadow-lg shrink-0 bg-black animate-scaleIn">
+                    <img src="${p.data}" alt="Shot ${idx + 1}" class="w-full h-full object-cover">
+                    <span class="absolute bottom-0 inset-x-0 bg-black/80 text-white text-[9px] font-bold text-center leading-tight py-0.5">
+                        #${idx + 1}
+                    </span>
+                    <span class="absolute top-0.5 right-0.5 w-2 h-2 rounded-full ${p.source === 'auto' ? 'bg-emerald-400' : 'bg-blue-400'}"></span>
+                </div>
+            `).join('');
+        }
 
-                    // Center fit crop
-                    let sw = img.width;
-                    let sh = img.height;
-                    let targetRatio = 3 / 4;
-                    let currentRatio = sw / sh;
-                    let sx = 0, sy = 0, sCropW = sw, sCropH = sh;
+        // Sync hidden input data for form submission
+        function syncPhotosInputData() {
+            const photoInput = document.getElementById('photoDataInput');
+            const photosJsonInput = document.getElementById('photosJsonInput');
 
-                    if (currentRatio > targetRatio) {
-                        sCropW = sh * targetRatio;
-                        sx = (sw - sCropW) / 2;
-                    } else {
-                        sCropH = sw / targetRatio;
-                        sy = (sh - sCropH) / 2;
-                    }
+            if (capturedPhotos.length > 0) {
+                if (photoInput) photoInput.value = capturedPhotos[0].data; // Primary photo
+                if (photosJsonInput) photosJsonInput.value = JSON.stringify(capturedPhotos);
+            } else {
+                if (photoInput) photoInput.value = '';
+                if (photosJsonInput) photosJsonInput.value = '';
+            }
+        }
 
-                    ctx.drawImage(img, sx, sy, sCropW, sCropH, 0, 0, 600, 800);
-                    const base64 = canvas.toDataURL('image/jpeg', 0.88);
-                    setCapturedPhoto(base64);
+        // Render Multi-Photo Gallery in Section 5 Form
+        function renderFormPhotosGallery() {
+            const standby = document.getElementById('cameraStandbyContainer');
+            const previewCard = document.getElementById('capturedPreviewCard');
+            const grid = document.getElementById('photosGridContainer');
+            const countBadge = document.getElementById('formPhotoCountBadge');
+            const addCamBtn = document.getElementById('formAddMoreCameraBtn');
+            const addUpBtn = document.getElementById('formAddMoreUploadBtn');
+
+            syncPhotosInputData();
+
+            if (capturedPhotos.length === 0) {
+                if (standby) standby.classList.remove('hidden');
+                if (previewCard) previewCard.classList.add('hidden');
+                return;
+            }
+
+            if (standby) standby.classList.add('hidden');
+            if (previewCard) previewCard.classList.remove('hidden');
+
+            if (countBadge) {
+                countBadge.innerText = `${capturedPhotos.length} / ${MAX_PHOTOS_LIMIT} फोटो दर्ज`;
+            }
+
+            // Hide add more buttons if limit reached
+            const isFull = capturedPhotos.length >= MAX_PHOTOS_LIMIT;
+            if (addCamBtn) addCamBtn.style.display = isFull ? 'none' : 'inline-flex';
+            if (addUpBtn) addUpBtn.style.display = isFull ? 'none' : 'inline-flex';
+
+            if (grid) {
+                grid.innerHTML = capturedPhotos.map((p, idx) => {
+                    const isPrimary = (idx === 0);
+                    const sourceBadge = p.source === 'auto'
+                        ? `<span class="bg-emerald-600/90 text-white text-[9px] font-bold px-1.5 py-0.5 rounded shadow">🤖 AI Auto</span>`
+                        : `<span class="bg-blue-600/90 text-white text-[9px] font-bold px-1.5 py-0.5 rounded shadow">👤 User</span>`;
+
+                    return `
+                    <div class="relative group rounded-2xl overflow-hidden border-2 ${isPrimary ? 'border-emerald-500 ring-2 ring-emerald-300/60' : 'border-gray-200'} bg-gray-100 shadow-sm aspect-[3/4] flex flex-col justify-between p-1.5">
+                        <img src="${p.data}" alt="Candidate Photo ${idx + 1}" class="absolute inset-0 w-full h-full object-cover">
+                        
+                        <!-- टॉप बैजेस: सोर्स व रिमूव बटन -->
+                        <div class="relative z-10 flex items-center justify-between gap-1">
+                            ${sourceBadge}
+                            <button type="button" onclick="removeSinglePhoto(${idx})" class="w-6 h-6 rounded-full bg-red-600 hover:bg-red-700 text-white flex items-center justify-center text-[10px] shadow transition" title="यह फोटो हटाएं">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+
+                        <!-- बॉटम प्राइमरी सेलेक्टर -->
+                        <div class="relative z-10">
+                            ${isPrimary
+                                ? `<span class="w-full text-center bg-emerald-600 text-white text-[10px] font-bold py-0.5 px-1.5 rounded-lg flex items-center justify-center gap-1 shadow">
+                                     <i class="fa-solid fa-star text-amber-300 text-[9px]"></i> मुख्य फोटो
+                                   </span>`
+                                : `<button type="button" onclick="setPrimaryPhoto(${idx})" class="w-full text-center bg-black/65 hover:bg-black/85 text-gray-200 text-[10px] font-semibold py-0.5 px-1.5 rounded-lg transition" title="इसे मुख्य फोटो बनाएं">
+                                     मुख्य बनाएं
+                                   </button>`
+                            }
+                        </div>
+                    </div>
+                    `;
+                }).join('');
+            }
+        }
+
+        function setPrimaryPhoto(idx) {
+            if (idx < 0 || idx >= capturedPhotos.length) return;
+            const target = capturedPhotos.splice(idx, 1)[0];
+            capturedPhotos.unshift(target); // Move to first index
+            renderFormPhotosGallery();
+            showToast("मुख्य प्रोफाइल फोटो बदल दी गई है।");
+        }
+
+        function removeSinglePhoto(idx) {
+            if (idx < 0 || idx >= capturedPhotos.length) return;
+            capturedPhotos.splice(idx, 1);
+            renderFormPhotosGallery();
+            showToast("फोटो हटा दी गई।");
+        }
+
+        function removeAllPhotos() {
+            if (capturedPhotos.length === 0) return;
+            if (!confirm("क्या आप सभी दर्ज की गई फोटो हटाना चाहते हैं?")) return;
+            capturedPhotos = [];
+            renderFormPhotosGallery();
+            showToast("सभी फोटो हटा दी गईं।");
+        }
+
+        // Multi-File Upload Handler (up to 10 limit)
+        function handleFileUpload(event) {
+            const files = Array.from(event.target.files || []);
+            if (files.length === 0) return;
+
+            const remainingSlots = MAX_PHOTOS_LIMIT - capturedPhotos.length;
+            if (remainingSlots <= 0) {
+                alert(`अधिकतम ${MAX_PHOTOS_LIMIT} फोटो की सीमा पूर्ण हो चुकी है।`);
+                return;
+            }
+
+            const filesToProcess = files.slice(0, remainingSlots);
+            let processedCount = 0;
+
+            filesToProcess.forEach(file => {
+                if (!file.type.startsWith('image/')) return;
+
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const img = new Image();
+                    img.onload = function () {
+                        const canvas = document.createElement('canvas');
+                        canvas.width = 600;
+                        canvas.height = 800;
+                        const ctx = canvas.getContext('2d');
+
+                        let sw = img.width;
+                        let sh = img.height;
+                        let targetRatio = 3 / 4;
+                        let currentRatio = sw / sh;
+                        let sx = 0, sy = 0, sCropW = sw, sCropH = sh;
+
+                        if (currentRatio > targetRatio) {
+                            sCropW = sh * targetRatio;
+                            sx = (sw - sCropW) / 2;
+                        } else {
+                            sCropH = sw / targetRatio;
+                            sy = (sh - sCropH) / 2;
+                        }
+
+                        ctx.drawImage(img, sx, sy, sCropW, sCropH, 0, 0, 600, 800);
+                        const base64 = canvas.toDataURL('image/jpeg', 0.88);
+
+                        capturedPhotos.push({
+                            id: 'p_' + Date.now() + '_' + Math.random().toString(36).substring(2, 6),
+                            data: base64,
+                            source: 'upload',
+                            timestamp: Date.now()
+                        });
+
+                        processedCount++;
+                        if (processedCount === filesToProcess.length) {
+                            renderFormPhotosGallery();
+                            showToast(`${processedCount} फोटो जोड़ी गईं!`);
+                        }
+                    };
+                    img.src = e.target.result;
                 };
-                img.src = e.target.result;
-            };
-            reader.readAsDataURL(file);
+                reader.readAsDataURL(file);
+            });
+
+            event.target.value = ''; // Reset input
         }
 
         // ==========================================
@@ -1477,9 +1663,9 @@
             const submitMsg = document.getElementById('submitMsg');
             const photoInput = document.getElementById('photoDataInput');
 
-            if (!photoInput || !photoInput.value) {
-                alert("कृपया फॉर्म सबमिट करने से पहले कन्या की लाइव फोटो कैप्चर करें या फ़ाइल से अपलोड करें।");
-                const cameraSec = document.getElementById('cameraStudioContainer');
+            if (!photoInput || !photoInput.value || capturedPhotos.length === 0) {
+                alert("कृपया फॉर्म सबमिट करने से पहले कन्या की लाइव फोटो (कम से कम १ फोटो) कैप्चर या अपलोड करें।");
+                const cameraSec = document.getElementById('cameraStandbyContainer') || document.getElementById('capturedPreviewCard');
                 if (cameraSec) {
                     cameraSec.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }
@@ -1491,15 +1677,19 @@
 
             const formData = new FormData(e.target);
             const data = Object.fromEntries(formData.entries());
+            data.photoData = capturedPhotos[0].data; // Primary photo
+            data.photos = capturedPhotos; // Array of up to 10 photos
+            data.photoCount = capturedPhotos.length;
             data.submittedAt = new Date().toISOString();
             data.timestamp = Date.now();
 
             try {
                 await db.ref('matrimonial_biodatas').push(data);
                 submitMsg.className = "p-4 rounded-xl text-center font-bold text-sm bg-green-100 text-green-800 border border-green-200 block";
-                submitMsg.innerHTML = `<i class="fa-solid fa-circle-check text-green-600"></i> बायोडाटा सफलतापूर्वक सबमिट हो गया है!`;
+                submitMsg.innerHTML = `<i class="fa-solid fa-circle-check text-green-600"></i> बायोडाटा (कुल ${capturedPhotos.length} फोटो सहित) सफलतापूर्वक सबमिट हो गया है!`;
                 e.target.reset();
-                removePhoto();
+                capturedPhotos = [];
+                renderFormPhotosGallery();
             } catch (error) {
                 console.error("Firebase Error:", error);
                 submitMsg.className = "p-4 rounded-xl text-center font-bold text-sm bg-red-100 text-red-800 border border-red-200 block";
@@ -1510,136 +1700,7 @@
             }
         }
 
-        // ==========================================
-        // 8. Admin Portal & Records Rendering
-        // ==========================================
-        async function handleAdminLogin(e) {
-            e.preventDefault();
-            const enteredPassword = document.getElementById('adminPasswordInput').value;
-            const enteredHash = await sha256(enteredPassword);
-
-            if (enteredHash === ADMIN_HASH) {
-                sessionStorage.setItem('admin_logged_in', 'true');
-                document.getElementById('adminLoginForm').classList.add('hidden');
-                document.getElementById('adminDashboard').classList.remove('hidden');
-                loadAdminRecords();
-            } else {
-                alert("गलत पासवर्ड! कृपया सही एडमिन पासवर्ड दर्ज करें।");
-            }
-        }
-
-        function logoutAdmin() {
-            sessionStorage.removeItem('admin_logged_in');
-            document.getElementById('adminLoginForm').classList.remove('hidden');
-            document.getElementById('adminDashboard').classList.add('hidden');
-            document.getElementById('adminPasswordInput').value = '';
-        }
-
-        function toggleView() {
-            const publicView = document.getElementById('publicView');
-            const adminView = document.getElementById('adminView');
-            const navToggleText = document.getElementById('navToggleText');
-
-            if (publicView.classList.contains('hidden')) {
-                publicView.classList.remove('hidden');
-                adminView.classList.add('hidden');
-                navToggleText.innerText = "एडमिन पोर्टल";
-            } else {
-                publicView.classList.add('hidden');
-                adminView.classList.remove('hidden');
-                navToggleText.innerText = "फॉर्म पर लौटें";
-
-                if (sessionStorage.getItem('admin_logged_in') === 'true') {
-                    document.getElementById('adminLoginForm').classList.add('hidden');
-                    document.getElementById('adminDashboard').classList.remove('hidden');
-                    loadAdminRecords();
-                }
-            }
-        }
-
-        function loadAdminRecords() {
-            const container = document.getElementById('recordsContainer');
-            container.innerHTML = `<div class="text-center py-10 text-gray-500 text-sm"><i class="fa-solid fa-spinner fa-spin"></i> डेटा लोड हो रहा है...</div>`;
-
-            db.ref('matrimonial_biodatas').on('value', (snapshot) => {
-                allSubmissions = [];
-                snapshot.forEach((child) => {
-                    allSubmissions.push({ id: child.key, ...child.val() });
-                });
-                allSubmissions.reverse();
-                renderRecords(allSubmissions);
-            });
-        }
-
-        let currentActiveRecordId = null;
-        let currentActiveRecordName = '';
-
-        function renderRecords(records) {
-            const container = document.getElementById('recordsContainer');
-            document.getElementById('recordCount').innerText = records.length;
-
-            if (records.length === 0) {
-                container.innerHTML = `<div class="text-center py-12 bg-white rounded-2xl text-gray-500 text-sm border">कोई बायोडाटा रिकॉर्ड उपलब्ध नहीं है।</div>`;
-                return;
-            }
-
-            container.innerHTML = records.map((item) => {
-                const initial = (item.fullName || 'A').trim().charAt(0).toUpperCase();
-                const dateStr = item.timestamp ? new Date(item.timestamp).toLocaleDateString('en-GB') : '-';
-                const safeName = (item.fullName || 'अनाम').replace(/'/g, "\\'").replace(/"/g, '&quot;');
-
-                const avatarHtml = item.photoData
-                    ? `<img src="${item.photoData}" alt="${item.fullName || 'Candidate'}" class="w-12 h-12 rounded-full object-cover border-2 border-rose-300 shadow-sm shrink-0">`
-                    : `<div class="w-12 h-12 rounded-full bg-rose-100 text-rose-700 flex items-center justify-center font-bold text-lg border border-rose-200 shrink-0">${initial}</div>`;
-
-                return `
-          <div onclick="showDetails('${item.id}')" class="bg-white rounded-2xl p-5 shadow-sm border border-gray-200 hover:border-rose-400 hover:shadow-md transition cursor-pointer relative group">
-            
-            <!-- टॉप रो: अवतार, नाम, मांगलिक स्टेटस -->
-            <div class="flex items-center justify-between gap-3 mb-3">
-              <div class="flex items-center gap-3">
-                ${avatarHtml}
-                <div>
-                  <h3 class="text-lg font-bold text-gray-900 leading-tight">${item.fullName || 'अनाम'}</h3>
-                  <p class="text-xs text-rose-700 font-medium">
-                    ${item.education || ''} ${item.education && item.nativePlace ? '•' : ''} ${item.nativePlace || ''}
-                  </p>
-                </div>
-              </div>
-              <span class="text-[11px] font-semibold px-2.5 py-1 rounded-full ${item.manglik === 'Manglik' ? 'bg-red-100 text-red-700' : 'bg-emerald-100 text-emerald-700'}">
-                ${item.manglik || 'Non-Manglik'}
-              </span>
-            </div>
-
-            <!-- ४ गोत्र ग्रिड -->
-            <div class="grid grid-cols-2 gap-x-4 gap-y-1 text-xs text-gray-700 bg-gray-50 p-3 rounded-xl mb-3 border border-gray-100">
-              <p><strong>स्वयं गोत्र:</strong> ${item.gotraSelf || '-'}</p>
-              <p><strong>माता गोत्र:</strong> ${item.gotraMother || '-'}</p>
-              <p><strong>दादी गोत्र:</strong> ${item.gotraDadi || '-'}</p>
-              <p><strong>नानी गोत्र:</strong> ${item.gotraNani || '-'}</p>
-            </div>
-
-            <!-- कार्य एवं पिता -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-1 text-xs text-gray-600 mb-3 px-1">
-              <p><strong>कार्य/आय:</strong> ${item.occupation || '-'} ${item.income ? `(${item.income})` : ''}</p>
-              <p><strong>पिता:</strong> ${item.fatherName || '-'}</p>
-            </div>
-
-            <!-- बॉटम रो: फोन, दिनांक, डिलीट बटन व फुल डिटेल बटन -->
-            <div class="flex flex-wrap items-center justify-between gap-2 pt-2.5 border-t border-gray-100 text-xs">
-              <a href="tel:${item.primaryPhone}" onclick="event.stopPropagation()" class="text-emerald-700 font-bold flex items-center gap-1.5 hover:underline">
-                <i class="fa-solid fa-phone"></i> ${item.primaryPhone || '-'}
-              </a>
-              
-              <div class="flex items-center gap-2 sm:gap-3">
-                <span class="text-gray-400 text-[11px]">${dateStr}</span>
-                <button onclick="deleteRecord(event, '${item.id}', '${safeName}')"
-                  class="px-2.5 py-1 bg-red-50 hover:bg-red-600 text-red-600 hover:text-white border border-red-200 hover:border-red-600 rounded-lg text-[11px] font-bold transition flex items-center gap-1 shadow-2xs"
-                  title="क्लाउड से हटाएं (Delete Entry)">
-                  <i class="fa-solid fa-trash-can text-[10px]"></i> <span>हटाएं</span>
-                </button>
-                <span class="text-rose-600 font-bold text-xs flex items-center gap-1">
-                  पूरा विवरण <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                    पूरा विवरण <i class="fa-solid fa-chevron-right text-[10px]"></i>
                 </span>
               </div>
             </div>
@@ -1661,7 +1722,7 @@
         }
 
         // ==========================================
-        // 9. Detailed Full Modal & Print View
+        // 9. Detailed Full Modal & Multi-Photo Gallery Viewer
         // ==========================================
         function showDetails(id) {
             const item = allSubmissions.find(x => x.id === id);
@@ -1673,17 +1734,50 @@
             const modal = document.getElementById('detailModal');
             const content = document.getElementById('modalContent');
 
-            const photoHeaderHtml = item.photoData
-                ? `<div class="relative w-28 h-36 md:w-32 md:h-40 rounded-2xl overflow-hidden border-2 border-rose-400 shadow-md mx-auto mb-2.5 bg-gray-100">
-                    <img src="${item.photoData}" alt="${item.fullName || 'Candidate'}" class="w-full h-full object-cover">
-                   </div>`
-                : `<div class="w-16 h-16 rounded-full bg-rose-100 text-rose-700 font-bold text-2xl mx-auto flex items-center justify-center mb-2 border-2 border-rose-200">
+            const photosList = Array.isArray(item.photos) && item.photos.length > 0 
+                ? item.photos 
+                : (item.photoData ? [{ data: item.photoData, source: 'auto', timestamp: item.timestamp }] : []);
+
+            const mainPhotoSrc = photosList.length > 0 ? photosList[0].data : '';
+            const mainPhotoSource = photosList.length > 0 && photosList[0].source === 'auto' ? '🤖 AI Auto Captured' : '👤 User Captured/Uploaded';
+
+            const multiPhotoGalleryHtml = photosList.length > 0 ? `
+                <div class="space-y-3 mb-4 bg-gray-50 p-4 rounded-3xl border border-gray-200">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-gray-800 flex items-center gap-1.5">
+                            <i class="fa-solid fa-images text-rose-600"></i> फोटो गैलरी (${photosList.length} फोटो)
+                        </span>
+                        <span id="activePhotoSourceBadge" class="text-[10px] font-bold px-2 py-0.5 rounded-full ${photosList[0]?.source === 'auto' ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' : 'bg-blue-100 text-blue-800 border border-blue-300'}">
+                            ${mainPhotoSource}
+                        </span>
+                    </div>
+
+                    <!-- मुख्य बड़ा फोटो व्यूअर -->
+                    <div class="relative w-44 h-56 md:w-52 md:h-68 mx-auto rounded-2xl overflow-hidden border-3 border-rose-400 shadow-lg bg-black">
+                        <img id="detailMainPhotoImg" src="${mainPhotoSrc}" alt="${item.fullName || 'Candidate'}" class="w-full h-full object-cover">
+                    </div>
+
+                    <!-- थंबनेल्स करौसेल (क्लिक करने पर बड़ा फोटो बदलेगा) -->
+                    ${photosList.length > 1 ? `
+                        <div class="flex items-center justify-center gap-2 overflow-x-auto py-1">
+                            ${photosList.map((p, idx) => `
+                                <button type="button" onclick="switchDetailActivePhoto('${p.data.replace(/'/g, "\\'")}', '${p.source}')" class="detail-photo-thumb relative w-12 h-16 rounded-xl overflow-hidden border-2 ${idx === 0 ? 'border-rose-500 ring-2 ring-rose-300' : 'border-gray-300'} shrink-0 shadow-sm hover:scale-105 transition cursor-pointer">
+                                    <img src="${p.data}" alt="Photo ${idx + 1}" class="w-full h-full object-cover">
+                                    <span class="absolute bottom-0 inset-x-0 bg-black/75 text-white text-[8px] font-bold text-center">
+                                        #${idx + 1} ${p.source === 'auto' ? 'AI' : 'User'}
+                                    </span>
+                                </button>
+                            `).join('')}
+                        </div>
+                    ` : ''}
+                </div>
+            ` : `<div class="w-16 h-16 rounded-full bg-rose-100 text-rose-700 font-bold text-2xl mx-auto flex items-center justify-center mb-2 border-2 border-rose-200">
                     ${(item.fullName || 'A').trim().charAt(0).toUpperCase()}
-                   </div>`;
+                 </div>`;
 
             content.innerHTML = `
         <div class="text-center border-b pb-4 mb-4">
-          ${photoHeaderHtml}
+          ${multiPhotoGalleryHtml}
           <h2 class="text-2xl font-bold text-gray-900">${item.fullName || 'अनाम'}</h2>
           <p class="text-xs text-rose-700 font-semibold mt-0.5">मांगलिक स्थिति: ${item.manglik || 'Non-Manglik'}</p>
         </div>
@@ -1764,6 +1858,24 @@
 
             modal.classList.remove('hidden');
             modal.classList.add('flex');
+        }
+
+        // Switch active high-res photo in detail modal viewer
+        function switchDetailActivePhoto(imgData, source) {
+            const mainImg = document.getElementById('detailMainPhotoImg');
+            const badge = document.getElementById('activePhotoSourceBadge');
+            if (mainImg) {
+                mainImg.src = imgData;
+            }
+            if (badge) {
+                if (source === 'auto') {
+                    badge.className = "text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300";
+                    badge.innerText = "🤖 AI Auto Captured";
+                } else {
+                    badge.className = "text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-100 text-blue-800 border border-blue-300";
+                    badge.innerText = "👤 User Captured/Uploaded";
+                }
+            }
         }
 
         function closeModal() {
