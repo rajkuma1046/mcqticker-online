@@ -407,7 +407,7 @@
                             <h3 class="text-base font-bold text-rose-900 flex items-center gap-2">
                                 <i class="fa-solid fa-camera-retro text-rose-600"></i> ५. कन्या की लाइव HD फोटो (Live Photo Capture) <span class="text-red-500">*</span>
                             </h3>
-                            <p class="text-xs text-rose-700 mt-0.5">स्मार्ट फेस डिटेक्शन, स्पष्टता व रोशनी सत्यापन के साथ लाइव फोटो कैप्चर करें।</p>
+                            <p class="text-xs text-rose-700 mt-0.5">स्मार्ट फेस, सीधी व खुली आँखें, स्पष्टता व रोशनी सत्यापन के साथ ऑटो-कैप्चर।</p>
                         </div>
                         <span id="aiModelStatusBadge" class="text-[11px] font-semibold bg-white text-rose-800 px-2.5 py-1 rounded-full border border-rose-200 self-start sm:self-auto flex items-center gap-1.5 shadow-sm">
                             <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span> AI मॉडल लोड हो रहा है...
@@ -417,74 +417,24 @@
                     <!-- हिडन इनपुट फोटो डेटा के लिए (Base64 HD Image) -->
                     <input type="hidden" name="photoData" id="photoDataInput" required>
 
-                    <!-- व्यू A: कैमरा कैप्चर इंटरफेस -->
-                    <div id="cameraStudioContainer" class="space-y-3">
-                        
-                        <!-- कैमरा स्क्रीन व्यूपोर्ट -->
-                        <div class="relative bg-slate-950 rounded-2xl overflow-hidden shadow-inner aspect-[4/3] md:aspect-[16/10] max-h-[380px] flex items-center justify-center border-2 border-dashed border-rose-300">
-                            
-                            <!-- कैमरा ऑफ / स्टैंडबाय स्क्रीन -->
-                            <div id="cameraPlaceholder" class="flex flex-col items-center justify-center text-center p-6 text-slate-300 space-y-3">
-                                <div class="w-16 h-16 rounded-full bg-rose-900/60 text-rose-300 flex items-center justify-center text-2xl border border-rose-700/50">
-                                    <i class="fa-solid fa-camera"></i>
-                                </div>
-                                <div>
-                                    <p class="font-bold text-white text-sm md:text-base">कैमरा शुरू करें</p>
-                                    <p class="text-xs text-slate-400 mt-1 max-w-xs">सटीक बायोडाटा के लिए चेहरे की स्पष्ट, सीधी व अच्छी रोशनी वाली लाइव फोटो लें।</p>
-                                </div>
-                                <button type="button" onclick="startCamera()" class="px-5 py-2.5 bg-rose-600 hover:bg-rose-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-lg hover:shadow-rose-600/30">
-                                    <i class="fa-solid fa-video"></i> <span>कैमरा चालू करें</span>
+                    <!-- व्यू A: कैमरा स्टैंडबाय लॉन्चर कार्ड -->
+                    <div id="cameraStandbyContainer" class="space-y-3">
+                        <div class="bg-gradient-to-br from-slate-900 via-rose-950 to-slate-900 rounded-2xl p-6 sm:p-8 text-center text-white border-2 border-dashed border-rose-400/60 shadow-md space-y-4">
+                            <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-rose-600/30 text-rose-300 flex items-center justify-center text-3xl sm:text-4xl mx-auto border-2 border-rose-400/40 shadow-inner">
+                                <i class="fa-solid fa-camera-viewfinder"></i>
+                            </div>
+                            <div class="max-w-md mx-auto space-y-1.5">
+                                <h4 class="font-bold text-base sm:text-lg text-rose-100">लाइव HD कैमरा स्टूडियो खोलें</h4>
+                                <p class="text-xs text-rose-200/80 leading-relaxed">
+                                    कैमरा चालू होते ही फुल-स्क्रीन स्टूडियो खुलेगा। चेहरा बीच में लाएं, <strong>आँखें सीधी व खुली रखें</strong> — सभी मानक मिलते ही फोटो <strong>ऑटो-कैप्चर</strong> हो जाएगी!
+                                </p>
+                            </div>
+
+                            <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
+                                <button type="button" onclick="startCamera()" class="px-6 py-3 bg-gradient-to-r from-rose-600 to-rose-700 hover:from-rose-500 hover:to-rose-600 text-white rounded-2xl text-sm font-bold transition flex items-center gap-2 shadow-xl hover:shadow-rose-600/40 ring-4 ring-rose-500/20">
+                                    <i class="fa-solid fa-video text-base"></i> <span>कैमरा चालू करें (Open Studio)</span>
                                 </button>
                             </div>
-
-                            <!-- लाइव वीडियो एलिमेंट -->
-                            <video id="cameraVideo" autoplay playsinline muted class="hidden w-full h-full object-cover"></video>
-                            
-                            <!-- कैनवास (फेस डिटेक्शन / एनालिसिस) -->
-                            <canvas id="faceOverlayCanvas" class="hidden absolute inset-0 w-full h-full pointer-events-none"></canvas>
-
-                            <!-- बायोमेट्रिक ओवल गाइड (चेहरा सही स्थिति में रखने के लिए) -->
-                            <div id="biometricGuide" class="hidden absolute inset-0 pointer-events-none flex items-center justify-center">
-                                <div id="ovalGuideFrame" class="w-48 h-60 md:w-56 md:h-72 border-2 border-dashed border-amber-400/90 rounded-[50%] transition-all duration-300 flex items-center justify-center">
-                                    <!-- केंद्र क्रॉसहेयर -->
-                                    <div class="w-3 h-3 border-t border-b border-amber-300/40"></div>
-                                </div>
-                            </div>
-
-                            <!-- शटर फ्लैश इफ़ेक्ट -->
-                            <div id="shutterFlash" class="hidden absolute inset-0 bg-white pointer-events-none z-30"></div>
-
-                            <!-- टॉप रियल-टाइम क्वालिटी HUD बैजेस (जब कैमरा चालू हो) -->
-                            <div id="liveHudBar" class="hidden absolute top-3 left-3 right-3 flex items-center justify-between gap-1.5 pointer-events-none z-20">
-                                <span id="hudFace" class="hud-badge text-[11px] font-semibold bg-black/70 backdrop-blur-sm text-gray-300 px-2.5 py-1 rounded-lg border border-white/10 flex items-center gap-1.5 shadow">
-                                    <i class="fa-solid fa-user"></i> <span id="hudFaceText">चेहरा ढूंढ रहे हैं...</span>
-                                </span>
-                                <span id="hudLighting" class="hud-badge text-[11px] font-semibold bg-black/70 backdrop-blur-sm text-gray-300 px-2.5 py-1 rounded-lg border border-white/10 flex items-center gap-1.5 shadow">
-                                    <i class="fa-solid fa-lightbulb"></i> <span id="hudLightingText">रोशनी जांच...</span>
-                                </span>
-                                <span id="hudClarity" class="hud-badge text-[11px] font-semibold bg-black/70 backdrop-blur-sm text-gray-300 px-2.5 py-1 rounded-lg border border-white/10 flex items-center gap-1.5 shadow">
-                                    <i class="fa-solid fa-bullseye"></i> <span id="hudClarityText">स्पष्टता जांच...</span>
-                                </span>
-                            </div>
-
-                            <!-- बॉटम रियल-टाइम वार्निंग / गाइडेंस बैनर -->
-                            <div id="liveGuidanceBanner" class="hidden absolute bottom-3 left-3 right-3 bg-black/85 backdrop-blur-md text-amber-300 px-3.5 py-2 rounded-xl text-xs font-semibold text-center border border-amber-500/40 flex items-center justify-center gap-2 shadow-lg z-20 transition-all">
-                                <i id="guidanceIcon" class="fa-solid fa-triangle-exclamation text-amber-400"></i>
-                                <span id="guidanceText">कृपया चेहरे को ओवल गाइड के अंदर लाएं</span>
-                            </div>
-                        </div>
-
-                        <!-- कैमरा टूल्स व बटन्स -->
-                        <div id="cameraControls" class="hidden flex flex-wrap items-center justify-center gap-2.5 pt-1">
-                            <button type="button" id="captureBtn" onclick="triggerCapture()" class="px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl font-bold text-sm shadow-md transition flex items-center gap-2">
-                                <i class="fa-solid fa-camera"></i> <span>फोटो कैप्चर करें</span>
-                            </button>
-                            <button type="button" onclick="switchCameraFacing()" class="px-4 py-3 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-2xl font-semibold text-xs transition flex items-center gap-1.5 border border-gray-300" title="आगे/पीछे का कैमरा बदलें">
-                                <i class="fa-solid fa-camera-rotate"></i> <span>कैमरा बदलें</span>
-                            </button>
-                            <button type="button" onclick="stopCamera()" class="px-4 py-3 bg-rose-50 hover:bg-rose-100 text-rose-700 rounded-2xl font-semibold text-xs transition flex items-center gap-1.5 border border-rose-200">
-                                <i class="fa-solid fa-stop"></i> <span>बंद करें</span>
-                            </button>
                         </div>
 
                         <!-- वैकल्पिक फ़ाइल अपलोड विकल्प -->
@@ -508,7 +458,7 @@
                             </div>
                             <div class="space-y-2 text-center sm:text-left flex-1">
                                 <div class="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full border border-emerald-200">
-                                    <i class="fa-solid fa-circle-check text-emerald-600"></i> AI गुणवत्ता व स्पष्टता सत्यापित
+                                    <i class="fa-solid fa-circle-check text-emerald-600"></i> AI गुणवत्ता व आँखें सत्यापित
                                 </div>
                                 <h4 class="font-bold text-gray-900 text-sm md:text-base">लाइव फोटो सफलतापूर्वक कैप्चर हो गई है</h4>
                                 <p class="text-xs text-gray-600">यह फोटो बायोडाटा में मुख्य प्रोफाइल चित्र के रूप में सुरक्षित रूप से दर्ज होगी।</p>
@@ -625,7 +575,99 @@
                 <!-- डायनामिक कार्ड्स यहाँ लोड होंगे -->
             </div>
         </div>
-    </main>
+    <!-- ================= BIG LIVE CAMERA STUDIO MODAL ================= -->
+    <div id="cameraStudioModal" class="fixed inset-0 z-50 bg-slate-950/95 backdrop-blur-xl hidden flex-col items-center justify-between p-3 sm:p-5 fade-in select-none">
+        
+        <!-- Top Studio Bar with Title & Close -->
+        <div class="w-full max-w-4xl flex items-center justify-between px-2 mb-2">
+            <div class="flex items-center gap-2 text-white">
+                <span class="w-3 h-3 rounded-full bg-rose-500 animate-ping"></span>
+                <span class="font-bold text-sm sm:text-base text-rose-300">AI लाइव फोटो स्टूडियो</span>
+                <span class="text-xs bg-slate-800/80 text-emerald-400 font-semibold px-2.5 py-0.5 rounded-full border border-emerald-500/30 hidden sm:inline-flex items-center gap-1">
+                    <i class="fa-solid fa-bolt-auto text-[10px]"></i> ऑटो-कैप्चर सक्रिय
+                </span>
+            </div>
+            <button type="button" onclick="stopCamera()" class="text-slate-300 hover:text-white bg-slate-800/80 hover:bg-slate-700 px-3.5 py-1.5 rounded-full transition text-xs font-semibold flex items-center gap-1.5 border border-slate-700 shadow-sm cursor-pointer">
+                <i class="fa-solid fa-xmark text-sm"></i> <span>स्टूडियो बंद करें</span>
+            </button>
+        </div>
+
+        <!-- Main Camera Big Viewport -->
+        <div class="relative w-full max-w-4xl bg-black rounded-3xl overflow-hidden shadow-2xl border-2 border-rose-500/30 flex-1 max-h-[75vh] flex items-center justify-center">
+            <!-- लाइव वीडियो एलिमेंट -->
+            <video id="cameraVideo" autoplay playsinline muted class="w-full h-full object-cover"></video>
+            
+            <!-- कैनवास (फेस / आई डिटेक्शन ओवरले) -->
+            <canvas id="faceOverlayCanvas" class="absolute inset-0 w-full h-full pointer-events-none"></canvas>
+
+            <!-- बायोमेट्रिक ओवल गाइड (चेहरा व आँखें सही स्थिति में रखने के लिए) -->
+            <div id="biometricGuide" class="absolute inset-0 pointer-events-none flex items-center justify-center">
+                <div id="ovalGuideFrame" class="w-56 h-72 sm:w-64 sm:h-84 md:w-72 md:h-96 border-3 border-dashed border-amber-400/90 rounded-[50%] transition-all duration-300 flex items-center justify-center relative shadow-2xl">
+                    <!-- Eye line guideline -->
+                    <div class="absolute top-[35%] left-3 right-3 border-t border-dashed border-sky-400/50 flex justify-between px-6 text-[10px] text-sky-300 font-bold drop-shadow">
+                        <span>👁️ बायाँ</span>
+                        <span>👁️ दायाँ</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- शटर फ्लैश इफ़ेक्ट -->
+            <div id="shutterFlash" class="hidden absolute inset-0 bg-white pointer-events-none z-40"></div>
+
+            <!-- ऑटो-कैप्चर सर्कुलर प्रोग्रेस व काउंटडाउन ओवरले -->
+            <div id="autoCaptureOverlay" class="hidden absolute inset-0 pointer-events-none flex flex-col items-center justify-center z-30 bg-black/40 backdrop-blur-2xs transition-all">
+                <div class="relative flex items-center justify-center">
+                    <svg class="w-28 h-28 transform -rotate-90">
+                        <circle cx="56" cy="56" r="48" stroke="rgba(255, 255, 255, 0.2)" stroke-width="8" fill="transparent" />
+                        <circle id="countdownProgressRing" cx="56" cy="56" r="48" stroke="#10b981" stroke-width="8" stroke-dasharray="301.59" stroke-dashoffset="301.59" stroke-linecap="round" fill="transparent" class="transition-all duration-100 ease-linear" />
+                    </svg>
+                    <span id="countdownNumberText" class="absolute font-black text-4xl text-white drop-shadow-lg">1</span>
+                </div>
+                <div class="mt-3 px-4 py-1.5 rounded-full bg-emerald-950/90 border border-emerald-500/60 text-emerald-300 font-bold text-xs shadow-lg flex items-center gap-1.5 animate-bounce">
+                    <i class="fa-solid fa-camera"></i> <span>मानक सही हैं! फोटो खींची जा रही है...</span>
+                </div>
+            </div>
+
+            <!-- टॉप रियल-टाइम क्वालिटी HUD बैजेस (४ मानक: चेहरा, आँखें, रोशनी, स्पष्टता) -->
+            <div id="liveHudBar" class="absolute top-3 left-3 right-3 flex flex-wrap items-center justify-between gap-1.5 pointer-events-none z-20">
+                <div class="flex flex-wrap items-center gap-1.5">
+                    <span id="hudFace" class="hud-badge text-[11px] font-semibold bg-black/75 backdrop-blur-md text-gray-300 px-2.5 py-1 rounded-lg border border-white/10 flex items-center gap-1.5 shadow">
+                        <i class="fa-solid fa-user"></i> <span id="hudFaceText">चेहरा ढूंढ रहे हैं...</span>
+                    </span>
+                    <span id="hudEyes" class="hud-badge text-[11px] font-semibold bg-black/75 backdrop-blur-md text-gray-300 px-2.5 py-1 rounded-lg border border-white/10 flex items-center gap-1.5 shadow">
+                        <i class="fa-solid fa-eye"></i> <span id="hudEyesText">आँखें सीधी व खुली...</span>
+                    </span>
+                </div>
+                <div class="flex flex-wrap items-center gap-1.5">
+                    <span id="hudLighting" class="hud-badge text-[11px] font-semibold bg-black/75 backdrop-blur-md text-gray-300 px-2.5 py-1 rounded-lg border border-white/10 flex items-center gap-1.5 shadow">
+                        <i class="fa-solid fa-sun"></i> <span id="hudLightingText">रोशनी जांच...</span>
+                    </span>
+                    <span id="hudClarity" class="hud-badge text-[11px] font-semibold bg-black/75 backdrop-blur-md text-gray-300 px-2.5 py-1 rounded-lg border border-white/10 flex items-center gap-1.5 shadow">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> <span id="hudClarityText">स्पष्टता जांच...</span>
+                    </span>
+                </div>
+            </div>
+
+            <!-- बॉटम रियल-टाइम वार्निंग / गाइडेंस बैनर -->
+            <div id="liveGuidanceBanner" class="absolute bottom-3 left-3 right-3 bg-black/85 backdrop-blur-md text-amber-300 px-4 py-2 rounded-xl text-xs font-semibold text-center border border-amber-500/40 flex items-center justify-center gap-2 shadow-lg z-20 transition-all max-w-lg mx-auto">
+                <i id="guidanceIcon" class="fa-solid fa-triangle-exclamation text-amber-400 text-sm"></i>
+                <span id="guidanceText">कृपया चेहरे को ओवल गाइड के अंदर लाएं</span>
+            </div>
+        </div>
+
+        <!-- बॉटम स्टूडियो टूल्स व बटन्स -->
+        <div id="cameraControls" class="w-full max-w-4xl flex items-center justify-center gap-3 pt-2.5">
+            <button type="button" onclick="switchCameraFacing()" class="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl font-semibold text-xs transition flex items-center gap-1.5 border border-slate-700 shadow" title="आगे/पीछे का कैमरा बदलें">
+                <i class="fa-solid fa-camera-rotate"></i> <span>कैमरा स्विच करें</span>
+            </button>
+            <button type="button" id="captureBtn" onclick="triggerCapture()" class="px-7 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl font-bold text-sm shadow-xl transition flex items-center gap-2 ring-4 ring-emerald-500/30">
+                <i class="fa-solid fa-camera text-base"></i> <span>मैन्युअल कैप्चर (Take Photo)</span>
+            </button>
+            <button type="button" onclick="stopCamera()" class="px-4 py-2.5 bg-rose-950/80 hover:bg-rose-900 text-rose-200 rounded-xl font-semibold text-xs transition flex items-center gap-1.5 border border-rose-800/60 shadow">
+                <i class="fa-solid fa-stop"></i> <span>कैमरा रोकें</span>
+            </button>
+        </div>
+    </div>
 
     <!-- ================= 3. DETAILED FULL MODAL (पूर्ण विवरण) ================= -->
     <div id="detailModal"
@@ -766,15 +808,14 @@
         }
 
         // ==========================================
-        // 4. Camera Stream Management
+        // 4. Camera Stream Management & Big Studio Modal
         // ==========================================
+        let autoCaptureStartTime = null;
+        const AUTO_CAPTURE_HOLD_MS = 1200; // 1.2s required stability before auto-snap
+
         async function startCamera() {
+            const studioModal = document.getElementById('cameraStudioModal');
             const video = document.getElementById('cameraVideo');
-            const placeholder = document.getElementById('cameraPlaceholder');
-            const biometricGuide = document.getElementById('biometricGuide');
-            const liveHudBar = document.getElementById('liveHudBar');
-            const liveGuidanceBanner = document.getElementById('liveGuidanceBanner');
-            const cameraControls = document.getElementById('cameraControls');
             const overlayCanvas = document.getElementById('faceOverlayCanvas');
 
             if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
@@ -790,8 +831,8 @@
                 const constraints = {
                     video: {
                         facingMode: currentFacingMode,
-                        width: { ideal: 1280, min: 640 },
-                        height: { ideal: 720, min: 480 }
+                        width: { ideal: 1920, min: 640 },
+                        height: { ideal: 1080, min: 480 }
                     },
                     audio: false
                 };
@@ -801,18 +842,20 @@
                 await video.play();
 
                 isCameraRunning = true;
-                placeholder.classList.add('hidden');
-                video.classList.remove('hidden');
-                overlayCanvas.classList.remove('hidden');
-                biometricGuide.classList.remove('hidden');
-                liveHudBar.classList.remove('hidden');
-                liveGuidanceBanner.classList.remove('hidden');
-                cameraControls.classList.remove('hidden');
+                autoCaptureStartTime = null;
 
-                // Start analysis loop
+                // Display Big Studio Modal
+                if (studioModal) {
+                    studioModal.classList.remove('hidden');
+                    studioModal.classList.add('flex');
+                    document.body.style.overflow = 'hidden';
+                }
+
+                // Start AI Model if not loaded
                 if (!blazeFaceModel && !isModelLoading) {
                     initAiModel();
                 }
+                
                 requestAnimationFrame(analysisLoop);
 
             } catch (err) {
@@ -827,26 +870,24 @@
                 cameraStream = null;
             }
             isCameraRunning = false;
+            autoCaptureStartTime = null;
+
             if (analysisAnimId) {
                 cancelAnimationFrame(analysisAnimId);
                 analysisAnimId = null;
             }
 
-            const video = document.getElementById('cameraVideo');
-            const placeholder = document.getElementById('cameraPlaceholder');
-            const biometricGuide = document.getElementById('biometricGuide');
-            const liveHudBar = document.getElementById('liveHudBar');
-            const liveGuidanceBanner = document.getElementById('liveGuidanceBanner');
-            const cameraControls = document.getElementById('cameraControls');
-            const overlayCanvas = document.getElementById('faceOverlayCanvas');
+            const studioModal = document.getElementById('cameraStudioModal');
+            const autoOverlay = document.getElementById('autoCaptureOverlay');
 
-            if (video) video.classList.add('hidden');
-            if (overlayCanvas) overlayCanvas.classList.add('hidden');
-            if (biometricGuide) biometricGuide.classList.add('hidden');
-            if (liveHudBar) liveHudBar.classList.add('hidden');
-            if (liveGuidanceBanner) liveGuidanceBanner.classList.add('hidden');
-            if (cameraControls) cameraControls.classList.add('hidden');
-            if (placeholder) placeholder.classList.remove('hidden');
+            if (studioModal) {
+                studioModal.classList.add('hidden');
+                studioModal.classList.remove('flex');
+                document.body.style.overflow = '';
+            }
+            if (autoOverlay) {
+                autoOverlay.classList.add('hidden');
+            }
         }
 
         async function switchCameraFacing() {
@@ -857,7 +898,7 @@
         }
 
         // ==========================================
-        // 5. Real-Time Frame Quality Analysis Loop
+        // 5. Real-Time Frame Quality Analysis Loop (Face + Eyes + Light + Sharpness)
         // ==========================================
         async function analysisLoop(timestamp) {
             if (!isCameraRunning) return;
@@ -865,7 +906,7 @@
             const video = document.getElementById('cameraVideo');
             const overlayCanvas = document.getElementById('faceOverlayCanvas');
 
-            if (video && video.readyState >= 2 && (!lastAnalysisTs || timestamp - lastAnalysisTs > 110)) {
+            if (video && video.readyState >= 2 && (!lastAnalysisTs || timestamp - lastAnalysisTs > 90)) {
                 lastAnalysisTs = timestamp;
                 
                 // Match overlay canvas dimensions with video display
@@ -880,7 +921,7 @@
             analysisAnimId = requestAnimationFrame(analysisLoop);
         }
 
-        // Evaluates Face, Lighting, and Sharpness
+        // Evaluates Face, Eyes (Straight & Open), Lighting, and Sharpness
         async function evaluateFrameQuality(videoElement, overlayCanvas) {
             const vw = videoElement.videoWidth || 640;
             const vh = videoElement.videoHeight || 480;
@@ -912,6 +953,7 @@
 
             // Quality Indicators State
             let faceState = { pass: false, text: "चेहरा नहीं दिखा", warning: "कृपया चेहरे को कैमरे के सामने लाएं" };
+            let eyeState = { pass: false, text: "आँखें जांच...", warning: "कृपया सीधे कैमरे में देखें" };
             let lightingState = { pass: false, text: "रोशनी जांच...", warning: "" };
             let clarityState = { pass: false, text: "स्पष्टता जांच...", warning: "" };
             let faceBox = null;
@@ -919,10 +961,12 @@
             // 1. Evaluate Face Detection
             if (facePredictions.length === 0) {
                 faceState = { pass: false, text: "चेहरा नहीं दिखा", warning: "कृपया चेहरे को ओवल गाइड के सामने लाएं" };
+                eyeState = { pass: false, text: "आँखें जांच...", warning: "" };
             } else if (facePredictions.length > 1) {
                 faceState = { pass: false, text: "एकाधिक चेहरे", warning: "केवल १ व्यक्ति का चेहरा होना चाहिए" };
+                eyeState = { pass: false, text: "अमान्य", warning: "फ्रेम में केवल १ व्यक्ति हो" };
                 // Highlight detected faces in red
-                ctx.strokeStyle = "rgba(239, 68, 68, 0.8)";
+                ctx.strokeStyle = "rgba(239, 68, 68, 0.85)";
                 ctx.lineWidth = 3;
                 facePredictions.forEach(pred => {
                     const x = pred.topLeft[0];
@@ -932,7 +976,7 @@
                     ctx.strokeRect(x, y, w, h);
                 });
             } else {
-                // Exactly 1 face
+                // Exactly 1 face detected
                 const pred = facePredictions[0];
                 const x1 = Math.max(0, pred.topLeft[0]);
                 const y1 = Math.max(0, pred.topLeft[1]);
@@ -947,22 +991,69 @@
 
                 const areaRatio = (fw * fh) / (vw * vh);
                 const xDistRatio = Math.abs(fcx - vw / 2) / vw;
+                const yDistRatio = Math.abs(fcy - vh / 2) / vh;
 
-                if (areaRatio < 0.07) {
+                if (areaRatio < 0.06) {
                     faceState = { pass: false, text: "बहुत दूर", warning: "कृपया कैमरे के थोड़ा पास आएं" };
-                } else if (areaRatio > 0.65) {
+                } else if (areaRatio > 0.70) {
                     faceState = { pass: false, text: "बहुत पास", warning: "कृपया कैमरे से थोड़ा दूर जाएं" };
-                } else if (xDistRatio > 0.22) {
+                } else if (xDistRatio > 0.22 || yDistRatio > 0.25) {
                     faceState = { pass: false, text: "केंद्र में नहीं", warning: "कृपया चेहरा बीच (Center) में लाएं" };
                 } else {
                     faceState = { pass: true, text: "चेहरा सही है", warning: "" };
                 }
 
+                // 2. Evaluate Eye Alignment & Open Status (Using BlazeFace Landmarks)
+                if (pred.landmarks && pred.landmarks.length >= 4) {
+                    const rightEye = pred.landmarks[0]; // [x, y]
+                    const leftEye = pred.landmarks[1];  // [x, y]
+                    const nose = pred.landmarks[2];      // [x, y]
+                    const mouth = pred.landmarks[3];     // [x, y]
+
+                    // (A) Roll / Tilt Angle (Horizontal Eye Alignment)
+                    const eyeDx = Math.abs(leftEye[0] - rightEye[0]);
+                    const eyeDy = Math.abs(leftEye[1] - rightEye[1]);
+                    const tiltRatio = eyeDy / Math.max(eyeDx, 1);
+
+                    // (B) Yaw Angle (Straight Gaze into Camera vs Looking Sideways)
+                    const distLeftNose = Math.hypot(leftEye[0] - nose[0], leftEye[1] - nose[1]);
+                    const distRightNose = Math.hypot(rightEye[0] - nose[0], rightEye[1] - nose[1]);
+                    const yawRatio = Math.abs(distLeftNose - distRightNose) / Math.max(distLeftNose + distRightNose, 1);
+
+                    // (C) Pitch Angle (Looking Up / Down)
+                    const eyeMidY = (leftEye[1] + rightEye[1]) / 2;
+                    const noseToEyeDist = nose[1] - eyeMidY;
+                    const mouthToNoseDist = mouth[1] - nose[1];
+                    const pitchRatio = noseToEyeDist / Math.max(mouthToNoseDist, 1);
+
+                    // (D) Eyes Open & Visible Inspection (Pixel Variance in Eye Patches)
+                    const eyesOpen = checkEyesOpen(videoElement, leftEye, rightEye);
+
+                    if (tiltRatio > 0.16) {
+                        eyeState = { pass: false, text: "सिर सीधा करें", warning: "कृपया सिर सीधा रखें (झुकाएं नहीं)" };
+                    } else if (yawRatio > 0.25) {
+                        eyeState = { pass: false, text: "सीधा देखें", warning: "कृपया सीधे कैमरे के लेंस में देखें" };
+                    } else if (pitchRatio < 0.38 || pitchRatio > 2.30) {
+                        eyeState = { pass: false, text: "सीधा देखें", warning: "कृपया चेहरा सीधा रखें (ऊपर या नीचे न देखें)" };
+                    } else if (!eyesOpen) {
+                        eyeState = { pass: false, text: "आँखें खोलें", warning: "कृपया दोनों आँखें खुली रखें" };
+                    } else {
+                        eyeState = { pass: true, text: "आँखें सीधी व खुली ✅", warning: "" };
+                    }
+
+                    // Draw eye tracking crosshairs & landmarks
+                    drawEyeGuides(ctx, rightEye, leftEye, nose, eyeState.pass);
+
+                } else {
+                    // Fallback when landmarks are not exposed
+                    eyeState = { pass: true, text: "आँखें सीधी हैं", warning: "" };
+                }
+
                 // Draw stylish corner brackets for detected face
-                drawFaceTrackingBox(ctx, x1, y1, fw, fh, faceState.pass);
+                drawFaceTrackingBox(ctx, x1, y1, fw, fh, faceState.pass && eyeState.pass);
             }
 
-            // 2. Evaluate Lighting & Clarity from Canvas Pixel Buffer
+            // 3. Evaluate Lighting & Clarity from Canvas Pixel Buffer
             const roiX = faceBox ? Math.floor(faceBox.x) : Math.floor(vw * 0.25);
             const roiY = faceBox ? Math.floor(faceBox.y) : Math.floor(vh * 0.2);
             const roiW = faceBox ? Math.floor(faceBox.w) : Math.floor(vw * 0.5);
@@ -998,8 +1089,8 @@
 
             if (avgLum < 65) {
                 lightingState = { pass: false, text: "कम रोशनी", warning: "कम रोशनी: कृपया पर्याप्त रोशनी में आएं" };
-            } else if (avgLum > 220) {
-                lightingState = { pass: false, text: "अत्यधिक चमक", warning: "अत्यधिक चमक: सीधी तेज रोशनी से थोड़ा बचें" };
+            } else if (avgLum > 225) {
+                lightingState = { pass: false, text: "अत्यधिक चमक", warning: "अत्यधिक चमक: तेज रोशनी से थोड़ा बचें" };
             } else {
                 lightingState = { pass: true, text: "रोशनी सही है", warning: "" };
             }
@@ -1027,35 +1118,109 @@
             const lapMean = laplacianSum / lapCount;
             const lapVariance = (laplacianSumSq / lapCount) - (lapMean * lapMean);
 
-            // Sharpness threshold (Variance >= 12 is sharp/HD)
-            if (lapVariance < 12) {
+            // Sharpness threshold (Variance >= 11 is sharp/HD)
+            if (lapVariance < 11) {
                 clarityState = { pass: false, text: "धुंधला (Blur)", warning: "फोटो धुंधली है: कृपया कैमरा स्थिर रखें" };
             } else {
                 clarityState = { pass: true, text: "HD व स्पष्ट", warning: "" };
             }
 
-            // Overall Verdict
-            const isAllPassed = faceState.pass && lightingState.pass && clarityState.pass;
-            const warnings = [faceState.warning, lightingState.warning, clarityState.warning].filter(Boolean);
+            // Overall Verdict (All 4 Criteria)
+            const isAllPassed = faceState.pass && eyeState.pass && lightingState.pass && clarityState.pass;
+            const warnings = [faceState.warning, eyeState.warning, lightingState.warning, clarityState.warning].filter(Boolean);
 
             liveQualityState = {
                 isReady: isAllPassed,
                 facePassed: faceState.pass,
+                eyePassed: eyeState.pass,
                 lightingPassed: lightingState.pass,
                 clarityPassed: clarityState.pass,
                 warnings: warnings
             };
 
-            // Update UI HUD
-            updateQualityHUD(faceState, lightingState, clarityState, isAllPassed, warnings);
+            // Update UI HUD Badges & Oval Frame
+            updateQualityHUD(faceState, eyeState, lightingState, clarityState, isAllPassed, warnings);
+
+            // Auto-Capture Execution Handler
+            handleAutoCapture(isAllPassed);
+        }
+
+        // Check if eyes are open by analyzing pixel variance & contrast around eye landmarks
+        function checkEyesOpen(videoElement, leftEye, rightEye) {
+            try {
+                const sampleCanvas = document.createElement('canvas');
+                sampleCanvas.width = 32;
+                sampleCanvas.height = 32;
+                const sCtx = sampleCanvas.getContext('2d');
+
+                // Inspect Left Eye Patch (16x16)
+                sCtx.drawImage(videoElement, leftEye[0] - 12, leftEye[1] - 8, 24, 16, 0, 0, 16, 16);
+                const lData = sCtx.getImageData(0, 0, 16, 16).data;
+
+                // Inspect Right Eye Patch (16x16)
+                sCtx.drawImage(videoElement, rightEye[0] - 12, rightEye[1] - 8, 24, 16, 16, 0, 16, 16);
+                const rData = sCtx.getImageData(16, 0, 16, 16).data;
+
+                function calcEyeContrastVariance(data, offset) {
+                    let sum = 0, sumSq = 0;
+                    for (let i = 0; i < 256; i++) {
+                        const idx = (offset + i) * 4;
+                        const lum = 0.299 * data[idx] + 0.587 * data[idx + 1] + 0.114 * data[idx + 2];
+                        sum += lum;
+                        sumSq += lum * lum;
+                    }
+                    const mean = sum / 256;
+                    const variance = (sumSq / 256) - (mean * mean);
+                    return Math.sqrt(Math.max(0, variance));
+                }
+
+                const lStdDev = calcEyeContrastVariance(lData, 0);
+                const rStdDev = calcEyeContrastVariance(rData, 0);
+
+                // Open eye with iris/pupil/sclera contrast has StdDev >= 12
+                return (lStdDev >= 11 && rStdDev >= 11);
+            } catch (e) {
+                return true; // Graceful fallback
+            }
+        }
+
+        // Draw Eye Guides and Crosshairs
+        function drawEyeGuides(ctx, rightEye, leftEye, nose, isPass) {
+            ctx.save();
+            ctx.strokeStyle = isPass ? "rgba(16, 185, 129, 0.9)" : "rgba(245, 158, 11, 0.9)";
+            ctx.fillStyle = isPass ? "rgba(16, 185, 129, 0.2)" : "rgba(245, 158, 11, 0.2)";
+            ctx.lineWidth = 2;
+
+            // Draw circles on both eyes
+            [rightEye, leftEye].forEach(eye => {
+                ctx.beginPath();
+                ctx.arc(eye[0], eye[1], 8, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+
+                // Small center dot
+                ctx.fillStyle = isPass ? "#10b981" : "#f59e0b";
+                ctx.beginPath();
+                ctx.arc(eye[0], eye[1], 2.5, 0, Math.PI * 2);
+                ctx.fill();
+            });
+
+            // Connect Eye Line
+            ctx.beginPath();
+            ctx.setLineDash([4, 4]);
+            ctx.moveTo(rightEye[0], rightEye[1]);
+            ctx.lineTo(leftEye[0], leftEye[1]);
+            ctx.stroke();
+
+            ctx.restore();
         }
 
         // Draw HUD Corner Brackets on Face
         function drawFaceTrackingBox(ctx, x, y, w, h, isPass) {
             ctx.save();
-            ctx.strokeStyle = isPass ? "rgba(16, 185, 129, 0.9)" : "rgba(245, 158, 11, 0.9)";
-            ctx.lineWidth = 3;
-            const len = Math.min(20, w * 0.2);
+            ctx.strokeStyle = isPass ? "rgba(16, 185, 129, 0.95)" : "rgba(245, 158, 11, 0.95)";
+            ctx.lineWidth = 3.5;
+            const len = Math.min(24, w * 0.22);
 
             // Top-left
             ctx.beginPath();
@@ -1081,7 +1246,7 @@
         }
 
         // Update Visual HUD Elements & Biometric Frame
-        function updateQualityHUD(faceState, lightingState, clarityState, isAllPassed, warnings) {
+        function updateQualityHUD(faceState, eyeState, lightingState, clarityState, isAllPassed, warnings) {
             const ovalFrame = document.getElementById('ovalGuideFrame');
             const banner = document.getElementById('liveGuidanceBanner');
             const bannerIcon = document.getElementById('guidanceIcon');
@@ -1091,19 +1256,24 @@
             // 1. HUD Badges
             const hudFace = document.getElementById('hudFace');
             const hudFaceText = document.getElementById('hudFaceText');
+            const hudEyes = document.getElementById('hudEyes');
+            const hudEyesText = document.getElementById('hudEyesText');
             const hudLighting = document.getElementById('hudLighting');
             const hudLightingText = document.getElementById('hudLightingText');
             const hudClarity = document.getElementById('hudClarity');
             const hudClarityText = document.getElementById('hudClarityText');
 
             if (hudFaceText) hudFaceText.innerText = faceState.text;
-            if (hudFace) hudFace.className = `hud-badge text-[11px] font-semibold px-2.5 py-1 rounded-lg border shadow flex items-center gap-1.5 ${faceState.pass ? 'bg-emerald-950/80 text-emerald-300 border-emerald-500/50' : 'bg-black/70 text-gray-300 border-white/10'}`;
+            if (hudFace) hudFace.className = `hud-badge text-[11px] font-semibold px-2.5 py-1 rounded-lg border shadow flex items-center gap-1.5 ${faceState.pass ? 'bg-emerald-950/85 text-emerald-300 border-emerald-500/50' : 'bg-black/75 text-gray-300 border-white/10'}`;
+
+            if (hudEyesText) hudEyesText.innerText = eyeState.text;
+            if (hudEyes) hudEyes.className = `hud-badge text-[11px] font-semibold px-2.5 py-1 rounded-lg border shadow flex items-center gap-1.5 ${eyeState.pass ? 'bg-emerald-950/85 text-emerald-300 border-emerald-500/50' : 'bg-black/75 text-gray-300 border-white/10'}`;
 
             if (hudLightingText) hudLightingText.innerText = lightingState.text;
-            if (hudLighting) hudLighting.className = `hud-badge text-[11px] font-semibold px-2.5 py-1 rounded-lg border shadow flex items-center gap-1.5 ${lightingState.pass ? 'bg-emerald-950/80 text-emerald-300 border-emerald-500/50' : 'bg-black/70 text-gray-300 border-white/10'}`;
+            if (hudLighting) hudLighting.className = `hud-badge text-[11px] font-semibold px-2.5 py-1 rounded-lg border shadow flex items-center gap-1.5 ${lightingState.pass ? 'bg-emerald-950/85 text-emerald-300 border-emerald-500/50' : 'bg-black/75 text-gray-300 border-white/10'}`;
 
             if (hudClarityText) hudClarityText.innerText = clarityState.text;
-            if (hudClarity) hudClarity.className = `hud-badge text-[11px] font-semibold px-2.5 py-1 rounded-lg border shadow flex items-center gap-1.5 ${clarityState.pass ? 'bg-emerald-950/80 text-emerald-300 border-emerald-500/50' : 'bg-black/70 text-gray-300 border-white/10'}`;
+            if (hudClarity) hudClarity.className = `hud-badge text-[11px] font-semibold px-2.5 py-1 rounded-lg border shadow flex items-center gap-1.5 ${clarityState.pass ? 'bg-emerald-950/85 text-emerald-300 border-emerald-500/50' : 'bg-black/75 text-gray-300 border-white/10'}`;
 
             // 2. Oval Ring State
             if (ovalFrame) {
@@ -1120,31 +1290,62 @@
             // 3. Guidance Banner
             if (banner && bannerText && bannerIcon) {
                 if (isAllPassed) {
-                    banner.className = "absolute bottom-3 left-3 right-3 bg-emerald-950/90 backdrop-blur-md text-emerald-300 px-3.5 py-2 rounded-xl text-xs font-bold text-center border border-emerald-500/50 flex items-center justify-center gap-2 shadow-lg z-20 transition-all";
+                    banner.className = "absolute bottom-3 left-3 right-3 bg-emerald-950/90 backdrop-blur-md text-emerald-300 px-4 py-2 rounded-xl text-xs font-bold text-center border border-emerald-500/50 flex items-center justify-center gap-2 shadow-xl z-20 transition-all max-w-lg mx-auto";
                     bannerIcon.className = "fa-solid fa-circle-check text-emerald-400 text-sm";
-                    bannerText.innerText = "सभी मानक सही हैं! अब फोटो कैप्चर करें।";
-                    if (captureBtn) captureBtn.className = "px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl font-bold text-sm shadow-lg transition flex items-center gap-2 ring-4 ring-emerald-400/40";
+                    bannerText.innerText = "सभी मानक सही हैं! ऑटो-कैप्चर शुरू...";
+                    if (captureBtn) captureBtn.className = "px-7 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl font-bold text-sm shadow-xl transition flex items-center gap-2 ring-4 ring-emerald-400/40";
                 } else {
-                    banner.className = "absolute bottom-3 left-3 right-3 bg-black/85 backdrop-blur-md text-amber-300 px-3.5 py-2 rounded-xl text-xs font-semibold text-center border border-amber-500/40 flex items-center justify-center gap-2 shadow-lg z-20 transition-all";
-                    bannerIcon.className = "fa-solid fa-triangle-exclamation text-amber-400";
+                    banner.className = "absolute bottom-3 left-3 right-3 bg-black/85 backdrop-blur-md text-amber-300 px-4 py-2 rounded-xl text-xs font-semibold text-center border border-amber-500/40 flex items-center justify-center gap-2 shadow-lg z-20 transition-all max-w-lg mx-auto";
+                    bannerIcon.className = "fa-solid fa-triangle-exclamation text-amber-400 text-sm";
                     bannerText.innerText = warnings[0] || "कृपया चेहरे को ओवल गाइड के अंदर लाएं";
-                    if (captureBtn) captureBtn.className = "px-6 py-3 bg-rose-600 hover:bg-rose-700 text-white rounded-2xl font-bold text-sm shadow-md transition flex items-center gap-2";
+                    if (captureBtn) captureBtn.className = "px-7 py-3 bg-rose-600 hover:bg-rose-700 text-white rounded-2xl font-bold text-sm shadow-md transition flex items-center gap-2";
                 }
             }
         }
 
         // ==========================================
-        // 6. Capture HD Image Execution
+        // 6. Auto-Capture Countdown Handler & Image Snap
         // ==========================================
+        function handleAutoCapture(isAllPassed) {
+            const overlay = document.getElementById('autoCaptureOverlay');
+            const ring = document.getElementById('countdownProgressRing');
+            const numText = document.getElementById('countdownNumberText');
+
+            if (isAllPassed && isCameraRunning) {
+                if (!autoCaptureStartTime) {
+                    autoCaptureStartTime = Date.now();
+                }
+
+                const elapsed = Date.now() - autoCaptureStartTime;
+                const progress = Math.min(1, elapsed / AUTO_CAPTURE_HOLD_MS);
+
+                if (overlay) overlay.classList.remove('hidden');
+
+                if (ring) {
+                    const circumference = 301.59;
+                    ring.style.strokeDashoffset = (circumference * (1 - progress)).toString();
+                }
+
+                if (numText) {
+                    const remainingTenths = Math.max(1, Math.ceil((AUTO_CAPTURE_HOLD_MS - elapsed) / 400));
+                    numText.innerText = remainingTenths.toString();
+                }
+
+                if (elapsed >= AUTO_CAPTURE_HOLD_MS) {
+                    autoCaptureStartTime = null;
+                    if (overlay) overlay.classList.add('hidden');
+                    triggerCapture();
+                }
+            } else {
+                autoCaptureStartTime = null;
+                if (overlay) overlay.classList.add('hidden');
+                if (ring) ring.style.strokeDashoffset = "301.59";
+            }
+        }
+
         async function triggerCapture() {
             const video = document.getElementById('cameraVideo');
             if (!video || !isCameraRunning) return;
-
-            // If quality checks failed, alert with choice
-            if (!liveQualityState.isReady && liveQualityState.warnings.length > 0) {
-                const proceed = confirm(`गुणवत्ता चेतावनी:\n- ${liveQualityState.warnings.join('\n- ')}\n\nक्या आप फिर भी यह फोटो लेना चाहते हैं?`);
-                if (!proceed) return;
-            }
 
             // Flash effect
             const flash = document.getElementById('shutterFlash');
@@ -1183,6 +1384,7 @@
             // Save and present preview
             setCapturedPhoto(photoBase64);
             stopCamera();
+            showToast("लाइव फोटो सफलतापूर्वक कैप्चर हो गई! (AI Auto Captured)");
         }
 
         // Set photo data to form and update preview UI
@@ -1190,23 +1392,36 @@
             document.getElementById('photoDataInput').value = base64Data;
             document.getElementById('capturedImagePreview').src = base64Data;
 
-            document.getElementById('cameraStudioContainer').classList.add('hidden');
-            document.getElementById('capturedPreviewCard').classList.remove('hidden');
+            const standby = document.getElementById('cameraStandbyContainer');
+            const previewCard = document.getElementById('capturedPreviewCard');
+
+            if (standby) standby.classList.add('hidden');
+            if (previewCard) previewCard.classList.remove('hidden');
         }
 
         function retakePhoto() {
             document.getElementById('photoDataInput').value = '';
             document.getElementById('capturedImagePreview').src = '';
-            document.getElementById('capturedPreviewCard').classList.add('hidden');
-            document.getElementById('cameraStudioContainer').classList.remove('hidden');
+            
+            const standby = document.getElementById('cameraStandbyContainer');
+            const previewCard = document.getElementById('capturedPreviewCard');
+
+            if (previewCard) previewCard.classList.add('hidden');
+            if (standby) standby.classList.remove('hidden');
+
             startCamera();
         }
 
         function removePhoto() {
             document.getElementById('photoDataInput').value = '';
             document.getElementById('capturedImagePreview').src = '';
-            document.getElementById('capturedPreviewCard').classList.add('hidden');
-            document.getElementById('cameraStudioContainer').classList.remove('hidden');
+
+            const standby = document.getElementById('cameraStandbyContainer');
+            const previewCard = document.getElementById('capturedPreviewCard');
+
+            if (previewCard) previewCard.classList.add('hidden');
+            if (standby) standby.classList.remove('hidden');
+
             stopCamera();
         }
 
