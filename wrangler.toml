@@ -21,5 +21,14 @@ database_id = "5e162d34-ff87-434d-a48d-ca02a0a49477"
 # To create the todos table, run:
 #   npx wrangler d1 execute mcqticker-reviews --local --command "CREATE TABLE IF NOT EXISTS todos (id TEXT PRIMARY KEY, user_id TEXT NOT NULL, date TEXT NOT NULL, task_text TEXT NOT NULL, is_completed INTEGER NOT NULL DEFAULT 0, created_at TEXT NOT NULL DEFAULT (datetime('now')));"
 
+# ── MIGRATION: Add new columns for Todo upgrade (due_time, priority, sub_tasks) ──
+# Run these against BOTH --local and --remote:
+#   npx wrangler d1 execute mcqticker-reviews --local --command "ALTER TABLE todos ADD COLUMN due_time TEXT;"
+#   npx wrangler d1 execute mcqticker-reviews --local --command "ALTER TABLE todos ADD COLUMN priority TEXT DEFAULT 'normal';"
+#   npx wrangler d1 execute mcqticker-reviews --local --command "ALTER TABLE todos ADD COLUMN sub_tasks TEXT DEFAULT '[]';"
+#   npx wrangler d1 execute mcqticker-reviews --remote --command "ALTER TABLE todos ADD COLUMN due_time TEXT;"
+#   npx wrangler d1 execute mcqticker-reviews --remote --command "ALTER TABLE todos ADD COLUMN priority TEXT DEFAULT 'normal';"
+#   npx wrangler d1 execute mcqticker-reviews --remote --command "ALTER TABLE todos ADD COLUMN sub_tasks TEXT DEFAULT '[]';"
+
 # To create the mcq_sessions table, run:
 #   npx wrangler d1 execute mcqticker-reviews --local --command "CREATE TABLE IF NOT EXISTS mcq_sessions (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id TEXT NOT NULL, sessions_data TEXT NOT NULL DEFAULT '{}', updated_at TEXT NOT NULL DEFAULT (datetime('now')), UNIQUE(user_id));"

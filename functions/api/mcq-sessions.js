@@ -23,6 +23,8 @@ const CORS = {
   'Access-Control-Allow-Headers': 'Content-Type',
 };
 
+import { getAuthUser } from './auth/_utils.js';
+
 function json(data, status = 200) {
   return new Response(JSON.stringify(data), {
     status,
@@ -30,27 +32,9 @@ function json(data, status = 200) {
   });
 }
 
-/**
- * Verify the authenticated user by calling /api/auth/me
- * with the original request's cookies forwarded.
- */
-async function getAuthUser(request) {
-  try {
-    const origin = new URL(request.url).origin;
-    const res = await fetch(`${origin}/api/auth/me`, {
-      headers: { 'Cookie': request.headers.get('Cookie') || '' },
-    });
-    const data = await res.json();
-    if (data.authenticated && data.user) return data.user;
-  } catch (err) {
-    console.error('[mcq-sessions] Auth check failed:', err);
-  }
-  return null;
-}
-
 /* ── GET — fetch user's MCQ sessions ── */
 export async function onRequestGet({ request, env }) {
-  const user = await getAuthUser(request);
+  const user = await getAuthUser(request, env);
   if (!user) return json({ error: 'Not authenticated' }, 401);
 
   if (!env?.DB) {
@@ -72,7 +56,7 @@ export async function onRequestGet({ request, env }) {
 
 /* ── PUT — save/update user's MCQ sessions ── */
 export async function onRequestPut({ request, env }) {
-  const user = await getAuthUser(request);
+  const user = await getAuthUser(request, env);
   if (!user) return json({ error: 'Not authenticated' }, 401);
 
   let body;

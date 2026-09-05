@@ -88,9 +88,54 @@ export async function verifyJWT(token, secret) {
 }
 
 export function parseCookies(request) {
-  const cookieHeader = request.headers.get('Cookie');
+  const cookieHeader = request?.headers?.get('Cookie');
   if (!cookieHeader) return {};
   return Object.fromEntries(
-    cookieHeader.split(';').map(c => c.trim().split('='))
+    cookieHeader.split(';').map(c => {
+      const parts = c.trim().split('=');
+      return [parts[0], parts.slice(1).join('=')];
+    })
   );
 }
+
+export function getAuthCookieHeader(token, request, maxAge = 60 * 60 * 24 * 30) {
+  const isHttps = request ? (
+    (typeof request.url === 'string' && request.url.startsWith('https:')) ||
+    request.headers?.get('x-forwarded-proto') === 'https'
+  ) : false;
+  const secureFlag = isHttps ? '; Secure' : '';
+  return `auth_token=${token}; HttpOnly; Path=/; Max-Age=${maxAge}; SameSite=Lax${secureFlag}`;
+}
+
+export async function getAuthUser(request, env) {
+  try {
+    let token = null;
+
+    // 1. Check Authorization header
+    const authHeader = request?.headers?.get('Authorization') || request?.headers?.get('authorization');
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      token = authHeader.substring(7).trim();
+    }
+
+    // 2. Check Cookie header fallback
+    if (!token) {
+      const cookies = parseCookies(request);
+      token = cookies['auth_token'];
+    }
+
+    if (!token) return null;
+
+    const secret = env?.JWT_SECRET || 'default_fallback_secret_123';
+    const payload = await verifyJWT(token, secret);
+
+    if (!payload || !payload.id || !payload.email) {
+      return null;
+    }
+
+    return { id: payload.id, email: payload.email };
+  } catch (err) {
+    console.error('[auth] verify user error:', err);
+    return null;
+  }
+}
+

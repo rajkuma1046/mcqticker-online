@@ -1,21 +1,7 @@
-import { json } from '../auth/_utils.js';
-
-async function getAuthUser(request) {
-  try {
-    const origin = new URL(request.url).origin;
-    const res = await fetch(`${origin}/api/auth/me`, {
-      headers: { 'Cookie': request.headers.get('Cookie') || '' },
-    });
-    const data = await res.json();
-    if (data.authenticated && data.user) return data.user;
-  } catch (err) {
-    console.error('[todos/id] Auth check failed:', err);
-  }
-  return null;
-}
+import { json, getAuthUser } from '../auth/_utils.js';
 
 export async function onRequestPut({ request, env, params }) {
-  const user = await getAuthUser(request);
+  const user = await getAuthUser(request, env);
   if (!user) return json({ error: 'Not authenticated' }, 401);
   if (!env?.DB) return json({ error: 'Database not bound.' }, 500);
 
@@ -37,6 +23,22 @@ export async function onRequestPut({ request, env, params }) {
       updates.push('is_completed = ?');
       values.push(body.is_completed ? 1 : 0);
     }
+    if (body.date !== undefined) {
+      updates.push('date = ?');
+      values.push(body.date);
+    }
+    if (body.due_time !== undefined) {
+      updates.push('due_time = ?');
+      values.push(body.due_time);
+    }
+    if (body.priority !== undefined) {
+      updates.push('priority = ?');
+      values.push(body.priority);
+    }
+    if (body.sub_tasks !== undefined) {
+      updates.push('sub_tasks = ?');
+      values.push(JSON.stringify(body.sub_tasks));
+    }
 
     if (updates.length > 0) {
       values.push(id, user.id);
@@ -51,7 +53,7 @@ export async function onRequestPut({ request, env, params }) {
 }
 
 export async function onRequestDelete({ request, env, params }) {
-  const user = await getAuthUser(request);
+  const user = await getAuthUser(request, env);
   if (!user) return json({ error: 'Not authenticated' }, 401);
   if (!env?.DB) return json({ error: 'Database not bound.' }, 500);
 

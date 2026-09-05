@@ -1,9 +1,10 @@
-import { json } from './_utils.js';
+import { json, getAuthCookieHeader } from './_utils.js';
 
-export async function onRequestPost() {
+export async function onRequestPost({ request }) {
   return json(
     { success: true },
     200,
-    { 'Set-Cookie': 'auth_token=; HttpOnly; Path=/; Max-Age=0; SameSite=Lax; Secure' }
+    { 'Set-Cookie': getAuthCookieHeader('', request, 0) }
   );
 }
+

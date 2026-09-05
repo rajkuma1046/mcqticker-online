@@ -1,4 +1,4 @@
-import { json, generateSalt, hashPassword, signJWT } from './_utils.js';
+import { json, generateSalt, hashPassword, signJWT, getAuthCookieHeader } from './_utils.js';
 
 export async function onRequestPost({ request, env }) {
   try {
@@ -31,9 +31,9 @@ export async function onRequestPost({ request, env }) {
     const token = await signJWT({ id: userId, email }, secret);
 
     return json(
-      { user: { id: userId, email } }, 
+      { user: { id: userId, email }, token }, 
       200, 
-      { 'Set-Cookie': `auth_token=${token}; HttpOnly; Path=/; Max-Age=${60*60*24*30}; SameSite=Lax; Secure` }
+      { 'Set-Cookie': getAuthCookieHeader(token, request) }
     );
   } catch (err) {
     console.error('Register error:', err);
