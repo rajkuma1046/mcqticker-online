@@ -22,6 +22,12 @@ const SITE_URL = 'https://mcqticker.online';
 const canonicalURL = `${SITE_URL}${canonicalPath}`;
 const WHATSAPP_NUMBER = '8770767272';
 const WHATSAPP_LINK = `https://wa.me/91${WHATSAPP_NUMBER}?text=${encodeURIComponent('Namaste Farm Direct, I have a question about raw farm produce in Gwalior.')}`;
+
+const isHome = canonicalPath === '/farm' || canonicalPath === '/farm/';
+const isProduce = canonicalPath.startsWith('/farm/products');
+const isSamples = canonicalPath.startsWith('/farm/samples') || canonicalPath.startsWith('/farm/sample-policy');
+const isAccount = canonicalPath.startsWith('/farm/account');
+const isCart = canonicalPath.startsWith('/farm/cart') || canonicalPath.startsWith('/farm/checkout');
 ---
 
 <!doctype html>
@@ -53,6 +59,53 @@ const WHATSAPP_LINK = `https://wa.me/91${WHATSAPP_NUMBER}?text=${encodeURICompon
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet" />
+
+    <!-- Immediate Service Worker & Cache Healing for Farm Direct -->
+    <script is:inline>
+      (function() {
+        // 1. Evict any stale or corrupt caches from root PWA
+        if ('caches' in window) {
+          caches.keys().then(function(keys) {
+            keys.forEach(function(k) {
+              if (k.indexOf('mcq-ticker-cache-v1') !== -1 || k.indexOf('mcq-ticker-cache-v2') !== -1) {
+                console.log('[FarmDirect] Purging stale PWA cache:', k);
+                caches.delete(k);
+              }
+            });
+          });
+        }
+
+        // 2. Fallback protection: If Astro hashed stylesheet failed to load due to MIME mismatch or cache corruption, auto-recover
+        window.addEventListener('DOMContentLoaded', function() {
+          var links = document.querySelectorAll('link[rel="stylesheet"]');
+          links.forEach(function(link) {
+            var href = link.getAttribute('href');
+            if (href && href.indexOf('/_astro/') !== -1) {
+              var loaded = false;
+              try {
+                for (var i = 0; i < document.styleSheets.length; i++) {
+                  var s = document.styleSheets[i];
+                  if (s.href && s.href.indexOf(href) !== -1) {
+                    if (s.cssRules && s.cssRules.length > 0) {
+                      loaded = true;
+                      break;
+                    }
+                  }
+                }
+              } catch(e) {}
+
+              if (!loaded) {
+                console.warn('[FarmDirect] CSS failed to apply, injecting cache-busted stylesheet:', href);
+                var bustLink = document.createElement('link');
+                bustLink.rel = 'stylesheet';
+                bustLink.href = href + (href.indexOf('?') === -1 ? '?t=' : '&t=') + Date.now();
+                document.head.appendChild(bustLink);
+              }
+            }
+          });
+        });
+      })();
+    </script>
 
     <style is:global>
       :root {
@@ -240,32 +293,11 @@ const WHATSAPP_LINK = `https://wa.me/91${WHATSAPP_NUMBER}?text=${encodeURICompon
       }
     </style>
   </head>
-  <body class="flex flex-col min-h-screen relative antialiased selection:bg-[#204e28] selection:text-white">
+  <body class="flex flex-col min-h-screen relative antialiased selection:bg-[#204e28] selection:text-white pb-20 lg:pb-0">
     <!-- Ambient Subtle Warm Glow Background -->
     <div class="fixed inset-0 pointer-events-none z-[-1] overflow-hidden">
       <div class="absolute -top-40 left-1/2 -translate-x-1/2 w-[1000px] h-[450px] bg-gradient-to-b from-emerald-100/40 via-amber-50/20 to-transparent blur-3xl rounded-full"></div>
       <div class="absolute top-[800px] -left-40 w-[600px] h-[600px] bg-emerald-50/30 blur-3xl rounded-full"></div>
-    </div>
-
-    <!-- Announcement & Dispatch Ticker -->
-    <div class="bg-gradient-to-r from-[#122815] via-[#1a3d1f] to-[#122815] text-emerald-100 text-xs py-2 px-4 border-b border-emerald-900/50">
-      <div class="fd-container flex flex-wrap items-center justify-between gap-2">
-        <div class="flex items-center gap-2.5">
-          <span class="relative flex h-2 w-2">
-            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
-          </span>
-          <span class="font-medium tracking-wide">
-            <strong>Gwalior Delivery Clusters:</strong> Weekly consolidated trips to <span class="underline decoration-emerald-400 font-bold">Pawan Nagar</span> & <span class="underline decoration-emerald-400 font-bold">Chetakpuri</span>
-          </span>
-        </div>
-        <div class="flex items-center gap-4 text-[11px] font-semibold">
-          <a href={`https://wa.me/91${WHATSAPP_NUMBER}`} target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors flex items-center gap-1.5">
-            <span class="text-emerald-300">💬 WhatsApp Farmer:</span>
-            <strong class="text-white">+91 {WHATSAPP_NUMBER}</strong>
-          </a>
-        </div>
-      </div>
     </div>
 
     <!-- Modern Floating Glassmorphic Header -->
@@ -405,27 +437,8 @@ const WHATSAPP_LINK = `https://wa.me/91${WHATSAPP_NUMBER}?text=${encodeURICompon
       <slot />
     </main>
 
-    <!-- Floating Sticky Bottom Bar for Mobile Cart -->
-    {!hideCartBar && (
-      <div id="fd-sticky-cart-bar" class="fixed bottom-0 left-0 right-0 z-30 sm:hidden bg-white/90 backdrop-blur-xl border-t border-[#dce7db] px-4 py-3 shadow-[0_-8px_24px_rgba(0,0,0,0.08)] transform translate-y-full transition-transform duration-300">
-        <div class="flex items-center justify-between gap-3">
-          <div>
-            <div class="text-[10px] text-[#5b6e5d] font-bold uppercase tracking-wider">Your Farm Cart</div>
-            <div class="text-base font-extrabold text-[#132215] mt-0.5">
-              <span id="fd-bar-qty">0 kg</span> produce • <span id="fd-bar-total" class="text-emerald-700">₹0</span>
-            </div>
-          </div>
-          <div class="flex items-center gap-2">
-            <a href="/farm/cart" class="fd-btn fd-btn-primary fd-btn-sm px-4 py-2.5 font-bold shadow-sm">
-              Checkout &rarr;
-            </a>
-          </div>
-        </div>
-      </div>
-    )}
-
     <!-- Floating WhatsApp Button with Glowing Green Ring -->
-    <aside aria-label="Support and Enquiries" class="fixed bottom-16 sm:bottom-6 right-4 sm:right-6 z-30">
+    <aside aria-label="Support and Enquiries" class="fixed bottom-20 sm:bottom-6 right-4 sm:right-6 z-30">
       <a
         href={WHATSAPP_LINK}
         target="_blank"
@@ -528,6 +541,54 @@ const WHATSAPP_LINK = `https://wa.me/91${WHATSAPP_NUMBER}?text=${encodeURICompon
       </div>
     </footer>
 
+    <!-- Fixed Mobile Bottom Navigation Bar (Matching Native Mobile App UI) -->
+    <nav id="fd-bottom-nav" class="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-[#f4f7f2]/95 backdrop-blur-lg border-t border-[#d8e3d6] px-2 py-1.5 shadow-[0_-4px_16px_rgba(0,0,0,0.06)] pb-safe">
+      <div class="grid grid-cols-5 items-center justify-around text-center max-w-lg mx-auto">
+        <!-- Tab 1: Home -->
+        <a href="/farm" class={`flex flex-col items-center justify-center py-1 transition-colors ${isHome ? 'text-[#194622] font-extrabold' : 'text-[#5b6e5d] font-semibold hover:text-[#194622]'}`}>
+          <svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" stroke-width={isHome ? "2.4" : "1.8"} viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+          </svg>
+          <span class="text-[11px] leading-tight">Home</span>
+        </a>
+
+        <!-- Tab 2: Produce -->
+        <a href="/farm/products" class={`flex flex-col items-center justify-center py-1 transition-colors ${isProduce ? 'text-[#194622] font-extrabold' : 'text-[#5b6e5d] font-semibold hover:text-[#194622]'}`}>
+          <svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" stroke-width={isProduce ? "2.4" : "1.8"} viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+          </svg>
+          <span class="text-[11px] leading-tight">Produce</span>
+        </a>
+
+        <!-- Tab 3: Samples -->
+        <a href="/farm/samples" class={`flex flex-col items-center justify-center py-1 transition-colors ${isSamples ? 'text-[#194622] font-extrabold' : 'text-[#5b6e5d] font-semibold hover:text-[#194622]'}`}>
+          <svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" stroke-width={isSamples ? "2.4" : "1.8"} viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
+          </svg>
+          <span class="text-[11px] leading-tight">Samples</span>
+        </a>
+
+        <!-- Tab 4: Account -->
+        <a href="/farm/account" class={`flex flex-col items-center justify-center py-1 transition-colors ${isAccount ? 'text-[#194622] font-extrabold' : 'text-[#5b6e5d] font-semibold hover:text-[#194622]'}`}>
+          <svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" stroke-width={isAccount ? "2.4" : "1.8"} viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+          </svg>
+          <span class="text-[11px] leading-tight">Account</span>
+        </a>
+
+        <!-- Tab 5: Cart -->
+        <a href="/farm/cart" class={`flex flex-col items-center justify-center py-1 transition-colors relative ${isCart ? 'text-[#194622] font-extrabold' : 'text-[#5b6e5d] font-semibold hover:text-[#194622]'}`}>
+          <div class="relative">
+            <svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" stroke-width={isCart ? "2.4" : "1.8"} viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+            </svg>
+            <span id="fd-mobile-nav-cart-badge" class="hidden absolute -top-1 -right-2.5 min-w-[18px] h-[18px] px-1 rounded-full bg-[#1b4522] text-white text-[10px] font-black flex items-center justify-center shadow-xs">0</span>
+          </div>
+          <span class="text-[11px] leading-tight">Cart</span>
+        </a>
+      </div>
+    </nav>
+
     <!-- Global Modern Toast Container -->
     <div id="fd-toast-container" class="fixed top-5 right-5 z-50 flex flex-col gap-2 pointer-events-none max-w-sm w-full px-4 sm:px-0"></div>
 
@@ -576,28 +637,26 @@ const WHATSAPP_LINK = `https://wa.me/91${WHATSAPP_NUMBER}?text=${encodeURICompon
       function updateNavCartBadge() {
         const cart = getCart();
         const badge = document.getElementById('fd-cart-badge');
-        const stickyBar = document.getElementById('fd-sticky-cart-bar');
-        const barQty = document.getElementById('fd-bar-qty');
-        const barTotal = document.getElementById('fd-bar-total');
+        const mobileBadge = document.getElementById('fd-mobile-nav-cart-badge');
 
-        const totalItemsCount = cart.reduce((acc, it) => acc + (it.quantity || 1), 0);
-        const totalKg = cart.reduce((acc, it) => acc + (it.unit === 'kg' ? it.quantity : 0), 0);
-        const totalEstimatedRupees = cart.reduce((acc, it) => acc + (it.estimatedPriceRupees ? (it.estimatedPriceRupees * it.quantity) : 0), 0);
+        // Number of DIFFERENT products in the basket (not quantity sum of same product)
+        const uniqueProductsCount = Array.isArray(cart) ? cart.length : 0;
 
         if (badge) {
-          badge.textContent = totalItemsCount;
-          if (totalItemsCount > 0) {
+          badge.textContent = uniqueProductsCount;
+          if (uniqueProductsCount > 0) {
             badge.classList.remove('hidden');
+          } else {
+            badge.classList.add('hidden');
           }
         }
 
-        if (stickyBar) {
-          if (totalItemsCount > 0) {
-            stickyBar.classList.remove('translate-y-full');
-            if (barQty) barQty.textContent = `${totalKg} kg`;
-            if (barTotal) barTotal.textContent = `₹${totalEstimatedRupees}`;
+        if (mobileBadge) {
+          mobileBadge.textContent = uniqueProductsCount;
+          if (uniqueProductsCount > 0) {
+            mobileBadge.classList.remove('hidden');
           } else {
-            stickyBar.classList.add('translate-y-full');
+            mobileBadge.classList.add('hidden');
           }
         }
       }

@@ -48,70 +48,49 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
       <div class="bg-white p-6 sm:p-10 rounded-3xl border border-[#dce7db] shadow-xl shadow-emerald-950/[0.04]">
         <form id="sample-form" onsubmit="handleSampleSubmit(event)" class="space-y-8">
           
-          <!-- STEP 1: Select Produce with Modern Visual Cards -->
-          <div>
-            <div class="flex items-center gap-2.5 mb-4">
-              <span class="w-7 h-7 rounded-full bg-[#194622] text-white text-xs font-bold flex items-center justify-center shadow-xs">1</span>
-              <div>
-                <h3 class="font-bold text-sm text-[#132215]">Choose Produce for Tasting *</h3>
-                <p class="text-[11px] text-[#748776]">Select the raw grain or pulse you wish to test in your kitchen</p>
+          <!-- STEP 1: Select Produce Samples with 500g Total Limit Meter -->
+          <div class="space-y-4">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#edf2eb]">
+              <div class="flex items-center gap-2.5">
+                <span class="w-7 h-7 rounded-full bg-[#194622] text-white text-xs font-bold flex items-center justify-center shadow-xs">1</span>
+                <div>
+                  <h3 class="font-bold text-sm text-[#132215]">Choose Produce Samples (Multiple Allowed) *</h3>
+                  <p class="text-[11px] text-[#748776]">Select multiple items to taste test before bulk pre-ordering (Up to 500g total per customer)</p>
+                </div>
+              </div>
+
+              <!-- Live Quota Meter (Max 500g) -->
+              <div class="bg-[#f4f8f3] px-3.5 py-2 rounded-2xl border border-[#d6e4d4] flex items-center gap-3 self-start sm:self-auto shadow-xs">
+                <div>
+                  <div class="text-[10px] font-bold uppercase tracking-wider text-[#5b6e5d]">Sample Weight Limit</div>
+                  <div class="text-xs font-extrabold text-[#194622]">
+                    <span id="selected-grams-count">0</span> / 500g max
+                  </div>
+                </div>
+                <div class="w-20 bg-gray-200 rounded-full h-2.5 overflow-hidden border border-black/5">
+                  <div id="grams-progress-bar" class="bg-[#194622] h-2.5 rounded-full transition-all duration-300 w-0"></div>
+                </div>
               </div>
             </div>
 
+            <!-- Limit Warning Banner -->
+            <div id="quota-warning" class="hidden p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-xs font-bold flex items-center gap-2">
+              <span>⚠️</span>
+              <span>Maximum 500g limit reached. Uncheck an item or select 100g to add others.</span>
+            </div>
+
             <div id="sample-product-options" class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-              <div class="p-8 text-center text-xs text-[#748776] bg-gray-50 rounded-2xl border border-dashed border-gray-200">
+              <div class="p-8 text-center text-xs text-[#748776] bg-gray-50 rounded-2xl border border-dashed border-gray-200 col-span-2">
                 <div class="inline-block animate-spin w-5 h-5 border-2 border-emerald-600 border-t-transparent rounded-full mb-2"></div>
                 <div>Loading live available farm harvests...</div>
               </div>
             </div>
-            <input type="hidden" id="selected-product-id" name="product_id" required />
           </div>
 
-          <!-- STEP 2: Choose Packet Weight with Tactile Pill Selectors -->
-          <div>
-            <div class="flex items-center gap-2.5 mb-4">
-              <span class="w-7 h-7 rounded-full bg-[#194622] text-white text-xs font-bold flex items-center justify-center shadow-xs">2</span>
-              <div>
-                <h3 class="font-bold text-sm text-[#132215]">Select Sample Packet Weight *</h3>
-                <p class="text-[11px] text-[#748776]">Both packet weights are provided at zero cost</p>
-              </div>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <label class="group relative flex items-center gap-4 p-4 rounded-2xl border-2 border-[#d9e4d5] cursor-pointer hover:border-emerald-600 hover:bg-emerald-50/30 transition-all has-[:checked]:border-[#194622] has-[:checked]:bg-[#eaf4ec] has-[:checked]:ring-4 has-[:checked]:ring-emerald-600/10 shadow-xs">
-                <input type="radio" name="sample_grams" value="100" class="sr-only" />
-                <div class="w-10 h-10 rounded-xl bg-white border border-[#dce7db] flex items-center justify-center text-lg flex-shrink-0 group-hover:scale-105 transition-transform">
-                  ⚖️
-                </div>
-                <div>
-                  <div class="flex items-center gap-2">
-                    <strong class="text-sm font-extrabold text-[#132215]">100 grams</strong>
-                    <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-white text-emerald-800 border border-emerald-200">Visual Check</span>
-                  </div>
-                  <span class="text-xs text-[#5b6e5d] block mt-0.5">Grain purity, moisture & aroma check</span>
-                </div>
-              </label>
-
-              <label class="group relative flex items-center gap-4 p-4 rounded-2xl border-2 border-[#d9e4d5] cursor-pointer hover:border-emerald-600 hover:bg-emerald-50/30 transition-all has-[:checked]:border-[#194622] has-[:checked]:bg-[#eaf4ec] has-[:checked]:ring-4 has-[:checked]:ring-emerald-600/10 shadow-xs">
-                <input type="radio" name="sample_grams" value="200" checked class="sr-only" />
-                <div class="w-10 h-10 rounded-xl bg-white border border-[#dce7db] flex items-center justify-center text-lg flex-shrink-0 group-hover:scale-105 transition-transform">
-                  🥣
-                </div>
-                <div>
-                  <div class="flex items-center gap-2">
-                    <strong class="text-sm font-extrabold text-[#132215]">200 grams</strong>
-                    <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-600 text-white">Recommended</span>
-                  </div>
-                  <span class="text-xs text-[#5b6e5d] block mt-0.5">Enough for a single-meal cooking test</span>
-                </div>
-              </label>
-            </div>
-          </div>
-
-          <!-- STEP 3: Delivery Details -->
+          <!-- STEP 2: Delivery Details -->
           <div class="space-y-4 pt-4 border-t border-[#edf2eb]">
             <div class="flex items-center gap-2.5 mb-2">
-              <span class="w-7 h-7 rounded-full bg-[#194622] text-white text-xs font-bold flex items-center justify-center shadow-xs">3</span>
+              <span class="w-7 h-7 rounded-full bg-[#194622] text-white text-xs font-bold flex items-center justify-center shadow-xs">2</span>
               <div>
                 <h3 class="font-bold text-sm text-[#132215]">Doorstep Delivery Details (Gwalior) *</h3>
                 <p class="text-[11px] text-[#748776]">Consolidated delivery to your colony cluster</p>
@@ -264,51 +243,189 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
       }
     }
 
+    let selectedSamples = {}; // Map of productId -> grams
+    let availableProducts = [];
+    const MAX_SAMPLE_GRAMS = 500;
+
+    function getTotalSelectedGrams() {
+      return Object.values(selectedSamples).reduce((acc, g) => acc + g, 0);
+    }
+
+    function updateSelectionUI() {
+      const total = getTotalSelectedGrams();
+      const countEl = document.getElementById('selected-grams-count');
+      const barEl = document.getElementById('grams-progress-bar');
+      const warningEl = document.getElementById('quota-warning');
+
+      if (countEl) countEl.textContent = total;
+      if (barEl) {
+        const pct = Math.min(100, Math.round((total / MAX_SAMPLE_GRAMS) * 100));
+        barEl.style.width = `${pct}%`;
+        if (total >= MAX_SAMPLE_GRAMS) {
+          barEl.className = 'bg-amber-600 h-2.5 rounded-full transition-all duration-300';
+        } else {
+          barEl.className = 'bg-[#194622] h-2.5 rounded-full transition-all duration-300';
+        }
+      }
+
+      if (warningEl) {
+        if (total >= MAX_SAMPLE_GRAMS) {
+          warningEl.classList.remove('hidden');
+        } else {
+          warningEl.classList.add('hidden');
+        }
+      }
+
+      availableProducts.forEach(p => {
+        const card = document.getElementById(`sample-card-${p.id}`);
+        const chk = document.getElementById(`chk-${p.id}`);
+        const ctrl = document.getElementById(`weight-ctrl-${p.id}`);
+        const btn100 = document.getElementById(`btn-100g-${p.id}`);
+        const btn200 = document.getElementById(`btn-200g-${p.id}`);
+
+        const grams = selectedSamples[p.id];
+        const isSelected = !!grams;
+
+        if (chk) chk.checked = isSelected;
+
+        if (card) {
+          if (isSelected) {
+            card.classList.remove('border-[#d9e4d5]', 'bg-white');
+            card.classList.add('border-[#194622]', 'bg-[#f2f8f3]', 'ring-2', 'ring-emerald-600/10');
+          } else {
+            card.classList.remove('border-[#194622]', 'bg-[#f2f8f3]', 'ring-2', 'ring-emerald-600/10');
+            card.classList.add('border-[#d9e4d5]', 'bg-white');
+          }
+        }
+
+        if (ctrl) {
+          if (isSelected) {
+            ctrl.classList.remove('hidden');
+          } else {
+            ctrl.classList.add('hidden');
+          }
+        }
+
+        if (btn100 && btn200 && isSelected) {
+          if (grams === 100) {
+            btn100.className = 'px-3 py-1 text-xs font-black bg-[#194622] text-white transition-colors';
+            btn200.className = 'px-3 py-1 text-xs font-bold text-gray-700 hover:bg-gray-200 transition-colors';
+          } else {
+            btn100.className = 'px-3 py-1 text-xs font-bold text-gray-700 hover:bg-gray-200 transition-colors';
+            btn200.className = 'px-3 py-1 text-xs font-black bg-[#194622] text-white transition-colors';
+          }
+        }
+      });
+    }
+
     function renderProductOptions(products) {
+      availableProducts = products;
       const container = document.getElementById('sample-product-options');
       if (products.length === 0) {
         container.innerHTML = `<div class="col-span-2 p-6 text-center text-xs text-amber-800 bg-amber-50 rounded-xl">Free sample requests are currently paused for this week's harvest. Please check back next round.</div>`;
         return;
       }
 
-      container.innerHTML = products.map((p, idx) => `
+      container.innerHTML = products.map((p) => `
         <div 
-          onclick="selectSampleProduct(${p.id}, this)"
-          class="sample-prod-card group cursor-pointer p-3.5 rounded-2xl border-2 border-[#d9e4d5] hover:border-emerald-600 bg-white hover:bg-emerald-50/20 transition-all flex items-center gap-3.5 shadow-xs ${idx === 0 ? 'active-sample-card border-[#194622] bg-[#f2f8f3] ring-4 ring-emerald-600/10' : ''}"
+          id="sample-card-${p.id}"
+          class="sample-prod-card group p-3.5 rounded-2xl border-2 border-[#d9e4d5] bg-white hover:border-emerald-600 transition-all flex flex-col justify-between shadow-xs"
         >
-          <img src="${p.imageUrl || '/farm/images/wheat-500.jpg'}" alt="${p.name}" class="w-14 h-14 object-cover rounded-xl border border-[#dce7db] flex-shrink-0 group-hover:scale-105 transition-transform" />
-          <div class="flex-grow min-w-0">
-            <div class="flex items-center justify-between">
-              <strong class="font-extrabold text-sm text-[#132215] block truncate">${p.name}</strong>
-              <span class="sample-check text-emerald-700 font-extrabold text-sm ${idx === 0 ? '' : 'hidden'}">✓</span>
+          <div class="flex items-start gap-3 cursor-pointer select-none" onclick="toggleSampleItem(${p.id})">
+            <div class="pt-0.5">
+              <input type="checkbox" id="chk-${p.id}" class="w-5 h-5 rounded-md text-[#194622] border-gray-300 focus:ring-emerald-600 cursor-pointer pointer-events-none" />
             </div>
-            <div class="text-[11px] text-[#5b6e5d] truncate">${p.localName || 'Raw harvest'}</div>
-            <span class="inline-block mt-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">
-              Sample Available
-            </span>
+            <img src="${p.imageUrl || '/farm/images/wheat-500.jpg'}" alt="${p.name}" class="w-14 h-14 object-cover rounded-xl border border-[#dce7db] flex-shrink-0 group-hover:scale-105 transition-transform" />
+            <div class="flex-grow min-w-0">
+              <div class="flex items-center justify-between gap-1">
+                <strong class="font-extrabold text-sm text-[#132215] block truncate">${p.name}</strong>
+                ${p.localName ? `<span class="text-xs font-bold text-[#8c5324] whitespace-nowrap">${p.localName}</span>` : ''}
+              </div>
+              <p class="text-[11px] text-[#5b6e5d] line-clamp-1 mt-0.5">${p.description}</p>
+              <span class="inline-block mt-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">
+                Sample Available
+              </span>
+            </div>
+          </div>
+
+          <!-- Weight Toggle Selector (shown when selected) -->
+          <div id="weight-ctrl-${p.id}" class="hidden mt-3 pt-2.5 border-t border-[#d8e3d6] flex items-center justify-between">
+            <span class="text-[11px] font-bold text-[#4e6050]">Sample Packet Weight:</span>
+            <div class="inline-flex rounded-lg border border-[#c2d3bf] overflow-hidden bg-[#f4f7f2]">
+              <button
+                type="button"
+                id="btn-100g-${p.id}"
+                class="px-3 py-1 text-xs font-bold text-gray-700 hover:bg-gray-200 transition-colors"
+                onclick="setSampleWeight(${p.id}, 100)"
+              >100g</button>
+              <button
+                type="button"
+                id="btn-200g-${p.id}"
+                class="px-3 py-1 text-xs font-bold text-gray-700 hover:bg-gray-200 transition-colors"
+                onclick="setSampleWeight(${p.id}, 200)"
+              >200g</button>
+            </div>
           </div>
         </div>
       `).join('');
 
-      // Pre-select first product
-      if (products.length > 0) {
-        document.getElementById('selected-product-id').value = products[0].id;
+      // Pre-select product from URL params or default to first product
+      const urlParams = new URLSearchParams(window.location.search);
+      const preselectId = Number(urlParams.get('product_id'));
+      const preselectSlug = urlParams.get('product');
+
+      let targetProduct = null;
+      if (preselectId) {
+        targetProduct = products.find(p => p.id === preselectId);
+      } else if (preselectSlug) {
+        targetProduct = products.find(p => p.slug === preselectSlug);
       }
+
+      if (!targetProduct && products.length > 0) {
+        targetProduct = products[0];
+      }
+
+      if (targetProduct) {
+        selectedSamples[targetProduct.id] = 200;
+      }
+
+      updateSelectionUI();
     }
 
-    window.selectSampleProduct = function(productId, cardEl) {
-      document.getElementById('selected-product-id').value = productId;
-      document.querySelectorAll('.sample-prod-card').forEach(c => {
-        c.classList.remove('active-sample-card', 'border-[#194622]', 'bg-[#f2f8f3]', 'ring-4', 'ring-emerald-600/10');
-        c.classList.add('border-[#d9e4d5]', 'bg-white');
-        const chk = c.querySelector('.sample-check');
-        if (chk) chk.classList.add('hidden');
-      });
+    window.toggleSampleItem = function(productId) {
+      if (selectedSamples[productId]) {
+        delete selectedSamples[productId];
+      } else {
+        const currentTotal = getTotalSelectedGrams();
+        if (currentTotal + 200 <= MAX_SAMPLE_GRAMS) {
+          selectedSamples[productId] = 200;
+        } else if (currentTotal + 100 <= MAX_SAMPLE_GRAMS) {
+          selectedSamples[productId] = 100;
+        } else {
+          if (window.fdToast) {
+            window.fdToast('500g Limit Reached', 'Free samples are limited to 500g total per customer. Uncheck an existing sample or change to 100g to add another.', 'error');
+          } else {
+            alert('Limit reached! Free samples are limited to 500g total per customer.');
+          }
+          return;
+        }
+      }
+      updateSelectionUI();
+    };
 
-      cardEl.classList.remove('border-[#d9e4d5]', 'bg-white');
-      cardEl.classList.add('active-sample-card', 'border-[#194622]', 'bg-[#f2f8f3]', 'ring-4', 'ring-emerald-600/10');
-      const activeChk = cardEl.querySelector('.sample-check');
-      if (activeChk) activeChk.classList.remove('hidden');
+    window.setSampleWeight = function(productId, grams) {
+      const current = selectedSamples[productId] || 0;
+      const totalWithout = getTotalSelectedGrams() - current;
+      if (totalWithout + grams > MAX_SAMPLE_GRAMS) {
+        if (window.fdToast) {
+          window.fdToast('500g Limit Reached', `Selecting ${grams}g would exceed the 500g limit (Total: ${totalWithout + grams}g). Uncheck another item first.`, 'error');
+        } else {
+          alert(`Selecting ${grams}g would exceed the 500g limit.`);
+        }
+        return;
+      }
+      selectedSamples[productId] = grams;
+      updateSelectionUI();
     };
 
     function renderAreaOptions(areas) {
@@ -329,35 +446,43 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
       const submitBtn = document.getElementById('btn-sample-submit');
 
       errBox.classList.add('hidden');
+
+      const items = Object.entries(selectedSamples).map(([id, grams]) => ({
+        product_id: Number(id),
+        sample_quantity_grams: grams
+      }));
+
+      if (items.length === 0) {
+        errText.textContent = 'Please choose at least one produce sample for your taste test.';
+        errBox.classList.remove('hidden');
+        return;
+      }
+
+      const totalGrams = getTotalSelectedGrams();
+      if (totalGrams > MAX_SAMPLE_GRAMS) {
+        errText.textContent = `Total sample quantity cannot exceed 500g (Current: ${totalGrams}g).`;
+        errBox.classList.remove('hidden');
+        return;
+      }
+
       submitBtn.disabled = true;
       submitBtn.innerHTML = `
         <div class="inline-block animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full mr-2"></div>
         Processing Free Sample Reservation...
       `;
 
-      const productId = Number(document.getElementById('selected-product-id').value);
-      const sampleGrams = Number(document.querySelector('input[name="sample_grams"]:checked')?.value || 200);
       const name = document.getElementById('sample-name').value.trim();
       const phone = document.getElementById('sample-phone').value.trim();
       const areaId = Number(document.getElementById('sample-area').value);
       const address = document.getElementById('sample-address').value.trim();
       const customerNote = document.getElementById('sample-note').value.trim();
 
-      if (!productId) {
-        errText.textContent = 'Please choose a produce item for your sample.';
-        errBox.classList.remove('hidden');
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Confirm Free Sample Request →';
-        return;
-      }
-
       try {
         const res = await fetch('/farm/api/samples', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            product_id: productId,
-            sample_quantity_grams: sampleGrams,
+            items,
             customer_name: name,
             customer_phone: phone,
             phone: phone,
@@ -381,17 +506,19 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
         successBox.classList.remove('hidden');
 
         const detailsBox = document.getElementById('sample-summary-details');
+        const itemsListHtml = (data.sampleRequests || [data.sampleRequest]).map(s => `• <strong>${s.productName}</strong> (${s.sampleQuantityGrams}g)`).join('<br/>');
+
         detailsBox.innerHTML = `
-          <div><strong>Requested Produce:</strong> ${data.sampleRequest.productName} (${data.sampleRequest.sampleQuantityGrams} grams)</div>
-          <div><strong>Recipient:</strong> ${data.sampleRequest.customerName} (+91 ${data.sampleRequest.phone})</div>
-          <div><strong>Delivery Cluster:</strong> ${data.sampleRequest.deliveryArea} (${data.sampleRequest.deliveryDay})</div>
-          <div><strong>Doorstep Address:</strong> ${data.sampleRequest.deliveryAddress}</div>
+          <div><strong>Requested Samples (${data.totalGrams || totalGrams}g Total):</strong><br/><div class="mt-1 pl-2 border-l-2 border-emerald-400">${itemsListHtml}</div></div>
+          <div class="mt-2"><strong>Recipient:</strong> ${data.sampleRequest.customerName || name} (+91 ${phone})</div>
+          <div><strong>Delivery Cluster:</strong> ${data.sampleRequest.deliveryArea || ''}</div>
+          <div><strong>Doorstep Address:</strong> ${address}</div>
         `;
 
         if (data.sampleRequest.whatsappUrl) {
           document.getElementById('sample-wa-link').href = data.sampleRequest.whatsappUrl;
         } else {
-          const text = encodeURIComponent(`Namaste! Free sample request from website for ${data.sampleRequest.productName} (${data.sampleRequest.sampleQuantityGrams}g) for ${data.sampleRequest.customerName} in ${data.sampleRequest.deliveryArea}.`);
+          const text = encodeURIComponent(`Namaste! Free sample request from website (${totalGrams}g) for ${name} in ${address}.`);
           document.getElementById('sample-wa-link').href = `https://wa.me/918770767272?text=${text}`;
         }
       } catch (err) {

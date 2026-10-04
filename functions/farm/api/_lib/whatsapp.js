@@ -82,22 +82,29 @@ export function formatSampleWaMessage({
   customerPhone,
   productName,
   sampleQuantityGrams,
+  items,
+  totalGrams,
   deliveryAreaName,
   deliveryAddress,
   roundDateOrName,
   status = 'REQUESTED'
 }) {
+  let produceSection = '';
+  if (Array.isArray(items) && items.length > 0) {
+    const total = totalGrams || items.reduce((a, b) => a + Number(b.sampleQuantityGrams || b.sample_quantity_grams || 0), 0);
+    produceSection = `*Samples Requested (${total}g Total):*\n` +
+      items.map(it => `• ${it.productName || it.name}: ${it.sampleQuantityGrams || it.sample_quantity_grams}g`).join('\n');
+  } else {
+    produceSection = `*Product:*\n${productName}\n\n*Sample:*\n${sampleQuantityGrams} g`;
+  }
+
   return `*FREE SAMPLE REQUEST*
 
 *Customer:*
 Name: ${customerName}
 Phone: ${customerPhone}
 
-*Product:*
-${productName}
-
-*Sample:*
-${sampleQuantityGrams} g
+${produceSection}
 
 *Area:*
 ${deliveryAreaName}, Gwalior

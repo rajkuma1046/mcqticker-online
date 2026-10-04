@@ -1,5 +1,5 @@
 // MCQ Ticker Custom Service Worker (sw.js)
-const CACHE_NAME = 'mcq-ticker-cache-v2';
+const CACHE_NAME = 'mcq-ticker-cache-v3';
 
 // Core routes and assets to cache immediately upon installation
 const PRECACHE_ASSETS = [
@@ -56,6 +56,15 @@ self.addEventListener('fetch', (event) => {
   // Skip non-GET requests (e.g. POST, PUT, DELETE)
   if (request.method !== 'GET') return;
 
+  // Farm Direct is a standalone dynamic web application - always bypass Service Worker
+  if (url.pathname.startsWith('/farm')) return;
+
+  const referer = request.referrer || '';
+  if (referer.includes('/farm')) {
+    // Requests initiated by /farm pages (e.g. stylesheets, scripts, media) completely bypass Service Worker
+    return;
+  }
+
   // Strategy 1: Navigation Requests (HTML Pages) -> NetworkFirst
   // Try network first to get latest updates, fallback to cache if offline
   if (request.mode === 'navigate') {
@@ -94,12 +103,22 @@ self.addEventListener('fetch', (event) => {
     event.respondWith(
       caches.match(request).then((cachedResponse) => {
         if (cachedResponse) {
+          // If cached response was mistakenly HTML (e.g. 404 fallback), purge and bypass cache
+          const ctype = cachedResponse.headers.get('content-type') || '';
+          if (isAstroAsset && (ctype.includes('text/html') || !ctype)) {
+            caches.open(CACHE_NAME).then((cache) => cache.delete(request));
+            return fetch(request);
+          }
           return cachedResponse;
         }
 
         return fetch(request).then((response) => {
-          // Verify we received a valid response
-          if (!response || response.status !== 200 || response.type !== 'basic' && response.type !== 'cors') {
+          // Verify we received a valid response and not an HTML fallback for CSS/JS
+          if (!response || response.status !== 200 || (response.type !== 'basic' && response.type !== 'cors')) {
+            return response;
+          }
+          const ctype = response.headers.get('content-type') || '';
+          if (isAstroAsset && (ctype.includes('text/html') || !ctype)) {
             return response;
           }
 
