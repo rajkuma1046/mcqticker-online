@@ -1,0 +1,114 @@
+---
+import FarmLayout from '../../layouts/FarmLayout.astro';
+---
+
+<FarmLayout
+  title="Delivery Areas & Neighbourhood Schedule | Farm Direct Gwalior"
+  description="Scheduled delivery areas in Gwalior including Pawan Nagar and Chetakpuri. Check delivery charges and minimum order values."
+  canonicalPath="/farm/delivery-areas"
+>
+  <div class="fd-container py-8 sm:py-16">
+    <div class="max-w-3xl mx-auto space-y-10">
+      <!-- Title -->
+      <div class="text-center max-w-xl mx-auto">
+        <span class="text-xs uppercase tracking-wider text-[#275629] font-bold bg-[#eaf3e9] px-3 py-1 rounded-full">
+          Gwalior Delivery Clusters
+        </span>
+        <h1 class="fd-serif text-3xl sm:text-4xl font-bold text-[#152317] mt-3">
+          Delivery Areas & Schedule
+        </h1>
+        <p class="text-xs sm:text-sm text-[#536354] mt-2">
+          To maintain efficiency and direct farm prices, we deliver in grouped neighbourhood clusters.
+        </p>
+      </div>
+
+      <!-- Live Areas List -->
+      <div id="areas-loading" class="text-center py-16 text-[#536354]">
+        <div class="inline-block animate-spin w-8 h-8 border-4 border-[#275629] border-t-transparent rounded-full mb-3"></div>
+        <p class="text-sm font-semibold">Loading active delivery areas from database...</p>
+      </div>
+
+      <div id="areas-container" class="hidden space-y-4">
+        <!-- Rendered via JS -->
+      </div>
+
+      <!-- Policy Clarification -->
+      <div class="bg-white p-6 sm:p-8 rounded-2xl border border-[#e0e8dc] shadow-sm space-y-4">
+        <h3 class="font-bold text-base text-[#152317] flex items-center gap-2">
+          <span>ℹ️</span>
+          <span>Why Selected Neighbourhoods Only?</span>
+        </h3>
+        <p class="text-xs sm:text-sm text-[#536354] leading-relaxed">
+          We intentionally do not advertise or promise instant city-wide delivery across Gwalior. Running individual delivery trips from village farms across distant corners of the city would drastically increase costs and fuel consumption.
+        </p>
+        <p class="text-xs sm:text-sm text-[#536354] leading-relaxed">
+          Instead, we consolidate pre-orders into targeted clusters like <strong>Pawan Nagar</strong> and <strong>Chetakpuri</strong>, passing all savings directly to our customers through lower prices and pure unpolished grains.
+        </p>
+      </div>
+
+      <!-- Request Your Locality Box -->
+      <div class="bg-[#f0f4ee] p-6 rounded-2xl border border-[#dce6d8] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+          <h4 class="font-bold text-sm text-[#152317]">Live in another area of Gwalior?</h4>
+          <p class="text-xs text-[#536354] mt-0.5">
+            If your society or colony has 5+ households interested in raw farm produce, contact us on WhatsApp to request a new delivery cluster!
+          </p>
+        </div>
+        <a href="https://wa.me/918770767272?text=Hello%20Farm%20Direct,%20we%20would%20like%20to%20request%20scheduled%20farm%20delivery%20in%20our%20Gwalior%20colony:" target="_blank" rel="noopener noreferrer" class="fd-btn fd-btn-wa fd-btn-sm whitespace-nowrap font-bold">
+          Request Locality on WhatsApp &rarr;
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script is:inline>
+    async function fetchAreas() {
+      const loader = document.getElementById('areas-loading');
+      const container = document.getElementById('areas-container');
+
+      try {
+        const res = await fetch('/farm/api/delivery-areas');
+        const data = await res.json();
+
+        if (data.success && data.deliveryAreas) {
+          loader.classList.add('hidden');
+          container.classList.remove('hidden');
+
+          container.innerHTML = data.deliveryAreas.map((a, idx) => `
+            <div class="bg-white p-6 rounded-2xl border border-[#e0e8dc] shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div>
+                <span class="text-[10px] font-bold uppercase text-[#275629] bg-[#eaf3e9] px-2.5 py-0.5 rounded-full">
+                  Active Cluster ${idx + 1}
+                </span>
+                <h3 class="fd-serif text-xl font-bold text-[#152317] mt-1.5">${a.name}</h3>
+                <div class="text-xs text-[#536354] mt-1 flex flex-wrap gap-x-4 gap-y-1">
+                  <span>City: <strong>${a.city}</strong></span>
+                  <span>•</span>
+                  <span>Delivery Round: <strong>${a.deliveryDay}</strong></span>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-6 text-right w-full sm:w-auto justify-between sm:justify-end pt-3 sm:pt-0 border-t sm:border-t-0 border-[#f0f4ee]">
+                <div>
+                  <div class="text-xs text-[#536354]">Delivery Fee</div>
+                  <strong class="text-sm font-bold text-[#152317]">₹${a.deliveryChargeRupees}</strong>
+                </div>
+                <div>
+                  <div class="text-xs text-[#536354]">Min. Order</div>
+                  <strong class="text-sm font-bold text-[#275629]">₹${a.minimumOrderRupees}</strong>
+                </div>
+                <a href="/farm/products" class="fd-btn fd-btn-primary fd-btn-sm font-bold">
+                  Pre-Order &rarr;
+                </a>
+              </div>
+            </div>
+          `).join('');
+        }
+      } catch (_) {
+        loader.innerHTML = '<p class="text-sm text-red-600">Failed to load delivery areas.</p>';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', fetchAreas);
+  </script>
+</FarmLayout>

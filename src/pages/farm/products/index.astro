@@ -1,0 +1,271 @@
+---
+import FarmLayout from '../../../layouts/FarmLayout.astro';
+---
+
+<FarmLayout
+  title="Raw Farm Produce Catalogue | Farm Direct Gwalior"
+  description="Browse raw wheat, whole groundnut, desi chana, whole moong, raw urad, and seasonal farm produce with scheduled delivery in Gwalior."
+  canonicalPath="/farm/products"
+>
+  <div class="fd-container py-8 sm:py-14">
+    <!-- Header -->
+    <div class="max-w-2xl mb-8">
+      <span class="text-xs uppercase tracking-wider text-[#275629] font-bold">Field-Direct Catalogue</span>
+      <h1 class="fd-serif text-3xl sm:text-4xl font-bold text-[#152317] mt-1">
+        Raw Farm Produce
+      </h1>
+      <p class="text-sm text-[#536354] mt-2 leading-relaxed">
+        Grains and pulses harvested, sun-dried, and packed at our village farm. Delivered during scheduled neighbourhood rounds in Chetakpuri and Pawan Nagar, Gwalior.
+      </p>
+    </div>
+
+    <!-- Filter & Search Controls -->
+    <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 mb-8 bg-white p-4 rounded-xl border border-[#e0e8dc] shadow-sm">
+      <!-- Category Tabs -->
+      <div class="flex flex-wrap items-center gap-2" id="category-tabs">
+        <button type="button" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-[#275629] text-white" onclick="filterCat('all', this)">
+          All Produce
+        </button>
+        <button type="button" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-[#f0f4ee] text-[#2d3a2e] hover:bg-[#e2eae0]" onclick="filterCat('grain', this)">
+          Grains
+        </button>
+        <button type="button" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-[#f0f4ee] text-[#2d3a2e] hover:bg-[#e2eae0]" onclick="filterCat('pulse', this)">
+          Pulses (Dal/Chana)
+        </button>
+        <button type="button" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-[#f0f4ee] text-[#2d3a2e] hover:bg-[#e2eae0]" onclick="filterCat('oilseed', this)">
+          Oilseeds (Groundnut)
+        </button>
+        <button type="button" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-[#f0f4ee] text-[#2d3a2e] hover:bg-[#e2eae0]" onclick="filterCat('seasonal', this)">
+          Seasonal
+        </button>
+      </div>
+
+      <!-- Search Input -->
+      <div class="relative sm:w-64">
+        <input
+          id="product-search"
+          type="text"
+          placeholder="Search produce..."
+          class="w-full text-xs font-medium px-3.5 py-2 rounded-lg border border-[#d0ded0] bg-white focus:outline-none focus:border-[#275629]"
+          oninput="handleSearch()"
+        />
+      </div>
+    </div>
+
+    <!-- Product Grid -->
+    <div id="catalog-loading" class="text-center py-20 text-[#536354]">
+      <div class="inline-block animate-spin w-8 h-8 border-4 border-[#275629] border-t-transparent rounded-full mb-3"></div>
+      <p class="text-sm font-semibold">Connecting to live farm database...</p>
+    </div>
+
+    <div id="catalog-grid" class="hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"></div>
+    <div id="no-results" class="hidden text-center py-16 text-[#536354] bg-white rounded-xl border border-[#e0e8dc]">
+      <p class="text-sm font-semibold">No farm produce matching your filter or search query.</p>
+    </div>
+  </div>
+
+  <script is:inline>
+    let allProducts = [];
+    let activeCategory = 'all';
+
+    async function loadCatalog() {
+      const loader = document.getElementById('catalog-loading');
+      const grid = document.getElementById('catalog-grid');
+
+      try {
+        const res = await fetch('/farm/api/products');
+        const data = await res.json();
+
+        if (data.success && data.products) {
+          allProducts = data.products;
+          loader.classList.add('hidden');
+          grid.classList.remove('hidden');
+          renderFiltered();
+        } else {
+          loader.innerHTML = '<p class="text-sm text-red-600">Unable to load produce catalogue.</p>';
+        }
+      } catch (e) {
+        loader.innerHTML = '<p class="text-sm text-red-600">Connection error. Please try again.</p>';
+      }
+    }
+
+    function renderFiltered() {
+      const grid = document.getElementById('catalog-grid');
+      const noResults = document.getElementById('no-results');
+      const query = (document.getElementById('product-search')?.value || '').toLowerCase().trim();
+
+      const filtered = allProducts.filter(p => {
+        const matchCat = activeCategory === 'all'
+          ? true
+          : (activeCategory === 'seasonal' ? p.isSeasonal : p.category === activeCategory);
+        const matchSearch = !query || p.name.toLowerCase().includes(query) || (p.localName && p.localName.toLowerCase().includes(query)) || p.description.toLowerCase().includes(query);
+        return matchCat && matchSearch;
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = '';
+        noResults.classList.remove('hidden');
+        return;
+      }
+
+      noResults.classList.add('hidden');
+      grid.innerHTML = filtered.map(p => {
+        const isOut = p.isOutOfStock;
+        const priceDisplay = p.pricePerKgRupees !== null ? `₹${p.pricePerKgRupees}/kg` : 'Configured from DB';
+        const defaultPreset = p.quantityOptions[0] || 1;
+
+        return `
+          <div class="fd-card flex flex-col justify-between transition-all hover:shadow-md ${isOut ? 'opacity-75' : ''}">
+            <div>
+              <div class="relative w-full h-56 bg-neutral-100 overflow-hidden">
+                <img
+                  src="${p.imageUrl || '/farm/images/wheat-500.jpg'}"
+                  alt="${p.imageAlt || p.name}"
+                  class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                  loading="lazy"
+                />
+                <div class="absolute top-3 left-3 flex flex-col gap-1.5 items-start">
+                  <span class="fd-badge ${p.isSeasonal ? 'fd-badge-seasonal' : 'fd-badge-raw'} shadow-sm">
+                    ${p.label}
+                  </span>
+                  ${p.localName ? `
+                    <span class="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-black/60 text-white backdrop-blur-sm">
+                      ${p.localName}
+                    </span>
+                  ` : ''}
+                </div>
+                ${isOut ? `
+                  <div class="absolute inset-0 bg-black/40 backdrop-blur-[1px] flex items-center justify-center">
+                    <span class="fd-badge fd-badge-out px-4 py-1.5 text-xs font-bold shadow-md">
+                      Out of Stock
+                    </span>
+                  </div>
+                ` : ''}
+              </div>
+
+              <div class="p-5">
+                <div class="flex items-baseline justify-between gap-2">
+                  <h3 class="fd-serif text-xl font-bold text-[#152317]">
+                    <a href="/farm/products/${p.slug}" class="hover:underline">${p.name}</a>
+                  </h3>
+                  <div class="text-right">
+                    <div class="text-lg font-bold text-[#275629]">${priceDisplay}</div>
+                  </div>
+                </div>
+
+                <p class="text-xs text-[#536354] mt-2 line-clamp-2 leading-relaxed">
+                  ${p.description}
+                </p>
+
+                <div class="mt-4 pt-3 border-t border-[#f0f4ee] flex items-center justify-between text-xs text-[#536354]">
+                  <span>Availability:</span>
+                  <strong class="${p.quantityAvailable < 15 ? 'text-amber-700' : 'text-[#275629]'}">
+                    ${isOut ? 'Sold Out' : `${p.quantityAvailable} kg available`}
+                  </strong>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-5 pt-0 mt-auto space-y-3">
+              ${!isOut ? `
+                <div class="flex items-center justify-between gap-2">
+                  <span class="text-xs font-medium text-[#536354]">Qty:</span>
+                  <div class="flex items-center border border-[#d0ded0] rounded-lg overflow-hidden bg-white">
+                    <button type="button" class="px-2.5 py-1 text-sm font-bold text-[#275629] hover:bg-[#f0f4ee]" onclick="adjustCatQty('${p.id}', -1)">−</button>
+                    <input id="cat-qty-${p.id}" type="number" min="1" max="${p.quantityAvailable}" value="${defaultPreset}" class="w-12 text-center text-xs font-bold py-1 border-x border-[#d0ded0] focus:outline-none" readonly />
+                    <button type="button" class="px-2.5 py-1 text-sm font-bold text-[#275629] hover:bg-[#f0f4ee]" onclick="adjustCatQty('${p.id}', 1, ${p.quantityAvailable})">+</button>
+                  </div>
+                  <span class="text-xs text-[#536354] font-semibold">kg</span>
+                </div>
+
+                <div class="grid grid-cols-2 gap-2">
+                  <button type="button" class="fd-btn fd-btn-secondary fd-btn-sm w-full font-bold" onclick="addCatToCart(${p.id}, '${p.name.replace(/'/g, "\\'")}', ${p.pricePerKgRupees})">
+                    Add to Cart
+                  </button>
+                  <button type="button" class="fd-btn fd-btn-primary fd-btn-sm w-full font-bold" onclick="buyNowCat(${p.id}, '${p.name.replace(/'/g, "\\'")}', ${p.pricePerKgRupees})">
+                    Buy Now
+                  </button>
+                </div>
+              ` : `
+                <button type="button" class="fd-btn fd-btn-secondary fd-btn-sm w-full font-bold opacity-60 cursor-not-allowed" disabled>
+                  Currently Out of Stock
+                </button>
+              `}
+
+              ${p.sampleAvailable ? `
+                <a href="/farm/samples?product_id=${p.id}" class="block text-center text-[11px] font-bold text-[#b07a33] hover:underline pt-1">
+                  🎁 Request Free Sample (100g / 200g) &rarr;
+                </a>
+              ` : ''}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    window.filterCat = function(category, btn) {
+      activeCategory = category;
+      document.querySelectorAll('.cat-btn').forEach(b => {
+        b.className = 'cat-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-[#f0f4ee] text-[#2d3a2e] hover:bg-[#e2eae0]';
+      });
+      btn.className = 'cat-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-[#275629] text-white';
+      renderFiltered();
+    };
+
+    window.handleSearch = function() {
+      renderFiltered();
+    };
+
+    window.adjustCatQty = function(id, delta, max = 100) {
+      const input = document.getElementById('cat-qty-' + id);
+      if (!input) return;
+      let val = parseInt(input.value || '1', 10) + delta;
+      if (val < 1) val = 1;
+      if (val > max) val = max;
+      input.value = val;
+    };
+
+    window.addCatToCart = function(productId, productName, priceRupees) {
+      const input = document.getElementById('cat-qty-' + productId);
+      const qty = input ? parseInt(input.value || '1', 10) : 1;
+
+      let cart = [];
+      try {
+        cart = JSON.parse(localStorage.getItem('fd_cart_v1') || '[]');
+      } catch (_) {}
+
+      const idx = cart.findIndex(it => it.productId === productId);
+      if (idx >= 0) {
+        cart[idx].quantity += qty;
+      } else {
+        cart.push({
+          productId,
+          productName,
+          priceRupees,
+          quantity: qty,
+        });
+      }
+
+      localStorage.setItem('fd_cart_v1', JSON.stringify(cart));
+      if (window.fdUpdateCart) window.fdUpdateCart();
+      alert(`Added ${qty} kg of ${productName} to your cart.`);
+    };
+
+    window.buyNowCat = function(productId, productName, priceRupees) {
+      const input = document.getElementById('cat-qty-' + productId);
+      const qty = input ? parseInt(input.value || '1', 10) : 1;
+
+      let cart = [{
+        productId,
+        productName,
+        priceRupees,
+        quantity: qty,
+      }];
+      localStorage.setItem('fd_cart_v1', JSON.stringify(cart));
+      if (window.fdUpdateCart) window.fdUpdateCart();
+      window.location.href = '/farm/checkout';
+    };
+
+    document.addEventListener('DOMContentLoaded', loadCatalog);
+  </script>
+</FarmLayout>

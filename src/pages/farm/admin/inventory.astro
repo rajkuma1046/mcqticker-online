@@ -1,0 +1,341 @@
+---
+import FarmLayout from '../../../layouts/FarmLayout.astro';
+---
+
+<FarmLayout
+  title="Inventory Management | Admin | Farm Direct Gwalior"
+  description="Live inventory control, harvest batch entry, and stock audit trails."
+  canonicalPath="/farm/admin/inventory"
+  hideCartBar={true}
+>
+  <div class="fd-container py-8 sm:py-14">
+    <!-- Admin Header -->
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 border-b border-[#e0e8dc] mb-8">
+      <div>
+        <div class="flex items-center gap-2">
+          <a href="/farm/admin" class="text-xs text-[#275629] font-bold hover:underline">&larr; Back to Dashboard</a>
+          <span class="text-xs text-[#798a7a]">•</span>
+          <span class="text-xs uppercase tracking-wider text-[#c48a3f] font-bold bg-[#fdf6ec] px-3 py-0.5 rounded-full">
+            Stock Control
+          </span>
+        </div>
+        <h1 class="fd-serif text-3xl sm:text-4xl font-bold text-[#152317] mt-1.5">
+          Farm Inventory & Audit Log
+        </h1>
+        <p class="text-xs sm:text-sm text-[#536354] mt-1">
+          Monitor available, reserved, and sold grain weights with atomic Cloudflare D1 consistency.
+        </p>
+      </div>
+
+      <!-- Quick Nav & Adjust Action -->
+      <div class="flex flex-wrap items-center gap-2">
+        <a href="/farm/admin/products" class="px-3 py-2 rounded-lg bg-white border border-[#d0ded0] text-xs font-bold text-[#152317] hover:bg-[#f0f4ee]">
+          Products
+        </a>
+        <a href="/farm/admin/orders" class="px-3 py-2 rounded-lg bg-white border border-[#d0ded0] text-xs font-bold text-[#152317] hover:bg-[#f0f4ee]">
+          Orders
+        </a>
+        <button type="button" id="btn-open-adjust-modal" class="fd-btn fd-btn-primary fd-btn-sm font-bold text-xs flex items-center gap-1.5 shadow-sm">
+          <span>+</span> Adjust Stock / Add Harvest
+        </button>
+      </div>
+    </div>
+
+    <!-- Loading State -->
+    <div id="admin-loading" class="text-center py-20 text-[#536354]">
+      <div class="inline-block animate-spin w-8 h-8 border-4 border-[#275629] border-t-transparent rounded-full mb-3"></div>
+      <p class="text-sm font-semibold">Loading live stock levels and transaction logs...</p>
+    </div>
+
+    <!-- Main Content -->
+    <div id="admin-content" class="hidden space-y-8">
+      <!-- Live Inventory Cards / Table -->
+      <div class="bg-white rounded-2xl border border-[#e0e8dc] shadow-sm overflow-hidden">
+        <div class="p-5 border-b border-[#f0f4ee] flex items-center justify-between">
+          <h2 class="fd-serif text-lg font-bold text-[#152317]">Live Warehouse & Farm Stock</h2>
+          <span class="text-xs text-[#536354]">All quantities in Kilograms (kg) and Sample Packets (g)</span>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-[#f8faf6] border-b border-[#e0e8dc] text-[#536354] uppercase font-bold text-[10px] tracking-wider">
+              <tr>
+                <th class="py-3 px-4">Produce</th>
+                <th class="py-3 px-4">Available (Ready to Sell)</th>
+                <th class="py-3 px-4">Reserved (In Orders)</th>
+                <th class="py-3 px-4">Total Sold</th>
+                <th class="py-3 px-4">Free Sample Stock</th>
+                <th class="py-3 px-4">Last Updated</th>
+                <th class="py-3 px-4 text-right">Quick Action</th>
+              </tr>
+            </thead>
+            <tbody id="inventory-tbody" class="divide-y divide-[#f0f4ee]"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Audit Trail Table -->
+      <div class="bg-white rounded-2xl border border-[#e0e8dc] shadow-sm overflow-hidden">
+        <div class="p-5 border-b border-[#f0f4ee] flex items-center justify-between">
+          <div>
+            <h2 class="fd-serif text-lg font-bold text-[#152317]">Inventory Audit Trail</h2>
+            <p class="text-xs text-[#536354] mt-0.5">Immutable record of every addition, order reservation, cancellation restoration, and sample delivery.</p>
+          </div>
+          <button type="button" onclick="loadInventoryData()" class="text-xs text-[#275629] font-bold hover:underline">
+            Refresh Log
+          </button>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-[#f8faf6] border-b border-[#e0e8dc] text-[#536354] uppercase font-bold text-[10px] tracking-wider">
+              <tr>
+                <th class="py-3 px-4">Timestamp</th>
+                <th class="py-3 px-4">Produce</th>
+                <th class="py-3 px-4">Change Type</th>
+                <th class="py-3 px-4">Produce Delta</th>
+                <th class="py-3 px-4">Sample Delta</th>
+                <th class="py-3 px-4">Reference</th>
+                <th class="py-3 px-4">Note</th>
+              </tr>
+            </thead>
+            <tbody id="logs-tbody" class="divide-y divide-[#f0f4ee]"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stock Adjustment Modal -->
+  <div id="adjust-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-[#e0e8dc]">
+      <div class="flex items-center justify-between pb-4 border-b border-[#f0f4ee] mb-5">
+        <div>
+          <h3 class="fd-serif text-xl font-bold text-[#152317]">Adjust Farm Stock</h3>
+          <p class="text-xs text-[#536354] mt-0.5">Add newly threshed stock or log adjustments.</p>
+        </div>
+        <button type="button" id="btn-close-modal" class="text-[#798a7a] hover:text-[#152317] text-2xl font-bold leading-none">&times;</button>
+      </div>
+
+      <form id="adjust-form" class="space-y-4 text-xs">
+        <div>
+          <label class="block font-bold text-[#152317] mb-1">Select Produce *</label>
+          <select id="form-product-id" class="fd-input text-xs" required></select>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-[#152317] mb-1">Produce Delta (kg)</label>
+            <input type="number" id="form-delta-kg" step="1" class="fd-input text-xs" placeholder="e.g. +50 or -5" value="0" />
+            <span class="text-[10px] text-[#798a7a]">Use positive to add, negative to reduce.</span>
+          </div>
+
+          <div>
+            <label class="block font-bold text-[#152317] mb-1">Sample Delta (grams)</label>
+            <input type="number" id="form-delta-sample" step="100" class="fd-input text-xs" placeholder="e.g. +1000 or -200" value="0" />
+            <span class="text-[10px] text-[#798a7a]">For free sample packets (100g/200g).</span>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-[#152317] mb-1">Reason / Harvest Reference *</label>
+          <input type="text" id="form-note" class="fd-input text-xs" placeholder="e.g. Fresh threshing batch from Gwalior farm, Damaged bag, etc." required />
+        </div>
+
+        <div id="adjust-error" class="hidden p-3 bg-red-50 text-red-700 rounded-lg text-xs font-semibold"></div>
+
+        <div class="flex items-center justify-end gap-3 pt-4 border-t border-[#f0f4ee]">
+          <button type="button" id="btn-cancel-modal" class="fd-btn fd-btn-outline fd-btn-sm font-bold">
+            Cancel
+          </button>
+          <button type="submit" id="btn-save-adjust" class="fd-btn fd-btn-primary fd-btn-sm font-bold">
+            Apply Stock Adjustment
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script is:inline>
+    let inventoryItems = [];
+
+    async function initInventory() {
+      const loader = document.getElementById('admin-loading');
+      const content = document.getElementById('admin-content');
+
+      try {
+        const meRes = await fetch('/farm/api/auth/me');
+        const meData = await meRes.json();
+        if (!meData.success || !meData.user || meData.user.role !== 'ADMIN') {
+          window.location.href = '/farm/account/login?redirect=/farm/admin/inventory';
+          return;
+        }
+
+        await loadInventoryData();
+        loader.classList.add('hidden');
+        content.classList.remove('hidden');
+      } catch (err) {
+        loader.innerHTML = '<p class="text-sm text-red-600">Failed to load inventory telemetry.</p>';
+      }
+    }
+
+    async function loadInventoryData() {
+      const res = await fetch('/farm/api/admin/inventory');
+      const data = await res.json();
+      if (data.success) {
+        inventoryItems = data.inventory || [];
+        renderInventoryTable(inventoryItems);
+        renderLogsTable(data.recentLogs || []);
+        populateProductDropdown(inventoryItems);
+      }
+    }
+
+    function renderInventoryTable(items) {
+      const tbody = document.getElementById('inventory-tbody');
+      tbody.innerHTML = items.map(it => `
+        <tr class="hover:bg-[#f8faf6]">
+          <td class="py-3 px-4">
+            <strong class="font-bold text-sm text-[#152317] block">${it.productName}</strong>
+            <span class="text-[11px] text-[#536354]">₹${it.priceRupees || 'Seasonal'}/kg</span>
+          </td>
+          <td class="py-3 px-4">
+            <span class="font-bold text-sm ${it.quantityAvailable < 20 ? 'text-red-600 bg-red-50 px-2 py-0.5 rounded' : 'text-[#275629]'}">
+              ${it.quantityAvailable} kg
+            </span>
+          </td>
+          <td class="py-3 px-4 text-[#536354] font-medium">
+            ${it.quantityReserved} kg
+          </td>
+          <td class="py-3 px-4 text-[#152317] font-semibold">
+            ${it.quantitySold} kg
+          </td>
+          <td class="py-3 px-4">
+            <span class="font-bold ${it.sampleStockGrams < 400 ? 'text-amber-600' : 'text-[#152317]'}">
+              ${it.sampleStockGrams} g
+            </span>
+          </td>
+          <td class="py-3 px-4 text-[#798a7a]">
+            ${it.updatedAt ? new Date(it.updatedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) : 'Initial'}
+          </td>
+          <td class="py-3 px-4 text-right">
+            <button type="button" class="px-2.5 py-1 rounded bg-[#eaf3e9] text-[#275629] font-bold hover:bg-[#d8ebd6]" onclick="quickAdjust(${it.productId})">
+              Adjust
+            </button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function renderLogsTable(logs) {
+      const tbody = document.getElementById('logs-tbody');
+      if (logs.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" class="py-6 text-center text-[#798a7a]">No inventory movements recorded yet.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = logs.map(l => {
+        const deltaKgBadge = l.deltaKg > 0 
+          ? `<span class="text-emerald-700 font-bold">+${l.deltaKg} kg</span>`
+          : (l.deltaKg < 0 ? `<span class="text-rose-700 font-bold">${l.deltaKg} kg</span>` : '<span class="text-gray-400">0</span>');
+
+        const deltaSampleBadge = l.deltaSampleGrams > 0
+          ? `<span class="text-amber-700 font-bold">+${l.deltaSampleGrams} g</span>`
+          : (l.deltaSampleGrams < 0 ? `<span class="text-rose-700 font-bold">${l.deltaSampleGrams} g</span>` : '<span class="text-gray-400">0</span>');
+
+        return `
+          <tr class="hover:bg-[#f8faf6]">
+            <td class="py-2.5 px-4 text-[#798a7a] whitespace-nowrap">
+              ${new Date(l.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
+            </td>
+            <td class="py-2.5 px-4 font-bold text-[#152317]">
+              ${l.productName}
+            </td>
+            <td class="py-2.5 px-4">
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-[#f0f4ee] text-[#152317]">
+                ${l.changeType}
+              </span>
+            </td>
+            <td class="py-2.5 px-4">${deltaKgBadge}</td>
+            <td class="py-2.5 px-4">${deltaSampleBadge}</td>
+            <td class="py-2.5 px-4 text-[#536354] font-medium">${l.reference || '—'}</td>
+            <td class="py-2.5 px-4 text-[#798a7a] max-w-xs truncate">${l.note || '—'}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function populateProductDropdown(items) {
+      const select = document.getElementById('form-product-id');
+      select.innerHTML = items.map(it => `
+        <option value="${it.productId}">${it.productName} (Current: ${it.quantityAvailable} kg / ${it.sampleStockGrams} g)</option>
+      `).join('');
+    }
+
+    // Modal controls
+    const modal = document.getElementById('adjust-modal');
+    const form = document.getElementById('adjust-form');
+    const errBox = document.getElementById('adjust-error');
+
+    document.getElementById('btn-open-adjust-modal').addEventListener('click', () => {
+      form.reset();
+      errBox.classList.add('hidden');
+      modal.classList.remove('hidden');
+    });
+
+    document.getElementById('btn-close-modal').addEventListener('click', () => modal.classList.add('hidden'));
+    document.getElementById('btn-cancel-modal').addEventListener('click', () => modal.classList.add('hidden'));
+
+    window.quickAdjust = function(productId) {
+      document.getElementById('form-product-id').value = productId;
+      document.getElementById('form-delta-kg').value = '0';
+      document.getElementById('form-delta-sample').value = '0';
+      document.getElementById('form-note').value = '';
+      errBox.classList.add('hidden');
+      modal.classList.remove('hidden');
+    };
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errBox.classList.add('hidden');
+
+      const productId = Number(document.getElementById('form-product-id').value);
+      const deltaKg = Number(document.getElementById('form-delta-kg').value) || 0;
+      const deltaSample = Number(document.getElementById('form-delta-sample').value) || 0;
+      const note = document.getElementById('form-note').value.trim();
+
+      if (deltaKg === 0 && deltaSample === 0) {
+        errBox.textContent = 'Please enter a non-zero delta for produce kg or sample grams.';
+        errBox.classList.remove('hidden');
+        return;
+      }
+
+      try {
+        const res = await fetch('/farm/api/admin/inventory', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            product_id: productId,
+            delta_kg: deltaKg,
+            delta_sample_grams: deltaSample,
+            note: note,
+          })
+        });
+
+        const data = await res.json();
+        if (!data.success) {
+          errBox.textContent = data.message || 'Failed to adjust stock.';
+          errBox.classList.remove('hidden');
+          return;
+        }
+
+        modal.classList.add('hidden');
+        await loadInventoryData();
+      } catch (err) {
+        errBox.textContent = 'Network error. Please try again.';
+        errBox.classList.remove('hidden');
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', initInventory);
+  </script>
+</FarmLayout>

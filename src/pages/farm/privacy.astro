@@ -1,0 +1,84 @@
+---
+import FarmLayout from '../../layouts/FarmLayout.astro';
+---
+
+<FarmLayout
+  title="Privacy Policy | Farm Direct Gwalior"
+  description="How Farm Direct collects, uses, and protects customer delivery coordinates and phone details for agricultural pre-orders in Gwalior."
+  canonicalPath="/farm/privacy"
+>
+  <div class="fd-container py-12 sm:py-16 max-w-4xl">
+    <div class="mb-8">
+      <span class="text-xs uppercase tracking-wider text-[#c48a3f] font-bold bg-[#fdf6ec] px-3 py-1 rounded-full">
+        Transparency & Trust
+      </span>
+      <h1 class="fd-serif text-3xl sm:text-4xl font-bold text-[#152317] mt-3">
+        Privacy Policy
+      </h1>
+      <p class="text-xs sm:text-sm text-[#536354] mt-2">
+        Last updated: October 2026 • Farm Direct Gwalior, Madhya Pradesh
+      </p>
+    </div>
+
+    <div class="bg-white p-6 sm:p-10 rounded-2xl border border-[#e0e8dc] shadow-sm space-y-8 text-sm text-[#3b473c] leading-relaxed">
+      <section class="space-y-3">
+        <h2 class="fd-serif text-xl font-bold text-[#152317]">1. Our Core Privacy Commitment</h2>
+        <p>
+          Farm Direct operates as a direct-from-farm agricultural initiative connecting our village farmland near Gwalior with families in designated neighbourhood clusters like Pawan Nagar and Chetakpuri.
+        </p>
+        <p>
+          We do not sell, rent, monetize, or broker your personal information. We collect only what is strictly necessary to weigh, bag, transport, and deliver raw farm produce to your doorstep.
+        </p>
+      </section>
+
+      <section class="space-y-3">
+        <h2 class="fd-serif text-xl font-bold text-[#152317]">2. Information We Collect</h2>
+        <ul class="list-disc pl-5 space-y-2">
+          <li>
+            <strong>Contact Details:</strong> Your full name, 10-digit Indian mobile number, and optional email address.
+          </li>
+          <li>
+            <strong>Delivery Coordinates:</strong> Your house/flat number, apartment/colony landmark, and selected Gwalior neighbourhood cluster (e.g. Pawan Nagar, Chetakpuri).
+          </li>
+          <li>
+            <strong>Order Details:</strong> Pre-ordered quantities of raw grains (wheat), pulses (chana, moong, urad), oilseeds (groundnut), or free sample requests.
+          </li>
+          <li>
+            <strong>Account Credentials:</strong> If you register an account, your password is encrypted using high-iteration PBKDF2 password hashing before storage. We never store plaintext passwords.
+          </li>
+        </ul>
+      </section>
+
+      <section class="space-y-3">
+        <h2 class="fd-serif text-xl font-bold text-[#152317]">3. How We Use Your Information</h2>
+        <ul class="list-disc pl-5 space-y-2">
+          <li><strong>Harvest Allocation:</strong> Planning weekly crop threshing and packaging based on cluster order tallies.</li>
+          <li><strong>Vehicle Routing:</strong> Consolidating delivery vehicle trips from the village farm to Gwalior neighbourhoods to minimize transport overhead.</li>
+          <li><strong>WhatsApp Notifications:</strong> Sending automated order confirmation slips, delivery day reminders, and direct driver arrival alerts to your WhatsApp number.</li>
+          <li><strong>Sample Abuse Prevention:</strong> Verifying fair distribution of free sample packets (limiting requests to 1 packet per variety and 2 per round per household).</li>
+        </ul>
+      </section>
+
+      <section class="space-y-3">
+        <h2 class="fd-serif text-xl font-bold text-[#152317]">4. Communications via WhatsApp</h2>
+        <p>
+          When you place a pre-order or request a tasting sample, we generate a formatted order summary sent to our farm operations WhatsApp (+91 8770767272) and provide a one-tap link for you to connect directly with the farmer. We do not use third-party marketing SMS blasts or automated promotional robo-calls.
+        </p>
+      </section>
+
+      <section class="space-y-3">
+        <h2 class="fd-serif text-xl font-bold text-[#152317]">5. Data Storage & Security</h2>
+        <p>
+          All application data resides in distributed Cloudflare D1 SQL databases with strict access controls. Client authentication uses secure, encrypted, HttpOnly session cookies scoped strictly to <code class="text-xs bg-[#f0f4ee] px-1.5 py-0.5 rounded text-[#275629]">/farm</code>.
+        </p>
+      </section>
+
+      <section class="space-y-3">
+        <h2 class="fd-serif text-xl font-bold text-[#152317]">6. Your Rights</h2>
+        <p>
+          You have the right to inspect your saved addresses, request account deactivation, or clear your order history by messaging our team on WhatsApp at <strong>+91 8770767272</strong> or emailing <a href="mailto:admin@farmdirect.gwalior" class="text-[#275629] font-bold hover:underline">admin@farmdirect.gwalior</a>.
+        </p>
+      </section>
+    </div>
+  </div>
+</FarmLayout>

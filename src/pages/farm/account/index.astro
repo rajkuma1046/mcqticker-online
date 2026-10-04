@@ -1,0 +1,363 @@
+---
+import FarmLayout from '../../../layouts/FarmLayout.astro';
+---
+
+<FarmLayout
+  title="My Account | Farm Direct Gwalior"
+  description="Manage your Farm Direct orders, sample requests, and saved addresses in Gwalior."
+  canonicalPath="/farm/account"
+>
+  <div class="fd-container py-8 sm:py-16">
+    <div class="max-w-4xl mx-auto space-y-8">
+      <!-- Loading indicator -->
+      <div id="account-loading" class="text-center py-20 text-[#536354]">
+        <div class="inline-block animate-spin w-8 h-8 border-4 border-[#275629] border-t-transparent rounded-full mb-3"></div>
+        <p class="text-sm font-semibold">Loading your account details...</p>
+      </div>
+
+      <!-- Account Dashboard Container -->
+      <div id="account-content" class="hidden space-y-8">
+        <!-- Top Profile Bar -->
+        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-[#e0e8dc] shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div class="flex items-center gap-4">
+            <div class="w-14 h-14 rounded-full bg-[#eaf3e9] text-[#275629] font-bold text-2xl flex items-center justify-center">
+              🌾
+            </div>
+            <div>
+              <h1 id="user-name" class="fd-serif text-2xl font-bold text-[#152317]"></h1>
+              <div class="text-xs text-[#536354] mt-0.5 flex flex-wrap gap-x-3 gap-y-1">
+                <span>Phone: <strong id="user-phone"></strong></span>
+                <span>•</span>
+                <span>Email: <strong id="user-email"></strong></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <a id="admin-link" href="/farm/admin" class="hidden fd-btn fd-btn-accent fd-btn-sm font-bold">
+              Admin Portal &rarr;
+            </a>
+            <button type="button" class="fd-btn fd-btn-secondary fd-btn-sm text-red-600 font-bold" onclick="handleLogout()">
+              Log Out
+            </button>
+          </div>
+        </div>
+
+        <!-- Dashboard Tabs Navigation -->
+        <div class="flex items-center gap-2 border-b border-[#e0e8dc] pb-2 text-xs sm:text-sm font-bold">
+          <button id="tab-orders-btn" type="button" class="px-4 py-2 rounded-lg bg-[#275629] text-white" onclick="switchTab('orders')">
+            My Orders
+          </button>
+          <button id="tab-samples-btn" type="button" class="px-4 py-2 rounded-lg bg-[#f0f4ee] text-[#2d3a2e] hover:bg-[#e2eae0]" onclick="switchTab('samples')">
+            My Free Samples
+          </button>
+          <button id="tab-addresses-btn" type="button" class="px-4 py-2 rounded-lg bg-[#f0f4ee] text-[#2d3a2e] hover:bg-[#e2eae0]" onclick="switchTab('addresses')">
+            Saved Addresses
+          </button>
+        </div>
+
+        <!-- TAB 1: MY ORDERS -->
+        <div id="tab-orders" class="space-y-4">
+          <div id="orders-list" class="space-y-4"></div>
+          <div id="orders-empty" class="hidden text-center py-12 bg-white rounded-2xl border border-[#e0e8dc] p-6 text-xs text-[#536354]">
+            <p class="font-bold text-sm text-[#152317] mb-1">No pre-orders placed yet</p>
+            <p class="mb-4">Browse this week's harvest to place your first neighbourhood pre-order.</p>
+            <a href="/farm/products" class="fd-btn fd-btn-primary fd-btn-sm font-bold">
+              Explore Farm Produce &rarr;
+            </a>
+          </div>
+        </div>
+
+        <!-- TAB 2: MY SAMPLE REQUESTS -->
+        <div id="tab-samples" class="hidden space-y-4">
+          <div id="samples-list" class="space-y-3"></div>
+          <div id="samples-empty" class="hidden text-center py-12 bg-white rounded-2xl border border-[#e0e8dc] p-6 text-xs text-[#536354]">
+            <p class="font-bold text-sm text-[#152317] mb-1">No free samples requested</p>
+            <p class="mb-4">You can request 100g or 200g of raw produce free of cost before ordering.</p>
+            <a href="/farm/samples" class="fd-btn bg-[#c48a3f] text-white fd-btn-sm font-bold">
+              Request Free Sample &rarr;
+            </a>
+          </div>
+        </div>
+
+        <!-- TAB 3: SAVED ADDRESSES -->
+        <div id="tab-addresses" class="hidden space-y-6">
+          <div class="flex justify-between items-center">
+            <h3 class="font-bold text-base text-[#152317]">Saved Delivery Addresses (Gwalior)</h3>
+            <button type="button" class="fd-btn fd-btn-primary fd-btn-sm font-bold" onclick="toggleAddAddressModal(true)">
+              + Add New Address
+            </button>
+          </div>
+
+          <div id="addresses-list" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
+          <div id="addresses-empty" class="hidden text-center py-8 bg-white rounded-2xl border border-[#e0e8dc] p-6 text-xs text-[#536354]">
+            No saved addresses. Add an address for faster checkout.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADD ADDRESS MODAL -->
+  <div id="address-modal" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 sm:p-8 space-y-5 shadow-2xl">
+      <div class="flex justify-between items-center pb-3 border-b border-[#f0f4ee]">
+        <h3 class="font-bold text-lg text-[#152317]">Add Delivery Address</h3>
+        <button type="button" class="text-gray-500 hover:text-black font-bold" onclick="toggleAddAddressModal(false)">✕</button>
+      </div>
+
+      <form onsubmit="handleSaveAddress(event)" class="space-y-4 text-xs">
+        <div>
+          <label class="font-bold uppercase text-[#536354] block mb-1">Recipient Name *</label>
+          <input id="addr-name" type="text" required class="w-full p-2.5 rounded-lg border border-[#d0ded0]" />
+        </div>
+        <div>
+          <label class="font-bold uppercase text-[#536354] block mb-1">Mobile Number *</label>
+          <input id="addr-phone" type="tel" required maxlength="10" class="w-full p-2.5 rounded-lg border border-[#d0ded0]" />
+        </div>
+        <div>
+          <label class="font-bold uppercase text-[#536354] block mb-1">Neighbourhood Cluster in Gwalior *</label>
+          <select id="addr-area" required class="w-full p-2.5 rounded-lg border border-[#d0ded0] font-bold">
+            <option value="">Select area...</option>
+          </select>
+        </div>
+        <div>
+          <label class="font-bold uppercase text-[#536354] block mb-1">House / Flat No. & Building *</label>
+          <input id="addr-house" type="text" required class="w-full p-2.5 rounded-lg border border-[#d0ded0]" />
+        </div>
+        <div>
+          <label class="font-bold uppercase text-[#536354] block mb-1">Street / Colony *</label>
+          <input id="addr-street" type="text" required class="w-full p-2.5 rounded-lg border border-[#d0ded0]" />
+        </div>
+        <div>
+          <label class="font-bold uppercase text-[#536354] block mb-1">Landmark (Optional)</label>
+          <input id="addr-landmark" type="text" class="w-full p-2.5 rounded-lg border border-[#d0ded0]" />
+        </div>
+
+        <div class="flex items-center gap-2 pt-2">
+          <input id="addr-default" type="checkbox" class="rounded text-[#275629]" />
+          <label for="addr-default" class="font-semibold text-[#152317]">Set as default address</label>
+        </div>
+
+        <div id="addr-error" class="hidden p-2 rounded bg-red-50 text-red-700 font-semibold"></div>
+
+        <button type="submit" class="fd-btn fd-btn-primary w-full py-3 font-bold text-sm">
+          Save Address
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script is:inline>
+    let userData = null;
+
+    async function initAccount() {
+      const loader = document.getElementById('account-loading');
+      const content = document.getElementById('account-content');
+
+      try {
+        const res = await fetch('/farm/api/auth/me');
+        const data = await res.json();
+
+        if (!data.success || !data.user) {
+          window.location.href = '/farm/account/login';
+          return;
+        }
+
+        userData = data;
+        loader.classList.add('hidden');
+        content.classList.remove('hidden');
+
+        document.getElementById('user-name').textContent = data.user.name;
+        document.getElementById('user-phone').textContent = data.user.phone;
+        document.getElementById('user-email').textContent = data.user.email;
+
+        if (data.user.role === 'ADMIN') {
+          document.getElementById('admin-link').classList.remove('hidden');
+        }
+
+        // Render Addresses
+        renderAddresses(data.addresses || []);
+
+        // Load Orders & Samples
+        loadOrders();
+        loadSamples();
+        loadDeliveryAreasForModal();
+      } catch (err) {
+        loader.innerHTML = '<p class="text-sm text-red-600">Failed to load account. Please check connection.</p>';
+      }
+    }
+
+    async function loadOrders() {
+      const list = document.getElementById('orders-list');
+      const empty = document.getElementById('orders-empty');
+      try {
+        const res = await fetch('/farm/api/orders');
+        const data = await res.json();
+        if (data.success && data.orders && data.orders.length > 0) {
+          empty.classList.add('hidden');
+          list.innerHTML = data.orders.map(o => `
+            <div class="bg-white p-5 rounded-2xl border border-[#e0e8dc] shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="font-bold text-base text-[#152317]">${o.orderNumber}</span>
+                  <span class="text-xs px-2.5 py-0.5 rounded-full font-bold bg-[#eaf3e9] text-[#275629]">${o.status}</span>
+                </div>
+                <div class="text-xs text-[#536354] mt-1">
+                  ${o.deliveryArea} • ${new Date(o.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
+                </div>
+                <div class="text-xs text-[#798a7a] mt-0.5">${o.deliveryAddress}</div>
+              </div>
+
+              <div class="flex items-center gap-4 w-full sm:w-auto justify-between sm:justify-end pt-3 sm:pt-0 border-t sm:border-t-0 border-[#f0f4ee]">
+                <strong class="text-base font-bold text-[#275629]">₹${o.grandTotalRupees}</strong>
+                <a href="/farm/track?order_number=${o.orderNumber}" class="fd-btn fd-btn-secondary fd-btn-sm font-bold">
+                  Track Details &rarr;
+                </a>
+              </div>
+            </div>
+          `).join('');
+        } else {
+          list.innerHTML = '';
+          empty.classList.remove('hidden');
+        }
+      } catch (_) {}
+    }
+
+    async function loadSamples() {
+      const list = document.getElementById('samples-list');
+      const empty = document.getElementById('samples-empty');
+      try {
+        const res = await fetch('/farm/api/samples');
+        const data = await res.json();
+        if (data.success && data.sampleRequests && data.sampleRequests.length > 0) {
+          empty.classList.add('hidden');
+          list.innerHTML = data.sampleRequests.map(s => `
+            <div class="bg-white p-4 rounded-xl border border-[#e0e8dc] shadow-sm flex items-center justify-between text-xs">
+              <div>
+                <strong class="font-bold text-sm text-[#152317] block">${s.productName} (${s.quantityGrams} g)</strong>
+                <span class="text-[#536354]">${s.deliveryArea} • ${s.roundName || 'Awaiting scheduled round'}</span>
+              </div>
+              <span class="px-3 py-1 rounded-full font-bold bg-amber-50 text-amber-800 text-[11px]">
+                ${s.status}
+              </span>
+            </div>
+          `).join('');
+        } else {
+          list.innerHTML = '';
+          empty.classList.remove('hidden');
+        }
+      } catch (_) {}
+    }
+
+    function renderAddresses(addresses) {
+      const list = document.getElementById('addresses-list');
+      const empty = document.getElementById('addresses-empty');
+      if (!addresses || addresses.length === 0) {
+        list.innerHTML = '';
+        empty.classList.remove('hidden');
+        return;
+      }
+      empty.classList.add('hidden');
+      list.innerHTML = addresses.map(a => `
+        <div class="bg-white p-5 rounded-xl border border-[#e0e8dc] shadow-sm relative text-xs text-[#536354] space-y-1">
+          ${a.isDefault ? '<span class="text-[10px] font-bold uppercase text-[#275629] bg-[#eaf3e9] px-2 py-0.5 rounded-full mb-1 inline-block">Default Address</span>' : ''}
+          <strong class="font-bold text-sm text-[#152317] block">${a.fullName} (${a.phone})</strong>
+          <p>${a.houseNumber}, ${a.street}</p>
+          <p class="font-semibold text-[#152317]">${a.deliveryAreaName}, Gwalior</p>
+          ${a.landmark ? `<p>Landmark: ${a.landmark}</p>` : ''}
+          <button type="button" class="text-red-600 hover:underline pt-2 block font-semibold" onclick="deleteAddress(${a.id})">
+            Delete Address
+          </button>
+        </div>
+      `).join('');
+    }
+
+    async function loadDeliveryAreasForModal() {
+      try {
+        const res = await fetch('/farm/api/delivery-areas');
+        const data = await res.json();
+        if (data.success && data.deliveryAreas) {
+          const select = document.getElementById('addr-area');
+          select.innerHTML = '<option value="">Select area...</option>' +
+            data.deliveryAreas.map(a => `<option value="${a.id}">${a.name}, Gwalior</option>`).join('');
+        }
+      } catch (_) {}
+    }
+
+    window.switchTab = function(tab) {
+      document.getElementById('tab-orders').classList.add('hidden');
+      document.getElementById('tab-samples').classList.add('hidden');
+      document.getElementById('tab-addresses').classList.add('hidden');
+
+      document.getElementById('tab-orders-btn').className = 'px-4 py-2 rounded-lg bg-[#f0f4ee] text-[#2d3a2e] hover:bg-[#e2eae0]';
+      document.getElementById('tab-samples-btn').className = 'px-4 py-2 rounded-lg bg-[#f0f4ee] text-[#2d3a2e] hover:bg-[#e2eae0]';
+      document.getElementById('tab-addresses-btn').className = 'px-4 py-2 rounded-lg bg-[#f0f4ee] text-[#2d3a2e] hover:bg-[#e2eae0]';
+
+      document.getElementById('tab-' + tab).classList.remove('hidden');
+      document.getElementById('tab-' + tab + '-btn').className = 'px-4 py-2 rounded-lg bg-[#275629] text-white';
+    };
+
+    window.toggleAddAddressModal = function(show) {
+      const modal = document.getElementById('address-modal');
+      if (show) modal.classList.remove('hidden');
+      else modal.classList.add('hidden');
+    };
+
+    window.handleSaveAddress = async function(e) {
+      e.preventDefault();
+      const errBox = document.getElementById('addr-error');
+      errBox.classList.add('hidden');
+
+      const name = document.getElementById('addr-name').value.trim();
+      const phone = document.getElementById('addr-phone').value.trim();
+      const areaId = document.getElementById('addr-area').value;
+      const house = document.getElementById('addr-house').value.trim();
+      const street = document.getElementById('addr-street').value.trim();
+      const landmark = document.getElementById('addr-landmark').value.trim();
+      const isDef = document.getElementById('addr-default').checked;
+
+      try {
+        const res = await fetch('/farm/api/account/addresses', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            full_name: name,
+            phone,
+            delivery_area_id: Number(areaId),
+            house_number: house,
+            street,
+            landmark,
+            is_default: isDef,
+          }),
+        });
+        const data = await res.json();
+        if (!data.success) {
+          errBox.textContent = data.error || 'Failed to save address.';
+          errBox.classList.remove('hidden');
+          return;
+        }
+
+        toggleAddAddressModal(false);
+        initAccount();
+      } catch (_) {
+        errBox.textContent = 'Network error.';
+        errBox.classList.remove('hidden');
+      }
+    };
+
+    window.deleteAddress = async function(id) {
+      if (confirm('Delete this saved address?')) {
+        await fetch(`/farm/api/account/addresses/${id}`, { method: 'DELETE' });
+        initAccount();
+      }
+    };
+
+    window.handleLogout = async function() {
+      await fetch('/farm/api/auth/logout', { method: 'POST' });
+      window.location.href = '/farm';
+    };
+
+    document.addEventListener('DOMContentLoaded', initAccount);
+  </script>
+</FarmLayout>

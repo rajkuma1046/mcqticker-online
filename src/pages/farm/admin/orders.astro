@@ -1,0 +1,399 @@
+---
+import FarmLayout from '../../../layouts/FarmLayout.astro';
+---
+
+<FarmLayout
+  title="Manage Orders | Admin | Farm Direct Gwalior"
+  description="Manage customer pre-orders, neighbourhood delivery routes, and atomic stock state."
+  canonicalPath="/farm/admin/orders"
+  hideCartBar={true}
+>
+  <div class="fd-container py-8 sm:py-14">
+    <!-- Admin Header -->
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 border-b border-[#e0e8dc] mb-8">
+      <div>
+        <div class="flex items-center gap-2">
+          <a href="/farm/admin" class="text-xs text-[#275629] font-bold hover:underline">&larr; Back to Dashboard</a>
+          <span class="text-xs text-[#798a7a]">•</span>
+          <span class="text-xs uppercase tracking-wider text-[#c48a3f] font-bold bg-[#fdf6ec] px-3 py-0.5 rounded-full">
+            Fulfillment
+          </span>
+        </div>
+        <h1 class="fd-serif text-3xl sm:text-4xl font-bold text-[#152317] mt-1.5">
+          Customer Pre-Orders
+        </h1>
+        <p class="text-xs sm:text-sm text-[#536354] mt-1">
+          Review neighbourhood batch orders, manage status lifecycle, and notify customers on WhatsApp.
+        </p>
+      </div>
+
+      <!-- Quick Nav -->
+      <div class="flex flex-wrap items-center gap-2 text-xs font-bold">
+        <a href="/farm/admin/products" class="px-3 py-2 rounded-lg bg-white border border-[#d0ded0] text-[#152317] hover:bg-[#f0f4ee]">
+          Products
+        </a>
+        <a href="/farm/admin/inventory" class="px-3 py-2 rounded-lg bg-white border border-[#d0ded0] text-[#152317] hover:bg-[#f0f4ee]">
+          Inventory
+        </a>
+        <a href="/farm/admin/samples" class="px-3 py-2 rounded-lg bg-white border border-[#d0ded0] text-[#152317] hover:bg-[#f0f4ee]">
+          Free Samples
+        </a>
+      </div>
+    </div>
+
+    <!-- Loading State -->
+    <div id="admin-loading" class="text-center py-20 text-[#536354]">
+      <div class="inline-block animate-spin w-8 h-8 border-4 border-[#275629] border-t-transparent rounded-full mb-3"></div>
+      <p class="text-sm font-semibold">Loading orders queue...</p>
+    </div>
+
+    <!-- Main Content -->
+    <div id="admin-content" class="hidden space-y-6">
+      <!-- Filter and Search Bar -->
+      <div class="bg-white p-4 sm:p-5 rounded-2xl border border-[#e0e8dc] shadow-sm space-y-3">
+        <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs">
+          <div>
+            <label class="block font-bold text-[#152317] mb-1">Status Filter</label>
+            <select id="filter-status" class="fd-input py-2 text-xs">
+              <option value="ALL">All Statuses</option>
+              <option value="PENDING">Pending Attention</option>
+              <option value="CONFIRMED">Confirmed / Batched</option>
+              <option value="PREPARING">Preparing / Bagging</option>
+              <option value="READY_FOR_DELIVERY">Ready for Delivery</option>
+              <option value="OUT_FOR_DELIVERY">Out for Delivery</option>
+              <option value="DELIVERED">Delivered</option>
+              <option value="CANCELLED">Cancelled</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block font-bold text-[#152317] mb-1">Delivery Cluster</label>
+            <select id="filter-area" class="fd-input py-2 text-xs">
+              <option value="ALL">All Gwalior Clusters</option>
+            </select>
+          </div>
+
+          <div class="sm:col-span-2">
+            <label class="block font-bold text-[#152317] mb-1">Search Order #, Customer, or Phone</label>
+            <div class="flex gap-2">
+              <input type="text" id="search-query" class="fd-input py-2 text-xs" placeholder="e.g. FD-GWL or 87707... or Sharma" />
+              <button type="button" id="btn-search" class="fd-btn fd-btn-primary fd-btn-sm font-bold text-xs whitespace-nowrap">
+                Search
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between text-xs text-[#536354] pt-2 border-t border-[#f0f4ee]">
+          <span>Found <strong id="total-orders-count" class="text-[#152317]">0</strong> orders</span>
+          <div class="flex items-center gap-2" id="pagination-controls">
+            <!-- Dynamic page buttons -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Orders List Cards -->
+      <div id="orders-list" class="space-y-4"></div>
+    </div>
+  </div>
+
+  <!-- Status Update Modal -->
+  <div id="status-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-[#e0e8dc]">
+      <div class="flex items-center justify-between pb-3 border-b border-[#f0f4ee] mb-4">
+        <div>
+          <h3 class="fd-serif text-lg font-bold text-[#152317]">Update Order Status</h3>
+          <p id="modal-order-number" class="text-xs text-[#536354]"></p>
+        </div>
+        <button type="button" id="btn-close-status-modal" class="text-[#798a7a] hover:text-[#152317] text-2xl font-bold leading-none">&times;</button>
+      </div>
+
+      <form id="status-form" class="space-y-4 text-xs">
+        <input type="hidden" id="modal-order-id" />
+
+        <div>
+          <label class="block font-bold text-[#152317] mb-1">New Status *</label>
+          <select id="modal-status-select" class="fd-input text-xs" required>
+            <option value="CONFIRMED">CONFIRMED (Harvest Batch Allocated)</option>
+            <option value="PREPARING">PREPARING (Raw produce bagged & weighed)</option>
+            <option value="READY_FOR_DELIVERY">READY_FOR_DELIVERY (Loaded on cluster vehicle)</option>
+            <option value="OUT_FOR_DELIVERY">OUT_FOR_DELIVERY (En route in neighbourhood)</option>
+            <option value="DELIVERED">DELIVERED (Payment Collected & Finalized)</option>
+            <option value="CANCELLED">CANCELLED (Restore Reserved Stock to Available)</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block font-bold text-[#152317] mb-1">Admin Note / Status Reason</label>
+          <input type="text" id="modal-status-note" class="fd-input text-xs" placeholder="e.g. Batch loaded for Sunday trip to Pawan Nagar" />
+        </div>
+
+        <div id="status-warning" class="hidden p-3 bg-amber-50 text-amber-900 rounded-lg text-xs font-medium"></div>
+
+        <div class="flex items-center justify-end gap-3 pt-3 border-t border-[#f0f4ee]">
+          <button type="button" id="btn-cancel-status-modal" class="fd-btn fd-btn-outline fd-btn-sm font-bold">
+            Cancel
+          </button>
+          <button type="submit" class="fd-btn fd-btn-primary fd-btn-sm font-bold">
+            Apply Status
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script is:inline>
+    let currentPage = 1;
+    let currentLimit = 20;
+
+    async function initOrders() {
+      const loader = document.getElementById('admin-loading');
+      const content = document.getElementById('admin-content');
+
+      try {
+        const meRes = await fetch('/farm/api/auth/me');
+        const meData = await meRes.json();
+        if (!meData.success || !meData.user || meData.user.role !== 'ADMIN') {
+          window.location.href = '/farm/account/login?redirect=/farm/admin/orders';
+          return;
+        }
+
+        // Load delivery areas into filter
+        const areasRes = await fetch('/farm/api/delivery-areas');
+        const areasData = await areasRes.json();
+        if (areasData.success && areasData.deliveryAreas) {
+          const areaSelect = document.getElementById('filter-area');
+          for (const a of areasData.deliveryAreas) {
+            const opt = document.createElement('option');
+            opt.value = a.id;
+            opt.textContent = `${a.name} (${a.city})`;
+            areaSelect.appendChild(opt);
+          }
+        }
+
+        await loadOrdersList();
+        loader.classList.add('hidden');
+        content.classList.remove('hidden');
+      } catch (err) {
+        loader.innerHTML = '<p class="text-sm text-red-600">Failed to load orders telemetry.</p>';
+      }
+    }
+
+    async function loadOrdersList() {
+      const status = document.getElementById('filter-status').value;
+      const area = document.getElementById('filter-area').value;
+      const q = document.getElementById('search-query').value.trim();
+
+      const params = new URLSearchParams({
+        page: currentPage,
+        limit: currentLimit,
+      });
+
+      if (status !== 'ALL') params.set('status', status);
+      if (area !== 'ALL') params.set('delivery_area_id', area);
+      if (q) params.set('q', q);
+
+      const res = await fetch(`/farm/api/admin/orders?${params.toString()}`);
+      const data = await res.json();
+
+      if (data.success) {
+        document.getElementById('total-orders-count').textContent = data.total;
+        renderOrdersList(data.orders || []);
+        renderPagination(data.total, data.page, data.limit);
+      }
+    }
+
+    function renderOrdersList(orders) {
+      const container = document.getElementById('orders-list');
+      if (orders.length === 0) {
+        container.innerHTML = `
+          <div class="bg-white p-12 text-center rounded-2xl border border-[#e0e8dc] text-[#798a7a]">
+            No orders match your filter criteria.
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = orders.map(o => {
+        let badgeColor = 'bg-gray-100 text-gray-800';
+        if (o.status === 'PENDING') badgeColor = 'bg-amber-100 text-amber-800';
+        else if (o.status === 'CONFIRMED') badgeColor = 'bg-blue-100 text-blue-800';
+        else if (o.status === 'PREPARING') badgeColor = 'bg-purple-100 text-purple-800';
+        else if (o.status === 'READY_FOR_DELIVERY') badgeColor = 'bg-teal-100 text-teal-800';
+        else if (o.status === 'OUT_FOR_DELIVERY') badgeColor = 'bg-indigo-100 text-indigo-800';
+        else if (o.status === 'DELIVERED') badgeColor = 'bg-emerald-100 text-emerald-800';
+        else if (o.status === 'CANCELLED') badgeColor = 'bg-rose-100 text-rose-800';
+
+        const customerPhoneDigits = (o.customerPhone || '').replace(/\D/g, '').slice(-10);
+        const waText = encodeURIComponent(
+          `Namaste ${o.customerName} ji! This is an update from Farm Direct Gwalior regarding your Pre-Order ${o.orderNumber}.\nStatus: ${o.status}\nTotal: ₹${o.grandTotalRupees}`
+        );
+        const waUrl = `https://wa.me/91${customerPhoneDigits}?text=${waText}`;
+
+        return `
+          <div class="bg-white p-5 sm:p-6 rounded-2xl border border-[#e0e8dc] shadow-sm space-y-4">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-3 border-b border-[#f0f4ee]">
+              <div>
+                <div class="flex items-center gap-2.5">
+                  <span class="font-bold text-base text-[#152317]">${o.orderNumber}</span>
+                  <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold ${badgeColor}">
+                    ${o.status}
+                  </span>
+                  <span class="text-[10px] text-[#798a7a]">
+                    ${new Date(o.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
+                  </span>
+                </div>
+                <div class="text-xs text-[#536354] mt-1">
+                  Delivery Cluster: <strong class="text-[#152317]">${o.deliveryArea}</strong> (${o.deliveryDay})
+                </div>
+              </div>
+
+              <div class="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-end">
+                <span class="text-base font-bold text-[#275629]">₹${o.grandTotalRupees}</span>
+                <button type="button" class="fd-btn fd-btn-primary fd-btn-sm font-bold text-xs" onclick="openStatusModal(${o.id}, '${o.orderNumber}', '${o.status}')">
+                  Update Status
+                </button>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+              <!-- Customer Details -->
+              <div class="bg-[#f8faf6] p-3.5 rounded-xl border border-[#e0e8dc] space-y-1">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-[#536354]">Customer & Contact</span>
+                <div class="font-bold text-sm text-[#152317]">${o.customerName}</div>
+                <div class="text-[#536354]">Phone: ${o.customerPhone}</div>
+                <div class="pt-2">
+                  <a href="${waUrl}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#25D366] text-white font-bold text-[11px] hover:bg-[#1fa851]">
+                    💬 Chat on WhatsApp
+                  </a>
+                </div>
+              </div>
+
+              <!-- Delivery Address -->
+              <div class="bg-[#f8faf6] p-3.5 rounded-xl border border-[#e0e8dc] space-y-1">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-[#536354]">Drop-off Address</span>
+                <p class="text-[#152317] font-medium leading-relaxed">${o.deliveryAddress}</p>
+                ${o.customerNote ? `<p class="text-[11px] text-amber-800 italic pt-1">Note: "${o.customerNote}"</p>` : ''}
+              </div>
+
+              <!-- Order Items Summary -->
+              <div class="bg-[#f8faf6] p-3.5 rounded-xl border border-[#e0e8dc] space-y-1">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-[#536354]">Produce Items</span>
+                <ul class="space-y-1 pt-1">
+                  ${(o.items || []).map(it => `
+                    <li class="flex justify-between text-[#152317]">
+                      <span>${it.productName} <strong>× ${it.quantity} ${it.unit}</strong></span>
+                      <span class="font-bold">₹${it.lineTotalRupees}</span>
+                    </li>
+                  `).join('')}
+                </ul>
+                <div class="pt-2 border-t border-[#e0e8dc] flex justify-between text-[#798a7a] text-[11px]">
+                  <span>Delivery Charge:</span>
+                  <span>₹${o.deliveryChargeRupees}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Operational Badges -->
+            <div class="flex flex-wrap items-center justify-between text-[11px] text-[#798a7a] pt-1">
+              <div class="flex items-center gap-3">
+                <span>Stock State: <strong class="text-[#152317]">${o.inventoryState}</strong></span>
+                <span>Payment: <strong class="text-[#152317]">${o.paymentStatus}</strong></span>
+              </div>
+              ${o.adminNote ? `<span class="italic text-[#536354]">Admin Note: ${o.adminNote}</span>` : ''}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderPagination(total, page, limit) {
+      const controls = document.getElementById('pagination-controls');
+      const totalPages = Math.ceil(total / limit);
+
+      if (totalPages <= 1) {
+        controls.innerHTML = '';
+        return;
+      }
+
+      controls.innerHTML = `
+        <button type="button" class="px-2.5 py-1 rounded border border-[#d0ded0] bg-white text-[#152317] text-xs font-bold disabled:opacity-40" ${page <= 1 ? 'disabled' : ''} onclick="changePage(${page - 1})">
+          Prev
+        </button>
+        <span class="px-2 text-xs font-semibold">Page ${page} of ${totalPages}</span>
+        <button type="button" class="px-2.5 py-1 rounded border border-[#d0ded0] bg-white text-[#152317] text-xs font-bold disabled:opacity-40" ${page >= totalPages ? 'disabled' : ''} onclick="changePage(${page + 1})">
+          Next
+        </button>
+      `;
+    }
+
+    window.changePage = function(p) {
+      currentPage = p;
+      loadOrdersList();
+    };
+
+    // Status modal logic
+    const statusModal = document.getElementById('status-modal');
+    const statusForm = document.getElementById('status-form');
+    const warningBox = document.getElementById('status-warning');
+
+    window.openStatusModal = function(id, orderNumber, currentStatus) {
+      document.getElementById('modal-order-id').value = id;
+      document.getElementById('modal-order-number').textContent = `Order ${orderNumber} (Current: ${currentStatus})`;
+      document.getElementById('modal-status-select').value = currentStatus;
+      document.getElementById('modal-status-note').value = '';
+      warningBox.classList.add('hidden');
+      statusModal.classList.remove('hidden');
+    };
+
+    document.getElementById('btn-close-status-modal').addEventListener('click', () => statusModal.classList.add('hidden'));
+    document.getElementById('btn-cancel-status-modal').addEventListener('click', () => statusModal.classList.add('hidden'));
+
+    document.getElementById('modal-status-select').addEventListener('change', (e) => {
+      if (e.target.value === 'CANCELLED') {
+        warningBox.textContent = 'Note: Marking CANCELLED will automatically restore the reserved produce back to available stock in Cloudflare D1.';
+        warningBox.classList.remove('hidden');
+      } else if (e.target.value === 'DELIVERED') {
+        warningBox.textContent = 'Note: Marking DELIVERED will convert reserved stock to sold stock and mark payment as PAID.';
+        warningBox.classList.remove('hidden');
+      } else {
+        warningBox.classList.add('hidden');
+      }
+    });
+
+    statusForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const id = document.getElementById('modal-order-id').value;
+      const status = document.getElementById('modal-status-select').value;
+      const note = document.getElementById('modal-status-note').value.trim();
+
+      try {
+        const res = await fetch(`/farm/api/admin/orders/${id}/status`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status, note }),
+        });
+
+        const data = await res.json();
+        if (!data.success) {
+          alert(data.message || 'Failed to update order status');
+          return;
+        }
+
+        statusModal.classList.add('hidden');
+        await loadOrdersList();
+      } catch (err) {
+        alert('Network error updating status.');
+      }
+    });
+
+    document.getElementById('filter-status').addEventListener('change', () => { currentPage = 1; loadOrdersList(); });
+    document.getElementById('filter-area').addEventListener('change', () => { currentPage = 1; loadOrdersList(); });
+    document.getElementById('btn-search').addEventListener('click', () => { currentPage = 1; loadOrdersList(); });
+    document.getElementById('search-query').addEventListener('keyup', (e) => {
+      if (e.key === 'Enter') { currentPage = 1; loadOrdersList(); }
+    });
+
+    document.addEventListener('DOMContentLoaded', initOrders);
+  </script>
+</FarmLayout>

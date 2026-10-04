@@ -1,0 +1,63 @@
+---
+import FarmLayout from '../../layouts/FarmLayout.astro';
+---
+
+<FarmLayout
+  title="Free Sample Policy | Farm Direct Gwalior"
+  description="Transparent guidelines regarding free agricultural produce sample distribution in Gwalior."
+  canonicalPath="/farm/sample-policy"
+>
+  <div class="fd-container py-8 sm:py-14">
+    <div class="max-w-3xl mx-auto bg-white p-6 sm:p-12 rounded-2xl border border-[#e0e8dc] shadow-sm space-y-8">
+      <div>
+        <span class="text-xs uppercase tracking-wider text-[#275629] font-bold">Policy & Guidelines</span>
+        <h1 class="fd-serif text-3xl sm:text-4xl font-bold text-[#152317] mt-1">
+          Free Sample Policy
+        </h1>
+        <p class="text-xs sm:text-sm text-[#536354] mt-2">
+          Effective for all sample requests within the Gwalior delivery clusters.
+        </p>
+      </div>
+
+      <!-- Core Policy Text from Section 44 -->
+      <div class="space-y-4 text-xs sm:text-sm text-[#2d3a2e] leading-relaxed">
+        <div class="p-4 rounded-xl bg-[#f0f4ee] border border-[#e0e8dc] text-[#1f4420] font-medium">
+          The purpose of the free sample is to allow households to evaluate the actual raw product before placing a regular bulk pre-order.
+        </div>
+
+        <ul class="space-y-3 list-disc pl-5">
+          <li><strong>Eligible Products:</strong> Free samples are available for selected products and selected delivery areas only.</li>
+          <li><strong>Sample Quantities:</strong> Samples are strictly limited to <strong>100 grams</strong> or <strong>200 grams</strong>. Customers cannot request larger free quantities.</li>
+          <li><strong>Scheduled Distribution Rounds:</strong> Samples are distributed exclusively during scheduled sample-delivery rounds in Gwalior (typically planned once or twice per month).</li>
+          <li><strong>No Immediate Dispatch:</strong> Sample requests do not guarantee immediate delivery. We do not dispatch an individual vehicle from the farm for a single sample. Requests accumulate, are grouped by neighbourhood (Pawan Nagar / Chetakpuri), and delivered together.</li>
+          <li><strong>Availability:</strong> Sample distribution depends on available sample stock and the feasibility of the scheduled vehicle route.</li>
+          <li><strong>Household Limits:</strong> To prevent misuse and ensure fair access, reasonable limits apply (maximum 2 samples per customer per round, and maximum 1 sample of the same product per round). A 14-day cooldown period applies between repeated requests from the same mobile number.</li>
+          <li><strong>Zero Cost:</strong> Sample products have a price of ₹0. There is no hidden product cost for eligible approved samples during scheduled rounds.</li>
+        </ul>
+      </div>
+
+      <!-- Route Model Diagram -->
+      <div class="p-6 rounded-xl bg-[#f8faf6] border border-[#e0e8dc] space-y-3">
+        <h3 class="font-bold text-sm text-[#152317]">Operational Sample Route Model</h3>
+        <div class="flex flex-col sm:flex-row items-center justify-between text-xs text-center gap-2 pt-2 text-[#536354]">
+          <div class="p-3 bg-white rounded-lg border border-[#e0e8dc] w-full sm:w-auto font-semibold">1. Requests Accumulate</div>
+          <span class="text-[#275629] font-bold">&rarr;</span>
+          <div class="p-3 bg-white rounded-lg border border-[#e0e8dc] w-full sm:w-auto font-semibold">2. Grouped by Locality</div>
+          <span class="text-[#275629] font-bold">&rarr;</span>
+          <div class="p-3 bg-white rounded-lg border border-[#e0e8dc] w-full sm:w-auto font-semibold">3. Scheduled Gwalior Trip</div>
+          <span class="text-[#275629] font-bold">&rarr;</span>
+          <div class="p-3 bg-white rounded-lg border border-[#e0e8dc] w-full sm:w-auto font-semibold">4. Doorstep Batch Delivery</div>
+        </div>
+      </div>
+
+      <div class="pt-4 flex flex-wrap gap-4">
+        <a href="/farm/samples" class="fd-btn fd-btn-primary px-6 py-3 font-bold text-sm">
+          Request a Free Sample &rarr;
+        </a>
+        <a href="/farm/products" class="fd-btn fd-btn-secondary px-6 py-3 font-bold text-sm">
+          Browse Farm Produce
+        </a>
+      </div>
+    </div>
+  </div>
+</FarmLayout>

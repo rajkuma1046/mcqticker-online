@@ -1,0 +1,148 @@
+---
+import FarmLayout from '../../layouts/FarmLayout.astro';
+---
+
+<FarmLayout
+  title="Order Received | Farm Direct Gwalior"
+  description="Your raw farm produce pre-order has been received."
+  canonicalPath="/farm/order-confirmation"
+  hideCartBar={true}
+>
+  <div class="fd-container py-12 sm:py-20">
+    <div class="max-w-2xl mx-auto bg-white p-8 sm:p-12 rounded-2xl border border-[#e0e8dc] shadow-sm text-center">
+      <!-- Success Icon -->
+      <div class="w-16 h-16 bg-[#eaf3e9] text-[#275629] rounded-full flex items-center justify-center text-3xl mx-auto mb-5">
+        ✓
+      </div>
+
+      <span class="text-xs font-bold uppercase tracking-wider text-[#275629] bg-[#eaf3e9] px-3 py-1 rounded-full">
+        Pre-Order Confirmed
+      </span>
+
+      <h1 class="fd-serif text-3xl sm:text-4xl font-bold text-[#152317] mt-3">
+        Order Placed Successfully
+      </h1>
+
+      <p class="text-xs sm:text-sm text-[#536354] mt-2 max-w-md mx-auto leading-relaxed">
+        Your pre-order has been received and reserved in our farm database. We will confirm scheduled neighbourhood delivery details.
+      </p>
+
+      <!-- Order Details Box -->
+      <div class="mt-8 p-6 rounded-xl bg-[#f8faf6] border border-[#e0e8dc] text-left space-y-4">
+        <div class="flex items-center justify-between pb-3 border-b border-[#e5ede2]">
+          <span class="text-xs text-[#536354]">Order Number:</span>
+          <strong id="conf-order-num" class="text-base font-bold text-[#152317]">Loading...</strong>
+        </div>
+
+        <div class="flex items-center justify-between text-xs">
+          <span class="text-[#536354]">Delivery Area:</span>
+          <strong id="conf-area" class="text-[#152317] font-semibold">—</strong>
+        </div>
+
+        <div class="flex items-center justify-between text-xs">
+          <span class="text-[#536354]">Grand Total (Pay on Delivery):</span>
+          <strong id="conf-total" class="text-lg font-bold text-[#275629]">₹0</strong>
+        </div>
+
+        <div id="conf-items-summary" class="pt-2 text-xs text-[#536354] space-y-1"></div>
+      </div>
+
+      <!-- WhatsApp Notification & Direct Chat Link -->
+      <div class="mt-6 p-4 rounded-xl bg-[#eaf8ee] border border-[#c1e9cb] text-left flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <div>
+          <strong class="text-xs font-bold text-[#185e28] block">Farm Owner WhatsApp Notification</strong>
+          <p class="text-[11px] text-[#2e743e] mt-0.5">
+            Your order details have been dispatched to our farm WhatsApp: <strong>8770767272</strong>.
+          </p>
+        </div>
+        <a id="btn-wa-chat" href="#" target="_blank" rel="noopener noreferrer" class="fd-btn fd-btn-wa fd-btn-sm whitespace-nowrap">
+          Open in WhatsApp &rarr;
+        </a>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+        <a id="btn-track-order" href="/farm/track" class="fd-btn fd-btn-primary w-full sm:w-auto px-6 py-3 font-bold text-sm">
+          Track My Order
+        </a>
+        <a href="/farm/products" class="fd-btn fd-btn-secondary w-full sm:w-auto px-6 py-3 font-bold text-sm">
+          Continue Shopping
+        </a>
+      </div>
+
+      <!-- Guest Account Prompt -->
+      <div id="guest-signup-box" class="mt-10 pt-8 border-t border-[#e8efe6] text-xs text-[#536354]">
+        <p class="font-bold text-[#152317] mb-1">Want to track all your orders and save your address?</p>
+        <p class="mb-3">Create a quick customer account with your phone number.</p>
+        <a href="/farm/account/register" class="fd-btn fd-btn-secondary fd-btn-sm font-bold text-xs inline-flex">
+          Create Account &rarr;
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script is:inline>
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const orderNum = urlParams.get('order_number');
+
+      let order = null;
+      try {
+        order = JSON.parse(sessionStorage.getItem('fd_latest_order') || 'null');
+      } catch (_) {}
+
+      if (order && (!orderNum || order.orderNumber === orderNum)) {
+        populate(order);
+      } else if (orderNum) {
+        // Fetch from API
+        fetch(`/farm/api/orders/track?order_number=${orderNum}`)
+          .then(res => res.json())
+          .then(data => {
+            if (data.success && data.order) {
+              populate(data.order);
+            } else {
+              document.getElementById('conf-order-num').textContent = orderNum;
+            }
+          })
+          .catch(() => {
+            document.getElementById('conf-order-num').textContent = orderNum || 'FD-GWL-PREORDER';
+          });
+      }
+
+      function populate(data) {
+        document.getElementById('conf-order-num').textContent = data.orderNumber;
+        document.getElementById('conf-area').textContent = `${data.deliveryAreaName || data.deliveryArea}, Gwalior`;
+        document.getElementById('conf-total').textContent = `₹${data.grandTotalRupees}`;
+
+        if (data.items && data.items.length > 0) {
+          document.getElementById('conf-items-summary').innerHTML = data.items.map(it => `
+            <div>• ${it.productName || it.name}: ${it.quantity} ${it.unit || 'kg'} (₹${it.lineTotalRupees})</div>
+          `).join('');
+        }
+
+        // WhatsApp link
+        const waBtn = document.getElementById('btn-wa-chat');
+        if (data.whatsapp?.clickToChatUrl) {
+          waBtn.href = data.whatsapp.clickToChatUrl;
+        } else {
+          const msg = encodeURIComponent(`Hello Farm Direct, checking on my pre-order ${data.orderNumber} for Gwalior.`);
+          waBtn.href = `https://wa.me/918770767272?text=${msg}`;
+        }
+
+        // Track link
+        document.getElementById('btn-track-order').href = `/farm/track?order_number=${data.orderNumber}`;
+      }
+
+      // Check if logged in, hide guest signup box
+      fetch('/farm/api/auth/me')
+        .then(r => r.json())
+        .then(d => {
+          if (d.success && d.user) {
+            const guestBox = document.getElementById('guest-signup-box');
+            if (guestBox) guestBox.classList.add('hidden');
+          }
+        })
+        .catch(() => {});
+    });
+  </script>
+</FarmLayout>

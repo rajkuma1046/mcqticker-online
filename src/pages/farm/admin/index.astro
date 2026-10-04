@@ -1,0 +1,242 @@
+---
+import FarmLayout from '../../../layouts/FarmLayout.astro';
+---
+
+<FarmLayout
+  title="Admin Dashboard | Farm Direct Gwalior"
+  description="Farm Direct administrative portal for pre-orders, inventory, samples, and neighbourhood delivery."
+  canonicalPath="/farm/admin"
+  hideCartBar={true}
+>
+  <div class="fd-container py-8 sm:py-14">
+    <!-- Admin Header -->
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 border-b border-[#e0e8dc] mb-8">
+      <div>
+        <span class="text-xs uppercase tracking-wider text-[#c48a3f] font-bold bg-[#fdf6ec] px-3 py-1 rounded-full">
+          Operations Portal
+        </span>
+        <h1 class="fd-serif text-3xl sm:text-4xl font-bold text-[#152317] mt-1.5">
+          Farm Admin Dashboard
+        </h1>
+        <p class="text-xs sm:text-sm text-[#536354] mt-1">
+          Gwalior neighbourhood clusters: Pawan Nagar & Chetakpuri
+        </p>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="flex flex-wrap gap-2 text-xs font-bold">
+        <a href="/farm/admin/products" class="px-3 py-2 rounded-lg bg-white border border-[#d0ded0] text-[#152317] hover:bg-[#f0f4ee]">
+          Products
+        </a>
+        <a href="/farm/admin/inventory" class="px-3 py-2 rounded-lg bg-white border border-[#d0ded0] text-[#152317] hover:bg-[#f0f4ee]">
+          Inventory
+        </a>
+        <a href="/farm/admin/orders" class="px-3 py-2 rounded-lg bg-white border border-[#d0ded0] text-[#152317] hover:bg-[#f0f4ee]">
+          Orders
+        </a>
+        <a href="/farm/admin/samples" class="px-3 py-2 rounded-lg bg-white border border-[#d0ded0] text-[#152317] hover:bg-[#f0f4ee]">
+          Free Samples
+        </a>
+        <a href="/farm/admin/delivery-areas" class="px-3 py-2 rounded-lg bg-white border border-[#d0ded0] text-[#152317] hover:bg-[#f0f4ee]">
+          Delivery Areas
+        </a>
+        <a href="/farm/admin/settings" class="px-3 py-2 rounded-lg bg-[#275629] text-white hover:bg-[#1f4420]">
+          Settings
+        </a>
+      </div>
+    </div>
+
+    <!-- Admin Content Container -->
+    <div id="admin-loading" class="text-center py-20 text-[#536354]">
+      <div class="inline-block animate-spin w-8 h-8 border-4 border-[#275629] border-t-transparent rounded-full mb-3"></div>
+      <p class="text-sm font-semibold">Verifying admin credentials and loading live telemetry...</p>
+    </div>
+
+    <div id="admin-content" class="hidden space-y-8">
+      <!-- 6 Metrics Cards (from Section 46) -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+        <div class="bg-white p-4 rounded-xl border border-[#e0e8dc] shadow-sm">
+          <div class="text-xs text-[#536354] font-medium">Today's Orders</div>
+          <div id="m-today-orders" class="text-2xl font-bold text-[#152317] mt-1">0</div>
+        </div>
+
+        <div class="bg-white p-4 rounded-xl border border-[#e0e8dc] shadow-sm">
+          <div class="text-xs text-[#536354] font-medium">Pending Orders</div>
+          <div id="m-pending-orders" class="text-2xl font-bold text-amber-600 mt-1">0</div>
+        </div>
+
+        <div class="bg-white p-4 rounded-xl border border-[#e0e8dc] shadow-sm">
+          <div class="text-xs text-[#536354] font-medium">Active Orders</div>
+          <div id="m-active-orders" class="text-2xl font-bold text-blue-600 mt-1">0</div>
+        </div>
+
+        <div class="bg-white p-4 rounded-xl border border-[#e0e8dc] shadow-sm">
+          <div class="text-xs text-[#536354] font-medium">Today's Sales</div>
+          <div id="m-today-sales" class="text-2xl font-bold text-[#275629] mt-1">₹0</div>
+        </div>
+
+        <div class="bg-white p-4 rounded-xl border border-[#e0e8dc] shadow-sm">
+          <div class="text-xs text-[#536354] font-medium">Low Stock Items</div>
+          <div id="m-low-stock" class="text-2xl font-bold text-red-600 mt-1">0</div>
+        </div>
+
+        <div class="bg-white p-4 rounded-xl border border-[#e0e8dc] shadow-sm">
+          <div class="text-xs text-[#536354] font-medium">Sample Requests</div>
+          <div id="m-sample-reqs" class="text-2xl font-bold text-[#c48a3f] mt-1">0</div>
+        </div>
+      </div>
+
+      <!-- Quick Action Cards Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Card 1: Orders -->
+        <div class="bg-white p-6 rounded-2xl border border-[#e0e8dc] shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="w-10 h-10 rounded-xl bg-[#eaf3e9] text-[#275629] flex items-center justify-center text-xl mb-3">
+              📋
+            </div>
+            <h3 class="font-bold text-base text-[#152317]">Order Management</h3>
+            <p class="text-xs text-[#536354] mt-1 leading-relaxed">
+              Review pre-orders, confirm batches, update delivery statuses, or trigger WhatsApp notifications.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-[#f0f4ee]">
+            <a href="/farm/admin/orders" class="text-xs font-bold text-[#275629] hover:underline">
+              View All Orders &rarr;
+            </a>
+          </div>
+        </div>
+
+        <!-- Card 2: Inventory -->
+        <div class="bg-white p-6 rounded-2xl border border-[#e0e8dc] shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="w-10 h-10 rounded-xl bg-[#fdf6ec] text-[#c48a3f] flex items-center justify-center text-xl mb-3">
+              🌾
+            </div>
+            <h3 class="font-bold text-base text-[#152317]">Inventory & Live Stock</h3>
+            <p class="text-xs text-[#536354] mt-1 leading-relaxed">
+              Add new threshed stock, adjust available kg, inspect reserved order quantities, and audit history.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-[#f0f4ee]">
+            <a href="/farm/admin/inventory" class="text-xs font-bold text-[#275629] hover:underline">
+              Manage Inventory &rarr;
+            </a>
+          </div>
+        </div>
+
+        <!-- Card 3: Free Samples -->
+        <div class="bg-white p-6 rounded-2xl border border-[#e0e8dc] shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="w-10 h-10 rounded-xl bg-[#f0f4ee] text-[#275629] flex items-center justify-center text-xl mb-3">
+              🎁
+            </div>
+            <h3 class="font-bold text-base text-[#152317]">Sample Delivery Rounds</h3>
+            <p class="text-xs text-[#536354] mt-1 leading-relaxed">
+              Group sample requests by Pawan Nagar and Chetakpuri clusters, schedule vehicle trips, and print route lists.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-[#f0f4ee]">
+            <a href="/farm/admin/samples" class="text-xs font-bold text-[#275629] hover:underline">
+              Manage Sample Rounds &rarr;
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Pending Orders Quick List -->
+      <div class="bg-white p-6 sm:p-8 rounded-2xl border border-[#e0e8dc] shadow-sm space-y-4">
+        <div class="flex items-center justify-between pb-3 border-b border-[#f0f4ee]">
+          <h3 class="font-bold text-base text-[#152317]">Recent Pre-Orders Requiring Attention</h3>
+          <a href="/farm/admin/orders" class="text-xs font-bold text-[#275629] hover:underline">
+            View full order queue &rarr;
+          </a>
+        </div>
+
+        <div id="quick-orders-list" class="space-y-3"></div>
+      </div>
+    </div>
+  </div>
+
+  <script is:inline>
+    async function loadAdminDashboard() {
+      const loader = document.getElementById('admin-loading');
+      const content = document.getElementById('admin-content');
+
+      try {
+        // Check admin role
+        const meRes = await fetch('/farm/api/auth/me');
+        const meData = await meRes.json();
+
+        if (!meData.success || !meData.user || meData.user.role !== 'ADMIN') {
+          window.location.href = '/farm/account/login?redirect=/farm/admin';
+          return;
+        }
+
+        // Fetch metrics
+        const metRes = await fetch('/farm/api/admin/metrics');
+        const metData = await metRes.json();
+
+        if (metData.success && metData.metrics) {
+          const m = metData.metrics;
+          document.getElementById('m-today-orders').textContent = m.todaysOrders;
+          document.getElementById('m-pending-orders').textContent = m.pendingOrders;
+          document.getElementById('m-active-orders').textContent = m.activeOrders;
+          document.getElementById('m-today-sales').textContent = `₹${m.todaysSalesRupees}`;
+          document.getElementById('m-low-stock').textContent = m.lowStockProducts;
+          document.getElementById('m-sample-reqs').textContent = m.activeSampleRequests;
+        }
+
+        // Fetch recent pending orders
+        const ordRes = await fetch('/farm/api/admin/orders?limit=5&status=PENDING');
+        const ordData = await ordRes.json();
+        const list = document.getElementById('quick-orders-list');
+
+        if (ordData.success && ordData.orders && ordData.orders.length > 0) {
+          list.innerHTML = ordData.orders.map(o => `
+            <div class="p-4 rounded-xl bg-[#f8faf6] border border-[#e0e8dc] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+              <div>
+                <div class="flex items-center gap-2">
+                  <strong class="font-bold text-sm text-[#152317]">${o.orderNumber}</strong>
+                  <span class="px-2 py-0.5 rounded-full font-bold bg-amber-100 text-amber-800 text-[10px]">PENDING</span>
+                </div>
+                <div class="text-[#536354] mt-0.5">
+                  ${o.customerName} (${o.customerPhone}) • <strong>${o.deliveryArea}</strong>
+                </div>
+                <div class="text-[11px] text-[#798a7a] mt-0.5">
+                  Items: ${o.items.map(it => `${it.productName} (${it.quantity} ${it.unit})`).join(', ')}
+                </div>
+              </div>
+
+              <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end pt-2 sm:pt-0 border-t sm:border-t-0 border-[#f0f4ee]">
+                <strong class="text-sm font-bold text-[#275629]">₹${o.grandTotalRupees}</strong>
+                <button type="button" class="fd-btn fd-btn-primary fd-btn-sm font-bold" onclick="quickConfirmOrder(${o.id})">
+                  Confirm Pre-Order
+                </button>
+              </div>
+            </div>
+          `).join('');
+        } else {
+          list.innerHTML = '<p class="text-xs text-[#798a7a] py-3 text-center">No pending orders. All orders are confirmed or completed.</p>';
+        }
+
+        loader.classList.add('hidden');
+        content.classList.remove('hidden');
+      } catch (err) {
+        loader.innerHTML = '<p class="text-sm text-red-600">Failed to load admin telemetry. Please verify connection.</p>';
+      }
+    }
+
+    window.quickConfirmOrder = async function(id) {
+      if (confirm('Confirm this order and allocate harvest batch?')) {
+        await fetch(`/farm/api/admin/orders/${id}/status`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: 'CONFIRMED', note: 'Pre-order confirmed by admin' }),
+        });
+        loadAdminDashboard();
+      }
+    };
+
+    document.addEventListener('DOMContentLoaded', loadAdminDashboard);
+  </script>
+</FarmLayout>

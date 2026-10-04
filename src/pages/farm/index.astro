@@ -1,0 +1,451 @@
+---
+import FarmLayout from '../../layouts/FarmLayout.astro';
+---
+
+<FarmLayout
+  title="Farm Direct Gwalior | Raw Farm Produce by Pre-Order"
+  description="Order raw wheat, groundnut, chana, moong, urad and seasonal farm produce with scheduled neighbourhood delivery in selected areas of Gwalior."
+  canonicalPath="/farm"
+>
+  <!-- HERO SECTION -->
+  <section class="relative bg-gradient-to-b from-[#f0f4ee] to-[#f8faf6] border-b border-[#e2eae0] overflow-hidden">
+    <div class="fd-container py-12 sm:py-20 lg:py-24 relative z-10">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+        <!-- Text Column -->
+        <div class="lg:col-span-7 space-y-5">
+          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#eaf3e9] text-[#275629] text-xs font-bold tracking-wide uppercase">
+            <span class="w-2 h-2 rounded-full bg-[#275629]"></span>
+            <span>Direct From Village Farm</span>
+          </div>
+
+          <h1 class="fd-serif text-3xl sm:text-5xl lg:text-6xl font-bold text-[#152317] tracking-tight leading-[1.15]">
+            Raw Produce,<br class="hidden sm:inline" />
+            Direct from the Farm
+          </h1>
+
+          <p class="text-base sm:text-lg text-[#415343] leading-relaxed max-w-xl">
+            Seasonal agricultural produce available for pre-order with scheduled neighbourhood delivery in <strong>Pawan Nagar</strong> and <strong>Chetakpuri</strong>, Gwalior.
+          </p>
+
+          <div class="flex flex-wrap items-center gap-3 pt-2">
+            <a href="#produce-catalogue" class="fd-btn fd-btn-primary px-6 py-3.5 text-base shadow-sm">
+              <span>View This Week's Produce</span>
+              <span>&darr;</span>
+            </a>
+            <a href="/farm/how-it-works" class="fd-btn fd-btn-secondary px-5 py-3.5 text-base">
+              How Pre-Order Works
+            </a>
+          </div>
+
+          <!-- Secondary Local Notice -->
+          <div class="flex items-center gap-3 pt-3 text-xs sm:text-sm text-[#5a6c5b]">
+            <svg class="w-5 h-5 text-[#c48a3f] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            <span>Currently serving selected neighbourhood delivery clusters in <strong>Gwalior</strong>.</span>
+          </div>
+        </div>
+
+        <!-- Hero Image Column -->
+        <div class="lg:col-span-5">
+          <div class="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white bg-white">
+            <img
+              src="/farm/images/hero-1280.jpg"
+              alt="Wheat harvest in Raisen district, Madhya Pradesh"
+              class="w-full h-72 sm:h-96 object-cover object-center"
+              loading="eager"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex flex-col justify-end p-5 text-white">
+              <span class="text-xs uppercase tracking-wider text-emerald-200 font-bold">Madhya Pradesh Harvest</span>
+              <p class="text-sm font-semibold mt-1">Sun-dried, raw agricultural produce transported directly to your neighbourhood.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- KNOW WHAT YOU'RE BUYING: TRANSPARENCY SECTION -->
+  <section class="py-8 bg-white border-b border-[#e8efe6]">
+    <div class="fd-container">
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center sm:text-left">
+        <div class="p-3 border-r sm:border-r border-[#e8efe6] last:border-r-0">
+          <div class="text-2xl mb-1">🌾</div>
+          <div class="font-bold text-sm text-[#1a251b]">Raw & Unprocessed</div>
+          <p class="text-xs text-[#536354] mt-0.5">Whole grains & oilseeds directly from field threshing.</p>
+        </div>
+        <div class="p-3 border-r sm:border-r border-[#e8efe6] last:border-r-0">
+          <div class="text-2xl mb-1">⚖️</div>
+          <div class="font-bold text-sm text-[#1a251b]">Transparent Prices</div>
+          <p class="text-xs text-[#536354] mt-0.5">Fixed ₹/kg direct from the database with live stock.</p>
+        </div>
+        <div class="p-3 border-r sm:border-r border-[#e8efe6] last:border-r-0">
+          <div class="text-2xl mb-1">🚚</div>
+          <div class="font-bold text-sm text-[#1a251b]">Scheduled Transport</div>
+          <p class="text-xs text-[#536354] mt-0.5">Consolidated neighbourhood delivery trips to Gwalior.</p>
+        </div>
+        <div class="p-3">
+          <div class="text-2xl mb-1">🎁</div>
+          <div class="font-bold text-sm text-[#1a251b]">Free Quality Samples</div>
+          <p class="text-xs text-[#536354] mt-0.5">Test 100g or 200g before purchasing bulk quantity.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCTS SECTION: THIS WEEK'S FARM PRODUCE -->
+  <section id="produce-catalogue" class="py-14 sm:py-20">
+    <div class="fd-container">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
+        <div>
+          <span class="text-xs uppercase tracking-wider text-[#275629] font-bold">Direct Harvest Availability</span>
+          <h2 class="fd-serif text-3xl sm:text-4xl font-bold text-[#152317] mt-1">
+            This Week's Farm Produce
+          </h2>
+          <p class="text-sm text-[#536354] mt-2 max-w-xl">
+            Live prices and stock fetched directly from our farm database. Quantities are verified in real time at checkout.
+          </p>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-xs text-[#536354] font-medium">Cluster:</span>
+          <span class="px-2.5 py-1 rounded-md bg-[#eaf3e9] text-[#275629] text-xs font-bold">Pawan Nagar & Chetakpuri</span>
+        </div>
+      </div>
+
+      <!-- Live Product Grid Container -->
+      <div id="product-grid-loading" class="text-center py-16 text-[#536354]">
+        <div class="inline-block animate-spin w-8 h-8 border-4 border-[#275629] border-t-transparent rounded-full mb-3"></div>
+        <p class="text-sm font-semibold">Loading current harvest stock and prices from database...</p>
+      </div>
+
+      <div id="product-grid" class="hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        <!-- Rendered via Client JavaScript from /farm/api/products -->
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS SECTION -->
+  <section class="py-14 sm:py-20 bg-[#f1f5ee] border-y border-[#dfebdb]">
+    <div class="fd-container">
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <span class="text-xs uppercase tracking-wider text-[#275629] font-bold">Consolidated Farm-to-Home Model</span>
+        <h2 class="fd-serif text-3xl sm:text-4xl font-bold text-[#152317] mt-1">
+          How Pre-Order Delivery Works
+        </h2>
+        <p class="text-sm text-[#536354] mt-2">
+          We are not a quick-commerce app. We consolidate harvest orders from nearby households to keep food honest, pure, and fuel-efficient.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Step 1 -->
+        <div class="bg-white p-6 rounded-xl border border-[#e0e8dc] shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="w-10 h-10 rounded-full bg-[#eaf3e9] text-[#275629] font-bold flex items-center justify-center text-lg mb-4">
+              1
+            </div>
+            <h3 class="font-bold text-base text-[#152317] mb-2">Choose Your Produce</h3>
+            <p class="text-xs text-[#536354] leading-relaxed">
+              Browse raw wheat, groundnut, chana, moong, urad, and current seasonal cuttings. Pick your desired quantity presets.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-[#f0f4ee] text-[11px] font-semibold text-[#275629]">
+            ✓ Live stock transparency
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="bg-white p-6 rounded-xl border border-[#e0e8dc] shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="w-10 h-10 rounded-full bg-[#eaf3e9] text-[#275629] font-bold flex items-center justify-center text-lg mb-4">
+              2
+            </div>
+            <h3 class="font-bold text-base text-[#152317] mb-2">Place Pre-Order</h3>
+            <p class="text-xs text-[#536354] leading-relaxed">
+              Enter your Pawan Nagar or Chetakpuri address. Review real-time delivery charges and reserve your harvest batch.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-[#f0f4ee] text-[11px] font-semibold text-[#275629]">
+            ✓ Pay on delivery
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="bg-white p-6 rounded-xl border border-[#e0e8dc] shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="w-10 h-10 rounded-full bg-[#eaf3e9] text-[#275629] font-bold flex items-center justify-center text-lg mb-4">
+              3
+            </div>
+            <h3 class="font-bold text-base text-[#152317] mb-2">We Consolidate</h3>
+            <p class="text-xs text-[#536354] leading-relaxed">
+              Orders from your neighbourhood cluster are aggregated at the farm into bulk transport batches for efficient Gwalior trips.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-[#f0f4ee] text-[11px] font-semibold text-[#275629]">
+            ✓ Cluster grouping
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="bg-white p-6 rounded-xl border border-[#e0e8dc] shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="w-10 h-10 rounded-full bg-[#eaf3e9] text-[#275629] font-bold flex items-center justify-center text-lg mb-4">
+              4
+            </div>
+            <h3 class="font-bold text-base text-[#152317] mb-2">Scheduled Delivery</h3>
+            <p class="text-xs text-[#536354] leading-relaxed">
+              Produce is brought to Gwalior during the scheduled delivery round and delivered to your doorstep.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-[#f0f4ee] text-[11px] font-semibold text-[#275629]">
+            ✓ Scheduled neighbourhood drop
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FREE SAMPLE CALLOUT BANNER -->
+  <section class="py-14 bg-white">
+    <div class="fd-container">
+      <div class="bg-gradient-to-r from-[#1c3c1e] to-[#2b572e] rounded-2xl p-8 sm:p-12 text-white shadow-xl relative overflow-hidden">
+        <div class="relative z-10 max-w-2xl space-y-4">
+          <span class="inline-block px-3 py-1 rounded-full bg-white/20 text-emerald-200 text-xs font-bold uppercase tracking-wider">
+            Taste & Inspect First
+          </span>
+          <h2 class="fd-serif text-2xl sm:text-4xl font-bold tracking-tight">
+            Not sure about the quality? Request a free 100g or 200g sample.
+          </h2>
+          <p class="text-xs sm:text-sm text-emerald-100/90 leading-relaxed">
+            We believe in complete transparency. Inspect the raw grains, pods, and pulses yourself before ordering larger quantities. Free samples are delivered during scheduled sample rounds in Chetakpuri and Pawan Nagar.
+          </p>
+          <div class="pt-2 flex flex-wrap gap-3">
+            <a href="/farm/samples" class="fd-btn bg-white text-[#1c3c1e] hover:bg-emerald-50 px-5 py-3 text-sm font-bold shadow-md">
+              Request a Free Sample &rarr;
+            </a>
+            <a href="/farm/sample-policy" class="fd-btn border border-white/40 text-white hover:bg-white/10 px-4 py-3 text-sm">
+              Read Sample Policy
+            </a>
+          </div>
+        </div>
+        <div class="hidden lg:block absolute -right-6 -bottom-10 opacity-20 text-9xl">
+          🌾
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DELIVERY CLUSTERS OVERVIEW -->
+  <section class="py-12 bg-[#f8faf6] border-t border-[#e2eae0]">
+    <div class="fd-container">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+        <div>
+          <h3 class="fd-serif text-2xl font-bold text-[#152317]">Target Delivery Clusters in Gwalior</h3>
+          <p class="text-xs text-[#536354] mt-1">Initial scheduled neighbourhoods. Additional areas will be added progressively.</p>
+        </div>
+        <a href="/farm/delivery-areas" class="text-xs font-bold text-[#275629] hover:underline">
+          View full delivery schedule & charges &rarr;
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="bg-white p-5 rounded-xl border border-[#e0e8dc] shadow-sm flex items-center justify-between">
+          <div>
+            <span class="text-[10px] font-bold uppercase text-[#275629] bg-[#eaf3e9] px-2 py-0.5 rounded-full">Cluster 1</span>
+            <h4 class="font-bold text-base text-[#152317] mt-1.5">Pawan Nagar / Pavan Nagar Colony</h4>
+            <p class="text-xs text-[#536354] mt-0.5">Gwalior, Madhya Pradesh</p>
+          </div>
+          <span class="text-xs font-semibold px-3 py-1 rounded-lg bg-[#f0f4ee] text-[#1a251b]">Scheduled Round</span>
+        </div>
+
+        <div class="bg-white p-5 rounded-xl border border-[#e0e8dc] shadow-sm flex items-center justify-between">
+          <div>
+            <span class="text-[10px] font-bold uppercase text-[#275629] bg-[#eaf3e9] px-2 py-0.5 rounded-full">Cluster 2</span>
+            <h4 class="font-bold text-base text-[#152317] mt-1.5">Chetakpuri</h4>
+            <p class="text-xs text-[#536354] mt-0.5">Gwalior, Madhya Pradesh</p>
+          </div>
+          <span class="text-xs font-semibold px-3 py-1 rounded-lg bg-[#f0f4ee] text-[#1a251b]">Scheduled Round</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLIENT-SIDE CATALOGUE LOADER SCRIPT -->
+  <script is:inline>
+    // Fetch live catalogue from authoritative API endpoint
+    async function loadProducts() {
+      const loader = document.getElementById('product-grid-loading');
+      const grid = document.getElementById('product-grid');
+      if (!loader || !grid) return;
+
+      try {
+        const res = await fetch('/farm/api/products');
+        const data = await res.json();
+
+        if (!data.success || !data.products || data.products.length === 0) {
+          loader.innerHTML = '<p class="text-sm text-red-600">No produce currently listed. Please check back soon.</p>';
+          return;
+        }
+
+        loader.classList.add('hidden');
+        grid.classList.remove('hidden');
+
+        grid.innerHTML = data.products.map(p => {
+          const isOut = p.isOutOfStock;
+          const priceDisplay = p.pricePerKgRupees !== null ? `₹${p.pricePerKgRupees}/kg` : 'Configured from DB';
+          const defaultPreset = p.quantityOptions[0] || 1;
+
+          return `
+            <div class="fd-card flex flex-col justify-between transition-all hover:shadow-md ${isOut ? 'opacity-75' : ''}">
+              <div>
+                <!-- Image Container with Badges -->
+                <div class="relative w-full h-56 bg-neutral-100 overflow-hidden">
+                  <img
+                    src="${p.imageUrl || '/farm/images/wheat-500.jpg'}"
+                    alt="${p.imageAlt || p.name}"
+                    class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                    loading="lazy"
+                  />
+                  <div class="absolute top-3 left-3 flex flex-col gap-1.5 items-start">
+                    <span class="fd-badge ${p.isSeasonal ? 'fd-badge-seasonal' : 'fd-badge-raw'} shadow-sm">
+                      ${p.label}
+                    </span>
+                    ${p.localName ? `
+                      <span class="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-black/60 text-white backdrop-blur-sm">
+                        ${p.localName}
+                      </span>
+                    ` : ''}
+                  </div>
+                  ${isOut ? `
+                    <div class="absolute inset-0 bg-black/40 backdrop-blur-[1px] flex items-center justify-center">
+                      <span class="fd-badge fd-badge-out px-4 py-1.5 text-xs font-bold shadow-md">
+                        Out of Stock
+                      </span>
+                    </div>
+                  ` : ''}
+                </div>
+
+                <!-- Product Info -->
+                <div class="p-5">
+                  <div class="flex items-baseline justify-between gap-2">
+                    <h3 class="fd-serif text-xl font-bold text-[#152317]">
+                      <a href="/farm/products/${p.slug}" class="hover:underline">${p.name}</a>
+                    </h3>
+                    <div class="text-right">
+                      <div class="text-lg font-bold text-[#275629]">${priceDisplay}</div>
+                    </div>
+                  </div>
+
+                  <p class="text-xs text-[#536354] mt-2 line-clamp-2 leading-relaxed">
+                    ${p.description}
+                  </p>
+
+                  <div class="mt-4 pt-3 border-t border-[#f0f4ee] flex items-center justify-between text-xs text-[#536354]">
+                    <span>Availability:</span>
+                    <strong class="${p.quantityAvailable < 15 ? 'text-amber-700' : 'text-[#275629]'}">
+                      ${isOut ? 'Sold Out' : `${p.quantityAvailable} kg available`}
+                    </strong>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Action Controls -->
+              <div class="p-5 pt-0 mt-auto space-y-3">
+                ${!isOut ? `
+                  <div class="flex items-center justify-between gap-2">
+                    <span class="text-xs font-medium text-[#536354]">Qty:</span>
+                    <div class="flex items-center border border-[#d0ded0] rounded-lg overflow-hidden bg-white">
+                      <button type="button" class="px-2.5 py-1 text-sm font-bold text-[#275629] hover:bg-[#f0f4ee]" onclick="adjustHomeQty('${p.id}', -1)">−</button>
+                      <input id="qty-${p.id}" type="number" min="1" max="${p.quantityAvailable}" value="${defaultPreset}" class="w-12 text-center text-xs font-bold py-1 border-x border-[#d0ded0] focus:outline-none" readonly />
+                      <button type="button" class="px-2.5 py-1 text-sm font-bold text-[#275629] hover:bg-[#f0f4ee]" onclick="adjustHomeQty('${p.id}', 1, ${p.quantityAvailable})">+</button>
+                    </div>
+                    <span class="text-xs text-[#536354] font-semibold">kg</span>
+                  </div>
+
+                  <div class="grid grid-cols-2 gap-2">
+                    <button type="button" class="fd-btn fd-btn-secondary fd-btn-sm w-full font-bold" onclick="addHomeToCart(${p.id}, '${p.name.replace(/'/g, "\\'")}', ${p.pricePerKgRupees})">
+                      Add to Cart
+                    </button>
+                    <button type="button" class="fd-btn fd-btn-primary fd-btn-sm w-full font-bold" onclick="buyNowHome(${p.id}, '${p.name.replace(/'/g, "\\'")}', ${p.pricePerKgRupees})">
+                      Buy Now
+                    </button>
+                  </div>
+                ` : `
+                  <button type="button" class="fd-btn fd-btn-secondary fd-btn-sm w-full font-bold opacity-60 cursor-not-allowed" disabled>
+                    Currently Out of Stock
+                  </button>
+                `}
+
+                ${p.sampleAvailable ? `
+                  <a href="/farm/samples?product_id=${p.id}" class="block text-center text-[11px] font-bold text-[#b07a33] hover:underline pt-1">
+                    🎁 Request Free Sample (100g / 200g) &rarr;
+                  </a>
+                ` : ''}
+              </div>
+            </div>
+          `;
+        }).join('');
+      } catch (err) {
+        loader.innerHTML = '<p class="text-sm text-red-600">Failed to load harvest produce. Please check your connection.</p>';
+      }
+    }
+
+    // Helper functions for quantity buttons and cart
+    window.adjustHomeQty = function(id, delta, max = 100) {
+      const input = document.getElementById('qty-' + id);
+      if (!input) return;
+      let val = parseInt(input.value || '1', 10) + delta;
+      if (val < 1) val = 1;
+      if (val > max) val = max;
+      input.value = val;
+    };
+
+    window.addHomeToCart = function(productId, productName, priceRupees) {
+      const input = document.getElementById('qty-' + productId);
+      const qty = input ? parseInt(input.value || '1', 10) : 1;
+
+      let cart = [];
+      try {
+        cart = JSON.parse(localStorage.getItem('fd_cart_v1') || '[]');
+      } catch (_) {}
+
+      const idx = cart.findIndex(it => it.productId === productId);
+      if (idx >= 0) {
+        cart[idx].quantity += qty;
+      } else {
+        cart.push({
+          productId,
+          productName,
+          priceRupees,
+          quantity: qty,
+        });
+      }
+
+      localStorage.setItem('fd_cart_v1', JSON.stringify(cart));
+      if (window.fdUpdateCart) window.fdUpdateCart();
+
+      // Simple toast notification
+      alert(`Added ${qty} kg of ${productName} to your cart!`);
+    };
+
+    window.buyNowHome = function(productId, productName, priceRupees) {
+      const input = document.getElementById('qty-' + productId);
+      const qty = input ? parseInt(input.value || '1', 10) : 1;
+
+      // Put item in cart and redirect directly to checkout
+      let cart = [{
+        productId,
+        productName,
+        priceRupees,
+        quantity: qty,
+      }];
+      localStorage.setItem('fd_cart_v1', JSON.stringify(cart));
+      if (window.fdUpdateCart) window.fdUpdateCart();
+
+      window.location.href = '/farm/checkout';
+    };
+
+    document.addEventListener('DOMContentLoaded', loadProducts);
+  </script>
+</FarmLayout>

@@ -1,0 +1,397 @@
+---
+import FarmLayout from '../../../layouts/FarmLayout.astro';
+---
+
+<FarmLayout
+  title="Manage Free Samples | Admin | Farm Direct Gwalior"
+  description="Route aggregation, delivery rounds, and sample request fulfillment for Gwalior clusters."
+  canonicalPath="/farm/admin/samples"
+  hideCartBar={true}
+>
+  <div class="fd-container py-8 sm:py-14">
+    <!-- Admin Header -->
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 border-b border-[#e0e8dc] mb-8">
+      <div>
+        <div class="flex items-center gap-2">
+          <a href="/farm/admin" class="text-xs text-[#275629] font-bold hover:underline">&larr; Back to Dashboard</a>
+          <span class="text-xs text-[#798a7a]">•</span>
+          <span class="text-xs uppercase tracking-wider text-[#c48a3f] font-bold bg-[#fdf6ec] px-3 py-0.5 rounded-full">
+            Tasting Rounds
+          </span>
+        </div>
+        <h1 class="fd-serif text-3xl sm:text-4xl font-bold text-[#152317] mt-1.5">
+          Free Sample Rounds & Route Planner
+        </h1>
+        <p class="text-xs sm:text-sm text-[#536354] mt-1">
+          Cluster sample requests by Pawan Nagar & Chetakpuri for scheduled delivery vehicle trips.
+        </p>
+      </div>
+
+      <!-- Quick Nav & Round Action -->
+      <div class="flex flex-wrap items-center gap-2 text-xs font-bold">
+        <a href="/farm/admin/orders" class="px-3 py-2 rounded-lg bg-white border border-[#d0ded0] text-[#152317] hover:bg-[#f0f4ee]">
+          Orders
+        </a>
+        <a href="/farm/admin/inventory" class="px-3 py-2 rounded-lg bg-white border border-[#d0ded0] text-[#152317] hover:bg-[#f0f4ee]">
+          Inventory
+        </a>
+        <button type="button" id="btn-open-round-modal" class="fd-btn fd-btn-primary fd-btn-sm font-bold text-xs flex items-center gap-1.5 shadow-sm">
+          <span>+</span> Create Delivery Round
+        </button>
+      </div>
+    </div>
+
+    <!-- Loading State -->
+    <div id="admin-loading" class="text-center py-20 text-[#536354]">
+      <div class="inline-block animate-spin w-8 h-8 border-4 border-[#275629] border-t-transparent rounded-full mb-3"></div>
+      <p class="text-sm font-semibold">Loading sample requests and route aggregates...</p>
+    </div>
+
+    <!-- Main Content -->
+    <div id="admin-content" class="hidden space-y-8">
+      <!-- Route Aggregation Telemetry -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div class="bg-white p-5 rounded-2xl border border-[#e0e8dc] shadow-sm">
+          <div class="text-xs text-[#536354] font-medium">Total Sample Requests</div>
+          <div id="m-sample-count" class="text-2xl font-bold text-[#152317] mt-1">0</div>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl border border-[#e0e8dc] shadow-sm">
+          <div class="text-xs text-[#536354] font-medium">Total Weight to Pack</div>
+          <div id="m-sample-weight" class="text-2xl font-bold text-[#275629] mt-1">0 g</div>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl border border-[#e0e8dc] shadow-sm">
+          <div class="text-xs text-[#536354] font-medium mb-1">By Neighbourhood</div>
+          <div id="m-by-area" class="text-xs space-y-1 font-semibold text-[#152317]"></div>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl border border-[#e0e8dc] shadow-sm">
+          <div class="text-xs text-[#536354] font-medium mb-1">By Produce Variety</div>
+          <div id="m-by-product" class="text-xs space-y-1 font-semibold text-[#152317]"></div>
+        </div>
+      </div>
+
+      <!-- Scheduled Rounds Section -->
+      <div class="bg-white rounded-2xl border border-[#e0e8dc] shadow-sm p-6 space-y-4">
+        <div class="flex items-center justify-between pb-3 border-b border-[#f0f4ee]">
+          <h2 class="fd-serif text-lg font-bold text-[#152317]">Scheduled Delivery Vehicle Rounds</h2>
+          <span class="text-xs text-[#536354]">Consolidated dispatch trips to Gwalior clusters</span>
+        </div>
+        <div id="rounds-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+      </div>
+
+      <!-- Sample Requests Table -->
+      <div class="bg-white rounded-2xl border border-[#e0e8dc] shadow-sm overflow-hidden">
+        <div class="p-5 border-b border-[#f0f4ee] flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h2 class="fd-serif text-lg font-bold text-[#152317]">Individual Sample Requests</h2>
+            <p class="text-xs text-[#536354]">Manage approvals, assign to rounds, or mark delivered.</p>
+          </div>
+
+          <div class="flex items-center gap-3 text-xs">
+            <select id="filter-sample-status" class="fd-input py-1.5 px-3 text-xs w-auto">
+              <option value="ALL">All Statuses</option>
+              <option value="REQUESTED">Requested (New)</option>
+              <option value="APPROVED">Approved</option>
+              <option value="SCHEDULED">Scheduled</option>
+              <option value="OUT_FOR_DELIVERY">Out for Delivery</option>
+              <option value="DELIVERED">Delivered</option>
+              <option value="DECLINED">Declined</option>
+              <option value="CANCELLED">Cancelled</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-[#f8faf6] border-b border-[#e0e8dc] text-[#536354] uppercase font-bold text-[10px] tracking-wider">
+              <tr>
+                <th class="py-3 px-4">Customer</th>
+                <th class="py-3 px-4">Produce & Packet</th>
+                <th class="py-3 px-4">Neighbourhood & Address</th>
+                <th class="py-3 px-4">Round</th>
+                <th class="py-3 px-4">Status</th>
+                <th class="py-3 px-4 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="samples-tbody" class="divide-y divide-[#f0f4ee]"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Create Round Modal -->
+  <div id="round-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-[#e0e8dc]">
+      <div class="flex items-center justify-between pb-3 border-b border-[#f0f4ee] mb-4">
+        <h3 class="fd-serif text-lg font-bold text-[#152317]">Schedule Sample Round</h3>
+        <button type="button" id="btn-close-round-modal" class="text-[#798a7a] hover:text-[#152317] text-2xl font-bold leading-none">&times;</button>
+      </div>
+
+      <form id="round-form" class="space-y-4 text-xs">
+        <div>
+          <label class="block font-bold text-[#152317] mb-1">Round Name *</label>
+          <input type="text" id="round-name-input" class="fd-input text-xs" placeholder="e.g. Sunday Morning Round — Pawan Nagar" required />
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-[#152317] mb-1">Delivery Date *</label>
+            <input type="date" id="round-date-input" class="fd-input text-xs" required />
+          </div>
+          <div>
+            <label class="block font-bold text-[#152317] mb-1">Delivery Area *</label>
+            <select id="round-area-select" class="fd-input text-xs" required></select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-[#152317] mb-1">Trip Notes</label>
+          <input type="text" id="round-notes-input" class="fd-input text-xs" placeholder="e.g. Consolidating with Order vehicle #2" />
+        </div>
+
+        <div class="flex items-center justify-end gap-3 pt-3 border-t border-[#f0f4ee]">
+          <button type="button" id="btn-cancel-round-modal" class="fd-btn fd-btn-outline fd-btn-sm font-bold">
+            Cancel
+          </button>
+          <button type="submit" class="fd-btn fd-btn-primary fd-btn-sm font-bold">
+            Create Round
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script is:inline>
+    let sampleRequests = [];
+    let deliveryRounds = [];
+    let deliveryAreas = [];
+
+    async function initSamples() {
+      const loader = document.getElementById('admin-loading');
+      const content = document.getElementById('admin-content');
+
+      try {
+        const meRes = await fetch('/farm/api/auth/me');
+        const meData = await meRes.json();
+        if (!meData.success || !meData.user || meData.user.role !== 'ADMIN') {
+          window.location.href = '/farm/account/login?redirect=/farm/admin/samples';
+          return;
+        }
+
+        // Load delivery areas
+        const areasRes = await fetch('/farm/api/delivery-areas');
+        const areasData = await areasRes.json();
+        if (areasData.success) {
+          deliveryAreas = areasData.deliveryAreas || [];
+          const select = document.getElementById('round-area-select');
+          select.innerHTML = deliveryAreas.map(a => `<option value="${a.id}">${a.name}</option>`).join('');
+        }
+
+        await Promise.all([loadSampleData(), loadRoundsData()]);
+        loader.classList.add('hidden');
+        content.classList.remove('hidden');
+      } catch (err) {
+        loader.innerHTML = '<p class="text-sm text-red-600">Failed to load sample telemetry.</p>';
+      }
+    }
+
+    async function loadSampleData() {
+      const status = document.getElementById('filter-sample-status').value;
+      const url = status === 'ALL' ? '/farm/api/admin/samples' : `/farm/api/admin/samples?status=${status}`;
+      const res = await fetch(url);
+      const data = await res.json();
+
+      if (data.success) {
+        sampleRequests = data.samples || [];
+        renderRouteSummary(data.routeSummary);
+        renderSamplesTable(sampleRequests);
+      }
+    }
+
+    async function loadRoundsData() {
+      const res = await fetch('/farm/api/admin/sample-rounds');
+      const data = await res.json();
+      if (data.success) {
+        deliveryRounds = data.rounds || [];
+        renderRoundsGrid(deliveryRounds);
+      }
+    }
+
+    function renderRouteSummary(summary) {
+      if (!summary) return;
+      document.getElementById('m-sample-count').textContent = summary.totalRequests;
+      document.getElementById('m-sample-weight').textContent = `${summary.totalGrams} g (${(summary.totalGrams / 1000).toFixed(1)} kg)`;
+
+      const areaBox = document.getElementById('m-by-area');
+      areaBox.innerHTML = Object.entries(summary.byArea || {}).map(([a, count]) => `
+        <div class="flex justify-between"><span>${a}:</span><span class="font-bold">${count}</span></div>
+      `).join('') || '<span class="text-gray-400">None</span>';
+
+      const prodBox = document.getElementById('m-by-product');
+      prodBox.innerHTML = Object.entries(summary.byProduct || {}).map(([p, count]) => `
+        <div class="flex justify-between truncate"><span>${p}:</span><span class="font-bold">${count}</span></div>
+      `).join('') || '<span class="text-gray-400">None</span>';
+    }
+
+    function renderRoundsGrid(rounds) {
+      const grid = document.getElementById('rounds-grid');
+      if (rounds.length === 0) {
+        grid.innerHTML = '<p class="col-span-full text-xs text-[#798a7a]">No sample rounds scheduled yet. Click "+ Create Delivery Round" above.</p>';
+        return;
+      }
+
+      grid.innerHTML = rounds.map(r => `
+        <div class="p-4 rounded-xl border border-[#e0e8dc] bg-[#f8faf6] space-y-2 text-xs">
+          <div class="flex items-center justify-between">
+            <span class="px-2 py-0.5 rounded text-[10px] font-bold ${r.status === 'OPEN' ? 'bg-emerald-100 text-emerald-800' : 'bg-gray-100 text-gray-700'}">
+              ${r.status}
+            </span>
+            <span class="font-bold text-[#275629]">${r.date}</span>
+          </div>
+          <strong class="font-bold text-sm text-[#152317] block">${r.name}</strong>
+          <div class="text-[#536354]">Cluster: <strong>${r.areaName}</strong></div>
+          <div class="pt-2 border-t border-[#e0e8dc] flex items-center justify-between text-[11px] text-[#798a7a]">
+            <span>Samples: <strong>${r.sampleCount}</strong> (${r.totalGrams}g)</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderSamplesTable(samples) {
+      const tbody = document.getElementById('samples-tbody');
+      if (samples.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" class="py-8 text-center text-[#798a7a]">No sample requests found.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = samples.map(s => {
+        let badgeColor = 'bg-gray-100 text-gray-700';
+        if (s.status === 'REQUESTED') badgeColor = 'bg-amber-100 text-amber-800';
+        else if (s.status === 'APPROVED') badgeColor = 'bg-blue-100 text-blue-800';
+        else if (s.status === 'SCHEDULED') badgeColor = 'bg-purple-100 text-purple-800';
+        else if (s.status === 'DELIVERED') badgeColor = 'bg-emerald-100 text-emerald-800';
+        else if (s.status === 'DECLINED' || s.status === 'CANCELLED') badgeColor = 'bg-rose-100 text-rose-800';
+
+        const phoneDigits = (s.phone || '').replace(/\D/g, '').slice(-10);
+        const waMsg = encodeURIComponent(`Namaste ${s.customerName} ji! Farm Direct Gwalior update regarding your free ${s.sampleQuantityGrams}g sample of ${s.productName}.`);
+        const waLink = `https://wa.me/91${phoneDigits}?text=${waMsg}`;
+
+        return `
+          <tr class="hover:bg-[#f8faf6]">
+            <td class="py-3 px-4">
+              <strong class="font-bold text-[#152317] block">${s.customerName}</strong>
+              <div class="flex items-center gap-2 text-[11px] text-[#536354]">
+                <span>${s.phone}</span>
+                <a href="${waLink}" target="_blank" class="text-emerald-700 font-bold hover:underline">WhatsApp</a>
+              </div>
+            </td>
+            <td class="py-3 px-4">
+              <span class="font-bold text-[#152317]">${s.productName}</span>
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#fdf6ec] text-[#c48a3f] ml-1.5">${s.sampleQuantityGrams}g</span>
+            </td>
+            <td class="py-3 px-4">
+              <strong class="text-[#275629] block">${s.deliveryAreaName}</strong>
+              <p class="text-[11px] text-[#536354] line-clamp-1">${s.deliveryAddress}</p>
+            </td>
+            <td class="py-3 px-4 text-[#536354]">
+              ${s.roundName ? `<span class="font-medium text-[#152317]">${s.roundName}</span><span class="block text-[10px] text-[#798a7a]">${s.roundDate}</span>` : '<span class="text-gray-400">Unassigned</span>'}
+            </td>
+            <td class="py-3 px-4">
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold ${badgeColor}">
+                ${s.status}
+              </span>
+            </td>
+            <td class="py-3 px-4 text-right">
+              <div class="flex items-center justify-end gap-1.5">
+                ${s.status === 'REQUESTED' ? `
+                  <button type="button" class="px-2 py-1 bg-emerald-600 text-white rounded text-[10px] font-bold hover:bg-emerald-700" onclick="updateSampleStatus(${s.id}, 'APPROVED')">
+                    Approve
+                  </button>
+                  <button type="button" class="px-2 py-1 bg-rose-50 text-rose-700 rounded text-[10px] font-bold hover:bg-rose-100" onclick="updateSampleStatus(${s.id}, 'DECLINED')">
+                    Decline
+                  </button>
+                ` : ''}
+
+                ${s.status === 'APPROVED' ? `
+                  <select onchange="assignToRound(${s.id}, this.value)" class="text-[10px] border border-[#d0ded0] rounded py-1 px-1.5">
+                    <option value="">Assign Round...</option>
+                    ${deliveryRounds.map(r => `<option value="${r.id}">${r.name} (${r.date})</option>`).join('')}
+                  </select>
+                ` : ''}
+
+                ${s.status === 'SCHEDULED' || s.status === 'OUT_FOR_DELIVERY' ? `
+                  <button type="button" class="px-2 py-1 bg-[#275629] text-white rounded text-[10px] font-bold hover:bg-[#1f4420]" onclick="updateSampleStatus(${s.id}, 'DELIVERED')">
+                    Delivered
+                  </button>
+                ` : ''}
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    window.updateSampleStatus = async function(id, status) {
+      if (confirm(`Change status to ${status}?`)) {
+        await fetch('/farm/api/admin/samples', {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id, status }),
+        });
+        loadSampleData();
+      }
+    };
+
+    window.assignToRound = async function(sampleId, roundId) {
+      if (!roundId) return;
+      await fetch('/farm/api/admin/samples', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: sampleId, status: 'SCHEDULED', scheduled_round_id: Number(roundId) }),
+      });
+      loadSampleData();
+    };
+
+    // Modal
+    const roundModal = document.getElementById('round-modal');
+    const roundForm = document.getElementById('round-form');
+
+    document.getElementById('btn-open-round-modal').addEventListener('click', () => {
+      roundForm.reset();
+      roundModal.classList.remove('hidden');
+    });
+
+    document.getElementById('btn-close-round-modal').addEventListener('click', () => roundModal.classList.add('hidden'));
+    document.getElementById('btn-cancel-round-modal').addEventListener('click', () => roundModal.classList.add('hidden'));
+
+    roundForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const payload = {
+        round_name: document.getElementById('round-name-input').value.trim(),
+        delivery_date: document.getElementById('round-date-input').value,
+        delivery_area_id: Number(document.getElementById('round-area-select').value),
+        notes: document.getElementById('round-notes-input').value.trim(),
+      };
+
+      const res = await fetch('/farm/api/admin/sample-rounds', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        roundModal.classList.add('hidden');
+        await loadRoundsData();
+      } else {
+        alert(data.message || 'Failed to create round');
+      }
+    });
+
+    document.getElementById('filter-sample-status').addEventListener('change', loadSampleData);
+    document.addEventListener('DOMContentLoaded', initSamples);
+  </script>
+</FarmLayout>

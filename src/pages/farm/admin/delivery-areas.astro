@@ -1,0 +1,253 @@
+---
+import FarmLayout from '../../../layouts/FarmLayout.astro';
+---
+
+<FarmLayout
+  title="Manage Delivery Areas | Admin | Farm Direct Gwalior"
+  description="Manage neighbourhood delivery clusters, scheduled transport days, and fees."
+  canonicalPath="/farm/admin/delivery-areas"
+  hideCartBar={true}
+>
+  <div class="fd-container py-8 sm:py-14">
+    <!-- Admin Header -->
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 border-b border-[#e0e8dc] mb-8">
+      <div>
+        <div class="flex items-center gap-2">
+          <a href="/farm/admin" class="text-xs text-[#275629] font-bold hover:underline">&larr; Back to Dashboard</a>
+          <span class="text-xs text-[#798a7a]">•</span>
+          <span class="text-xs uppercase tracking-wider text-[#c48a3f] font-bold bg-[#fdf6ec] px-3 py-0.5 rounded-full">
+            Logistics
+          </span>
+        </div>
+        <h1 class="fd-serif text-3xl sm:text-4xl font-bold text-[#152317] mt-1.5">
+          Gwalior Delivery Clusters
+        </h1>
+        <p class="text-xs sm:text-sm text-[#536354] mt-1">
+          Configure active neighbourhood service areas, consolidated trip days, and cluster minimum order values.
+        </p>
+      </div>
+
+      <!-- Quick Nav & Add Action -->
+      <div class="flex flex-wrap items-center gap-2 text-xs font-bold">
+        <a href="/farm/admin/orders" class="px-3 py-2 rounded-lg bg-white border border-[#d0ded0] text-[#152317] hover:bg-[#f0f4ee]">
+          Orders
+        </a>
+        <a href="/farm/admin/settings" class="px-3 py-2 rounded-lg bg-white border border-[#d0ded0] text-[#152317] hover:bg-[#f0f4ee]">
+          Settings
+        </a>
+        <button type="button" id="btn-open-area-modal" class="fd-btn fd-btn-primary fd-btn-sm font-bold text-xs flex items-center gap-1.5 shadow-sm">
+          <span>+</span> Add Delivery Cluster
+        </button>
+      </div>
+    </div>
+
+    <!-- Loading State -->
+    <div id="admin-loading" class="text-center py-20 text-[#536354]">
+      <div class="inline-block animate-spin w-8 h-8 border-4 border-[#275629] border-t-transparent rounded-full mb-3"></div>
+      <p class="text-sm font-semibold">Loading delivery clusters...</p>
+    </div>
+
+    <!-- Main Content -->
+    <div id="admin-content" class="hidden space-y-6">
+      <div class="bg-white rounded-2xl border border-[#e0e8dc] shadow-sm overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-[#f8faf6] border-b border-[#e0e8dc] text-[#536354] uppercase font-bold text-[10px] tracking-wider">
+              <tr>
+                <th class="py-3 px-4">Cluster / Neighbourhood</th>
+                <th class="py-3 px-4">City</th>
+                <th class="py-3 px-4">Delivery Day / Schedule</th>
+                <th class="py-3 px-4">Delivery Charge</th>
+                <th class="py-3 px-4">Min Order Value</th>
+                <th class="py-3 px-4">Status</th>
+                <th class="py-3 px-4 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="areas-tbody" class="divide-y divide-[#f0f4ee]"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Area Modal -->
+  <div id="area-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 sm:p-8 shadow-2xl border border-[#e0e8dc]">
+      <div class="flex items-center justify-between pb-3 border-b border-[#f0f4ee] mb-4">
+        <h3 id="area-modal-title" class="fd-serif text-lg font-bold text-[#152317]">Add Delivery Cluster</h3>
+        <button type="button" id="btn-close-area-modal" class="text-[#798a7a] hover:text-[#152317] text-2xl font-bold leading-none">&times;</button>
+      </div>
+
+      <form id="area-form" class="space-y-4 text-xs">
+        <input type="hidden" id="form-area-id" />
+
+        <div>
+          <label class="block font-bold text-[#152317] mb-1">Cluster / Neighbourhood Name *</label>
+          <input type="text" id="form-area-name" class="fd-input text-xs" placeholder="e.g. Pawan Nagar Colony" required />
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-[#152317] mb-1">City</label>
+            <input type="text" id="form-area-city" class="fd-input text-xs" value="Gwalior" required />
+          </div>
+
+          <div>
+            <label class="block font-bold text-[#152317] mb-1">Delivery Day / Slot</label>
+            <input type="text" id="form-area-day" class="fd-input text-xs" placeholder="e.g. Sunday Morning" required />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-[#152317] mb-1">Delivery Charge (₹)</label>
+            <input type="number" id="form-area-charge" min="0" step="1" class="fd-input text-xs" value="0" />
+            <span class="text-[10px] text-[#798a7a]">₹0 for direct cluster delivery</span>
+          </div>
+
+          <div>
+            <label class="block font-bold text-[#152317] mb-1">Minimum Order (₹)</label>
+            <input type="number" id="form-area-min" min="0" step="1" class="fd-input text-xs" value="0" />
+            <span class="text-[10px] text-[#798a7a]">0 for no minimum</span>
+          </div>
+        </div>
+
+        <label class="flex items-center gap-2 cursor-pointer pt-2">
+          <input type="checkbox" id="form-area-active" checked class="rounded border-[#a1b3a1] text-[#275629]" />
+          <span class="font-bold text-[#152317]">Active (Open for pre-orders & samples)</span>
+        </label>
+
+        <div class="flex items-center justify-end gap-3 pt-4 border-t border-[#f0f4ee]">
+          <button type="button" id="btn-cancel-area-modal" class="fd-btn fd-btn-outline fd-btn-sm font-bold">
+            Cancel
+          </button>
+          <button type="submit" class="fd-btn fd-btn-primary fd-btn-sm font-bold">
+            Save Cluster
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script is:inline>
+    let deliveryAreas = [];
+
+    async function initAreas() {
+      const loader = document.getElementById('admin-loading');
+      const content = document.getElementById('admin-content');
+
+      try {
+        const meRes = await fetch('/farm/api/auth/me');
+        const meData = await meRes.json();
+        if (!meData.success || !meData.user || meData.user.role !== 'ADMIN') {
+          window.location.href = '/farm/account/login?redirect=/farm/admin/delivery-areas';
+          return;
+        }
+
+        await loadAreas();
+        loader.classList.add('hidden');
+        content.classList.remove('hidden');
+      } catch (err) {
+        loader.innerHTML = '<p class="text-sm text-red-600">Failed to load delivery areas.</p>';
+      }
+    }
+
+    async function loadAreas() {
+      const res = await fetch('/farm/api/admin/delivery-areas');
+      const data = await res.json();
+      if (data.success) {
+        deliveryAreas = data.deliveryAreas || [];
+        renderAreasTable(deliveryAreas);
+      }
+    }
+
+    function renderAreasTable(areas) {
+      const tbody = document.getElementById('areas-tbody');
+      tbody.innerHTML = areas.map(a => `
+        <tr class="hover:bg-[#f8faf6]">
+          <td class="py-3 px-4">
+            <strong class="font-bold text-sm text-[#152317]">${a.name}</strong>
+          </td>
+          <td class="py-3 px-4 text-[#536354]">${a.city}</td>
+          <td class="py-3 px-4 font-medium text-[#275629]">${a.deliveryDay}</td>
+          <td class="py-3 px-4 font-bold text-[#152317]">
+            ${a.deliveryChargeRupees > 0 ? `₹${a.deliveryChargeRupees}` : '<span class="text-emerald-700">FREE</span>'}
+          </td>
+          <td class="py-3 px-4 text-[#536354]">
+            ${a.minimumOrderRupees > 0 ? `₹${a.minimumOrderRupees}` : 'None'}
+          </td>
+          <td class="py-3 px-4">
+            <span class="px-2 py-0.5 rounded text-[10px] font-bold ${a.isActive ? 'bg-emerald-100 text-emerald-800' : 'bg-gray-100 text-gray-700'}">
+              ${a.isActive ? 'ACTIVE' : 'INACTIVE'}
+            </span>
+          </td>
+          <td class="py-3 px-4 text-right">
+            <button type="button" class="px-2.5 py-1 rounded bg-[#eaf3e9] text-[#275629] font-bold hover:bg-[#d8ebd6]" onclick="editArea(${a.id})">
+              Edit
+            </button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    const modal = document.getElementById('area-modal');
+    const form = document.getElementById('area-form');
+
+    document.getElementById('btn-open-area-modal').addEventListener('click', () => {
+      form.reset();
+      document.getElementById('form-area-id').value = '';
+      document.getElementById('area-modal-title').textContent = 'Add Delivery Cluster';
+      modal.classList.remove('hidden');
+    });
+
+    document.getElementById('btn-close-area-modal').addEventListener('click', () => modal.classList.add('hidden'));
+    document.getElementById('btn-cancel-area-modal').addEventListener('click', () => modal.classList.add('hidden'));
+
+    window.editArea = function(id) {
+      const a = deliveryAreas.find(x => x.id === id);
+      if (!a) return;
+
+      document.getElementById('form-area-id').value = a.id;
+      document.getElementById('area-modal-title').textContent = `Edit ${a.name}`;
+      document.getElementById('form-area-name').value = a.name;
+      document.getElementById('form-area-city').value = a.city;
+      document.getElementById('form-area-day').value = a.deliveryDay;
+      document.getElementById('form-area-charge').value = a.deliveryChargeRupees;
+      document.getElementById('form-area-min').value = a.minimumOrderRupees;
+      document.getElementById('form-area-active').checked = a.isActive;
+
+      modal.classList.remove('hidden');
+    };
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const aid = document.getElementById('form-area-id').value;
+
+      const payload = {
+        id: aid ? Number(aid) : undefined,
+        name: document.getElementById('form-area-name').value.trim(),
+        city: document.getElementById('form-area-city').value.trim(),
+        delivery_day: document.getElementById('form-area-day').value.trim(),
+        delivery_charge_rupees: Number(document.getElementById('form-area-charge').value) || 0,
+        minimum_order_rupees: Number(document.getElementById('form-area-min').value) || 0,
+        is_active: document.getElementById('form-area-active').checked,
+      };
+
+      const res = await fetch('/farm/api/admin/delivery-areas', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        modal.classList.add('hidden');
+        await loadAreas();
+      } else {
+        alert(data.message || 'Failed to save area');
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', initAreas);
+  </script>
+</FarmLayout>

@@ -1,0 +1,135 @@
+---
+import FarmLayout from '../../../layouts/FarmLayout.astro';
+---
+
+<FarmLayout
+  title="Create Customer Account | Farm Direct Gwalior"
+  description="Register a free Farm Direct account to easily manage raw agricultural produce pre-orders."
+  canonicalPath="/farm/account/register"
+>
+  <div class="fd-container py-12 sm:py-20">
+    <div class="max-w-md mx-auto bg-white p-8 sm:p-10 rounded-2xl border border-[#e0e8dc] shadow-sm">
+      <div class="text-center mb-8">
+        <div class="w-12 h-12 bg-[#eaf3e9] text-[#275629] rounded-xl flex items-center justify-center text-2xl mx-auto mb-3">
+          🌱
+        </div>
+        <h1 class="fd-serif text-2xl sm:text-3xl font-bold text-[#152317]">
+          Create Account
+        </h1>
+        <p class="text-xs text-[#536354] mt-1.5">
+          Save your Gwalior delivery addresses and track raw produce orders.
+        </p>
+      </div>
+
+      <form id="reg-form" onsubmit="handleRegister(event)" class="space-y-4">
+        <div>
+          <label class="text-xs font-bold uppercase tracking-wider text-[#536354] block mb-1">Full Name *</label>
+          <input
+            id="reg-name"
+            type="text"
+            required
+            placeholder="e.g. Anand Sharma"
+            class="w-full text-xs font-semibold p-3.5 rounded-lg border border-[#d0ded0] bg-white focus:outline-none focus:border-[#275629]"
+          />
+        </div>
+
+        <div>
+          <label class="text-xs font-bold uppercase tracking-wider text-[#536354] block mb-1">Mobile Number (WhatsApp) *</label>
+          <div class="flex">
+            <span class="inline-flex items-center px-3 text-xs font-bold bg-[#f0f4ee] border border-r-0 border-[#d0ded0] rounded-l-lg text-[#536354]">+91</span>
+            <input
+              id="reg-phone"
+              type="tel"
+              required
+              maxlength="10"
+              pattern="[6-9][0-9]{9}"
+              placeholder="10-digit mobile"
+              class="w-full text-xs font-semibold p-3.5 rounded-r-lg border border-[#d0ded0] bg-white focus:outline-none focus:border-[#275629]"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label class="text-xs font-bold uppercase tracking-wider text-[#536354] block mb-1">Email Address *</label>
+          <input
+            id="reg-email"
+            type="email"
+            required
+            placeholder="name@example.com"
+            class="w-full text-xs font-semibold p-3.5 rounded-lg border border-[#d0ded0] bg-white focus:outline-none focus:border-[#275629]"
+          />
+        </div>
+
+        <div>
+          <label class="text-xs font-bold uppercase tracking-wider text-[#536354] block mb-1">Password * (Min. 8 characters)</label>
+          <input
+            id="reg-pw"
+            type="password"
+            required
+            minlength="8"
+            placeholder="••••••••"
+            class="w-full text-xs font-semibold p-3.5 rounded-lg border border-[#d0ded0] bg-white focus:outline-none focus:border-[#275629]"
+          />
+        </div>
+
+        <div id="reg-error" class="hidden p-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-xs font-semibold text-center"></div>
+
+        <button
+          id="btn-reg-submit"
+          type="submit"
+          class="fd-btn fd-btn-primary w-full py-3.5 font-bold text-sm shadow-md"
+        >
+          Create Customer Account &rarr;
+        </button>
+      </form>
+
+      <div class="mt-8 pt-6 border-t border-[#f0f4ee] text-center text-xs text-[#536354]">
+        Already have an account?
+        <a href="/farm/account/login" class="font-bold text-[#275629] hover:underline">
+          Log in here
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script is:inline>
+    async function handleRegister(e) {
+      e.preventDefault();
+      const errBox = document.getElementById('reg-error');
+      const submitBtn = document.getElementById('btn-reg-submit');
+
+      errBox.classList.add('hidden');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Creating account...';
+
+      const name = document.getElementById('reg-name').value.trim();
+      const phone = document.getElementById('reg-phone').value.trim();
+      const email = document.getElementById('reg-email').value.trim();
+      const password = document.getElementById('reg-pw').value;
+
+      try {
+        const res = await fetch('/farm/api/auth/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, phone, email, password }),
+        });
+
+        const data = await res.json();
+        if (!data.success) {
+          errBox.textContent = data.error || 'Failed to create account.';
+          errBox.classList.remove('hidden');
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Create Customer Account →';
+          return;
+        }
+
+        window.location.href = '/farm/account';
+      } catch (err) {
+        errBox.textContent = 'Network error. Please try again.';
+        errBox.classList.remove('hidden');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Create Customer Account →';
+      }
+    }
+  </script>
+</FarmLayout>

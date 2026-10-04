@@ -6,8 +6,9 @@
     "node": ">=22.12.0"
   },
   "scripts": {
-    "dev:astro": "astro dev",
-    "dev": "npx wrangler pages dev -- npm run dev:astro",
+    "dev:astro": "astro dev --host 0.0.0.0",
+    "dev": "npx wrangler pages dev --ip 0.0.0.0 -- npm run dev:astro",
+    "dev:mobile": "npx wrangler pages dev --ip 0.0.0.0 --port 8788 -- npm run dev:astro",
     "dev:cf": "npx wrangler pages dev -- npm run dev:astro",
     "build": "astro build",
     "preview": "astro preview",

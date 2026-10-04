@@ -1,0 +1,416 @@
+---
+import FarmLayout from '../../../layouts/FarmLayout.astro';
+---
+
+<FarmLayout
+  title="Manage Products | Admin | Farm Direct Gwalior"
+  description="Manage farm produce catalogue, prices, and sample availability for Gwalior clusters."
+  canonicalPath="/farm/admin/products"
+  hideCartBar={true}
+>
+  <div class="fd-container py-8 sm:py-14">
+    <!-- Admin Header -->
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 border-b border-[#e0e8dc] mb-8">
+      <div>
+        <div class="flex items-center gap-2">
+          <a href="/farm/admin" class="text-xs text-[#275629] font-bold hover:underline">&larr; Back to Dashboard</a>
+          <span class="text-xs text-[#798a7a]">•</span>
+          <span class="text-xs uppercase tracking-wider text-[#c48a3f] font-bold bg-[#fdf6ec] px-3 py-0.5 rounded-full">
+            Catalogue
+          </span>
+        </div>
+        <h1 class="fd-serif text-3xl sm:text-4xl font-bold text-[#152317] mt-1.5">
+          Produce & Pricing
+        </h1>
+        <p class="text-xs sm:text-sm text-[#536354] mt-1">
+          Set live produce rates per kg, seasonal status, and free sample eligibility.
+        </p>
+      </div>
+
+      <!-- Quick Nav & Add Action -->
+      <div class="flex flex-wrap items-center gap-2">
+        <a href="/farm/admin/inventory" class="px-3 py-2 rounded-lg bg-white border border-[#d0ded0] text-xs font-bold text-[#152317] hover:bg-[#f0f4ee]">
+          Inventory
+        </a>
+        <a href="/farm/admin/orders" class="px-3 py-2 rounded-lg bg-white border border-[#d0ded0] text-xs font-bold text-[#152317] hover:bg-[#f0f4ee]">
+          Orders
+        </a>
+        <button type="button" id="btn-open-create-modal" class="fd-btn fd-btn-primary fd-btn-sm font-bold text-xs flex items-center gap-1.5 shadow-sm">
+          <span>+</span> Add New Produce
+        </button>
+      </div>
+    </div>
+
+    <!-- Loading State -->
+    <div id="admin-loading" class="text-center py-20 text-[#536354]">
+      <div class="inline-block animate-spin w-8 h-8 border-4 border-[#275629] border-t-transparent rounded-full mb-3"></div>
+      <p class="text-sm font-semibold">Loading produce catalog from Cloudflare D1...</p>
+    </div>
+
+    <!-- Main Content -->
+    <div id="admin-content" class="hidden space-y-6">
+      <!-- Filter Bar -->
+      <div class="flex flex-wrap items-center justify-between gap-4 bg-white p-4 rounded-xl border border-[#e0e8dc] shadow-sm text-xs">
+        <div class="flex items-center gap-3">
+          <label class="font-bold text-[#152317]">Category Filter:</label>
+          <select id="filter-category" class="fd-input py-1.5 px-3 text-xs w-auto">
+            <option value="ALL">All Categories</option>
+            <option value="grain">Grains (Wheat)</option>
+            <option value="pulse">Pulses (Chana, Moong, Urad)</option>
+            <option value="oilseed">Oilseeds (Groundnut)</option>
+            <option value="seasonal">Seasonal Harvests</option>
+          </select>
+        </div>
+
+        <div class="text-xs text-[#536354]">
+          Total Products: <span id="total-count" class="font-bold text-[#152317]">0</span>
+        </div>
+      </div>
+
+      <!-- Products Table -->
+      <div class="bg-white rounded-2xl border border-[#e0e8dc] shadow-sm overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-[#f8faf6] border-b border-[#e0e8dc] text-[#536354] uppercase font-bold text-[10px] tracking-wider">
+              <tr>
+                <th class="py-3 px-4">Produce</th>
+                <th class="py-3 px-4">Category</th>
+                <th class="py-3 px-4">Price / kg</th>
+                <th class="py-3 px-4">Available Stock</th>
+                <th class="py-3 px-4">Sample Stock</th>
+                <th class="py-3 px-4">Status</th>
+                <th class="py-3 px-4">Sample Status</th>
+                <th class="py-3 px-4 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="products-tbody" class="divide-y divide-[#f0f4ee]"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Create / Edit Product Modal -->
+  <div id="product-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 shadow-2xl border border-[#e0e8dc]">
+      <div class="flex items-center justify-between pb-4 border-b border-[#f0f4ee] mb-5">
+        <h2 id="modal-title" class="fd-serif text-xl sm:text-2xl font-bold text-[#152317]">
+          Add New Farm Produce
+        </h2>
+        <button type="button" id="btn-close-modal" class="text-[#798a7a] hover:text-[#152317] text-2xl font-bold leading-none">&times;</button>
+      </div>
+
+      <form id="product-form" class="space-y-4 text-xs">
+        <input type="hidden" id="form-product-id" value="" />
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-[#152317] mb-1">Produce Name (English) *</label>
+            <input type="text" id="form-name" class="fd-input text-xs" placeholder="e.g. Farm Wheat" required />
+          </div>
+          <div>
+            <label class="block font-bold text-[#152317] mb-1">Local Name (Hindi) *</label>
+            <input type="text" id="form-local-name" class="fd-input text-xs" placeholder="e.g. देशी शरबती गेहूं" required />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-[#152317] mb-1">URL Slug</label>
+            <input type="text" id="form-slug" class="fd-input text-xs" placeholder="e.g. farm-wheat (auto if blank)" />
+          </div>
+          <div>
+            <label class="block font-bold text-[#152317] mb-1">Category *</label>
+            <select id="form-category" class="fd-input text-xs" required>
+              <option value="grain">Grains</option>
+              <option value="pulse">Pulses</option>
+              <option value="oilseed">Oilseeds</option>
+              <option value="seasonal">Seasonal Harvest</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div>
+            <label class="block font-bold text-[#152317] mb-1">Price per kg (₹)</label>
+            <input type="number" id="form-price" step="0.5" min="1" class="fd-input text-xs" placeholder="e.g. 25" />
+            <span class="text-[10px] text-[#798a7a]">Leave empty for Seasonal Inquiry</span>
+          </div>
+          <div>
+            <label class="block font-bold text-[#152317] mb-1">Unit</label>
+            <input type="text" id="form-unit" class="fd-input text-xs" value="kg" required />
+          </div>
+          <div>
+            <label class="block font-bold text-[#152317] mb-1">Produce Label</label>
+            <input type="text" id="form-label" class="fd-input text-xs" value="Raw / Unprocessed" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-[#152317] mb-1">Description & Agricultural Details</label>
+          <textarea id="form-description" rows="3" class="fd-input text-xs" placeholder="Direct farm harvest notes, processing level, moisture, origin..."></textarea>
+        </div>
+
+        <div>
+          <label class="block font-bold text-[#152317] mb-1">Image URL</label>
+          <input type="text" id="form-image-url" class="fd-input text-xs" placeholder="/farm/images/wheat-500.jpg" />
+        </div>
+
+        <div id="initial-stock-section" class="grid grid-cols-1 sm:grid-cols-2 gap-3 p-3 bg-[#f8faf6] rounded-xl border border-[#e0e8dc]">
+          <div>
+            <label class="block font-bold text-[#152317] mb-1">Initial Stock (kg)</label>
+            <input type="number" id="form-initial-stock" min="0" value="100" class="fd-input text-xs" />
+          </div>
+          <div>
+            <label class="block font-bold text-[#152317] mb-1">Initial Sample Stock (grams)</label>
+            <input type="number" id="form-initial-sample" min="0" value="2000" class="fd-input text-xs" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" id="form-is-available" checked class="rounded border-[#a1b3a1] text-[#275629]" />
+            <span class="font-bold text-[#152317]">Available to Order</span>
+          </label>
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" id="form-sample-available" checked class="rounded border-[#a1b3a1] text-[#275629]" />
+            <span class="font-bold text-[#152317]">Sample Eligible</span>
+          </label>
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" id="form-is-seasonal" class="rounded border-[#a1b3a1] text-[#275629]" />
+            <span class="font-bold text-[#152317]">Seasonal Harvest</span>
+          </label>
+        </div>
+
+        <div id="form-error" class="hidden p-3 bg-red-50 text-red-700 rounded-lg text-xs font-semibold"></div>
+
+        <div class="flex items-center justify-end gap-3 pt-4 border-t border-[#f0f4ee]">
+          <button type="button" id="btn-cancel-modal" class="fd-btn fd-btn-outline fd-btn-sm font-bold">
+            Cancel
+          </button>
+          <button type="submit" id="btn-save-product" class="fd-btn fd-btn-primary fd-btn-sm font-bold">
+            Save Produce
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script is:inline>
+    let allProducts = [];
+
+    async function initProducts() {
+      const loader = document.getElementById('admin-loading');
+      const content = document.getElementById('admin-content');
+
+      try {
+        const meRes = await fetch('/farm/api/auth/me');
+        const meData = await meRes.json();
+        if (!meData.success || !meData.user || meData.user.role !== 'ADMIN') {
+          window.location.href = '/farm/account/login?redirect=/farm/admin/products';
+          return;
+        }
+
+        await loadProductsList();
+        loader.classList.add('hidden');
+        content.classList.remove('hidden');
+      } catch (err) {
+        loader.innerHTML = '<p class="text-sm text-red-600">Failed to verify admin credentials.</p>';
+      }
+    }
+
+    async function loadProductsList() {
+      const res = await fetch('/farm/api/admin/products');
+      const data = await res.json();
+      if (data.success && data.products) {
+        allProducts = data.products;
+        renderProductsTable();
+      }
+    }
+
+    function renderProductsTable() {
+      const tbody = document.getElementById('products-tbody');
+      const filterCat = document.getElementById('filter-category').value;
+
+      let filtered = allProducts;
+      if (filterCat !== 'ALL') {
+        filtered = filtered.filter(p => p.category === filterCat);
+      }
+
+      document.getElementById('total-count').textContent = filtered.length;
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="8" class="py-8 text-center text-[#798a7a]">No produce found matching filter.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(p => `
+        <tr class="hover:bg-[#f8faf6] ${p.isArchived ? 'opacity-50 bg-[#fafafa]' : ''}">
+          <td class="py-3 px-4">
+            <div class="flex items-center gap-3">
+              <img src="${p.imageUrl || '/farm/images/wheat-500.jpg'}" alt="${p.name}" class="w-10 h-10 object-cover rounded-lg border border-[#e0e8dc]" />
+              <div>
+                <strong class="font-bold text-sm text-[#152317] block">${p.name}</strong>
+                <span class="text-[11px] text-[#536354]">${p.localName || ''}</span>
+              </div>
+            </div>
+          </td>
+          <td class="py-3 px-4 capitalize font-medium text-[#536354]">
+            ${p.category}
+          </td>
+          <td class="py-3 px-4">
+            <strong class="font-bold text-sm text-[#275629]">
+              ${p.pricePerKgRupees ? `₹${p.pricePerKgRupees}/${p.unit}` : '<span class="text-amber-700">Seasonal</span>'}
+            </strong>
+          </td>
+          <td class="py-3 px-4">
+            <span class="font-bold ${p.quantityAvailable < 20 ? 'text-red-600' : 'text-[#152317]'}">
+              ${p.quantityAvailable} kg
+            </span>
+            ${p.quantityReserved > 0 ? `<span class="text-[10px] text-[#798a7a] block">(${p.quantityReserved} kg reserved)</span>` : ''}
+          </td>
+          <td class="py-3 px-4">
+            <span class="font-bold text-[#152317]">${p.sampleStockGrams} g</span>
+          </td>
+          <td class="py-3 px-4">
+            <button type="button" onclick="toggleProductAvailability(${p.id}, ${!p.isAvailable})" class="px-2.5 py-1 rounded-full text-[10px] font-bold ${p.isAvailable ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}">
+              ${p.isAvailable ? 'ACTIVE' : 'INACTIVE'}
+            </button>
+          </td>
+          <td class="py-3 px-4">
+            <button type="button" onclick="toggleProductSample(${p.id}, ${!p.sampleAvailable})" class="px-2.5 py-1 rounded-full text-[10px] font-bold ${p.sampleAvailable ? 'bg-amber-100 text-amber-800' : 'bg-gray-100 text-gray-600'}">
+              ${p.sampleAvailable ? 'SAMPLES ON' : 'SAMPLES OFF'}
+            </button>
+          </td>
+          <td class="py-3 px-4 text-right">
+            <div class="flex items-center justify-end gap-2">
+              <button type="button" class="px-2.5 py-1 rounded bg-[#eaf3e9] text-[#275629] font-bold hover:bg-[#d8ebd6]" onclick="openEditModal(${p.id})">
+                Edit
+              </button>
+            </div>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    // Toggle status shortcuts
+    window.toggleProductAvailability = async function(id, newState) {
+      await fetch(`/farm/api/admin/products/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ is_available: newState }),
+      });
+      loadProductsList();
+    };
+
+    window.toggleProductSample = async function(id, newState) {
+      await fetch(`/farm/api/admin/products/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sample_available: newState }),
+      });
+      loadProductsList();
+    };
+
+    // Modal logic
+    const modal = document.getElementById('product-modal');
+    const form = document.getElementById('product-form');
+    const formError = document.getElementById('form-error');
+
+    document.getElementById('btn-open-create-modal').addEventListener('click', () => {
+      form.reset();
+      document.getElementById('form-product-id').value = '';
+      document.getElementById('modal-title').textContent = 'Add New Farm Produce';
+      document.getElementById('initial-stock-section').classList.remove('hidden');
+      formError.classList.add('hidden');
+      modal.classList.remove('hidden');
+    });
+
+    document.getElementById('btn-close-modal').addEventListener('click', () => {
+      modal.classList.add('hidden');
+    });
+    document.getElementById('btn-cancel-modal').addEventListener('click', () => {
+      modal.classList.add('hidden');
+    });
+
+    window.openEditModal = function(id) {
+      const p = allProducts.find(x => x.id === id);
+      if (!p) return;
+
+      document.getElementById('form-product-id').value = p.id;
+      document.getElementById('modal-title').textContent = `Edit ${p.name}`;
+      document.getElementById('form-name').value = p.name;
+      document.getElementById('form-local-name').value = p.localName || '';
+      document.getElementById('form-slug').value = p.slug;
+      document.getElementById('form-category').value = p.category;
+      document.getElementById('form-price').value = p.pricePerKgRupees || '';
+      document.getElementById('form-unit').value = p.unit || 'kg';
+      document.getElementById('form-label').value = p.label || 'Raw / Unprocessed';
+      document.getElementById('form-description').value = p.description || '';
+      document.getElementById('form-image-url').value = p.imageUrl || '';
+      document.getElementById('form-is-available').checked = p.isAvailable;
+      document.getElementById('form-sample-available').checked = p.sampleAvailable;
+      document.getElementById('form-is-seasonal').checked = p.isSeasonal;
+
+      // Hide initial stock fields in edit mode (use Inventory page to adjust stock)
+      document.getElementById('initial-stock-section').classList.add('hidden');
+      formError.classList.add('hidden');
+      modal.classList.remove('hidden');
+    };
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      formError.classList.add('hidden');
+
+      const pid = document.getElementById('form-product-id').value;
+      const isEdit = Boolean(pid);
+
+      const payload = {
+        name: document.getElementById('form-name').value.trim(),
+        local_name: document.getElementById('form-local-name').value.trim(),
+        slug: document.getElementById('form-slug').value.trim() || undefined,
+        category: document.getElementById('form-category').value,
+        price_per_kg_rupees: document.getElementById('form-price').value ? Number(document.getElementById('form-price').value) : null,
+        unit: document.getElementById('form-unit').value.trim(),
+        label: document.getElementById('form-label').value.trim(),
+        description: document.getElementById('form-description').value.trim(),
+        image_url: document.getElementById('form-image-url').value.trim(),
+        is_available: document.getElementById('form-is-available').checked,
+        sample_available: document.getElementById('form-sample-available').checked,
+        is_seasonal: document.getElementById('form-is-seasonal').checked,
+      };
+
+      if (!isEdit) {
+        payload.initial_stock_kg = Number(document.getElementById('form-initial-stock').value) || 0;
+        payload.initial_sample_stock_grams = Number(document.getElementById('form-initial-sample').value) || 2000;
+      }
+
+      const url = isEdit ? `/farm/api/admin/products/${pid}` : '/farm/api/admin/products';
+      const method = isEdit ? 'PUT' : 'POST';
+
+      try {
+        const res = await fetch(url, {
+          method,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+
+        const data = await res.json();
+        if (!data.success) {
+          formError.textContent = data.message || 'Failed to save product.';
+          formError.classList.remove('hidden');
+          return;
+        }
+
+        modal.classList.add('hidden');
+        await loadProductsList();
+      } catch (err) {
+        formError.textContent = 'Connection error. Please try again.';
+        formError.classList.remove('hidden');
+      }
+    });
+
+    document.getElementById('filter-category').addEventListener('change', renderProductsTable);
+    document.addEventListener('DOMContentLoaded', initProducts);
+  </script>
+</FarmLayout>
