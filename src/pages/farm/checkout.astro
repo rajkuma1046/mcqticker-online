@@ -121,6 +121,24 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
                 <p id="area-hint" class="text-[11px] text-[#5b6e5d] mt-1 font-medium"></p>
               </div>
 
+              <!-- Custom Cluster Input for Checkout -->
+              <div id="checkout-custom-cluster-box" class="hidden">
+                <label class="text-xs font-bold text-[#194622] block mb-1.5 flex items-center gap-1.5">
+                  <span>📍</span>
+                  <span>Enter Your Custom Gwalior Colony / Neighbourhood *</span>
+                </label>
+                <input
+                  id="checkout-custom-cluster"
+                  type="text"
+                  placeholder="e.g. Thatipur, City Center, Morar, Lashkar, Hazira, etc."
+                  class="fd-input border-emerald-600 bg-emerald-50/40 text-xs font-bold"
+                  oninput="onCustomClusterInput()"
+                />
+                <p class="text-[10px] text-[#5b6e5d] mt-1">
+                  🌾 Direct doorstep farm dispatch will be scheduled for your colony!
+                </p>
+              </div>
+
               <!-- Address Fields -->
               <div>
                 <label class="text-xs font-bold text-[#132215] block mb-1.5">House / Flat No. & Building Name *</label>
@@ -306,10 +324,11 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
           select.innerHTML = '<option value="">Select delivery area...</option>' +
             deliveryAreas.map(a => `
               <option value="${a.id}">${a.name} (Delivery: ₹${a.deliveryChargeRupees})</option>
-            `).join('');
+            `).join('') +
+            '<option value="custom">📍 + Other / Custom Gwalior Colony (Enter Name)</option>';
 
           const storedAreaId = localStorage.getItem('fd_selected_area_id');
-          if (storedAreaId && deliveryAreas.some(a => a.id == storedAreaId)) {
+          if (storedAreaId && (deliveryAreas.some(a => a.id == storedAreaId) || storedAreaId === 'custom')) {
             select.value = storedAreaId;
           }
         }
@@ -326,14 +345,17 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
         cart = JSON.parse(localStorage.getItem('fd_cart_v1') || '[]');
       } catch (_) {}
 
-      const areaId = document.getElementById('checkout-area')?.value || null;
+      const areaVal = document.getElementById('checkout-area')?.value || null;
+      const isCustomArea = areaVal === 'custom';
+      const customName = document.getElementById('checkout-custom-cluster')?.value || '';
 
       const res = await fetch('/farm/api/cart/validate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           items: cart.map(it => ({ product_id: it.productId, quantity: it.quantity })),
-          delivery_area_id: areaId ? Number(areaId) : null,
+          delivery_area_id: isCustomArea ? 'custom' : (areaVal ? Number(areaVal) : null),
+          custom_delivery_area: isCustomArea ? customName : undefined,
         }),
       });
 
@@ -374,13 +396,27 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
 
     window.onAreaChanged = function() {
       const areaId = document.getElementById('checkout-area').value;
-      if (areaId) {
-        localStorage.setItem('fd_selected_area_id', areaId);
-        const area = deliveryAreas.find(a => a.id == areaId);
-        if (area) {
-          document.getElementById('area-hint').textContent = `Scheduled dispatch: ${area.deliveryDay} morning. Minimum order: ₹${area.minimumOrderRupees}`;
+      const customBox = document.getElementById('checkout-custom-cluster-box');
+      const customInput = document.getElementById('checkout-custom-cluster');
+
+      if (areaId === 'custom') {
+        customBox.classList.remove('hidden');
+        customInput.focus();
+        document.getElementById('area-hint').textContent = 'Custom colony pre-order. We consolidate and dispatch direct to your area!';
+      } else {
+        customBox.classList.add('hidden');
+        if (areaId) {
+          localStorage.setItem('fd_selected_area_id', areaId);
+          const area = deliveryAreas.find(a => a.id == areaId);
+          if (area) {
+            document.getElementById('area-hint').textContent = `Scheduled dispatch: ${area.deliveryDay} morning. Minimum order: ₹${area.minimumOrderRupees}`;
+          }
         }
       }
+      revalidateCart();
+    };
+
+    window.onCustomClusterInput = function() {
       revalidateCart();
     };
 
@@ -411,6 +447,9 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
       const phone = document.getElementById('cust-phone').value.trim();
       const email = document.getElementById('cust-email').value.trim();
       const areaId = document.getElementById('checkout-area').value;
+      const isCustomArea = areaId === 'custom';
+      const customInput = document.getElementById('checkout-custom-cluster');
+      const customCluster = isCustomArea ? (customInput ? customInput.value.trim() : '') : '';
       const house = document.getElementById('cust-house').value.trim();
       const street = document.getElementById('cust-street').value.trim();
       const landmark = document.getElementById('cust-landmark').value.trim();
@@ -419,6 +458,13 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
       if (!areaId) {
         errBox.textContent = 'Please select your delivery neighbourhood cluster in Gwalior.';
         errBox.classList.remove('hidden');
+        return;
+      }
+
+      if (isCustomArea && !customCluster) {
+        errBox.textContent = 'Please enter your custom colony or neighbourhood name in Gwalior.';
+        errBox.classList.remove('hidden');
+        if (customInput) customInput.focus();
         return;
       }
 
@@ -449,7 +495,8 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
             customer_name: name,
             customer_phone: phone,
             customer_email: email,
-            delivery_area_id: Number(areaId),
+            delivery_area_id: isCustomArea ? 'custom' : Number(areaId),
+            custom_delivery_area: customCluster || undefined,
             delivery_address: fullAddress,
             customer_note: note,
             items: cart.map(it => ({ product_id: it.productId, quantity: it.quantity })),

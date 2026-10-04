@@ -128,9 +128,26 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
 
             <div>
               <label class="text-xs font-bold text-[#132215] block mb-1.5">Select Delivery Cluster *</label>
-              <select id="sample-area" required class="fd-input font-bold text-xs">
+              <select id="sample-area" required onchange="onSampleAreaChanged(this.value)" class="fd-input font-bold text-xs">
                 <option value="">Choose neighbourhood cluster...</option>
               </select>
+            </div>
+
+            <!-- Custom Cluster Input (Revealed when "+ Other / Custom Colony" is selected) -->
+            <div id="sample-custom-cluster-box" class="hidden">
+              <label class="text-xs font-bold text-[#194622] block mb-1.5 flex items-center gap-1.5">
+                <span>📍</span>
+                <span>Enter Your Custom Gwalior Colony / Neighbourhood *</span>
+              </label>
+              <input
+                id="sample-custom-cluster"
+                type="text"
+                placeholder="e.g. Thatipur, City Center, Morar, Lashkar, Hazira, etc."
+                class="fd-input border-emerald-600 bg-emerald-50/40 text-xs font-bold"
+              />
+              <p class="text-[10px] text-[#5b6e5d] mt-1">
+                🌾 We aggregate requests by colony to schedule regular doorstep delivery rounds!
+              </p>
             </div>
 
             <div>
@@ -161,30 +178,6 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
             <div id="sample-error-text"></div>
           </div>
 
-          <!-- Success Alert Screen -->
-          <div id="sample-success" class="hidden p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-emerald-50 via-white to-emerald-50/30 border border-emerald-300 text-left space-y-4">
-            <div class="flex items-center gap-3">
-              <div class="w-10 h-10 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xl font-bold">
-                ✓
-              </div>
-              <div>
-                <h4 class="font-extrabold text-lg text-emerald-950">Sample Request Confirmed!</h4>
-                <p class="text-xs text-emerald-800">Your sample packet has been reserved in our farm dispatch log.</p>
-              </div>
-            </div>
-
-            <div id="sample-summary-details" class="p-4 bg-white rounded-xl border border-emerald-100 text-xs text-[#132215] space-y-1"></div>
-
-            <div class="flex flex-col sm:flex-row gap-3 pt-2">
-              <a id="sample-wa-link" href="#" target="_blank" rel="noopener noreferrer" class="fd-btn w-full sm:w-auto py-3 px-5 text-xs bg-[#25D366] hover:bg-[#1fa851] text-white font-bold rounded-xl shadow-md flex items-center justify-center gap-2">
-                <span>💬 Send Slip to Farmer on WhatsApp</span>
-              </a>
-              <a href="/farm/products" class="fd-btn fd-btn-secondary w-full sm:w-auto text-xs py-3 px-5 font-bold rounded-xl">
-                Browse Full Produce Catalogue &rarr;
-              </a>
-            </div>
-          </div>
-
           <!-- Submit Button -->
           <div class="pt-4 border-t border-[#edf2eb]">
             <button
@@ -199,6 +192,36 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
             </p>
           </div>
         </form>
+
+        <!-- Success Alert Screen (Rendered outside form so hiding form does not conceal it) -->
+        <div id="sample-success" class="hidden p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-emerald-50 via-white to-emerald-50/40 border-2 border-emerald-300 text-left space-y-5 shadow-xl">
+          <div class="flex items-center gap-3.5">
+            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-500 to-[#1b4522] text-white flex items-center justify-center text-2xl font-bold shadow-md shadow-emerald-900/20">
+              ✓
+            </div>
+            <div>
+              <span class="text-[10px] font-extrabold uppercase tracking-widest text-emerald-800 bg-emerald-100/80 px-2.5 py-0.5 rounded-full border border-emerald-300">
+                Sample Confirmed • ₹0 Total
+              </span>
+              <h4 class="font-extrabold text-xl text-emerald-950 mt-1">Sample Tasting Request Confirmed!</h4>
+              <p class="text-xs text-emerald-800">Your tasting packet has been logged in our farm dispatch register.</p>
+            </div>
+          </div>
+
+          <div id="sample-summary-details" class="p-5 bg-white rounded-2xl border border-emerald-100 text-xs text-[#132215] space-y-2 shadow-xs"></div>
+
+          <div class="flex flex-col sm:flex-row gap-3 pt-2">
+            <a id="sample-wa-link" href="#" target="_blank" rel="noopener noreferrer" class="fd-btn w-full sm:w-auto py-3.5 px-6 text-xs bg-[#25D366] hover:bg-[#1fa851] text-white font-bold rounded-xl shadow-md flex items-center justify-center gap-2">
+              <span>💬 Send Slip to Farmer on WhatsApp</span>
+            </a>
+            <a id="sample-conf-link" href="/farm/sample-confirmation" class="fd-btn fd-btn-primary w-full sm:w-auto text-xs py-3.5 px-6 font-bold rounded-xl">
+              View Confirmation Slip &rarr;
+            </a>
+            <a href="/farm/products" class="fd-btn fd-btn-secondary w-full sm:w-auto text-xs py-3.5 px-5 font-bold rounded-xl">
+              Browse Catalogue
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -430,13 +453,29 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
 
     function renderAreaOptions(areas) {
       const select = document.getElementById('sample-area');
+      select.innerHTML = '<option value="">Choose neighbourhood cluster...</option>';
       for (const a of areas) {
         const opt = document.createElement('option');
         opt.value = a.id;
         opt.textContent = `${a.name} (${a.city}) — Scheduled ${a.deliveryDay}`;
         select.appendChild(opt);
       }
+      const customOpt = document.createElement('option');
+      customOpt.value = 'custom';
+      customOpt.textContent = '📍 + Other / Custom Gwalior Colony (Enter Name)';
+      select.appendChild(customOpt);
     }
+
+    window.onSampleAreaChanged = function(val) {
+      const box = document.getElementById('sample-custom-cluster-box');
+      const input = document.getElementById('sample-custom-cluster');
+      if (val === 'custom') {
+        box.classList.remove('hidden');
+        input.focus();
+      } else {
+        box.classList.add('hidden');
+      }
+    };
 
     window.handleSampleSubmit = async function(e) {
       e.preventDefault();
@@ -465,6 +504,24 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
         return;
       }
 
+      const areaVal = document.getElementById('sample-area').value;
+      const isCustomCluster = areaVal === 'custom';
+      const customClusterInput = document.getElementById('sample-custom-cluster');
+      const customCluster = isCustomCluster ? (customClusterInput ? customClusterInput.value.trim() : '') : '';
+
+      if (!areaVal) {
+        errText.textContent = 'Please choose a delivery cluster or enter a custom colony.';
+        errBox.classList.remove('hidden');
+        return;
+      }
+
+      if (isCustomCluster && !customCluster) {
+        errText.textContent = 'Please enter your colony or neighbourhood name in Gwalior.';
+        errBox.classList.remove('hidden');
+        if (customClusterInput) customClusterInput.focus();
+        return;
+      }
+
       submitBtn.disabled = true;
       submitBtn.innerHTML = `
         <div class="inline-block animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full mr-2"></div>
@@ -473,7 +530,6 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
 
       const name = document.getElementById('sample-name').value.trim();
       const phone = document.getElementById('sample-phone').value.trim();
-      const areaId = Number(document.getElementById('sample-area').value);
       const address = document.getElementById('sample-address').value.trim();
       const customerNote = document.getElementById('sample-note').value.trim();
 
@@ -486,7 +542,8 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
             customer_name: name,
             customer_phone: phone,
             phone: phone,
-            delivery_area_id: areaId,
+            delivery_area_id: isCustomCluster ? 'custom' : Number(areaVal),
+            custom_delivery_area: customCluster || undefined,
             delivery_address: address,
             customer_note: customerNote || undefined,
           }),
@@ -501,7 +558,26 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
           return;
         }
 
-        // Success state
+        // Success state: cache in sessionStorage for dedicated confirmation page
+        const samplePayload = {
+          customerName: name,
+          phone: phone,
+          deliveryArea: data.sampleRequest?.deliveryArea || '',
+          deliveryAddress: address,
+          totalGrams: data.totalGrams || totalGrams,
+          items: (data.sampleRequests || [data.sampleRequest]).map(s => ({
+            productName: s.productName,
+            sampleQuantityGrams: s.sampleQuantityGrams
+          })),
+          whatsappUrl: data.whatsapp?.clickToChatUrl || data.sampleRequest?.whatsappUrl,
+          createdAt: new Date().toISOString()
+        };
+
+        try {
+          sessionStorage.setItem('fd_latest_sample', JSON.stringify(samplePayload));
+        } catch (_) {}
+
+        // Populate inline success card in case of delayed redirect
         document.getElementById('sample-form').classList.add('hidden');
         successBox.classList.remove('hidden');
 
@@ -515,12 +591,27 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
           <div><strong>Doorstep Address:</strong> ${address}</div>
         `;
 
-        if (data.sampleRequest.whatsappUrl) {
-          document.getElementById('sample-wa-link').href = data.sampleRequest.whatsappUrl;
-        } else {
-          const text = encodeURIComponent(`Namaste! Free sample request from website (${totalGrams}g) for ${name} in ${address}.`);
-          document.getElementById('sample-wa-link').href = `https://wa.me/918770767272?text=${text}`;
+        const waLinkEl = document.getElementById('sample-wa-link');
+        const confLinkEl = document.getElementById('sample-conf-link');
+        const targetConfUrl = `/farm/sample-confirmation?phone=${encodeURIComponent(phone)}`;
+
+        if (confLinkEl) {
+          confLinkEl.href = targetConfUrl;
         }
+
+        if (waLinkEl) {
+          if (data.sampleRequest.whatsappUrl) {
+            waLinkEl.href = data.sampleRequest.whatsappUrl;
+          } else {
+            const text = encodeURIComponent(`Namaste! Free sample request from website (${totalGrams}g) for ${name} in ${address}.`);
+            waLinkEl.href = `https://wa.me/918770767272?text=${text}`;
+          }
+        }
+
+        // Smoothly redirect to dedicated confirmation page
+        setTimeout(() => {
+          window.location.href = targetConfUrl;
+        }, 150);
       } catch (err) {
         errText.textContent = 'Network error submitting request. Please check connection and try again.';
         errBox.classList.remove('hidden');

@@ -22,19 +22,50 @@ export async function onRequestPost({ request, env }) {
   const customerName = str(body.customer_name || user?.name, { label: 'Full name', min: 2, max: 80, required: true });
   const customerPhone = phone(body.customer_phone || user?.phone, { label: 'Phone number', required: true });
   const customerEmail = email(body.customer_email || user?.email, { required: false });
-  const deliveryAreaId = id(body.delivery_area_id, 'Delivery Area');
+  const rawAreaId = body.delivery_area_id;
+  const customClusterName = str(body.custom_delivery_area || body.custom_cluster, { label: 'Custom Colony', max: 120, required: false });
   const deliveryAddress = str(body.delivery_address, { label: 'Delivery Address', min: 5, max: 300, required: true });
   const customerNote = str(body.customer_note, { label: 'Notes', max: 300, required: false });
   const items = cartItems(body.items || [], { maxItems: 15, allowEmpty: false });
 
-  // 2. Validate Delivery Area
-  const area = await env.DB.prepare(
-    'SELECT id, name, city, is_active, delivery_charge_paise, minimum_order_paise FROM farm_delivery_areas WHERE id = ?'
-  ).bind(deliveryAreaId).first();
+  // 2. Validate Delivery Area (Existing or Custom Cluster)
+  let area = null;
+  if (rawAreaId && rawAreaId !== 'custom' && Number(rawAreaId) > 0) {
+    area = await env.DB.prepare(
+      'SELECT id, name, city, is_active, delivery_charge_paise, minimum_order_paise FROM farm_delivery_areas WHERE id = ?'
+    ).bind(Number(rawAreaId)).first();
+  }
+
+  if (!area && customClusterName) {
+    const cleanName = customClusterName.trim();
+    const existing = await env.DB.prepare(
+      'SELECT id, name, city, is_active, delivery_charge_paise, minimum_order_paise FROM farm_delivery_areas WHERE LOWER(name) = LOWER(?) LIMIT 1'
+    ).bind(cleanName).first();
+
+    if (existing) {
+      area = existing;
+    } else {
+      const insArea = await env.DB.prepare(`
+        INSERT INTO farm_delivery_areas (name, city, delivery_day, delivery_charge_paise, minimum_order_paise, is_active, sort_order)
+        VALUES (?, 'Gwalior', 'Scheduled Cluster Round', 0, 0, 1, 99)
+      `).bind(cleanName).run();
+
+      area = {
+        id: insArea.meta.last_row_id,
+        name: cleanName,
+        city: 'Gwalior',
+        is_active: 1,
+        delivery_charge_paise: 0,
+        minimum_order_paise: 0,
+      };
+    }
+  }
 
   if (!area || !area.is_active) {
-    fail(400, 'Delivery is currently unavailable in the selected area.');
+    fail(400, 'Please select a delivery cluster or enter your colony name in Gwalior.');
   }
+
+  const deliveryAreaId = area.id;
 
   // 3 & 4 & 5. Retrieve products, prices, and stock from DB
   const productIds = items.map(i => i.product_id);

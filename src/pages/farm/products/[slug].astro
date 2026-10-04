@@ -8,6 +8,8 @@ export function getStaticPaths() {
     { params: { slug: 'raw-chana' } },
     { params: { slug: 'raw-moong' } },
     { params: { slug: 'raw-urad' } },
+    { params: { slug: 'sweet-lime' } },
+    { params: { slug: 'guava' } },
     { params: { slug: 'seasonal-farm-produce' } },
   ];
 }
@@ -147,6 +149,9 @@ const { slug } = Astro.params;
   </div>
 
   <script is:inline define:vars={{ slug }}>
+    const pathParts = window.location.pathname.replace(/\/+$/, '').split('/');
+    const pathSlug = pathParts[pathParts.length - 1];
+    const activeSlug = slug || pathSlug;
     let currentProduct = null;
 
     window.selectGalleryImage = function(url, btn) {
@@ -165,7 +170,7 @@ const { slug } = Astro.params;
       const content = document.getElementById('product-content');
 
       try {
-        const res = await fetch(`/farm/api/products/${slug}`);
+        const res = await fetch(`/farm/api/products/${activeSlug}`);
         const data = await res.json();
 
         if (!data.success || !data.product) {
@@ -178,6 +183,7 @@ const { slug } = Astro.params;
         content.classList.remove('hidden');
 
         // Populate fields
+        document.title = `${currentProduct.name} | Farm Direct Gwalior`;
         document.getElementById('breadcrumb-title').textContent = currentProduct.name;
         document.getElementById('p-name').textContent = currentProduct.name;
         document.getElementById('p-desc').textContent = currentProduct.description;

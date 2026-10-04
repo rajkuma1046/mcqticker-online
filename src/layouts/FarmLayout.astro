@@ -437,18 +437,22 @@ const isCart = canonicalPath.startsWith('/farm/cart') || canonicalPath.startsWit
       <slot />
     </main>
 
-    <!-- Floating WhatsApp Button with Glowing Green Ring -->
+    <!-- Floating WhatsApp Button with Icons8 Chat Icon -->
     <aside aria-label="Support and Enquiries" class="fixed bottom-20 sm:bottom-6 right-4 sm:right-6 z-30">
       <a
         href={WHATSAPP_LINK}
         target="_blank"
         rel="noopener noreferrer"
-        class="flex items-center gap-2 px-4 py-3 bg-[#25D366] hover:bg-[#20ba59] text-white rounded-full shadow-[0_8px_24px_rgba(37,211,102,0.35)] hover:scale-105 active:scale-95 transition-all text-xs sm:text-sm font-bold group"
+        class="flex items-center gap-2 p-2 sm:px-4 sm:py-2.5 bg-[#25D366] hover:bg-[#20ba59] text-white rounded-full shadow-[0_8px_24px_rgba(37,211,102,0.4)] hover:scale-105 active:scale-95 transition-all text-xs sm:text-sm font-bold group"
         title="Chat with Farmer on WhatsApp"
       >
-        <svg width="20" height="20" class="w-5 h-5 fill-current flex-shrink-0 group-hover:rotate-12 transition-transform" viewBox="0 0 24 24">
-          <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.694.077-2.029-.475-1.706-.706-2.802-2.438-2.887-2.551-.084-.114-.694-.925-.694-1.764s.436-1.25.592-1.424c.156-.174.341-.218.455-.218.113 0 .228.001.327.006.104.005.244-.04.382.291.144.345.49 1.196.533 1.284.043.088.072.19.014.305-.058.115-.087.187-.174.288-.087.102-.183.227-.261.305-.088.087-.18.181-.077.357.103.176.458.756.984 1.224.678.604 1.25.79 1.426.878.176.087.279.073.382-.045.103-.116.438-.509.554-.684.116-.174.232-.145.39-.087.158.058 1.002.472 1.176.559.174.087.29.13.333.203.043.073.043.42-.101.825zM12 2C6.477 2 2 6.477 2 12c0 1.891.524 3.66 1.434 5.176L2 22l4.981-1.309A9.957 9.957 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/>
-        </svg>
+        <img
+          src="https://img.icons8.com/?size=160&id=BkugfgmBwtEI&format=png"
+          onerror="this.onerror=null;this.src='/farm/images/whatsapp-icon.png';"
+          alt="WhatsApp Chat"
+          class="w-7 h-7 sm:w-8 sm:h-8 flex-shrink-0 object-contain group-hover:scale-110 transition-transform drop-shadow-sm"
+          loading="eager"
+        />
         <span class="hidden sm:inline font-bold">WhatsApp Direct</span>
       </a>
     </aside>

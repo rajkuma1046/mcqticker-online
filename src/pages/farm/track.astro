@@ -373,6 +373,19 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
                 `;
               }).join('')}
             </div>
+            ${!data.order ? `
+              <div class="pt-3 border-t border-[#f0f5ee] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+                <span class="text-[#5b6e5d]">Questions about tasting delivery rounds or timings?</span>
+                <a
+                  href="https://wa.me/918770767272?text=${encodeURIComponent(`Namaste Farm Direct, checking on my free sample tasting request for phone ${document.getElementById('track-input').value.trim()}.`)}"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="fd-btn bg-[#25D366] hover:bg-[#1fa851] text-white text-xs font-bold py-2.5 px-4 rounded-xl shadow-xs"
+                >
+                  <span>💬 WhatsApp Farmer (8770767272)</span>
+                </a>
+              </div>
+            ` : ''}
           </div>
         `;
       }

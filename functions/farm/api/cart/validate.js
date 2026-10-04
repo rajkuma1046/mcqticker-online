@@ -8,8 +8,8 @@ export async function onRequestPost({ request, env }) {
   }
 
   const body = await readJson(request);
-  const items = cartItems(body.items || [], { allowEmpty: true });
-  const deliveryAreaId = body.delivery_area_id ? Number(body.delivery_area_id) : null;
+  const isCustomArea = body.delivery_area_id === 'custom' || !!body.custom_delivery_area;
+  const deliveryAreaId = (!isCustomArea && body.delivery_area_id) ? Number(body.delivery_area_id) : null;
 
   if (items.length === 0) {
     return json({
@@ -103,7 +103,20 @@ export async function onRequestPost({ request, env }) {
   let deliveryArea = null;
   let minOrderMet = true;
 
-  if (deliveryAreaId) {
+  if (isCustomArea) {
+    const customName = (body.custom_delivery_area || 'Custom Gwalior Colony').trim();
+    deliveryArea = {
+      id: 'custom',
+      name: customName,
+      city: 'Gwalior',
+      deliveryDay: 'Scheduled Cluster Round',
+      deliveryChargePaise: 0,
+      deliveryChargeRupees: 0,
+      minimumOrderPaise: 0,
+      minimumOrderRupees: 0,
+    };
+    deliveryChargePaise = 0;
+  } else if (deliveryAreaId) {
     const area = await env.DB.prepare(
       'SELECT id, name, city, delivery_day, delivery_charge_paise, minimum_order_paise FROM farm_delivery_areas WHERE id = ? AND is_active = 1'
     ).bind(deliveryAreaId).first();

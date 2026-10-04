@@ -1,0 +1,228 @@
+---
+import FarmLayout from '../../layouts/FarmLayout.astro';
+
+// Free Sample Request Confirmation — Post-Request Tasting Slip
+---
+
+<FarmLayout
+  title="Sample Request Confirmed | Farm Direct Gwalior"
+  description="Your free farm produce sample tasting request has been confirmed and reserved."
+  canonicalPath="/farm/sample-confirmation"
+  hideCartBar={true}
+>
+  <div class="fd-container py-12 sm:py-20">
+    <div class="max-w-xl mx-auto relative">
+      <!-- Ambient Glow Behind Confirmation -->
+      <div class="absolute -top-10 -left-10 w-72 h-72 bg-emerald-500/15 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="relative bg-white/95 backdrop-blur-xl p-8 sm:p-12 rounded-3xl border border-[#e2ece0] shadow-xl text-center space-y-6">
+        <!-- Success Badge -->
+        <div class="w-16 h-16 bg-gradient-to-br from-emerald-500 to-[#1b4522] text-white rounded-2xl flex items-center justify-center text-3xl mx-auto shadow-lg shadow-emerald-900/20 font-bold">
+          ✓
+        </div>
+
+        <div>
+          <span class="text-[10px] font-extrabold uppercase tracking-widest text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+            Complimentary Farm Tasting • ₹0 Fee
+          </span>
+          <h1 class="fd-display text-2xl sm:text-4xl font-extrabold text-[#122815] mt-2">
+            Sample Pack Reserved!
+          </h1>
+          <p class="text-xs sm:text-sm text-[#5b6e5d] mt-2 max-w-sm mx-auto leading-relaxed">
+            Your free tasting packet has been logged in our farm dispatch register for the upcoming Gwalior delivery run.
+          </p>
+        </div>
+
+        <!-- Sample Details Summary Card -->
+        <div class="p-6 rounded-2xl bg-[#f8faf7] border border-[#e2ece0] text-left space-y-3.5 text-xs">
+          <div class="flex items-center justify-between pb-3 border-b border-[#edf3ec]">
+            <span class="text-[#5b6e5d] font-bold">Recipient:</span>
+            <strong id="conf-recipient" class="font-bold text-[#122815]">Loading...</strong>
+          </div>
+
+          <div class="flex items-center justify-between">
+            <span class="text-[#5b6e5d]">Delivery Cluster:</span>
+            <strong id="conf-cluster" class="font-bold text-[#152317]">—</strong>
+          </div>
+
+          <div class="flex items-center justify-between">
+            <span class="text-[#5b6e5d]">Doorstep Address:</span>
+            <span id="conf-address" class="font-semibold text-[#152317] text-right max-w-[60%] truncate">—</span>
+          </div>
+
+          <div class="flex items-center justify-between">
+            <span class="text-[#5b6e5d]">Sample Weight:</span>
+            <strong id="conf-weight" class="font-extrabold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">0g / 500g max</strong>
+          </div>
+
+          <div class="flex items-center justify-between">
+            <span class="text-[#5b6e5d]">Total Cost:</span>
+            <strong class="fd-display text-lg font-black text-[#1b4522]">₹0 (Free Tasting)</strong>
+          </div>
+
+          <div class="pt-3 border-t border-[#edf3ec]">
+            <span class="text-[11px] font-bold uppercase tracking-wider text-[#526454] block mb-2">Reserved Harvest Items:</span>
+            <div id="conf-samples-list" class="space-y-1.5 text-[#132215]">
+              <div class="animate-pulse text-[#748776]">Loading reserved sample items...</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- WhatsApp Dispatch Notice -->
+        <div class="p-4 rounded-2xl bg-[#edf5ee] border border-[#cbe4d0] text-left flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+          <div>
+            <strong class="font-bold text-[#1b4522] block">Farmer WhatsApp Slip</strong>
+            <p class="text-[11px] text-[#335e3b] mt-0.5">
+              Send your sample slip directly to our farm WhatsApp: <strong>8770767272</strong>
+            </p>
+          </div>
+          <a
+            id="btn-wa-sample"
+            href="#"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="fd-btn bg-[#25D366] hover:bg-[#1fa851] text-white font-bold text-xs py-2.5 px-4 rounded-xl shadow-xs whitespace-nowrap"
+          >
+            <span>💬 Send to WhatsApp &rarr;</span>
+          </a>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+          <a id="btn-track-sample" href="/farm/track" class="fd-btn fd-btn-primary w-full sm:w-auto px-6 py-3 font-bold text-xs shadow-md">
+            Track Sample Status &rarr;
+          </a>
+          <a href="/farm/products" class="fd-btn fd-btn-secondary w-full sm:w-auto px-6 py-3 font-bold text-xs">
+            Browse Full Catalogue
+          </a>
+        </div>
+
+        <!-- Guest Account Conversion Card -->
+        <div id="guest-signup-box" class="pt-6 border-t border-[#edf4ec] text-xs text-[#5b6e5d]">
+          <p class="font-bold text-[#152317]">Planning a household supply order?</p>
+          <p class="text-[11px] text-[#718573] mt-0.5 mb-3">Create a customer account to save your address for fast pre-orders.</p>
+          <a href="/farm/account/register" class="fd-btn fd-btn-secondary fd-btn-sm font-bold inline-flex">
+            Create Customer Account &rarr;
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script is:inline>
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const phoneParam = urlParams.get('phone') || '';
+
+      let cached = null;
+      try {
+        cached = JSON.parse(sessionStorage.getItem('fd_latest_sample') || 'null');
+      } catch (_) {}
+
+      if (cached && (!phoneParam || cached.phone === phoneParam)) {
+        renderSampleData(cached);
+      } else if (phoneParam) {
+        // Fetch tracking info for this phone
+        fetch(`/farm/api/orders/track?phone=${encodeURIComponent(phoneParam)}`)
+          .then(r => r.json())
+          .then(data => {
+            if (data.success && data.sampleRequests && data.sampleRequests.length > 0) {
+              const sr = data.sampleRequests[0];
+              const totalGrams = data.sampleRequests.reduce((acc, s) => acc + (s.quantityGrams || 0), 0);
+              renderSampleData({
+                customerName: 'Valued Customer',
+                phone: phoneParam,
+                deliveryArea: sr.areaName || 'Gwalior Cluster',
+                deliveryAddress: 'Registered colony address',
+                totalGrams: totalGrams,
+                items: data.sampleRequests.map(s => ({
+                  productName: s.productName,
+                  sampleQuantityGrams: s.quantityGrams
+                })),
+                roundInfo: sr.roundName || 'Next scheduled tasting round'
+              });
+            } else {
+              fallbackUI(phoneParam);
+            }
+          })
+          .catch(() => fallbackUI(phoneParam));
+      } else {
+        fallbackUI('');
+      }
+
+      function renderSampleData(data) {
+        const recipEl = document.getElementById('conf-recipient');
+        const clusterEl = document.getElementById('conf-cluster');
+        const addrEl = document.getElementById('conf-address');
+        const weightEl = document.getElementById('conf-weight');
+        const listEl = document.getElementById('conf-samples-list');
+        const waBtn = document.getElementById('btn-wa-sample');
+        const trackBtn = document.getElementById('btn-track-sample');
+
+        if (recipEl) recipEl.textContent = `${data.customerName || 'Customer'} (+91 ${data.phone || ''})`;
+        if (clusterEl) clusterEl.textContent = `${data.deliveryArea || 'Gwalior Cluster'}`;
+        if (addrEl) {
+          addrEl.textContent = data.deliveryAddress || 'Gwalior Address';
+          addrEl.title = data.deliveryAddress || '';
+        }
+        if (weightEl) weightEl.textContent = `${data.totalGrams || 0}g / 500g max`;
+
+        if (listEl && data.items && data.items.length > 0) {
+          listEl.innerHTML = data.items.map(it => `
+            <div class="flex items-center justify-between py-1.5 px-3 rounded-xl bg-white border border-[#e5eee3]">
+              <span class="font-bold text-[#122815]">🌾 ${it.productName || it.name}</span>
+              <strong class="text-emerald-800 font-extrabold">${it.sampleQuantityGrams || it.quantityGrams || it.quantity}g</strong>
+            </div>
+          `).join('');
+        }
+
+        // WhatsApp link
+        if (waBtn) {
+          if (data.whatsappUrl) {
+            waBtn.href = data.whatsappUrl;
+          } else {
+            const itemsText = (data.items || []).map(i => `${i.productName} (${i.sampleQuantityGrams}g)`).join(', ');
+            const msg = encodeURIComponent(`Namaste Farm Direct, I have requested free samples of: ${itemsText} (${data.totalGrams}g) for ${data.customerName || 'me'} in ${data.deliveryArea || 'Gwalior'}. Please confirm dispatch.`);
+            waBtn.href = `https://wa.me/918770767272?text=${msg}`;
+          }
+        }
+
+        if (trackBtn) {
+          trackBtn.href = `/farm/track?phone=${encodeURIComponent(data.phone || phoneParam)}`;
+        }
+      }
+
+      function fallbackUI(phone) {
+        document.getElementById('conf-recipient').textContent = phone ? `Customer (+91 ${phone})` : 'Sample Requester';
+        document.getElementById('conf-cluster').textContent = 'Gwalior Delivery Cluster';
+        document.getElementById('conf-address').textContent = 'Provided Doorstep Address';
+        document.getElementById('conf-weight').textContent = 'Up to 500g Limit';
+        document.getElementById('conf-samples-list').innerHTML = `
+          <div class="p-2.5 rounded-xl bg-emerald-50 text-emerald-900 font-semibold text-xs border border-emerald-200">
+            ✓ Your sample requests have been recorded in the farm dispatch queue.
+          </div>
+        `;
+        const trackBtn = document.getElementById('btn-track-sample');
+        if (trackBtn && phone) {
+          trackBtn.href = `/farm/track?phone=${encodeURIComponent(phone)}`;
+        }
+        const waBtn = document.getElementById('btn-wa-sample');
+        if (waBtn) {
+          const msg = encodeURIComponent(`Namaste Farm Direct, checking on my recent free sample request for phone +91 ${phone}.`);
+          waBtn.href = `https://wa.me/918770767272?text=${msg}`;
+        }
+      }
+
+      // Check if logged in to hide guest prompt
+      fetch('/farm/api/auth/me')
+        .then(r => r.json())
+        .then(d => {
+          if (d.success && d.user) {
+            const guestBox = document.getElementById('guest-signup-box');
+            if (guestBox) guestBox.classList.add('hidden');
+          }
+        })
+        .catch(() => {});
+    });
+  </script>
+</FarmLayout>
