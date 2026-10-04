@@ -359,6 +359,7 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
             product_id: productId,
             sample_quantity_grams: sampleGrams,
             customer_name: name,
+            customer_phone: phone,
             phone: phone,
             delivery_area_id: areaId,
             delivery_address: address,
@@ -368,7 +369,7 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
 
         const data = await res.json();
         if (!data.success) {
-          errText.textContent = data.message || 'Unable to register sample request. Please verify details.';
+          errText.textContent = data.error || data.message || 'Unable to register sample request. Please verify details.';
           errBox.classList.remove('hidden');
           submitBtn.disabled = false;
           submitBtn.textContent = 'Confirm Free Sample Request →';

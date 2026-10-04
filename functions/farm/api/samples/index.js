@@ -11,9 +11,9 @@ export async function onRequestPost({ request, env }) {
     return json({ success: false, error: 'Database not bound.' }, 500);
   }
 
-  // Rate limit: 5 sample requests per hour per IP
+  // Rate limit: 20 sample requests per hour per IP
   const ip = clientIp(request);
-  await rateLimit(env.DB, `sample:${ip}`, 5, 3600);
+  await rateLimit(env.DB, `sample:${ip}`, 20, 3600);
 
   const body = await readJson(request);
   const user = await getUser(request, env);

@@ -32,6 +32,7 @@ export async function onRequestGet({ request, env }) {
         o.grand_total_paise,
         o.payment_method,
         o.payment_status,
+        o.admin_note,
         o.created_at,
         o.updated_at,
         da.delivery_day
@@ -44,6 +45,32 @@ export async function onRequestGet({ request, env }) {
     if (order && phone && !order.customer_phone.endsWith(phone)) {
       fail(403, 'Mobile number does not match this order.');
     }
+  } else if (phone) {
+    // If only phone provided, fetch the most recent order for this phone
+    order = await env.DB.prepare(`
+      SELECT 
+        o.id,
+        o.order_number,
+        o.customer_name,
+        o.customer_phone,
+        o.delivery_area_name_snapshot,
+        o.delivery_address,
+        o.status,
+        o.subtotal_paise,
+        o.delivery_charge_paise,
+        o.grand_total_paise,
+        o.payment_method,
+        o.payment_status,
+        o.admin_note,
+        o.created_at,
+        o.updated_at,
+        da.delivery_day
+      FROM farm_orders o
+      LEFT JOIN farm_delivery_areas da ON o.delivery_area_id = da.id
+      WHERE o.customer_phone LIKE ?
+      ORDER BY o.created_at DESC
+      LIMIT 1
+    `).bind(`%${phone}`).first();
   }
 
   // Fetch items if order found
@@ -68,7 +95,12 @@ export async function onRequestGet({ request, env }) {
       FROM farm_order_status_history WHERE order_id = ? ORDER BY created_at ASC
     `).bind(order.id).all();
 
-    timeline = rawHist || [];
+    timeline = (rawHist || []).map(h => ({
+      fromStatus: h.from_status,
+      toStatus: h.to_status,
+      note: h.note,
+      createdAt: h.created_at,
+    }));
   }
 
   // If phone was provided, also fetch customer's sample requests
@@ -118,10 +150,12 @@ export async function onRequestGet({ request, env }) {
       deliveryAddress: order.delivery_address,
       deliveryDay: order.delivery_day || 'Scheduled round',
       status: order.status,
+      adminNote: order.admin_note,
       grandTotalRupees: order.grand_total_paise / 100,
       paymentMethod: order.payment_method,
       paymentStatus: order.payment_status,
       createdAt: order.created_at,
+      updatedAt: order.updated_at,
       items,
       timeline,
     } : null,

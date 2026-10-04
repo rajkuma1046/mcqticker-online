@@ -38,7 +38,30 @@ export async function onRequestPut({ request, env, params }) {
   const sampleMaxQuantityGrams = body.sample_max_quantity_grams !== undefined
     ? int(body.sample_max_quantity_grams, { min: 100, max: 200 })
     : existing.sample_max_quantity_grams;
-  const imageUrl = body.image_url !== undefined ? str(body.image_url, { max: 300 }) : existing.image_url;
+  const category = body.category !== undefined ? str(body.category, { max: 40 }) : existing.category;
+  
+  let imageUrl = body.image_url !== undefined ? str(body.image_url, { max: 500 }) : existing.image_url;
+  let imagesJson = existing.images || '[]';
+  if (body.images !== undefined) {
+    let imagesArray = [];
+    if (Array.isArray(body.images)) {
+      imagesArray = body.images.filter(x => typeof x === 'string' && x.trim().length > 0).map(x => x.trim());
+    } else if (typeof body.images === 'string' && body.images.trim()) {
+      try {
+        imagesArray = JSON.parse(body.images);
+      } catch (_) {
+        imagesArray = [body.images.trim()];
+      }
+    }
+    if (!imageUrl && imagesArray.length > 0) {
+      imageUrl = imagesArray[0];
+    }
+    if (imageUrl && !imagesArray.includes(imageUrl)) {
+      imagesArray.unshift(imageUrl);
+    }
+    imagesJson = JSON.stringify(imagesArray);
+  }
+
   const imageAlt = body.image_alt !== undefined ? str(body.image_alt, { max: 200 }) : existing.image_alt;
 
   // Check unique slug if changed
@@ -57,19 +80,21 @@ export async function onRequestPut({ request, env, params }) {
       description = ?,
       label = ?,
       price_per_kg_paise = ?,
+      category = ?,
       is_available = ?,
       is_seasonal = ?,
       is_archived = ?,
       sample_available = ?,
       sample_max_quantity_grams = ?,
       image_url = ?,
+      images = ?,
       image_alt = ?,
       updated_at = datetime('now')
     WHERE id = ?
   `).bind(
     name, slug, localName, description, label, pricePaise,
-    isAvailable, isSeasonal, isArchived, sampleAvailable,
-    sampleMaxQuantityGrams, imageUrl, imageAlt, productId
+    category, isAvailable, isSeasonal, isArchived, sampleAvailable,
+    sampleMaxQuantityGrams, imageUrl, imagesJson, imageAlt, productId
   ).run();
 
   return json({

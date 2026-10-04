@@ -37,6 +37,14 @@ export async function onRequestGet({ request, env }) {
       quantityOptions: JSON.parse(p.quantity_options || '[1, 5, 10]'),
       maxOrderQty: p.max_order_qty,
       imageUrl: p.image_url,
+      images: (() => {
+        let imgs = [];
+        try { imgs = JSON.parse(p.images || '[]'); } catch (_) {}
+        if (!Array.isArray(imgs) || imgs.length === 0) {
+          if (p.image_url) imgs = [p.image_url];
+        }
+        return imgs;
+      })(),
       imageAlt: p.image_alt,
       category: p.category,
       isAvailable: Boolean(p.is_available),
@@ -69,7 +77,27 @@ export async function onRequestPost({ request, env }) {
   const unit = str(body.unit || 'kg', { label: 'Unit', max: 10, required: false });
   const quantityOptions = JSON.stringify(body.quantity_options || [1, 5, 10]);
   const maxOrderQty = int(body.max_order_qty || 50, { label: 'Max order quantity', min: 1, max: 1000, required: false });
-  const imageUrl = str(body.image_url, { label: 'Image URL', max: 300, required: false });
+
+  // Handle multiple images
+  let imagesArray = [];
+  if (Array.isArray(body.images)) {
+    imagesArray = body.images.filter(x => typeof x === 'string' && x.trim().length > 0).map(x => x.trim());
+  } else if (typeof body.images === 'string' && body.images.trim()) {
+    try {
+      imagesArray = JSON.parse(body.images);
+    } catch (_) {
+      imagesArray = [body.images.trim()];
+    }
+  }
+  let imageUrl = str(body.image_url, { label: 'Image URL', max: 500, required: false });
+  if (!imageUrl && imagesArray.length > 0) {
+    imageUrl = imagesArray[0];
+  }
+  if (imageUrl && !imagesArray.includes(imageUrl)) {
+    imagesArray.unshift(imageUrl);
+  }
+  const imagesJson = JSON.stringify(imagesArray);
+
   const imageAlt = str(body.image_alt, { label: 'Image Alt', max: 200, required: false });
   const category = str(body.category || 'grain', { label: 'Category', max: 40, required: false });
   const isAvailable = bool(body.is_available !== undefined ? body.is_available : true);
@@ -89,13 +117,13 @@ export async function onRequestPost({ request, env }) {
   const result = await env.DB.prepare(`
     INSERT INTO farm_products (
       name, slug, local_name, description, label, price_per_kg_paise,
-      unit, quantity_options, max_order_qty, image_url, image_alt,
+      unit, quantity_options, max_order_qty, image_url, images, image_alt,
       category, is_available, is_seasonal, is_archived,
       sample_available, sample_max_quantity_grams
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?, ?)
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?, ?)
   `).bind(
     name, rawSlug, localName, description, label, pricePaise,
-    unit, quantityOptions, maxOrderQty, imageUrl, imageAlt,
+    unit, quantityOptions, maxOrderQty, imageUrl, imagesJson, imageAlt,
     category, isAvailable ? 1 : 0, isSeasonal ? 1 : 0,
     sampleAvailable ? 1 : 0, sampleMaxQuantityGrams
   ).run();

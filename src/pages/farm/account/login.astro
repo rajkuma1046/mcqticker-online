@@ -50,6 +50,9 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
               <label class="text-xs font-bold uppercase tracking-wider text-[#495c4b]">
                 Password *
               </label>
+              <a href="/farm/account/forgot-password" class="text-xs font-bold text-emerald-800 hover:text-emerald-950 underline">
+                Forgot Password?
+              </a>
             </div>
             <input
               id="login-pw"
@@ -71,17 +74,27 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
           </button>
         </form>
 
-        <div class="pt-6 border-t border-[#edf4ec] text-center text-xs text-[#5b6e5d] space-y-3">
+        <!-- Guest Checkout Option -->
+        <div class="relative flex py-2 items-center">
+          <div class="flex-grow border-t border-[#e2ece0]"></div>
+          <span class="flex-shrink mx-4 text-xs font-bold text-[#718573] uppercase tracking-wider">or</span>
+          <div class="flex-grow border-t border-[#e2ece0]"></div>
+        </div>
+
+        <a
+          href="/farm/products"
+          class="fd-btn fd-btn-secondary w-full py-3.5 font-bold text-xs flex items-center justify-center gap-2 border border-[#d6e3d4]"
+        >
+          <span>🛒 Continue as Guest (No Login Required) &rarr;</span>
+        </a>
+
+        <div class="pt-6 border-t border-[#edf4ec] text-center text-xs text-[#5b6e5d] space-y-2">
           <p>
             Don't have a customer account?
             <a href="/farm/account/register" class="font-extrabold text-[#1b4522] hover:underline">
               Register here
             </a>
           </p>
-          <div class="p-3 rounded-2xl bg-[#f6faf5] border border-[#e2ece0] text-[11px] text-[#5b6e5d] flex items-center justify-center gap-1.5">
-            <span>✨</span>
-            <span>You can also <a href="/farm/products" class="font-bold underline text-[#1b4522]">shop as a guest</a> anytime.</span>
-          </div>
         </div>
       </div>
     </div>

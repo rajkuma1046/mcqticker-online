@@ -110,6 +110,33 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
       }
     }
 
+    function formatDateTime(str) {
+      if (!str) return '';
+      try {
+        const d = new Date(str.includes('Z') ? str : str + 'Z');
+        return d.toLocaleString('en-IN', {
+          timeZone: 'Asia/Kolkata',
+          day: 'numeric',
+          month: 'short',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: true
+        });
+      } catch (_) {
+        return str;
+      }
+    }
+
+    const ORDER_STEPS = [
+      { key: 'PENDING', label: 'Placed', icon: '📝' },
+      { key: 'CONFIRMED', label: 'Confirmed', icon: '🌾' },
+      { key: 'PREPARING', label: 'Threshing', icon: '⚙️' },
+      { key: 'READY_FOR_DELIVERY', label: 'Ready', icon: '📦' },
+      { key: 'OUT_FOR_DELIVERY', label: 'Out for Delivery', icon: '🚚' },
+      { key: 'DELIVERED', label: 'Delivered', icon: '🏡' },
+    ];
+
     function renderTracking(data) {
       const resBox = document.getElementById('track-result');
       let html = '';
@@ -117,41 +144,181 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
       if (data.order) {
         const o = data.order;
         const st = STATUS_MAP[o.status] || { label: o.status, color: 'bg-gray-100 text-gray-800' };
+        const isCancelled = o.status === 'CANCELLED';
+        const currentStepIndex = isCancelled ? -1 : ORDER_STEPS.findIndex(s => s.key === o.status);
 
         html += `
-          <div class="bg-white p-6 sm:p-8 rounded-3xl border border-[#e2ece0] shadow-sm space-y-5">
-            <div class="flex items-center justify-between pb-3 border-b border-[#f0f5ee]">
+          <div class="bg-white p-6 sm:p-8 rounded-3xl border border-[#e2ece0] shadow-sm space-y-6">
+            <!-- Header Slip -->
+            <div class="flex items-center justify-between pb-4 border-b border-[#f0f5ee]">
               <div>
-                <span class="text-[11px] font-bold uppercase text-[#718573] block">Order Tracking Slip</span>
-                <h3 class="font-mono text-base font-extrabold text-[#122815]">${o.orderNumber}</h3>
+                <span class="text-[10px] font-extrabold uppercase tracking-wider text-[#718573] block">Official Farm Order Slip</span>
+                <h3 class="font-mono text-lg font-black text-[#122815] tracking-tight">${o.orderNumber}</h3>
+                <span class="text-[11px] text-[#718573]">Placed on: ${formatDateTime(o.createdAt)}</span>
               </div>
-              <span class="px-3.5 py-1 rounded-full text-xs font-black uppercase tracking-wider border ${st.color}">
+              <span class="px-3.5 py-1.5 rounded-full text-xs font-black uppercase tracking-wider border shadow-xs ${st.color}">
                 ${st.label}
               </span>
             </div>
 
+            <!-- Horizontal Order Progress Stepper -->
+            <div class="py-2">
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-[11px] font-extrabold uppercase tracking-wider text-[#355239]">Live Fulfillment Progress</span>
+                <span class="text-[10px] font-bold text-emerald-800 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-full">
+                  Sunday Dispatch Cycle
+                </span>
+              </div>
+
+              ${isCancelled ? `
+                <div class="p-4 rounded-2xl bg-rose-50 border border-rose-200 flex items-center gap-3 text-rose-800">
+                  <span class="text-2xl">❌</span>
+                  <div>
+                    <strong class="text-sm font-bold block">Order Cancelled</strong>
+                    <span class="text-xs text-rose-700">${o.adminNote || 'This order was cancelled and reserved harvest was restored.'}</span>
+                  </div>
+                </div>
+              ` : `
+                <!-- Horizontal Timeline Container -->
+                <div class="overflow-x-auto pb-4 pt-2 -mx-2 px-2 scrollbar-none">
+                  <div class="min-w-[620px] relative flex items-center justify-between">
+                    <!-- Background Connector Line -->
+                    <div class="absolute left-6 right-6 top-5 -translate-y-1/2 h-1 bg-[#e2ece0] z-0"></div>
+                    
+                    <!-- Active Fill Line -->
+                    <div 
+                      class="absolute left-6 top-5 -translate-y-1/2 h-1 bg-gradient-to-r from-emerald-600 to-[#1b4522] z-0 transition-all duration-500"
+                      style="width: ${currentStepIndex <= 0 ? '0%' : `${(currentStepIndex / (ORDER_STEPS.length - 1)) * 100}%`}; max-width: calc(100% - 48px);"
+                    ></div>
+
+                    <!-- Steps -->
+                    ${ORDER_STEPS.map((step, idx) => {
+                      const isCompleted = currentStepIndex >= 0 && idx < currentStepIndex;
+                      const isCurrent = currentStepIndex >= 0 && idx === currentStepIndex;
+                      const isUpcoming = currentStepIndex >= 0 && idx > currentStepIndex;
+
+                      let circleClass = 'bg-[#f4f7f2] border-2 border-[#d6e3d4] text-[#8aa08c]';
+                      let iconContent = step.icon;
+                      let labelClass = 'text-[#8aa08c] font-semibold';
+
+                      if (isCompleted) {
+                        circleClass = 'bg-emerald-700 border-2 border-emerald-700 text-white shadow-xs';
+                        iconContent = '✓';
+                        labelClass = 'text-[#1b4522] font-bold';
+                      } else if (isCurrent) {
+                        circleClass = 'bg-white border-2 border-emerald-600 text-emerald-800 ring-4 ring-emerald-100 shadow-md scale-110';
+                        iconContent = step.icon;
+                        labelClass = 'text-emerald-950 font-black';
+                      }
+
+                      return `
+                        <div class="relative z-10 flex flex-col items-center text-center w-24 group">
+                          <div class="w-10 h-10 rounded-full flex items-center justify-center text-sm font-extrabold transition-all duration-300 ${circleClass}">
+                            ${iconContent}
+                          </div>
+                          <span class="text-[11px] mt-2 leading-tight ${labelClass}">
+                            ${step.label}
+                          </span>
+                          ${isCurrent ? `
+                            <span class="mt-1 text-[9px] font-black uppercase tracking-wider text-emerald-700 bg-emerald-100/90 px-1.5 py-0.5 rounded-full animate-pulse">
+                              Current
+                            </span>
+                          ` : ''}
+                        </div>
+                      `;
+                    }).join('')}
+                  </div>
+                </div>
+              `}
+            </div>
+
+            <!-- Farmer's Admin Note / Latest Update Card -->
+            ${o.adminNote ? `
+              <div class="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-emerald-50/90 via-[#f0f7ef] to-teal-50 border border-emerald-200/80 shadow-xs">
+                <div class="flex items-start gap-3.5">
+                  <div class="w-10 h-10 rounded-2xl bg-emerald-700 text-white flex items-center justify-center text-xl shrink-0 shadow-xs">
+                    👨‍🌾
+                  </div>
+                  <div class="space-y-1 flex-1">
+                    <div class="flex items-center justify-between flex-wrap gap-1">
+                      <strong class="text-xs font-black uppercase tracking-wider text-emerald-950 flex items-center gap-1.5">
+                        <span>Farmer Note & Status Update</span>
+                        <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+                      </strong>
+                      ${o.updatedAt ? `
+                        <span class="text-[11px] text-emerald-800 font-bold bg-white/80 px-2 py-0.5 rounded-md border border-emerald-200">
+                          ${formatDateTime(o.updatedAt)}
+                        </span>
+                      ` : ''}
+                    </div>
+                    <p class="text-sm font-bold text-[#143317] leading-relaxed pt-0.5">
+                      "${o.adminNote}"
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ` : ''}
+
+            <!-- Status Updation History with Notes for each step -->
+            ${o.timeline && o.timeline.length > 0 ? `
+              <div class="pt-2 border-t border-[#f0f5ee]">
+                <h4 class="text-xs font-extrabold uppercase tracking-wider text-[#355239] mb-3 flex items-center gap-1.5">
+                  <span>📜</span>
+                  <span>Timeline & Updation Notes (${o.timeline.length})</span>
+                </h4>
+                <div class="space-y-3 relative before:absolute before:left-3.5 before:top-2 before:bottom-2 before:w-0.5 before:bg-[#e2ece0]">
+                  ${o.timeline.slice().reverse().map((h, i) => {
+                    const hst = STATUS_MAP[h.toStatus] || { label: h.toStatus, color: 'bg-gray-100 text-gray-800' };
+                    return `
+                      <div class="relative flex items-start gap-3 pl-8">
+                        <!-- Bullet dot -->
+                        <span class="absolute left-2.5 top-2 -translate-x-1/2 w-2.5 h-2.5 rounded-full ${i === 0 ? 'bg-emerald-600 ring-4 ring-emerald-100' : 'bg-gray-400'}"></span>
+                        
+                        <div class="flex-1 p-3 rounded-2xl bg-[#f8faf7] border border-[#e5eee3] space-y-1">
+                          <div class="flex items-center justify-between flex-wrap gap-1">
+                            <span class="text-xs font-black text-[#152317]">
+                              Status: <span class="px-2 py-0.5 rounded-md text-[10px] font-extrabold uppercase ${hst.color}">${hst.label}</span>
+                            </span>
+                            <span class="text-[10px] text-[#718573] font-semibold">${formatDateTime(h.createdAt)}</span>
+                          </div>
+                          ${h.note ? `
+                            <p class="text-xs font-bold text-emerald-950 bg-white/70 p-2 rounded-xl border border-emerald-100">
+                              💬 ${h.note}
+                            </p>
+                          ` : ''}
+                        </div>
+                      </div>
+                    `;
+                  }).join('')}
+                </div>
+              </div>
+            ` : ''}
+
             <!-- Customer & Delivery Cluster Details -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-[#526454]">
-              <div>
-                <span class="text-[10px] font-bold uppercase text-[#718573] block">Customer</span>
-                <strong class="text-sm font-bold text-[#122815]">${o.customerName} (${o.maskedPhone})</strong>
-              </div>
-              <div>
-                <span class="text-[10px] font-bold uppercase text-[#718573] block">Gwalior Cluster</span>
-                <strong class="text-sm font-bold text-[#122815]">${o.deliveryArea}</strong>
-              </div>
-              <div class="sm:col-span-2">
-                <span class="text-[10px] font-bold uppercase text-[#718573] block">Delivery Address</span>
-                <strong class="text-xs font-semibold text-[#122815]">${o.deliveryAddress}</strong>
+            <div class="pt-2 border-t border-[#f0f5ee]">
+              <h4 class="text-xs font-extrabold uppercase tracking-wider text-[#355239] mb-3">Delivery Information</h4>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-[#526454] bg-[#f9fbf8] p-4 rounded-2xl border border-[#e8efe7]">
+                <div>
+                  <span class="text-[10px] font-bold uppercase text-[#718573] block">Customer</span>
+                  <strong class="text-sm font-bold text-[#122815]">${o.customerName} (${o.maskedPhone})</strong>
+                </div>
+                <div>
+                  <span class="text-[10px] font-bold uppercase text-[#718573] block">Gwalior Delivery Cluster</span>
+                  <strong class="text-sm font-bold text-[#122815]">${o.deliveryArea} (${o.deliveryDay || 'Sunday'})</strong>
+                </div>
+                <div class="sm:col-span-2">
+                  <span class="text-[10px] font-bold uppercase text-[#718573] block">Delivery Address</span>
+                  <strong class="text-xs font-semibold text-[#122815]">${o.deliveryAddress}</strong>
+                </div>
               </div>
             </div>
 
             <!-- Items Reserved -->
-            <div class="pt-3 border-t border-[#f0f5ee]">
-              <h4 class="text-[11px] font-extrabold uppercase tracking-wider text-[#495c4b] mb-2">Reserved Produce</h4>
+            <div class="pt-2 border-t border-[#f0f5ee]">
+              <h4 class="text-xs font-extrabold uppercase tracking-wider text-[#355239] mb-3">Reserved Farm Harvest</h4>
               <div class="space-y-1.5 text-xs">
                 ${o.items.map(it => `
-                  <div class="flex items-center justify-between py-1.5 px-3 rounded-xl bg-[#f8faf7] border border-[#edf3ec]">
+                  <div class="flex items-center justify-between py-2 px-3.5 rounded-xl bg-[#f8faf7] border border-[#edf3ec]">
                     <span class="font-bold text-[#152317]">${it.name} (${it.quantity} ${it.unit})</span>
                     <strong class="text-[#1b4522] font-black">₹${it.lineTotalRupees}</strong>
                   </div>
@@ -160,22 +327,22 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
             </div>
 
             <!-- Grand Total -->
-            <div class="p-4 rounded-2xl bg-[#edf4ec] border border-[#d6e3d4] flex items-center justify-between">
+            <div class="p-4 rounded-2xl bg-gradient-to-r from-[#edf4ec] to-[#e4efe2] border border-[#d6e3d4] flex items-center justify-between shadow-xs">
               <div>
-                <span class="text-xs text-[#526454] block">Pay on Sunday Delivery:</span>
-                <span class="text-[11px] text-emerald-800 font-bold">Cash or UPI accepted</span>
+                <span class="text-xs font-semibold text-[#526454] block">Pay on Sunday Delivery:</span>
+                <span class="text-[11px] text-emerald-800 font-bold">UPI / Cash on Delivery accepted</span>
               </div>
               <strong class="fd-display text-2xl font-black text-[#1b4522]">₹${o.grandTotalRupees}</strong>
             </div>
 
             <!-- WhatsApp Direct Help -->
-            <div class="pt-3 border-t border-[#f0f5ee] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
-              <span class="text-[#5b6e5d]">Questions about dispatch timing?</span>
+            <div class="pt-2 border-t border-[#f0f5ee] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+              <span class="text-[#5b6e5d]">Questions about harvest cuts or timing?</span>
               <a
                 href="https://wa.me/918770767272?text=${encodeURIComponent(`Namaste Farm Direct, checking on my order ${o.orderNumber} for Gwalior.`)}"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="fd-btn bg-[#25D366] hover:bg-[#1fa851] text-white text-xs font-bold py-2 px-3.5 rounded-xl shadow-xs"
+                class="fd-btn bg-[#25D366] hover:bg-[#1fa851] text-white text-xs font-bold py-2.5 px-4 rounded-xl shadow-xs"
               >
                 <span>💬 WhatsApp Farmer (8770767272)</span>
               </a>

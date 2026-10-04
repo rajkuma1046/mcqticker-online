@@ -253,8 +253,10 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
 
       if (data.deliveryArea) {
         delEl.textContent = `₹${data.deliveryChargeRupees}`;
-        if (!data.meetsMinimumOrder) {
-          minNote.textContent = `Minimum order for ${data.deliveryArea.name} is ₹${data.deliveryArea.minimumOrderRupees}. Please add more items.`;
+        const meetsMin = data.meetsMinimumOrder !== undefined ? data.meetsMinimumOrder : data.minOrderMet;
+        const minVal = data.deliveryArea.minimumOrderRupees !== undefined ? data.deliveryArea.minimumOrderRupees : 200;
+        if (!meetsMin) {
+          minNote.textContent = `Minimum order for ${data.deliveryArea.name} is ₹${minVal}. Please add more items.`;
           minNote.classList.remove('hidden');
           btn.disabled = true;
           btn.classList.add('opacity-50', 'cursor-not-allowed');

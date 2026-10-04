@@ -105,7 +105,7 @@ export async function onRequestPost({ request, env }) {
 
   if (deliveryAreaId) {
     const area = await env.DB.prepare(
-      'SELECT id, name, city, delivery_charge_paise, minimum_order_paise FROM farm_delivery_areas WHERE id = ? AND is_active = 1'
+      'SELECT id, name, city, delivery_day, delivery_charge_paise, minimum_order_paise FROM farm_delivery_areas WHERE id = ? AND is_active = 1'
     ).bind(deliveryAreaId).first();
 
     if (area) {
@@ -113,6 +113,11 @@ export async function onRequestPost({ request, env }) {
         id: area.id,
         name: area.name,
         city: area.city,
+        deliveryDay: area.delivery_day || 'Sunday',
+        deliveryChargePaise: area.delivery_charge_paise || 0,
+        deliveryChargeRupees: (area.delivery_charge_paise || 0) / 100,
+        minimumOrderPaise: area.minimum_order_paise || 0,
+        minimumOrderRupees: (area.minimum_order_paise || 0) / 100,
       };
       deliveryChargePaise = area.delivery_charge_paise || 0;
       if (subtotalPaise < (area.minimum_order_paise || 0)) {
@@ -134,6 +139,7 @@ export async function onRequestPost({ request, env }) {
     grandTotalPaise,
     grandTotalRupees: grandTotalPaise / 100,
     minOrderMet,
+    meetsMinimumOrder: minOrderMet,
     hasStockIssues,
   });
 }

@@ -56,6 +56,11 @@ const { slug } = Astro.params;
             </div>
           </div>
 
+          <!-- Thumbnails Row (when multiple images are available) -->
+          <div id="p-gallery-thumbs" class="hidden flex items-center gap-2.5 overflow-x-auto pb-1 scrollbar-none">
+            <!-- Rendered via JS -->
+          </div>
+
           <!-- Quality Transparency Card -->
           <div class="p-4 sm:p-5 rounded-2xl bg-[#f7faf5] border border-[#dce7db] text-xs space-y-2 text-[#5b6e5d]">
             <div class="font-extrabold text-[#132215] flex items-center gap-2 text-sm">
@@ -144,6 +149,17 @@ const { slug } = Astro.params;
   <script is:inline define:vars={{ slug }}>
     let currentProduct = null;
 
+    window.selectGalleryImage = function(url, btn) {
+      const mainImg = document.getElementById('p-image');
+      if (mainImg) mainImg.src = url;
+      document.querySelectorAll('#p-gallery-thumbs .thumb-btn').forEach(b => {
+        b.className = 'thumb-btn w-16 h-16 rounded-xl overflow-hidden border-2 transition-all shrink-0 border-[#dce7db] opacity-70 hover:opacity-100 cursor-pointer';
+      });
+      if (btn) {
+        btn.className = 'thumb-btn w-16 h-16 rounded-xl overflow-hidden border-2 transition-all shrink-0 border-emerald-600 ring-2 ring-emerald-300 cursor-pointer';
+      }
+    };
+
     async function fetchProduct() {
       const loader = document.getElementById('product-loading');
       const content = document.getElementById('product-content');
@@ -165,8 +181,35 @@ const { slug } = Astro.params;
         document.getElementById('breadcrumb-title').textContent = currentProduct.name;
         document.getElementById('p-name').textContent = currentProduct.name;
         document.getElementById('p-desc').textContent = currentProduct.description;
+
+        const catEl = document.getElementById('p-category');
+        if (catEl && currentProduct.category) {
+          catEl.textContent = (currentProduct.category.charAt(0).toUpperCase() + currentProduct.category.slice(1)) + ' Harvest';
+        }
+
         document.getElementById('p-image').src = currentProduct.imageUrl || '/farm/images/wheat-960.jpg';
         document.getElementById('p-image').alt = currentProduct.imageAlt || currentProduct.name;
+
+        // Render gallery thumbnails if multiple images
+        const thumbsContainer = document.getElementById('p-gallery-thumbs');
+        const images = (Array.isArray(currentProduct.images) && currentProduct.images.length > 0)
+          ? currentProduct.images
+          : (currentProduct.imageUrl ? [currentProduct.imageUrl] : []);
+
+        if (images.length > 1) {
+          thumbsContainer.innerHTML = images.map((img, idx) => `
+            <button
+              type="button"
+              onclick="selectGalleryImage('${img}', this)"
+              class="thumb-btn w-16 h-16 rounded-xl overflow-hidden border-2 transition-all shrink-0 cursor-pointer ${idx === 0 ? 'border-emerald-600 ring-2 ring-emerald-300' : 'border-[#dce7db] opacity-70 hover:opacity-100'}"
+            >
+              <img src="${img}" alt="${currentProduct.name}" class="w-full h-full object-cover" />
+            </button>
+          `).join('');
+          thumbsContainer.classList.remove('hidden');
+        } else {
+          thumbsContainer.classList.add('hidden');
+        }
 
         if (currentProduct.pricePerKgRupees !== null) {
           document.getElementById('p-price').textContent = `₹${currentProduct.pricePerKgRupees}/${currentProduct.unit || 'kg'}`;

@@ -19,6 +19,7 @@ export async function onRequestGet({ env }) {
       p.quantity_options,
       p.max_order_qty,
       p.image_url,
+      p.images,
       p.image_alt,
       p.category,
       p.is_available,
@@ -44,6 +45,14 @@ export async function onRequestGet({ env }) {
       presets = JSON.parse(p.quantity_options);
     } catch (_) {}
 
+    let images = [];
+    try {
+      images = JSON.parse(p.images || '[]');
+    } catch (_) {}
+    if (!Array.isArray(images) || images.length === 0) {
+      if (p.image_url) images = [p.image_url];
+    }
+
     const isOutOfStock = p.quantity_available <= 0 || !p.is_available;
 
     return {
@@ -59,6 +68,7 @@ export async function onRequestGet({ env }) {
       quantityOptions: presets,
       maxOrderQty: p.max_order_qty,
       imageUrl: p.image_url,
+      images,
       imageAlt: p.image_alt,
       category: p.category,
       isAvailable: Boolean(p.is_available),

@@ -141,6 +141,54 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
     let productsList = [];
     let activeFilter = 'all';
 
+    function renderCategoryFilters() {
+      const container = document.getElementById('cat-filters');
+      if (!container) return;
+
+      const categoryMeta = {
+        grain: { label: 'Grains', icon: '🌾' },
+        pulse: { label: 'Pulses & Chana', icon: '🫘' },
+        oilseed: { label: 'Oilseeds', icon: '🥜' },
+        seasonal: { label: 'Seasonal', icon: '🥬' },
+        fruit: { label: 'Fruits', icon: '🍎' },
+        fruits: { label: 'Fruits', icon: '🍎' },
+        vegetable: { label: 'Vegetables', icon: '🥕' },
+        vegetables: { label: 'Vegetables', icon: '🥕' },
+        spice: { label: 'Spices', icon: '🌶️' },
+        spices: { label: 'Spices', icon: '🌶️' },
+        dairy: { label: 'Dairy', icon: '🥛' },
+        sweetener: { label: 'Sweeteners', icon: '🍯' },
+        herb: { label: 'Herbs', icon: '🌿' },
+        herbs: { label: 'Herbs', icon: '🌿' }
+      };
+
+      const uniqueCats = new Set();
+      const defaultOrder = ['grain', 'pulse', 'oilseed', 'seasonal'];
+      productsList.forEach(p => {
+        if (p.category) uniqueCats.add(p.category.toLowerCase().trim());
+      });
+
+      const orderedCats = [];
+      defaultOrder.forEach(c => {
+        if (uniqueCats.has(c)) {
+          orderedCats.push(c);
+          uniqueCats.delete(c);
+        }
+      });
+      uniqueCats.forEach(c => orderedCats.push(c));
+
+      let html = `<button type="button" class="cat-pill ${activeFilter === 'all' ? 'active-pill' : 'inactive-pill'} whitespace-nowrap px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer" onclick="filterCategory('all', this)">All Harvest</button>`;
+
+      orderedCats.forEach(cat => {
+        const meta = categoryMeta[cat];
+        const label = meta ? `${meta.icon} ${meta.label}` : `🌱 ${cat.charAt(0).toUpperCase() + cat.slice(1)}`;
+        const isActive = activeFilter === cat;
+        html += `<button type="button" class="cat-pill ${isActive ? 'active-pill' : 'inactive-pill'} whitespace-nowrap px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer" onclick="filterCategory('${cat}', this)">${label}</button>`;
+      });
+
+      container.innerHTML = html;
+    }
+
     async function loadProducts() {
       const skeleton = document.getElementById('catalog-skeleton');
       const grid = document.getElementById('catalog-grid');
@@ -152,6 +200,7 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
 
         if (data.success && data.products) {
           productsList = data.products;
+          renderCategoryFilters();
           skeleton.classList.add('hidden');
           grid.classList.remove('hidden');
           renderList();
@@ -172,7 +221,7 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
       const filtered = productsList.filter(p => {
         const matchCat = activeFilter === 'all'
           ? true
-          : (activeFilter === 'seasonal' ? p.isSeasonal : p.category === activeFilter);
+          : (activeFilter === 'seasonal' ? (p.isSeasonal || p.category === 'seasonal') : p.category === activeFilter);
         const matchQuery = !query ||
           p.name.toLowerCase().includes(query) ||
           (p.localName && p.localName.toLowerCase().includes(query)) ||

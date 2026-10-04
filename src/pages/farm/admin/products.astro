@@ -120,13 +120,45 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
             <input type="text" id="form-slug" class="fd-input text-xs" placeholder="e.g. farm-wheat (auto if blank)" />
           </div>
           <div>
-            <label class="block font-bold text-[#152317] mb-1">Category *</label>
-            <select id="form-category" class="fd-input text-xs" required>
-              <option value="grain">Grains</option>
-              <option value="pulse">Pulses</option>
-              <option value="oilseed">Oilseeds</option>
-              <option value="seasonal">Seasonal Harvest</option>
+            <div class="flex items-center justify-between mb-1">
+              <label class="block font-bold text-[#152317]">Category *</label>
+              <button
+                type="button"
+                id="btn-toggle-custom-cat"
+                class="text-[11px] font-bold text-emerald-700 hover:text-emerald-950 underline cursor-pointer"
+                onclick="toggleCustomCategoryInput(true)"
+              >
+                + New Category
+              </button>
+            </div>
+            <select id="form-category" class="fd-input text-xs" onchange="onCategorySelectChange(this.value)" required>
+              <option value="grain">Grains (grain)</option>
+              <option value="pulse">Pulses (pulse)</option>
+              <option value="oilseed">Oilseeds (oilseed)</option>
+              <option value="seasonal">Seasonal Harvest (seasonal)</option>
+              <option value="__custom__">+ Create New Custom Category...</option>
             </select>
+
+            <!-- Custom Category Input Section -->
+            <div id="custom-category-wrapper" class="hidden mt-2 p-2.5 rounded-xl bg-emerald-50/80 border border-emerald-200 space-y-1">
+              <div class="flex items-center justify-between">
+                <label class="block font-bold text-emerald-950 text-[11px]">New Category Name *</label>
+                <button
+                  type="button"
+                  class="text-[10px] text-gray-500 hover:text-gray-800 font-bold"
+                  onclick="toggleCustomCategoryInput(false)"
+                >Cancel</button>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <input
+                  type="text"
+                  id="form-custom-category"
+                  placeholder="e.g. fruits, vegetables, spices, dairy..."
+                  class="fd-input text-xs bg-white py-1.5"
+                />
+              </div>
+              <span class="text-[10px] text-emerald-800 block">Type any custom category (e.g. "fruits", "vegetables").</span>
+            </div>
           </div>
         </div>
 
@@ -151,9 +183,73 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
           <textarea id="form-description" rows="3" class="fd-input text-xs" placeholder="Direct farm harvest notes, processing level, moisture, origin..."></textarea>
         </div>
 
-        <div>
-          <label class="block font-bold text-[#152317] mb-1">Image URL</label>
-          <input type="text" id="form-image-url" class="fd-input text-xs" placeholder="/farm/images/wheat-500.jpg" />
+        <!-- Multiple Images Manager (Cloudflare Storage & URLs) -->
+        <div class="space-y-3 p-3.5 bg-[#f8faf6] rounded-2xl border border-[#e0e8dc]">
+          <div class="flex items-center justify-between">
+            <div>
+              <label class="block font-bold text-[#152317] text-xs">Produce Images (Cloudflare Storage & URLs)</label>
+              <span class="text-[11px] text-[#536354]">Add multiple images. The first image (#1) is the primary cover photo.</span>
+            </div>
+            <span id="images-count-badge" class="px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-100 text-emerald-800">0 images</span>
+          </div>
+
+          <!-- Current Images Preview Grid -->
+          <div id="images-preview-list" class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 min-h-[70px] p-2 bg-white rounded-xl border border-[#dce5d8]">
+            <!-- Rendered via JS -->
+          </div>
+
+          <!-- Add Image Options: Upload or URL -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+            <!-- Option 1: Upload to Cloudflare Storage -->
+            <div class="p-3 bg-white rounded-xl border border-dashed border-emerald-300 hover:border-emerald-500 transition-colors">
+              <label class="block font-bold text-emerald-950 text-[11px] mb-1">
+                ☁️ Upload to Cloudflare Storage
+              </label>
+              <input
+                type="file"
+                id="image-file-input"
+                accept="image/png,image/jpeg,image/webp,image/jpg"
+                class="hidden"
+                onchange="handleImageFileUpload(event)"
+              />
+              <button
+                type="button"
+                id="btn-trigger-upload"
+                class="w-full py-2 px-3 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold text-xs border border-emerald-200 flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+                onclick="document.getElementById('image-file-input').click()"
+              >
+                <span>📷</span>
+                <span>Select & Upload Image</span>
+              </button>
+              <span id="upload-status-text" class="text-[10px] text-gray-500 block mt-1 text-center">JPG, PNG, WebP up to 4MB</span>
+            </div>
+
+            <!-- Option 2: Add by Web URL -->
+            <div class="p-3 bg-white rounded-xl border border-[#e0e8dc]">
+              <label class="block font-bold text-[#152317] text-[11px] mb-1">
+                🔗 Add by Image URL
+              </label>
+              <div class="flex items-center gap-1.5">
+                <input
+                  type="url"
+                  id="input-add-image-url"
+                  placeholder="https://... or /farm/images/..."
+                  class="fd-input text-xs py-1.5 px-2.5 flex-1"
+                />
+                <button
+                  type="button"
+                  class="px-3 py-1.5 rounded-lg bg-[#275629] hover:bg-[#1e4420] text-white font-bold text-xs shrink-0 shadow-xs cursor-pointer"
+                  onclick="handleAddImageUrl()"
+                >
+                  + Add
+                </button>
+              </div>
+              <span class="text-[10px] text-[#798a7a] block mt-1">Google Photos, Blogger, Unsplash, direct CDN link</span>
+            </div>
+          </div>
+
+          <!-- Hidden input for backwards compatibility -->
+          <input type="hidden" id="form-image-url" />
         </div>
 
         <div id="initial-stock-section" class="grid grid-cols-1 sm:grid-cols-2 gap-3 p-3 bg-[#f8faf6] rounded-xl border border-[#e0e8dc]">
@@ -219,11 +315,82 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
       }
     }
 
+    const DEFAULT_CATEGORIES = [
+      { id: 'grain', label: 'Grains' },
+      { id: 'pulse', label: 'Pulses' },
+      { id: 'oilseed', label: 'Oilseeds' },
+      { id: 'seasonal', label: 'Seasonal Harvest' },
+    ];
+
+    function getAllCategories() {
+      const set = new Set(['grain', 'pulse', 'oilseed', 'seasonal']);
+      allProducts.forEach(p => {
+        if (p.category) set.add(p.category.toLowerCase().trim());
+      });
+      return Array.from(set);
+    }
+
+    function updateCategoryDropdowns(selectedCategory = '') {
+      const allCats = getAllCategories();
+      const selClean = selectedCategory ? selectedCategory.toLowerCase().trim() : '';
+      if (selClean && selClean !== '__custom__' && !allCats.includes(selClean)) {
+        allCats.push(selClean);
+      }
+
+      // Update Filter Category at top of table
+      const filterSel = document.getElementById('filter-category');
+      const curFilter = filterSel.value;
+      filterSel.innerHTML = '<option value="ALL">All Categories</option>' +
+        allCats.map(c => {
+          const def = DEFAULT_CATEGORIES.find(d => d.id === c);
+          const label = def ? def.label : (c.charAt(0).toUpperCase() + c.slice(1));
+          return `<option value="${c}">${label} (${c})</option>`;
+        }).join('');
+      if (allCats.includes(curFilter)) filterSel.value = curFilter;
+
+      // Update Form Category Modal
+      const formCatSel = document.getElementById('form-category');
+      formCatSel.innerHTML = allCats.map(c => {
+        const def = DEFAULT_CATEGORIES.find(d => d.id === c);
+        const label = def ? def.label : (c.charAt(0).toUpperCase() + c.slice(1));
+        return `<option value="${c}">${label} (${c})</option>`;
+      }).join('') + '<option value="__custom__">+ Create New Custom Category...</option>';
+
+      if (selClean) {
+        formCatSel.value = selClean;
+      }
+    }
+
+    window.toggleCustomCategoryInput = function(show) {
+      const wrapper = document.getElementById('custom-category-wrapper');
+      const formCatSel = document.getElementById('form-category');
+      const customInput = document.getElementById('form-custom-category');
+      if (show) {
+        wrapper.classList.remove('hidden');
+        formCatSel.value = '__custom__';
+        customInput.focus();
+      } else {
+        wrapper.classList.add('hidden');
+        customInput.value = '';
+        formCatSel.value = 'grain';
+      }
+    };
+
+    window.onCategorySelectChange = function(val) {
+      if (val === '__custom__') {
+        toggleCustomCategoryInput(true);
+      } else {
+        document.getElementById('custom-category-wrapper').classList.add('hidden');
+        document.getElementById('form-custom-category').value = '';
+      }
+    };
+
     async function loadProductsList() {
       const res = await fetch('/farm/api/admin/products');
       const data = await res.json();
       if (data.success && data.products) {
         allProducts = data.products;
+        updateCategoryDropdowns();
         renderProductsTable();
       }
     }
@@ -255,7 +422,7 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
               </div>
             </div>
           </td>
-          <td class="py-3 px-4 capitalize font-medium text-[#536354]">
+          <td class="py-3 px-4 capitalize font-semibold text-[#1b4522]">
             ${p.category}
           </td>
           <td class="py-3 px-4">
@@ -312,6 +479,121 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
       loadProductsList();
     };
 
+    // Multiple Images Management State & Methods
+    let currentImages = [];
+
+    function renderImagesPreview() {
+      const container = document.getElementById('images-preview-list');
+      const badge = document.getElementById('images-count-badge');
+      if (badge) badge.textContent = `${currentImages.length} ${currentImages.length === 1 ? 'image' : 'images'}`;
+
+      if (currentImages.length === 0) {
+        container.innerHTML = `<div class="col-span-full py-4 text-center text-xs text-[#8aa08c] font-semibold">No images added yet. Upload from device or add image URLs below.</div>`;
+        document.getElementById('form-image-url').value = '';
+        return;
+      }
+
+      document.getElementById('form-image-url').value = currentImages[0] || '';
+
+      container.innerHTML = currentImages.map((url, idx) => `
+        <div class="relative group rounded-xl border ${idx === 0 ? 'border-emerald-600 ring-2 ring-emerald-300' : 'border-[#e0e8dc]'} bg-gray-50 overflow-hidden flex flex-col justify-between">
+          <div class="relative aspect-square w-full bg-gray-100 overflow-hidden">
+            <img src="${url}" alt="Produce image ${idx + 1}" class="w-full h-full object-cover" onerror="this.src='/farm/images/wheat-500.jpg'" />
+            ${idx === 0 ? `
+              <span class="absolute top-1 left-1 bg-emerald-700 text-white font-black text-[9px] uppercase px-1.5 py-0.5 rounded shadow-xs">
+                ★ Primary
+              </span>
+            ` : `
+              <span class="absolute top-1 left-1 bg-black/60 text-white font-bold text-[9px] px-1.5 py-0.5 rounded backdrop-blur-xs">
+                #${idx + 1}
+              </span>
+            `}
+          </div>
+          <div class="p-1 bg-white flex items-center justify-between gap-1 border-t border-gray-100 text-[10px]">
+            ${idx !== 0 ? `
+              <button type="button" class="text-emerald-700 hover:text-emerald-950 font-bold px-1 py-0.5 rounded hover:bg-emerald-50 cursor-pointer" onclick="makeImagePrimary(${idx})">
+                Make Primary
+              </button>
+            ` : '<span class="text-[9px] text-emerald-800 font-bold px-1">Cover</span>'}
+            <button type="button" class="text-red-600 hover:text-red-800 font-bold px-1 py-0.5 rounded hover:bg-red-50 ml-auto cursor-pointer" onclick="removeImageAt(${idx})">
+              ✕
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    window.handleAddImageUrl = function() {
+      const input = document.getElementById('input-add-image-url');
+      const url = (input.value || '').trim();
+      if (!url) return;
+      if (!url.startsWith('http://') && !url.startsWith('https://') && !url.startsWith('/')) {
+        alert('Please enter a valid image URL starting with http://, https://, or /');
+        return;
+      }
+      currentImages.push(url);
+      input.value = '';
+      renderImagesPreview();
+    };
+
+    window.removeImageAt = function(idx) {
+      currentImages.splice(idx, 1);
+      renderImagesPreview();
+    };
+
+    window.makeImagePrimary = function(idx) {
+      if (idx > 0 && idx < currentImages.length) {
+        const item = currentImages.splice(idx, 1)[0];
+        currentImages.unshift(item);
+        renderImagesPreview();
+      }
+    };
+
+    window.handleImageFileUpload = async function(event) {
+      const file = event.target.files?.[0];
+      if (!file) return;
+
+      const statusEl = document.getElementById('upload-status-text');
+      const btn = document.getElementById('btn-trigger-upload');
+      
+      statusEl.textContent = `Uploading ${file.name} to Cloudflare Storage...`;
+      statusEl.className = 'text-[10px] text-emerald-700 font-bold block mt-1 text-center animate-pulse';
+      btn.disabled = true;
+
+      try {
+        const formData = new FormData();
+        formData.append('file', file);
+
+        const res = await fetch('/farm/api/admin/media/upload', {
+          method: 'POST',
+          body: formData,
+        });
+
+        const data = await res.json();
+        if (data.success && data.url) {
+          currentImages.push(data.url);
+          renderImagesPreview();
+          statusEl.textContent = `Uploaded successfully to Cloudflare!`;
+          statusEl.className = 'text-[10px] text-emerald-700 font-bold block mt-1 text-center';
+        } else {
+          statusEl.textContent = data.error || 'Upload failed. Please try again.';
+          statusEl.className = 'text-[10px] text-red-600 font-bold block mt-1 text-center';
+        }
+      } catch (err) {
+        statusEl.textContent = 'Upload network error.';
+        statusEl.className = 'text-[10px] text-red-600 font-bold block mt-1 text-center';
+      } finally {
+        btn.disabled = false;
+        event.target.value = '';
+        setTimeout(() => {
+          if (statusEl.textContent.includes('successfully')) {
+            statusEl.textContent = 'JPG, PNG, WebP up to 4MB';
+            statusEl.className = 'text-[10px] text-gray-500 block mt-1 text-center';
+          }
+        }, 3000);
+      }
+    };
+
     // Modal logic
     const modal = document.getElementById('product-modal');
     const form = document.getElementById('product-form');
@@ -322,6 +604,10 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
       document.getElementById('form-product-id').value = '';
       document.getElementById('modal-title').textContent = 'Add New Farm Produce';
       document.getElementById('initial-stock-section').classList.remove('hidden');
+      updateCategoryDropdowns('grain');
+      toggleCustomCategoryInput(false);
+      currentImages = ['/farm/images/wheat-500.jpg'];
+      renderImagesPreview();
       formError.classList.add('hidden');
       modal.classList.remove('hidden');
     });
@@ -342,17 +628,22 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
       document.getElementById('form-name').value = p.name;
       document.getElementById('form-local-name').value = p.localName || '';
       document.getElementById('form-slug').value = p.slug;
-      document.getElementById('form-category').value = p.category;
+      
+      updateCategoryDropdowns(p.category);
+      toggleCustomCategoryInput(false);
+
       document.getElementById('form-price').value = p.pricePerKgRupees || '';
       document.getElementById('form-unit').value = p.unit || 'kg';
       document.getElementById('form-label').value = p.label || 'Raw / Unprocessed';
       document.getElementById('form-description').value = p.description || '';
-      document.getElementById('form-image-url').value = p.imageUrl || '';
+      
+      currentImages = Array.isArray(p.images) && p.images.length > 0 ? [...p.images] : (p.imageUrl ? [p.imageUrl] : ['/farm/images/wheat-500.jpg']);
+      renderImagesPreview();
+
       document.getElementById('form-is-available').checked = p.isAvailable;
       document.getElementById('form-sample-available').checked = p.sampleAvailable;
       document.getElementById('form-is-seasonal').checked = p.isSeasonal;
 
-      // Hide initial stock fields in edit mode (use Inventory page to adjust stock)
       document.getElementById('initial-stock-section').classList.add('hidden');
       formError.classList.add('hidden');
       modal.classList.remove('hidden');
@@ -365,16 +656,29 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
       const pid = document.getElementById('form-product-id').value;
       const isEdit = Boolean(pid);
 
+      let category = document.getElementById('form-category').value;
+      const isCustomOpen = !document.getElementById('custom-category-wrapper').classList.contains('hidden') || category === '__custom__';
+      if (isCustomOpen) {
+        const customCat = document.getElementById('form-custom-category').value.trim();
+        if (!customCat) {
+          formError.textContent = 'Please enter a name for your new custom category.';
+          formError.classList.remove('hidden');
+          return;
+        }
+        category = customCat.toLowerCase().replace(/[^a-z0-9_-]/g, '-').replace(/-+/g, '-');
+      }
+
       const payload = {
         name: document.getElementById('form-name').value.trim(),
         local_name: document.getElementById('form-local-name').value.trim(),
         slug: document.getElementById('form-slug').value.trim() || undefined,
-        category: document.getElementById('form-category').value,
+        category: category,
         price_per_kg_rupees: document.getElementById('form-price').value ? Number(document.getElementById('form-price').value) : null,
         unit: document.getElementById('form-unit').value.trim(),
         label: document.getElementById('form-label').value.trim(),
         description: document.getElementById('form-description').value.trim(),
-        image_url: document.getElementById('form-image-url').value.trim(),
+        image_url: currentImages[0] || document.getElementById('form-image-url').value.trim() || '/farm/images/wheat-500.jpg',
+        images: currentImages,
         is_available: document.getElementById('form-is-available').checked,
         sample_available: document.getElementById('form-sample-available').checked,
         is_seasonal: document.getElementById('form-is-seasonal').checked,
