@@ -8,29 +8,32 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
   canonicalPath="/farm/checkout"
   hideCartBar={true}
 >
-  <div class="fd-container py-8 sm:py-14">
+  <div class="fd-container py-10 sm:py-16">
     <div class="max-w-4xl mx-auto">
       <div class="mb-8">
-        <span class="text-xs uppercase tracking-wider text-[#275629] font-bold">Secure Farm Pre-Order</span>
-        <h1 class="fd-serif text-3xl sm:text-4xl font-bold text-[#152317] mt-1">
-          Checkout
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 text-emerald-900 text-[10px] font-extrabold uppercase tracking-wider mb-2">
+          Secure Pre-Order
+        </div>
+        <h1 class="fd-display text-3xl sm:text-4xl font-extrabold text-[#132215]">
+          Finalize Your Pre-Order
         </h1>
-        <p class="text-xs sm:text-sm text-[#536354] mt-1.5">
-          Produce is harvested and prepared for scheduled neighbourhood delivery in Gwalior. Payment is collected on delivery.
+        <p class="text-xs sm:text-sm text-[#5b6e5d] mt-1.5 leading-relaxed">
+          Produce is threshed from harvest batches and prepared for scheduled cluster delivery in Gwalior. Payment is collected on doorstep delivery.
         </p>
       </div>
 
-      <!-- Checkout Container -->
-      <div id="checkout-loading" class="text-center py-20 text-[#536354]">
-        <div class="inline-block animate-spin w-8 h-8 border-4 border-[#275629] border-t-transparent rounded-full mb-3"></div>
+      <!-- Checkout Loading Container -->
+      <div id="checkout-loading" class="text-center py-20 text-[#5b6e5d]">
+        <div class="inline-block animate-spin w-8 h-8 border-4 border-[#194622] border-t-transparent rounded-full mb-3"></div>
         <p class="text-sm font-semibold">Preparing your order summary and verifying live stock...</p>
       </div>
 
       <!-- Empty Cart Redirection -->
-      <div id="checkout-empty" class="hidden text-center py-16 bg-white rounded-2xl border border-[#e0e8dc] p-8 shadow-sm">
-        <h2 class="fd-serif text-2xl font-bold text-[#152317] mb-2">No items to checkout</h2>
-        <p class="text-sm text-[#536354] mb-6">Please add raw farm produce to your cart before proceeding.</p>
-        <a href="/farm/products" class="fd-btn fd-btn-primary px-6 py-3 font-bold text-sm shadow-sm">
+      <div id="checkout-empty" class="hidden text-center py-20 bg-white rounded-3xl border border-[#dce7db] p-8 shadow-xl shadow-emerald-950/[0.03]">
+        <div class="text-4xl mb-3">🌾</div>
+        <h2 class="fd-display text-2xl font-extrabold text-[#132215] mb-2">No items to checkout</h2>
+        <p class="text-xs sm:text-sm text-[#5b6e5d] mb-6">Please add raw farm produce to your cart before proceeding.</p>
+        <a href="/farm/products" class="fd-btn fd-btn-primary px-7 py-3.5 font-bold text-sm rounded-xl shadow-md">
           Browse Farm Produce &rarr;
         </a>
       </div>
@@ -40,36 +43,36 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
         <!-- Customer Details & Address Form (Left) -->
         <div class="lg:col-span-7 space-y-6">
           <!-- Auth Status Banner -->
-          <div id="auth-status-box" class="p-4 rounded-xl bg-[#f0f4ee] border border-[#e0e8dc] flex items-center justify-between text-xs">
-            <span id="auth-msg" class="text-[#2d3a2e] font-medium">Ordering as Guest</span>
-            <a id="auth-link" href="/farm/account/login?redirect=/farm/checkout" class="font-bold text-[#275629] hover:underline">
+          <div id="auth-status-box" class="p-4 rounded-2xl bg-[#f7faf5] border border-[#dce7db] flex items-center justify-between text-xs">
+            <span id="auth-msg" class="text-[#2d3e30] font-bold">Ordering as Guest</span>
+            <a id="auth-link" href="/farm/account/login?redirect=/farm/checkout" class="font-extrabold text-[#194622] hover:underline">
               Log in to use saved addresses &rarr;
             </a>
           </div>
 
           <form id="order-form" onsubmit="handlePlaceOrder(event)" class="space-y-6">
             <!-- Customer Details Card -->
-            <div class="bg-white p-6 rounded-2xl border border-[#e0e8dc] shadow-sm space-y-4">
-              <h3 class="font-bold text-base text-[#152317] pb-3 border-b border-[#f0f4ee] flex items-center gap-2">
+            <div class="bg-white p-6 sm:p-7 rounded-3xl border border-[#dce7db] shadow-xl shadow-emerald-950/[0.03] space-y-4">
+              <h3 class="fd-display font-extrabold text-base text-[#132215] pb-3 border-b border-[#edf2eb] flex items-center gap-2">
                 <span>👤</span>
-                <span>Customer Contact</span>
+                <span>Customer Contact Details</span>
               </h3>
 
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label class="text-xs font-bold uppercase tracking-wider text-[#536354] block mb-1">Full Name *</label>
+                  <label class="text-xs font-bold text-[#132215] block mb-1.5">Full Name *</label>
                   <input
                     id="cust-name"
                     type="text"
                     required
                     placeholder="e.g. Ramesh Sharma"
-                    class="w-full text-xs font-semibold p-3 rounded-lg border border-[#d0ded0] bg-white focus:outline-none focus:border-[#275629]"
+                    class="fd-input"
                   />
                 </div>
                 <div>
-                  <label class="text-xs font-bold uppercase tracking-wider text-[#536354] block mb-1">Mobile Number (WhatsApp) *</label>
+                  <label class="text-xs font-bold text-[#132215] block mb-1.5">WhatsApp Mobile (10 Digits) *</label>
                   <div class="flex">
-                    <span class="inline-flex items-center px-3 text-xs font-bold bg-[#f0f4ee] border border-r-0 border-[#d0ded0] rounded-l-lg text-[#536354]">+91</span>
+                    <span class="inline-flex items-center px-3.5 text-xs font-bold bg-[#edf2eb] border border-r-0 border-[#d9e4d5] rounded-l-xl text-[#5b6e5d]">+91</span>
                     <input
                       id="cust-phone"
                       type="tel"
@@ -77,156 +80,161 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
                       maxlength="10"
                       pattern="[6-9][0-9]{9}"
                       placeholder="10-digit mobile"
-                      class="w-full text-xs font-semibold p-3 rounded-r-lg border border-[#d0ded0] bg-white focus:outline-none focus:border-[#275629]"
+                      class="fd-input rounded-l-none"
                     />
                   </div>
                 </div>
               </div>
 
               <div>
-                <label class="text-xs font-bold uppercase tracking-wider text-[#536354] block mb-1">Email Address (Optional)</label>
+                <label class="text-xs font-bold text-[#132215] block mb-1.5">Email Address (Optional)</label>
                 <input
                   id="cust-email"
                   type="email"
-                  placeholder="For pre-order receipt"
-                  class="w-full text-xs font-semibold p-3 rounded-lg border border-[#d0ded0] bg-white focus:outline-none focus:border-[#275629]"
+                  placeholder="For pre-order confirmation copy"
+                  class="fd-input"
                 />
               </div>
             </div>
 
             <!-- Delivery Address Card -->
-            <div class="bg-white p-6 rounded-2xl border border-[#e0e8dc] shadow-sm space-y-4">
-              <h3 class="font-bold text-base text-[#152317] pb-3 border-b border-[#f0f4ee] flex items-center gap-2">
+            <div class="bg-white p-6 sm:p-7 rounded-3xl border border-[#dce7db] shadow-xl shadow-emerald-950/[0.03] space-y-4">
+              <h3 class="fd-display font-extrabold text-base text-[#132215] pb-3 border-b border-[#edf2eb] flex items-center gap-2">
                 <span>📍</span>
                 <span>Delivery Neighbourhood & Address</span>
               </h3>
 
               <!-- Saved Addresses Picker (if logged in) -->
               <div id="saved-address-picker" class="hidden space-y-2">
-                <label class="text-xs font-bold uppercase tracking-wider text-[#536354] block">Use Saved Address</label>
-                <select id="saved-addresses-select" class="w-full text-xs font-semibold p-2.5 rounded-lg border border-[#d0ded0] bg-white focus:outline-none focus:border-[#275629]" onchange="applySavedAddress(this.value)">
+                <label class="text-xs font-bold text-[#132215] block">Use Saved Address</label>
+                <select id="saved-addresses-select" class="fd-input font-bold text-xs" onchange="applySavedAddress(this.value)">
                   <option value="">Select a saved address...</option>
                 </select>
               </div>
 
               <!-- Delivery Area Selector -->
               <div>
-                <label class="text-xs font-bold uppercase tracking-wider text-[#536354] block mb-1">Target Neighbourhood Cluster in Gwalior *</label>
-                <select id="checkout-area" required class="w-full text-xs font-bold p-3 rounded-lg border border-[#d0ded0] bg-white focus:outline-none focus:border-[#275629]" onchange="onAreaChanged()">
+                <label class="text-xs font-bold text-[#132215] block mb-1.5">Target Neighbourhood Cluster in Gwalior *</label>
+                <select id="checkout-area" required class="fd-input font-bold text-xs" onchange="onAreaChanged()">
                   <option value="">Select delivery area...</option>
                 </select>
-                <p id="area-hint" class="text-[11px] text-[#536354] mt-1"></p>
+                <p id="area-hint" class="text-[11px] text-[#5b6e5d] mt-1 font-medium"></p>
               </div>
 
               <!-- Address Fields -->
               <div>
-                <label class="text-xs font-bold uppercase tracking-wider text-[#536354] block mb-1">House / Flat No. & Building Name *</label>
+                <label class="text-xs font-bold text-[#132215] block mb-1.5">House / Flat No. & Building Name *</label>
                 <input
                   id="cust-house"
                   type="text"
                   required
                   placeholder="e.g. Flat 204, Shanti Apartments"
-                  class="w-full text-xs font-semibold p-3 rounded-lg border border-[#d0ded0] bg-white focus:outline-none focus:border-[#275629]"
+                  class="fd-input"
                 />
               </div>
 
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label class="text-xs font-bold uppercase tracking-wider text-[#536354] block mb-1">Street / Colony *</label>
+                  <label class="text-xs font-bold text-[#132215] block mb-1.5">Street / Colony *</label>
                   <input
                     id="cust-street"
                     type="text"
                     required
                     placeholder="e.g. Lane 3, Near Water Tank"
-                    class="w-full text-xs font-semibold p-3 rounded-lg border border-[#d0ded0] bg-white focus:outline-none focus:border-[#275629]"
+                    class="fd-input"
                   />
                 </div>
                 <div>
-                  <label class="text-xs font-bold uppercase tracking-wider text-[#536354] block mb-1">Landmark (Optional)</label>
+                  <label class="text-xs font-bold text-[#132215] block mb-1.5">Landmark (Optional)</label>
                   <input
                     id="cust-landmark"
                     type="text"
                     placeholder="e.g. Opposite Shiv Temple"
-                    class="w-full text-xs font-semibold p-3 rounded-lg border border-[#d0ded0] bg-white focus:outline-none focus:border-[#275629]"
+                    class="fd-input"
                   />
                 </div>
               </div>
 
               <div>
-                <label class="text-xs font-bold uppercase tracking-wider text-[#536354] block mb-1">Delivery Instructions or Notes</label>
+                <label class="text-xs font-bold text-[#132215] block mb-1.5">Delivery Instructions / Colony Notes</label>
                 <textarea
                   id="cust-notes"
                   rows="2"
-                  placeholder="e.g. Please call before arriving on delivery day"
-                  class="w-full text-xs font-semibold p-3 rounded-lg border border-[#d0ded0] bg-white focus:outline-none focus:border-[#275629]"
+                  placeholder="e.g. Please call before vehicle arrival on Sunday morning"
+                  class="fd-input"
                 ></textarea>
               </div>
             </div>
 
             <!-- Payment Method Card -->
-            <div class="bg-white p-6 rounded-2xl border border-[#e0e8dc] shadow-sm space-y-3">
-              <h3 class="font-bold text-base text-[#152317] pb-3 border-b border-[#f0f4ee] flex items-center gap-2">
+            <div class="bg-white p-6 sm:p-7 rounded-3xl border border-[#dce7db] shadow-xl shadow-emerald-950/[0.03] space-y-3">
+              <h3 class="fd-display font-extrabold text-base text-[#132215] pb-3 border-b border-[#edf2eb] flex items-center gap-2">
                 <span>💵</span>
                 <span>Payment Method</span>
               </h3>
-              <div class="p-4 rounded-xl border-2 border-[#275629] bg-[#eaf3e9] flex items-center justify-between">
+              <div class="p-4 rounded-2xl border-2 border-[#194622] bg-[#eaf4ec] flex items-center justify-between">
                 <div>
-                  <strong class="text-xs sm:text-sm font-bold text-[#152317] block">Payment on Delivery / UPI on Delivery</strong>
-                  <span class="text-[11px] text-[#536354]">Pay by cash or scan QR when your harvest batch is delivered.</span>
+                  <strong class="text-sm font-extrabold text-[#132215] block">Payment on Delivery (Cash or Direct UPI Scan)</strong>
+                  <span class="text-xs text-[#5b6e5d] mt-0.5 block">Pay cash or scan QR when your fresh grain bag arrives at your doorstep.</span>
                 </div>
-                <span class="text-base font-bold text-[#275629]">✓</span>
+                <div class="w-8 h-8 rounded-full bg-[#194622] text-white flex items-center justify-center font-bold text-sm shadow-xs">
+                  ✓
+                </div>
               </div>
             </div>
 
             <!-- Error Banner -->
-            <div id="checkout-error" class="hidden p-4 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs sm:text-sm font-semibold"></div>
+            <div id="checkout-error" class="hidden p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs sm:text-sm font-bold"></div>
 
             <!-- Submit Button (Mobile & Desktop) -->
             <button
               id="btn-submit-order"
               type="submit"
-              class="fd-btn fd-btn-primary w-full py-4 text-base font-bold shadow-lg flex items-center justify-center gap-2"
+              class="fd-btn fd-btn-primary w-full py-4 text-base font-extrabold rounded-2xl shadow-xl shadow-emerald-950/20 hover:shadow-2xl hover:shadow-emerald-950/30 flex items-center justify-center gap-2"
             >
-              <span>PLACE FINAL PRE-ORDER</span>
+              <span>CONFIRM & PLACE PRE-ORDER</span>
               <span>&rarr;</span>
             </button>
+            <p class="text-[11px] text-[#748776] text-center">
+              🔒 Authoritative Cloudflare D1 verification. Instant WhatsApp order slip generated upon submission.
+            </p>
           </form>
         </div>
 
         <!-- Order Items Summary Column (Right) -->
         <div class="lg:col-span-5">
-          <div class="bg-white p-6 rounded-2xl border border-[#e0e8dc] shadow-sm space-y-5 sticky top-24">
-            <h3 class="font-bold text-base text-[#152317] pb-3 border-b border-[#f0f4ee]">
-              Order Summary
+          <div class="bg-white p-6 sm:p-7 rounded-3xl border border-[#dce7db] shadow-xl shadow-emerald-950/[0.04] space-y-5 sticky top-24">
+            <h3 class="fd-display font-extrabold text-lg text-[#132215] pb-3 border-b border-[#edf2eb]">
+              Pre-Order Summary
             </h3>
 
             <!-- Item List -->
             <div id="checkout-items-list" class="space-y-3 max-h-72 overflow-y-auto pr-1"></div>
 
             <!-- Totals Breakdown -->
-            <div class="space-y-2 text-xs text-[#536354] pt-3 border-t border-[#f0f4ee]">
+            <div class="space-y-2.5 text-xs text-[#5b6e5d] pt-3 border-t border-[#edf2eb]">
               <div class="flex justify-between">
                 <span>Produce Subtotal:</span>
-                <strong id="chk-subtotal" class="text-[#1a251b] font-bold text-sm">₹0</strong>
+                <strong id="chk-subtotal" class="text-[#132215] font-extrabold text-sm">₹0</strong>
               </div>
               <div class="flex justify-between">
-                <span>Neighbourhood Delivery:</span>
-                <strong id="chk-delivery" class="text-[#1a251b] font-bold">Select area</strong>
+                <span>Neighbourhood Transport:</span>
+                <strong id="chk-delivery" class="text-[#132215] font-bold">Select area</strong>
               </div>
-              <div class="border-t border-[#f0f4ee] pt-3 flex justify-between items-baseline text-sm">
-                <span class="font-bold text-[#152317]">Grand Total:</span>
-                <strong id="chk-grand-total" class="text-2xl font-bold text-[#275629]">₹0</strong>
+              <div class="border-t border-[#edf2eb] pt-3 flex justify-between items-baseline text-sm">
+                <span class="font-extrabold text-[#132215]">Grand Total:</span>
+                <strong id="chk-grand-total" class="text-2xl font-extrabold text-[#194622]">₹0</strong>
               </div>
             </div>
 
             <!-- Delivery Round Info -->
-            <div class="p-3 rounded-lg bg-[#f0f4ee] border border-[#e0e8dc] text-xs text-[#536354] space-y-1">
-              <div class="font-bold text-[#152317] flex items-center gap-1.5">
+            <div class="p-3.5 rounded-2xl bg-[#f7faf5] border border-[#dce7db] text-xs text-[#5b6e5d] space-y-1">
+              <div class="font-bold text-[#132215] flex items-center gap-1.5">
                 <span>🚚</span>
                 <span id="chk-round-title">Scheduled Delivery Round</span>
               </div>
-              <p class="text-[11px]" id="chk-round-desc">
-                Orders are consolidated by locality. Produce will be delivered during the upcoming scheduled trip.
+              <p class="text-[11px] text-[#748776]" id="chk-round-desc">
+                Orders are consolidated by neighbourhood. Produce will be delivered during the upcoming scheduled trip.
               </p>
             </div>
           </div>
@@ -265,7 +273,6 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
           currentUser = meData.user;
           savedAddresses = meData.addresses || [];
 
-          // Prefill
           document.getElementById('cust-name').value = currentUser.name || '';
           document.getElementById('cust-phone').value = currentUser.phone || '';
           document.getElementById('cust-email').value = currentUser.email || '';
@@ -274,7 +281,6 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
           document.getElementById('auth-link').textContent = 'My Account';
           document.getElementById('auth-link').href = '/farm/account';
 
-          // Show saved addresses picker if any exist
           if (savedAddresses.length > 0) {
             const picker = document.getElementById('saved-address-picker');
             const select = document.getElementById('saved-addresses-select');
@@ -284,9 +290,8 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
                 <option value="${a.id}">${a.fullName} — ${a.houseNumber}, ${a.street} (${a.deliveryAreaName})</option>
               `).join('');
 
-            // If default address, apply it
             const def = savedAddresses.find(a => a.isDefault) || savedAddresses[0];
-            if (def) select.value = def.id; applySavedAddress(def.id);
+            if (def) { select.value = def.id; applySavedAddress(def.id); }
           }
         }
       } catch (_) {}
@@ -303,7 +308,6 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
               <option value="${a.id}">${a.name} (Delivery: ₹${a.deliveryChargeRupees})</option>
             `).join('');
 
-          // Auto-select from local storage
           const storedAreaId = localStorage.getItem('fd_selected_area_id');
           if (storedAreaId && deliveryAreas.some(a => a.id == storedAreaId)) {
             select.value = storedAreaId;
@@ -311,7 +315,6 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
         }
       } catch (_) {}
 
-      // Validate cart
       await revalidateCart();
       loader.classList.add('hidden');
       grid.classList.remove('hidden');
@@ -347,12 +350,12 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
     function renderCheckoutSummary(data) {
       const list = document.getElementById('checkout-items-list');
       list.innerHTML = data.items.map(it => `
-        <div class="flex items-center justify-between text-xs py-2 border-b border-[#f0f4ee]">
+        <div class="flex items-center justify-between text-xs py-2.5 border-b border-[#edf2eb]">
           <div>
-            <strong class="font-bold text-[#152317]">${it.productName}</strong>
-            <div class="text-[#536354] mt-0.5">${it.quantity} kg × ₹${it.priceRupees}</div>
+            <strong class="font-extrabold text-[#132215] text-sm">${it.productName}</strong>
+            <div class="text-[#5b6e5d] mt-0.5">${it.quantity} kg × ₹${it.priceRupees}</div>
           </div>
-          <strong class="font-bold text-[#275629]">₹${it.lineTotalRupees}</strong>
+          <strong class="font-extrabold text-[#194622] text-sm">₹${it.lineTotalRupees}</strong>
         </div>
       `).join('');
 
@@ -360,7 +363,8 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
       const delEl = document.getElementById('chk-delivery');
       if (data.deliveryArea) {
         delEl.textContent = `₹${data.deliveryChargeRupees}`;
-        document.getElementById('chk-round-title').textContent = `Scheduled Round: ${data.deliveryArea.name}`;
+        document.getElementById('chk-round-title').textContent = `Cluster: ${data.deliveryArea.name}`;
+        document.getElementById('chk-round-desc').textContent = `Scheduled vehicle dispatch: ${data.deliveryArea.deliveryDay}. Payment collected on delivery.`;
       } else {
         delEl.textContent = 'Select area';
       }
@@ -374,7 +378,7 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
         localStorage.setItem('fd_selected_area_id', areaId);
         const area = deliveryAreas.find(a => a.id == areaId);
         if (area) {
-          document.getElementById('area-hint').textContent = `Delivery day: ${area.deliveryDay}. Minimum order: ₹${area.minimumOrderRupees}`;
+          document.getElementById('area-hint').textContent = `Scheduled dispatch: ${area.deliveryDay} morning. Minimum order: ₹${area.minimumOrderRupees}`;
         }
       }
       revalidateCart();
@@ -413,7 +417,7 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
       const note = document.getElementById('cust-notes').value.trim();
 
       if (!areaId) {
-        errBox.textContent = 'Please select your delivery neighbourhood in Gwalior.';
+        errBox.textContent = 'Please select your delivery neighbourhood cluster in Gwalior.';
         errBox.classList.remove('hidden');
         return;
       }
@@ -434,7 +438,7 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
       submitBtn.disabled = true;
       submitBtn.innerHTML = `
         <span class="inline-block animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full mr-2"></span>
-        Processing Pre-Order...
+        Securing Inventory & Batching Pre-Order...
       `;
 
       try {
@@ -457,25 +461,21 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
           errBox.textContent = data.error || 'Failed to place order. Please review.';
           errBox.classList.remove('hidden');
           submitBtn.disabled = false;
-          submitBtn.textContent = 'PLACE FINAL PRE-ORDER →';
+          submitBtn.textContent = 'CONFIRM & PLACE PRE-ORDER →';
           return;
         }
 
         // Order placed successfully!
-        // Clear cart
         localStorage.removeItem('fd_cart_v1');
-        if (window.fdUpdateCart) window.fdUpdateCart();
+        if (window.updateNavCartBadge) window.updateNavCartBadge();
 
-        // Save order details to sessionStorage for the confirmation page
         sessionStorage.setItem('fd_latest_order', JSON.stringify(data.order));
-
-        // Redirect to confirmation
         window.location.href = `/farm/order-confirmation?order_number=${data.order.orderNumber}`;
       } catch (err) {
         errBox.textContent = 'Network or server error. Please try again.';
         errBox.classList.remove('hidden');
         submitBtn.disabled = false;
-        submitBtn.textContent = 'PLACE FINAL PRE-ORDER →';
+        submitBtn.textContent = 'CONFIRM & PLACE PRE-ORDER →';
       }
     };
 

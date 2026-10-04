@@ -1,123 +1,197 @@
 ---
 import FarmLayout from '../../layouts/FarmLayout.astro';
+
+// How It Works — Modern Direct Farm Logistics Guide
 ---
 
 <FarmLayout
   title="How Pre-Order Farm Delivery Works | Farm Direct Gwalior"
-  description="Learn about our consolidated agricultural transport model bringing raw seasonal produce directly from village farms to Gwalior neighbourhoods."
+  description="Learn about our consolidated agricultural transport model bringing raw seasonal produce directly from village farms to Pawan Nagar & Chetakpuri, Gwalior."
   canonicalPath="/farm/how-it-works"
 >
   <div class="fd-container py-8 sm:py-16">
-    <div class="max-w-3xl mx-auto space-y-12">
-      <!-- Title -->
-      <div class="text-center max-w-xl mx-auto">
-        <span class="text-xs uppercase tracking-wider text-[#275629] font-bold bg-[#eaf3e9] px-3 py-1 rounded-full">
-          Agricultural Logistics Model
+    <div class="max-w-4xl mx-auto space-y-12">
+      <!-- Title & Header -->
+      <div class="text-center max-w-2xl mx-auto space-y-3">
+        <span class="inline-flex items-center gap-1.5 text-xs uppercase tracking-wider text-emerald-800 font-extrabold bg-emerald-50 border border-emerald-200 px-3.5 py-1 rounded-full">
+          <span>🚜</span>
+          <span>Field-to-Home Supply Chain</span>
         </span>
-        <h1 class="fd-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-[#152317] mt-3">
-          How Pre-Order Works
+        <h1 class="fd-display text-3xl sm:text-5xl font-extrabold text-[#122815] leading-tight">
+          How Farm Direct Works
         </h1>
-        <p class="text-xs sm:text-sm text-[#536354] mt-2 leading-relaxed">
-          Why we operate on a pre-order and scheduled neighbourhood delivery model instead of instant delivery.
+        <p class="text-xs sm:text-sm text-[#5b6e5d] leading-relaxed">
+          Why we operate on a planned pre-order and consolidated neighbourhood delivery model instead of instant warehouse delivery.
         </p>
       </div>
 
-      <!-- Core Principle Card -->
-      <div class="bg-white p-6 sm:p-8 rounded-2xl border border-[#e0e8dc] shadow-sm space-y-4">
-        <h2 class="fd-serif text-xl sm:text-2xl font-bold text-[#152317]">
-          The Consolidated Harvest Journey
+      <!-- Modern Comparison Card: Traditional Supermarket vs Farm Direct -->
+      <div class="bg-white rounded-3xl border border-[#e2ece0] p-6 sm:p-8 shadow-sm overflow-hidden space-y-6">
+        <h2 class="fd-display text-2xl font-extrabold text-[#122815] text-center">
+          The Two Different Ways to Buy Food Grains
         </h2>
-        <p class="text-xs sm:text-sm text-[#415343] leading-relaxed">
-          Traditional supermarkets and quick-commerce services store grains in intermediary warehouses for months, often treating them with preservatives to extend shelf life. We do things differently.
-        </p>
 
-        <!-- Visual Flow -->
-        <div class="p-6 rounded-xl bg-[#f8faf6] border border-[#e5ede2] my-6 space-y-4">
-          <div class="grid grid-cols-1 sm:grid-cols-5 gap-3 text-center text-xs">
-            <div class="p-3 bg-white rounded-xl border border-[#dce6d8]">
-              <div class="text-2xl mb-1">🏡</div>
-              <strong class="text-[#152317] block">1. Village Farm</strong>
-              <span class="text-[11px] text-[#536354]">Harvest & sun-dry</span>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+          <!-- Traditional Way -->
+          <div class="p-6 rounded-2xl bg-[#faf5f5] border border-red-100 space-y-3">
+            <div class="flex items-center gap-2 text-red-700 font-extrabold text-sm">
+              <span class="w-6 h-6 rounded-full bg-red-100 flex items-center justify-center text-xs">✕</span>
+              <span>Traditional Supermarket & Quick Commerce</span>
             </div>
-            <div class="hidden sm:flex items-center justify-center text-[#275629] font-bold text-lg">&rarr;</div>
-            <div class="p-3 bg-white rounded-xl border border-[#dce6d8]">
-              <div class="text-2xl mb-1">📋</div>
-              <strong class="text-[#152317] block">2. Neighbourhood Pre-Orders</strong>
-              <span class="text-[11px] text-[#536354]">Pawan Nagar & Chetakpuri</span>
+            <ul class="space-y-2.5 text-xs text-[#6e4444] leading-relaxed">
+              <li class="flex items-start gap-2">
+                <span class="text-red-400 font-bold">•</span>
+                <span><strong>Heavy chemical coatings:</strong> Polished with talc, oil, or preservatives to sit on store shelves for 6–12 months.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-red-400 font-bold">•</span>
+                <span><strong>4–5 Middlemen:</strong> Village commission agents, district mandis, wholesalers, and retail markups add 40%–60% costs.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-red-400 font-bold">•</span>
+                <span><strong>No origin trace:</strong> Mixed batches from multiple undisclosed sources.</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Farm Direct Way -->
+          <div class="p-6 rounded-2xl bg-[#f2f7f1] border border-emerald-200/80 space-y-3">
+            <div class="flex items-center gap-2 text-emerald-800 font-extrabold text-sm">
+              <span class="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center text-xs">✓</span>
+              <span>Farm Direct Gwalior (Our Model)</span>
             </div>
-            <div class="hidden sm:flex items-center justify-center text-[#275629] font-bold text-lg">&rarr;</div>
-            <div class="p-3 bg-white rounded-xl border border-[#dce6d8]">
-              <div class="text-2xl mb-1">🚛</div>
-              <strong class="text-[#152317] block">3. Bulk Consolidated Trip</strong>
-              <span class="text-[11px] text-[#536354]">Scheduled vehicle to Gwalior</span>
-            </div>
+            <ul class="space-y-2.5 text-xs text-[#2e5232] leading-relaxed">
+              <li class="flex items-start gap-2">
+                <span class="text-emerald-600 font-bold">•</span>
+                <span><strong>100% Raw & Sun-Dried:</strong> Harvested, threshed, winnowed, and sun-dried naturally. Zero synthetic polishing.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-emerald-600 font-bold">•</span>
+                <span><strong>Zero Middlemen:</strong> Grains travel directly from village farm silos into our transport vehicle to your doorstep.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-emerald-600 font-bold">•</span>
+                <span><strong>Inspect Before Payment:</strong> Smell the freshness and check grains with zero risk before paying via UPI/Cash.</span>
+              </li>
+            </ul>
           </div>
         </div>
-
-        <p class="text-xs sm:text-sm text-[#415343] leading-relaxed">
-          By grouping customer pre-orders into weekly clusters, we minimize vehicle trips, eliminate artificial storage chemicals, and supply you with produce straight from the current harvest.
-        </p>
       </div>
 
-      <!-- 4 Step Detailed Cards -->
-      <div class="space-y-4">
-        <h3 class="fd-serif text-2xl font-bold text-[#152317]">Step-by-Step Experience</h3>
+      <!-- 4-Step Interactive Timeline -->
+      <div class="space-y-6">
+        <div class="text-center max-w-xl mx-auto">
+          <h3 class="fd-display text-2xl font-extrabold text-[#122815]">
+            Our 4-Step Sunday Delivery Cycle
+          </h3>
+          <p class="text-xs text-[#5b6e5d] mt-1">
+            Weekly rhythm ensuring peak freshness for Pawan Nagar & Chetakpuri
+          </p>
+        </div>
 
-        <div class="grid grid-cols-1 gap-4">
-          <div class="bg-white p-6 rounded-xl border border-[#e0e8dc] flex items-start gap-4">
-            <div class="w-10 h-10 rounded-full bg-[#275629] text-white font-bold flex items-center justify-center flex-shrink-0">1</div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <!-- Step 1 -->
+          <div class="bg-white p-6 rounded-3xl border border-[#e2ece0] shadow-sm flex flex-col justify-between space-y-4">
             <div>
-              <h4 class="font-bold text-base text-[#152317]">Select Current Harvest Produce</h4>
-              <p class="text-xs text-[#536354] mt-1 leading-relaxed">
-                Choose from raw wheat, whole groundnuts, desi chana, moong, urad, and seasonal farm cuttings. The stock you see on the website represents actual kilograms stored at the farm.
+              <div class="w-12 h-12 rounded-2xl bg-[#edf4ec] text-[#1b4522] font-black text-lg flex items-center justify-center mb-3">
+                01
+              </div>
+              <h4 class="fd-display font-extrabold text-base text-[#122815]">Pre-Order Online</h4>
+              <p class="text-xs text-[#526454] mt-2 leading-relaxed">
+                Place your order Monday through Friday. Pick your bag sizes (1kg, 5kg, 10kg, 25kg) with live authoritative prices. No payment upfront.
               </p>
             </div>
+            <span class="text-[10px] font-black uppercase text-emerald-800 tracking-wider">Mon – Fri Window</span>
           </div>
 
-          <div class="bg-white p-6 rounded-xl border border-[#e0e8dc] flex items-start gap-4">
-            <div class="w-10 h-10 rounded-full bg-[#275629] text-white font-bold flex items-center justify-center flex-shrink-0">2</div>
+          <!-- Step 2 -->
+          <div class="bg-white p-6 rounded-3xl border border-[#e2ece0] shadow-sm flex flex-col justify-between space-y-4">
             <div>
-              <h4 class="font-bold text-base text-[#152317]">Place a Pre-Order Online (or via WhatsApp)</h4>
-              <p class="text-xs text-[#536354] mt-1 leading-relaxed">
-                Add items to your cart, pick your neighbourhood cluster, and enter your delivery address. No upfront payment is required—you pay upon delivery.
+              <div class="w-12 h-12 rounded-2xl bg-[#edf4ec] text-[#1b4522] font-black text-lg flex items-center justify-center mb-3">
+                02
+              </div>
+              <h4 class="fd-display font-extrabold text-base text-[#122815]">Farm Packing</h4>
+              <p class="text-xs text-[#526454] mt-2 leading-relaxed">
+                On Saturday, our farm team measures and bags grains into eco-friendly bags directly from our village storage bins near Gwalior.
               </p>
             </div>
+            <span class="text-[10px] font-black uppercase text-emerald-800 tracking-wider">Saturday Preparation</span>
           </div>
 
-          <div class="bg-white p-6 rounded-xl border border-[#e0e8dc] flex items-start gap-4">
-            <div class="w-10 h-10 rounded-full bg-[#275629] text-white font-bold flex items-center justify-center flex-shrink-0">3</div>
+          <!-- Step 3 -->
+          <div class="bg-white p-6 rounded-3xl border border-[#e2ece0] shadow-sm flex flex-col justify-between space-y-4">
             <div>
-              <h4 class="font-bold text-base text-[#152317]">Order Consolidation</h4>
-              <p class="text-xs text-[#536354] mt-1 leading-relaxed">
-                Orders for the same delivery day are assembled at the farm, weighed into eco-friendly bags, and packed for transport into Gwalior.
+              <div class="w-12 h-12 rounded-2xl bg-[#edf4ec] text-[#1b4522] font-black text-lg flex items-center justify-center mb-3">
+                03
+              </div>
+              <h4 class="fd-display font-extrabold text-base text-[#122815]">Sunday Morning Trip</h4>
+              <p class="text-xs text-[#526454] mt-2 leading-relaxed">
+                Our farm utility vehicle leaves the village and arrives in Pawan Nagar & Chetakpuri between 8:00 AM and 1:00 PM for doorstep drops.
               </p>
             </div>
+            <span class="text-[10px] font-black uppercase text-emerald-800 tracking-wider">Sunday Morning</span>
           </div>
 
-          <div class="bg-white p-6 rounded-xl border border-[#e0e8dc] flex items-start gap-4">
-            <div class="w-10 h-10 rounded-full bg-[#275629] text-white font-bold flex items-center justify-center flex-shrink-0">4</div>
+          <!-- Step 4 -->
+          <div class="bg-white p-6 rounded-3xl border border-[#e2ece0] shadow-sm flex flex-col justify-between space-y-4">
             <div>
-              <h4 class="font-bold text-base text-[#152317]">Scheduled Neighbourhood Delivery</h4>
-              <p class="text-xs text-[#536354] mt-1 leading-relaxed">
-                Our farm vehicle visits your colony on the scheduled delivery round. You inspect your raw produce and pay by cash or UPI.
+              <div class="w-12 h-12 rounded-2xl bg-[#edf4ec] text-[#1b4522] font-black text-lg flex items-center justify-center mb-3">
+                04
+              </div>
+              <h4 class="fd-display font-extrabold text-base text-[#122815]">Inspect & Pay</h4>
+              <p class="text-xs text-[#526454] mt-2 leading-relaxed">
+                Check the grains, feel the quality, and pay our delivery driver via UPI QR code or cash at your door.
               </p>
             </div>
+            <span class="text-[10px] font-black uppercase text-emerald-800 tracking-wider">Zero Upfront Risk</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- FAQ Section -->
+      <div class="bg-white rounded-3xl border border-[#e2ece0] p-6 sm:p-10 shadow-sm space-y-6">
+        <h3 class="fd-display text-2xl font-extrabold text-[#122815] text-center">
+          Frequently Asked Questions
+        </h3>
+
+        <div class="space-y-4 max-w-2xl mx-auto text-xs sm:text-sm">
+          <div class="p-4 rounded-2xl bg-[#f8faf7] border border-[#e8f0e6] space-y-1">
+            <strong class="font-extrabold text-[#152317] block">Can I test quality before ordering 10kg or 25kg bags?</strong>
+            <p class="text-[#526454] leading-relaxed">
+              Yes! We provide free 100g or 200g tasting pouches with zero product charges. Simply submit a sample request for your neighbourhood round.
+            </p>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-[#f8faf7] border border-[#e8f0e6] space-y-1">
+            <strong class="font-extrabold text-[#152317] block">What if I live outside Pawan Nagar or Chetakpuri?</strong>
+            <p class="text-[#526454] leading-relaxed">
+              We add new delivery clusters whenever 5+ households in a colony (such as City Center, Thatipur, Morar, or Lashkar) request grouped delivery. Message us on WhatsApp to set up a route.
+            </p>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-[#f8faf7] border border-[#e8f0e6] space-y-1">
+            <strong class="font-extrabold text-[#152317] block">How is pricing so affordable compared to retail stores?</strong>
+            <p class="text-[#526454] leading-relaxed">
+              Retail stores pay warehouse holding rents, distributor commissions, packaging design royalties, and retail shelf fees. We eliminate all of that by transporting directly from the village harvest.
+            </p>
           </div>
         </div>
       </div>
 
       <!-- Action Footer -->
-      <div class="bg-[#f0f4ee] p-8 rounded-2xl border border-[#dce6d8] text-center space-y-4">
-        <h3 class="fd-serif text-2xl font-bold text-[#152317]">Ready to order fresh harvest produce?</h3>
-        <p class="text-xs sm:text-sm text-[#536354] max-w-md mx-auto">
-          Explore this week's produce or request a 100g/200g free sample if you'd like to check quality first.
+      <div class="bg-gradient-to-r from-[#122815] to-[#1e4624] text-white p-8 sm:p-12 rounded-3xl shadow-xl border border-emerald-900/50 text-center space-y-4">
+        <h3 class="fd-display text-2xl sm:text-3xl font-extrabold text-white">
+          Taste Real Farm Produce This Sunday
+        </h3>
+        <p class="text-xs sm:text-sm text-emerald-100/80 max-w-md mx-auto leading-relaxed">
+          Order for this week's scheduled dispatch in Pawan Nagar & Chetakpuri, or request a free 100g tasting sample.
         </p>
-        <div class="flex flex-wrap justify-center gap-3 pt-2">
-          <a href="/farm/products" class="fd-btn fd-btn-primary px-6 py-3 font-bold text-sm">
-            View Produce Catalogue &rarr;
+        <div class="flex flex-wrap justify-center gap-3 pt-3">
+          <a href="/farm/products" class="fd-btn bg-white hover:bg-emerald-50 text-[#122815] font-extrabold text-xs px-6 py-3 rounded-xl shadow-md">
+            View This Week's Harvest &rarr;
           </a>
-          <a href="/farm/samples" class="fd-btn fd-btn-secondary px-5 py-3 font-bold text-sm">
-            Request Free Sample
+          <a href="/farm/samples" class="fd-btn bg-[#c48a3f] hover:bg-[#b07830] text-white font-extrabold text-xs px-6 py-3 rounded-xl shadow-md">
+            Request Free Sample (100g/200g)
           </a>
         </div>
       </div>

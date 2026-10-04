@@ -1,140 +1,148 @@
 ---
 import FarmLayout from '../../layouts/FarmLayout.astro';
+
+// Farmer Direct Contact & Coordinates — Modern UI
 ---
 
 <FarmLayout
-  title="Contact Us & Farm Location | Farm Direct Gwalior"
-  description="Connect with our farm coordinator on WhatsApp at 8770767272. Direct agricultural delivery in Pawan Nagar, Chetakpuri, and Gwalior."
+  title="Contact the Farm & Delivery Coordinator | Gwalior"
+  description="Connect directly with our village farm coordinator on WhatsApp at +91 8770767272. Weekly raw farm produce delivery in Pawan Nagar, Chetakpuri, and Gwalior."
   canonicalPath="/farm/contact"
 >
-  <div class="fd-container py-12 sm:py-16 max-w-5xl">
-    <div class="mb-10 text-center max-w-2xl mx-auto">
-      <span class="text-xs uppercase tracking-wider text-[#c48a3f] font-bold bg-[#fdf6ec] px-3 py-1 rounded-full">
-        Direct Communication
+  <div class="fd-container py-8 sm:py-16 max-w-5xl">
+    <div class="mb-10 text-center max-w-2xl mx-auto space-y-3">
+      <span class="inline-flex items-center gap-1.5 text-xs uppercase tracking-wider text-emerald-800 font-extrabold bg-emerald-50 border border-emerald-200 px-3.5 py-1 rounded-full">
+        <span>💬</span>
+        <span>Zero Intermediaries</span>
       </span>
-      <h1 class="fd-serif text-3xl sm:text-5xl font-bold text-[#152317] mt-3">
+      <h1 class="fd-display text-3xl sm:text-5xl font-extrabold text-[#122815] leading-tight">
         Connect Directly with the Farm
       </h1>
-      <p class="text-xs sm:text-base text-[#536354] mt-2">
-        Have questions about this season's crop, want to schedule bulk grain supply for your family, or request delivery to your Gwalior neighbourhood?
+      <p class="text-xs sm:text-sm text-[#5b6e5d] leading-relaxed">
+        Questions about this season's wheat crop, booking 25kg/50kg family grain bags, or requesting scheduled delivery in your Gwalior society?
       </p>
     </div>
 
+    <!-- 3 Action Cards -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-      <!-- Card 1: WhatsApp Support -->
-      <div class="bg-white p-6 sm:p-8 rounded-2xl border border-[#e0e8dc] shadow-sm flex flex-col justify-between">
+      <!-- Card 1: WhatsApp -->
+      <div class="bg-white p-6 sm:p-8 rounded-3xl border border-[#e2ece0] shadow-sm flex flex-col justify-between space-y-6">
         <div>
-          <div class="w-12 h-12 rounded-2xl bg-[#eaf3e9] text-[#25D366] flex items-center justify-center text-2xl mb-4">
+          <div class="w-12 h-12 rounded-2xl bg-[#25D366]/10 text-[#25D366] flex items-center justify-center text-2xl mb-4 font-bold">
             💬
           </div>
-          <h3 class="font-bold text-lg text-[#152317]">WhatsApp Operations</h3>
-          <p class="text-xs text-[#536354] mt-1 leading-relaxed">
-            Fastest way to reach us. Confirm pre-orders, check delivery vehicle locations, or ask about crop quality.
+          <h3 class="fd-display text-lg font-extrabold text-[#122815]">WhatsApp Operations</h3>
+          <p class="text-xs text-[#5b6e5d] mt-1.5 leading-relaxed">
+            Fastest response for pre-order confirmations, sample inquiries, or Sunday vehicle ETA in your colony.
           </p>
-          <div class="text-base font-bold text-[#275629] mt-3">
+          <div class="fd-display text-xl font-black text-[#1b4522] mt-3">
             +91 8770767272
           </div>
         </div>
 
-        <div class="mt-6 pt-4 border-t border-[#f0f4ee]">
+        <div class="pt-4 border-t border-[#f0f5ee]">
           <a
-            href="https://wa.me/918770767272?text=Namaste%20Farm%20Direct!%20I%20have%20an%20inquiry%20about%20farm%20produce%20delivery%20in%20Gwalior."
+            href="https://wa.me/918770767272?text=Namaste%20Farm%20Direct,%20I%20have%20an%20inquiry%20about%20farm%20produce%20in%20Gwalior."
             target="_blank"
             rel="noopener noreferrer"
-            class="fd-btn fd-btn-primary w-full text-center font-bold text-xs py-2.5"
+            class="fd-btn bg-[#25D366] hover:bg-[#1fa851] text-white w-full text-center font-bold text-xs py-3 rounded-xl shadow-sm"
           >
-            Chat on WhatsApp
+            Chat on WhatsApp &rarr;
           </a>
         </div>
       </div>
 
-      <!-- Card 2: Farm Location -->
-      <div class="bg-white p-6 sm:p-8 rounded-2xl border border-[#e0e8dc] shadow-sm flex flex-col justify-between">
+      <!-- Card 2: Farmland Origin -->
+      <div class="bg-white p-6 sm:p-8 rounded-3xl border border-[#e2ece0] shadow-sm flex flex-col justify-between space-y-6">
         <div>
-          <div class="w-12 h-12 rounded-2xl bg-[#fdf6ec] text-[#c48a3f] flex items-center justify-center text-2xl mb-4">
+          <div class="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-700 flex items-center justify-center text-2xl mb-4 font-bold">
             🌾
           </div>
-          <h3 class="font-bold text-lg text-[#152317]">Farm Origin & Land</h3>
-          <p class="text-xs text-[#536354] mt-1 leading-relaxed">
-            Our crops are grown on fertile agricultural land in the rural belts surrounding Gwalior, Madhya Pradesh.
+          <h3 class="fd-display text-lg font-extrabold text-[#122815]">Farm Origin & Land</h3>
+          <p class="text-xs text-[#5b6e5d] mt-1.5 leading-relaxed">
+            All produce is cultivated in village agricultural land in the rural belts surrounding Gwalior, Madhya Pradesh.
           </p>
-          <div class="text-xs font-semibold text-[#152317] mt-3">
-            Village farmland, Gwalior Rural District, MP 474001
+          <div class="text-xs font-bold text-[#152317] mt-3">
+            Village Farmland, Gwalior Rural Belt, MP 474001
           </div>
         </div>
 
-        <div class="mt-6 pt-4 border-t border-[#f0f4ee]">
+        <div class="pt-4 border-t border-[#f0f5ee]">
           <a
             href="/farm/how-it-works"
-            class="text-xs font-bold text-[#275629] hover:underline flex items-center gap-1"
+            class="fd-btn fd-btn-secondary w-full text-center font-bold text-xs py-3 rounded-xl"
           >
-            Read Farm Logistics Model &rarr;
+            How Pre-Orders Work &rarr;
           </a>
         </div>
       </div>
 
-      <!-- Card 3: Neighbourhood Clusters -->
-      <div class="bg-white p-6 sm:p-8 rounded-2xl border border-[#e0e8dc] shadow-sm flex flex-col justify-between">
+      <!-- Card 3: Active Delivery Clusters -->
+      <div class="bg-white p-6 sm:p-8 rounded-3xl border border-[#e2ece0] shadow-sm flex flex-col justify-between space-y-6">
         <div>
-          <div class="w-12 h-12 rounded-2xl bg-[#f0f4ee] text-[#275629] flex items-center justify-center text-2xl mb-4">
+          <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-800 flex items-center justify-center text-2xl mb-4 font-bold">
             📍
           </div>
-          <h3 class="font-bold text-lg text-[#152317]">Current Service Clusters</h3>
-          <p class="text-xs text-[#536354] mt-1 leading-relaxed">
-            Weekly scheduled vehicle deliveries with zero middlemen markups:
+          <h3 class="fd-display text-lg font-extrabold text-[#122815]">Active Clusters</h3>
+          <p class="text-xs text-[#5b6e5d] mt-1.5 leading-relaxed">
+            Consolidated Sunday morning trips with ₹30 delivery (Free over ₹500):
           </p>
-          <ul class="text-xs text-[#152317] font-semibold mt-2 space-y-1">
-            <li>• Pawan Nagar / Pavan Nagar Colony</li>
-            <li>• Chetakpuri & neighbouring lanes</li>
+          <ul class="text-xs text-[#152317] font-bold mt-2 space-y-1">
+            <li class="flex items-center gap-1.5">
+              <span class="text-emerald-600 font-extrabold">✓</span> Pawan Nagar / Pavan Nagar Colony
+            </li>
+            <li class="flex items-center gap-1.5">
+              <span class="text-emerald-600 font-extrabold">✓</span> Chetakpuri & nearby lanes
+            </li>
           </ul>
         </div>
 
-        <div class="mt-6 pt-4 border-t border-[#f0f4ee]">
+        <div class="pt-4 border-t border-[#f0f5ee]">
           <a
             href="/farm/delivery-areas"
-            class="text-xs font-bold text-[#275629] hover:underline flex items-center gap-1"
+            class="fd-btn fd-btn-secondary w-full text-center font-bold text-xs py-3 rounded-xl"
           >
-            Request Colony Expansion &rarr;
+            Delivery Clusters & Rates &rarr;
           </a>
         </div>
       </div>
     </div>
 
-    <!-- Quick Inquiry / Society Lead Form -->
-    <div class="bg-white p-6 sm:p-10 rounded-2xl border border-[#e0e8dc] shadow-sm">
-      <div class="max-w-xl mx-auto space-y-5">
-        <div class="text-center">
-          <h2 class="fd-serif text-2xl font-bold text-[#152317]">Send an Inquiry to the Farmer</h2>
-          <p class="text-xs sm:text-sm text-[#536354] mt-1">
-            Need 50kg+ grain bags, seasonal produce booking, or society bulk delivery? Send us a quick note.
+    <!-- Quick WhatsApp Inquiry Form -->
+    <div class="bg-white p-6 sm:p-10 rounded-3xl border border-[#e2ece0] shadow-sm">
+      <div class="max-w-xl mx-auto space-y-6">
+        <div class="text-center space-y-1">
+          <h2 class="fd-display text-2xl font-extrabold text-[#122815]">Send a Message to the Farmer</h2>
+          <p class="text-xs text-[#5b6e5d]">
+            Bulk grain orders, society group supply, or questions about unpolished harvest.
           </p>
         </div>
 
         <form id="contact-form" class="space-y-4 text-xs">
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label class="block font-bold text-[#152317] mb-1">Your Name *</label>
-              <input type="text" id="c-name" class="fd-input text-xs" placeholder="e.g. Ramesh Sharma" required />
+              <label class="block font-bold text-[#3d503f] mb-1.5">Your Name *</label>
+              <input type="text" id="c-name" class="fd-input font-bold" placeholder="e.g. Ramesh Sharma" required />
             </div>
 
             <div>
-              <label class="block font-bold text-[#152317] mb-1">Mobile / WhatsApp Number *</label>
-              <input type="tel" id="c-phone" maxlength="10" class="fd-input text-xs" placeholder="10-digit mobile" required />
+              <label class="block font-bold text-[#3d503f] mb-1.5">Mobile / WhatsApp *</label>
+              <input type="tel" id="c-phone" maxlength="10" class="fd-input font-bold" placeholder="10-digit mobile" required />
             </div>
           </div>
 
           <div>
-            <label class="block font-bold text-[#152317] mb-1">Your Neighbourhood / Colony in Gwalior *</label>
-            <input type="text" id="c-locality" class="fd-input text-xs" placeholder="e.g. Pawan Nagar, Chetakpuri, City Centre, Thatipur..." required />
+            <label class="block font-bold text-[#3d503f] mb-1.5">Your Locality / Society in Gwalior *</label>
+            <input type="text" id="c-locality" class="fd-input font-bold" placeholder="e.g. Pawan Nagar, Chetakpuri, City Center, Thatipur..." required />
           </div>
 
           <div>
-            <label class="block font-bold text-[#152317] mb-1">Message or Produce Requirements *</label>
-            <textarea id="c-message" rows="4" class="fd-input text-xs" placeholder="Specify produce items, quantity in kg, or questions..." required></textarea>
+            <label class="block font-bold text-[#3d503f] mb-1.5">Message or Produce Requirements *</label>
+            <textarea id="c-message" rows="4" class="fd-input font-semibold" placeholder="Specify produce items (wheat, chana, groundnut), approximate kilograms, or questions..." required></textarea>
           </div>
 
-          <button type="submit" class="fd-btn fd-btn-primary w-full font-bold text-xs py-3 flex items-center justify-center gap-2">
-            <span>Send Message via WhatsApp &rarr;</span>
+          <button type="submit" class="fd-btn fd-btn-primary w-full font-bold text-sm py-3.5 shadow-md flex items-center justify-center gap-2">
+            <span>Send Direct to Farmer WhatsApp &rarr;</span>
           </button>
         </form>
       </div>

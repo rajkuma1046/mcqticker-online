@@ -5,7 +5,7 @@
 -- 1. Initial Delivery Areas in Gwalior
 INSERT OR IGNORE INTO farm_delivery_areas (id, name, city, is_active, delivery_day, delivery_charge_paise, minimum_order_paise, sort_order)
 VALUES
-  (1, 'Pawan Nagar / Pavan Nagar Colony', 'Gwalior', 1, 'Sunday', 3000, 20000, 1),
+  (1, 'Pawanshut Colony', 'Gwalior', 1, 'Sunday', 3000, 20000, 1),
   (2, 'Chetakpuri', 'Gwalior', 1, 'Sunday', 3000, 20000, 2);
 
 -- 2. Initial Products & Pricing

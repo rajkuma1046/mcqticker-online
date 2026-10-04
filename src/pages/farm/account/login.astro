@@ -1,70 +1,88 @@
 ---
 import FarmLayout from '../../../layouts/FarmLayout.astro';
+
+// Customer Login — Modern Farm Portal
 ---
 
 <FarmLayout
   title="Customer Login | Farm Direct Gwalior"
-  description="Log into your Farm Direct customer account."
+  description="Log into your Farm Direct customer account to manage raw agricultural produce pre-orders and saved addresses in Gwalior."
   canonicalPath="/farm/account/login"
 >
-  <div class="fd-container py-12 sm:py-20">
-    <div class="max-w-md mx-auto bg-white p-8 sm:p-10 rounded-2xl border border-[#e0e8dc] shadow-sm">
-      <div class="text-center mb-8">
-        <div class="w-12 h-12 bg-[#eaf3e9] text-[#275629] rounded-xl flex items-center justify-center text-2xl mx-auto mb-3">
-          🌾
-        </div>
-        <h1 class="fd-serif text-2xl sm:text-3xl font-bold text-[#152317]">
-          Customer Login
-        </h1>
-        <p class="text-xs text-[#536354] mt-1.5">
-          Access your farm pre-orders, sample history, and saved addresses.
-        </p>
-      </div>
+  <div class="fd-container py-12 sm:py-24">
+    <div class="max-w-md mx-auto relative">
+      <!-- Ambient Glow Behind Form -->
+      <div class="absolute -top-10 -left-10 w-64 h-64 bg-emerald-500/15 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -bottom-10 -right-10 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
-      <form id="login-form" onsubmit="handleLogin(event)" class="space-y-4">
-        <div>
-          <label class="text-xs font-bold uppercase tracking-wider text-[#536354] block mb-1">Mobile Number or Email *</label>
-          <input
-            id="login-id"
-            type="text"
-            required
-            placeholder="10-digit mobile or email"
-            class="w-full text-xs font-semibold p-3.5 rounded-lg border border-[#d0ded0] bg-white focus:outline-none focus:border-[#275629]"
-          />
+      <div class="relative bg-white/95 backdrop-blur-xl p-8 sm:p-10 rounded-3xl border border-[#e2ece0] shadow-xl space-y-6">
+        <div class="text-center">
+          <div class="w-14 h-14 bg-gradient-to-br from-[#1b4522] to-[#296032] text-white rounded-2xl flex items-center justify-center text-2xl mx-auto mb-4 shadow-md shadow-emerald-950/20 font-bold">
+            🌾
+          </div>
+          <span class="text-[10px] font-extrabold uppercase tracking-widest text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+            Farm Direct Gwalior
+          </span>
+          <h1 class="fd-display text-2xl sm:text-3xl font-extrabold text-[#122815] mt-2">
+            Customer Login
+          </h1>
+          <p class="text-xs text-[#5b6e5d] mt-1.5 leading-relaxed">
+            Manage your Sunday cluster pre-orders, tasting samples, and saved delivery addresses.
+          </p>
         </div>
 
-        <div>
-          <label class="text-xs font-bold uppercase tracking-wider text-[#536354] block mb-1">Password *</label>
-          <input
-            id="login-pw"
-            type="password"
-            required
-            placeholder="Your account password"
-            class="w-full text-xs font-semibold p-3.5 rounded-lg border border-[#d0ded0] bg-white focus:outline-none focus:border-[#275629]"
-          />
+        <form id="login-form" onsubmit="handleLogin(event)" class="space-y-4">
+          <div>
+            <label class="text-xs font-bold uppercase tracking-wider text-[#495c4b] block mb-1.5">
+              10-Digit Mobile or Email *
+            </label>
+            <input
+              id="login-id"
+              type="text"
+              required
+              placeholder="e.g. 8770767272 or your email"
+              class="fd-input font-bold"
+            />
+          </div>
+
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <label class="text-xs font-bold uppercase tracking-wider text-[#495c4b]">
+                Password *
+              </label>
+            </div>
+            <input
+              id="login-pw"
+              type="password"
+              required
+              placeholder="Your account password"
+              class="fd-input font-bold"
+            />
+          </div>
+
+          <div id="login-error" class="hidden p-3.5 rounded-2xl bg-red-50 border border-red-200 text-red-700 text-xs font-semibold text-center"></div>
+
+          <button
+            id="btn-login-submit"
+            type="submit"
+            class="fd-btn fd-btn-primary w-full py-3.5 font-bold text-sm shadow-md"
+          >
+            Log In to Account &rarr;
+          </button>
+        </form>
+
+        <div class="pt-6 border-t border-[#edf4ec] text-center text-xs text-[#5b6e5d] space-y-3">
+          <p>
+            Don't have a customer account?
+            <a href="/farm/account/register" class="font-extrabold text-[#1b4522] hover:underline">
+              Register here
+            </a>
+          </p>
+          <div class="p-3 rounded-2xl bg-[#f6faf5] border border-[#e2ece0] text-[11px] text-[#5b6e5d] flex items-center justify-center gap-1.5">
+            <span>✨</span>
+            <span>You can also <a href="/farm/products" class="font-bold underline text-[#1b4522]">shop as a guest</a> anytime.</span>
+          </div>
         </div>
-
-        <div id="login-error" class="hidden p-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-xs font-semibold text-center"></div>
-
-        <button
-          id="btn-login-submit"
-          type="submit"
-          class="fd-btn fd-btn-primary w-full py-3.5 font-bold text-sm shadow-md"
-        >
-          Log In &rarr;
-        </button>
-      </form>
-
-      <div class="mt-8 pt-6 border-t border-[#f0f4ee] text-center text-xs text-[#536354] space-y-3">
-        <p>
-          Don't have an account yet?
-          <a href="/farm/account/register" class="font-bold text-[#275629] hover:underline">
-            Register here
-          </a>
-        </p>
-        <p class="text-[11px] text-[#798a7a]">
-          You can also <a href="/farm/products" class="underline">continue as a guest</a> without registering.
-        </p>
       </div>
     </div>
   </div>
@@ -91,14 +109,13 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
 
         const data = await res.json();
         if (!data.success) {
-          errBox.textContent = data.error || 'Invalid credentials.';
+          errBox.textContent = data.error || 'Invalid phone/email or password.';
           errBox.classList.remove('hidden');
           submitBtn.disabled = false;
-          submitBtn.textContent = 'Log In →';
+          submitBtn.textContent = 'Log In to Account →';
           return;
         }
 
-        // Check if redirect query exists
         const urlParams = new URLSearchParams(window.location.search);
         const redirect = urlParams.get('redirect');
 
@@ -113,7 +130,7 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
         errBox.textContent = 'Network error. Please try again.';
         errBox.classList.remove('hidden');
         submitBtn.disabled = false;
-        submitBtn.textContent = 'Log In →';
+        submitBtn.textContent = 'Log In to Account →';
       }
     }
   </script>

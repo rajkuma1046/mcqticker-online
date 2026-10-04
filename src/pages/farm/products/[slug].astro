@@ -20,116 +20,118 @@ const { slug } = Astro.params;
   description="Fresh raw agricultural produce directly from our farm for neighbourhood delivery in Gwalior."
   canonicalPath={`/farm/products/${slug}`}
 >
-  <div class="fd-container py-8 sm:py-14">
+  <div class="fd-container py-8 sm:py-14 max-w-5xl">
     <!-- Breadcrumb -->
-    <nav class="flex items-center gap-2 text-xs text-[#536354] mb-6">
-      <a href="/farm" class="hover:text-[#275629]">Home</a>
+    <nav class="flex items-center gap-2 text-xs text-[#5b6e5d] mb-6 font-semibold">
+      <a href="/farm" class="hover:text-[#194622]">Home</a>
       <span>/</span>
-      <a href="/farm/products" class="hover:text-[#275629]">Produce</a>
+      <a href="/farm/products" class="hover:text-[#194622]">Produce Catalogue</a>
       <span>/</span>
-      <span id="breadcrumb-title" class="font-semibold text-[#1a251b]">Loading...</span>
+      <span id="breadcrumb-title" class="font-extrabold text-[#132215]">Loading...</span>
     </nav>
 
     <!-- Product Detail Container -->
-    <div id="product-loading" class="text-center py-20 text-[#536354]">
-      <div class="inline-block animate-spin w-8 h-8 border-4 border-[#275629] border-t-transparent rounded-full mb-3"></div>
-      <p class="text-sm font-semibold">Retrieving authoritative live stock and pricing from farm database...</p>
+    <div id="product-loading" class="text-center py-20 text-[#5b6e5d]">
+      <div class="inline-block animate-spin w-8 h-8 border-4 border-[#194622] border-t-transparent rounded-full mb-3"></div>
+      <p class="text-sm font-semibold">Retrieving authoritative live harvest stock and prices...</p>
     </div>
 
     <div id="product-content" class="hidden">
-      <div class="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 bg-white p-6 sm:p-10 rounded-2xl border border-[#e0e8dc] shadow-sm">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 bg-white p-6 sm:p-10 rounded-3xl border border-[#dce7db] shadow-xl shadow-emerald-950/[0.04]">
         <!-- Image Column -->
         <div class="md:col-span-6 space-y-4">
-          <div class="relative rounded-xl overflow-hidden bg-[#f0f4ee] border border-[#e0e8dc] aspect-square">
+          <div class="relative rounded-2xl overflow-hidden bg-gray-100 border border-[#dce7db] aspect-square shadow-md shadow-emerald-950/5 group">
             <img
               id="p-image"
               src=""
               alt=""
-              class="w-full h-full object-cover"
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             />
-            <div class="absolute top-3 left-3 flex flex-col gap-1.5 items-start">
-              <span id="p-badge" class="fd-badge fd-badge-raw shadow-sm">Raw / Unprocessed</span>
-              <span id="p-local" class="hidden text-xs font-semibold px-2.5 py-0.5 rounded-full bg-black/60 text-white backdrop-blur-sm"></span>
+            <div class="absolute top-3.5 left-3.5 flex flex-col gap-1.5 items-start">
+              <span id="p-badge" class="text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-full bg-emerald-900/90 text-emerald-100 backdrop-blur-md border border-emerald-400/30 shadow-xs">Raw / Unprocessed</span>
+              <span id="p-local" class="hidden text-xs font-bold px-2.5 py-0.5 rounded-full bg-black/60 text-white backdrop-blur-md"></span>
             </div>
-            <div id="p-out-banner" class="hidden absolute inset-0 bg-black/40 backdrop-blur-[1px] flex items-center justify-center">
-              <span class="fd-badge fd-badge-out px-5 py-2 text-sm font-bold shadow-lg">Out of Stock</span>
+            <div id="p-out-banner" class="hidden absolute inset-0 bg-black/50 backdrop-blur-[2px] flex items-center justify-center">
+              <span class="px-5 py-2 rounded-full bg-rose-600 text-white text-sm font-extrabold shadow-xl uppercase tracking-wider">Out of Stock</span>
             </div>
           </div>
 
           <!-- Quality Transparency Card -->
-          <div class="p-4 rounded-xl bg-[#f8faf6] border border-[#e5ede2] text-xs space-y-2 text-[#536354]">
-            <div class="font-bold text-[#152317] flex items-center gap-1.5">
+          <div class="p-4 sm:p-5 rounded-2xl bg-[#f7faf5] border border-[#dce7db] text-xs space-y-2 text-[#5b6e5d]">
+            <div class="font-extrabold text-[#132215] flex items-center gap-2 text-sm">
               <span>🌾</span>
-              <span>Farm Produce Notice</span>
+              <span>100% Raw & Unprocessed Agricultural Commodity</span>
             </div>
-            <p>
-              This is raw, minimally handled agricultural produce threshed and sun-dried at our farm. It has not been subjected to industrial polishing, bleaching, or chemical processing.
+            <p class="leading-relaxed">
+              This grain is cleaned and threshed on village farmland near Gwalior. It has not been subjected to machine polishing, chemical whitening, or shelf-life extenders. A customary rinse and sun-drying before milling or cooking is recommended.
             </p>
           </div>
         </div>
 
         <!-- Details & Buying Column -->
         <div class="md:col-span-6 flex flex-col justify-between space-y-6">
-          <div class="space-y-4">
+          <div class="space-y-5">
             <div>
-              <span id="p-category" class="text-xs uppercase tracking-wider text-[#275629] font-bold">Raw Farm Grain</span>
-              <h1 id="p-name" class="fd-serif text-3xl sm:text-4xl font-bold text-[#152317] mt-1"></h1>
+              <span id="p-category" class="inline-block text-[10px] uppercase tracking-wider text-emerald-800 bg-emerald-100 font-extrabold px-2.5 py-0.5 rounded-full mb-1.5">Raw Farm Grain</span>
+              <h1 id="p-name" class="fd-display text-3xl sm:text-4xl font-extrabold text-[#132215]"></h1>
             </div>
 
-            <div class="flex items-baseline gap-3">
-              <span id="p-price" class="text-3xl font-bold text-[#275629]"></span>
-              <span class="text-xs text-[#536354] font-medium">Live database rate</span>
+            <div class="flex items-baseline gap-3 p-3.5 rounded-2xl bg-emerald-50/60 border border-emerald-100">
+              <span id="p-price" class="text-3xl font-extrabold text-[#194622]"></span>
+              <span class="text-xs text-[#5b6e5d] font-bold">Authoritative Cloudflare D1 Rate</span>
             </div>
 
-            <div class="p-3.5 rounded-lg bg-[#f0f4ee] border border-[#e0e8dc] flex items-center justify-between text-xs sm:text-sm">
-              <span class="text-[#536354]">Current Farm Availability:</span>
-              <strong id="p-stock" class="text-[#275629] font-bold text-sm"></strong>
+            <div class="p-3.5 rounded-xl bg-[#f4f7f2] border border-[#dce7db] flex items-center justify-between text-xs sm:text-sm">
+              <span class="text-[#5b6e5d] font-medium">Current Available Stock:</span>
+              <strong id="p-stock" class="text-[#194622] font-extrabold text-sm"></strong>
             </div>
 
             <div>
-              <h3 class="text-xs font-bold uppercase tracking-wider text-[#536354] mb-1.5">Produce Description</h3>
-              <p id="p-desc" class="text-sm text-[#415343] leading-relaxed"></p>
+              <h3 class="text-xs font-extrabold uppercase tracking-wider text-[#748776] mb-1.5">Produce Description & Origin</h3>
+              <p id="p-desc" class="text-xs sm:text-sm text-[#4a5f4d] leading-relaxed"></p>
             </div>
 
             <!-- Quantity Preset Buttons -->
             <div id="p-presets-container" class="space-y-2 pt-2">
-              <label class="text-xs font-bold uppercase tracking-wider text-[#536354] block">Select Quantity</label>
+              <label class="text-xs font-extrabold uppercase tracking-wider text-[#748776] block">Select Bag Weight</label>
               <div id="p-presets" class="flex flex-wrap gap-2"></div>
             </div>
 
             <!-- Quantity Counter -->
-            <div class="flex items-center gap-3 pt-2">
-              <span class="text-xs font-bold text-[#536354]">Adjust:</span>
-              <div class="flex items-center border border-[#c5d6c4] rounded-lg overflow-hidden bg-white">
-                <button type="button" class="px-3 py-1.5 text-base font-bold text-[#275629] hover:bg-[#f0f4ee]" onclick="adjustProductQty(-1)">−</button>
-                <input id="product-qty-input" type="number" min="1" value="1" class="w-16 text-center text-sm font-bold py-1.5 border-x border-[#c5d6c4] focus:outline-none" readonly />
-                <button type="button" class="px-3 py-1.5 text-base font-bold text-[#275629] hover:bg-[#f0f4ee]" onclick="adjustProductQty(1)">+</button>
+            <div class="flex items-center gap-3 pt-1">
+              <span class="text-xs font-bold text-[#5b6e5d]">Adjust Weight:</span>
+              <div class="flex items-center gap-1.5 p-1 rounded-xl bg-[#f7faf5] border border-[#dce7db]">
+                <button type="button" class="w-8 h-8 rounded-lg bg-white border border-[#d0ded0] text-sm font-extrabold text-[#194622] hover:bg-[#eaf4ec] active:scale-90 transition-all flex items-center justify-center" onclick="adjustProductQty(-1)">−</button>
+                <input id="product-qty-input" type="number" min="1" value="1" class="w-14 text-center text-xs font-extrabold py-1 bg-transparent border-0 focus:outline-none" readonly />
+                <button type="button" class="w-8 h-8 rounded-lg bg-white border border-[#d0ded0] text-sm font-extrabold text-[#194622] hover:bg-[#eaf4ec] active:scale-90 transition-all flex items-center justify-center" onclick="adjustProductQty(1)">+</button>
               </div>
-              <span class="text-xs font-bold text-[#536354]">kg</span>
+              <span class="text-xs font-extrabold text-[#132215]">kg</span>
             </div>
           </div>
 
           <!-- Action Buttons -->
-          <div class="space-y-4 pt-4 border-t border-[#e8efe6]">
+          <div class="space-y-4 pt-4 border-t border-[#edf2eb]">
             <div id="action-buttons-group" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <button id="btn-add-cart" type="button" class="fd-btn fd-btn-secondary w-full py-3.5 font-bold text-sm shadow-sm" onclick="addToCartDetail()">
+              <button id="btn-add-cart" type="button" class="fd-btn fd-btn-secondary w-full py-3.5 font-extrabold text-sm rounded-2xl shadow-xs" onclick="addToCartDetail()">
                 Add to Cart
               </button>
-              <button id="btn-buy-now" type="button" class="fd-btn fd-btn-primary w-full py-3.5 font-bold text-sm shadow-sm" onclick="buyNowDetail()">
+              <button id="btn-buy-now" type="button" class="fd-btn fd-btn-primary w-full py-3.5 font-extrabold text-sm rounded-2xl shadow-md" onclick="buyNowDetail()">
                 Buy Now
               </button>
             </div>
 
             <!-- Free Sample Option Callout -->
-            <div id="sample-box" class="hidden p-4 rounded-xl bg-[#fdf6ec] border border-[#f5dfb8] space-y-2">
+            <div id="sample-box" class="hidden p-4 sm:p-5 rounded-2xl bg-amber-50/70 border border-amber-200/80 space-y-2.5">
               <div class="flex items-center justify-between">
-                <span class="text-xs font-bold uppercase tracking-wider text-[#b07a33]">Not sure about the quality?</span>
-                <span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-[#faecd6] text-[#8d5e1b]">₹0 Free Sample</span>
+                <span class="text-xs font-extrabold uppercase tracking-wider text-amber-900 flex items-center gap-1.5">
+                  <span>🎁</span> Free Tasting Packet Available
+                </span>
+                <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-amber-500 text-white">₹0 Free</span>
               </div>
-              <p class="text-xs text-[#704f1f] leading-relaxed">
-                Request a free 100g or 200g sample. Delivered during our scheduled neighborhood sample rounds in Pawan Nagar & Chetakpuri.
+              <p class="text-xs text-amber-950/80 leading-relaxed">
+                Test a 100g or 200g sample packet at home before ordering bulk grain. Delivered on our scheduled Gwalior neighbourhood trip.
               </p>
-              <a id="btn-sample" href="#" class="fd-btn bg-[#c48a3f] text-white hover:bg-[#b07a33] fd-btn-sm w-full font-bold mt-1">
+              <a id="btn-sample" href="#" class="fd-btn fd-btn-accent fd-btn-sm w-full font-extrabold rounded-xl mt-1">
                 Request Free Sample (100g / 200g) &rarr;
               </a>
             </div>
@@ -167,20 +169,20 @@ const { slug } = Astro.params;
         document.getElementById('p-image').alt = currentProduct.imageAlt || currentProduct.name;
 
         if (currentProduct.pricePerKgRupees !== null) {
-          document.getElementById('p-price').textContent = `₹${currentProduct.pricePerKgRupees}/kg`;
+          document.getElementById('p-price').textContent = `₹${currentProduct.pricePerKgRupees}/${currentProduct.unit || 'kg'}`;
         } else {
-          document.getElementById('p-price').textContent = 'Configurable Rate';
+          document.getElementById('p-price').textContent = 'Seasonal Rate';
         }
 
         const stockEl = document.getElementById('p-stock');
         const isOut = currentProduct.isOutOfStock;
         if (isOut) {
           stockEl.textContent = 'Out of Stock';
-          stockEl.classList.add('text-red-600');
+          stockEl.className = 'text-rose-600 font-extrabold text-sm';
           document.getElementById('p-out-banner').classList.remove('hidden');
           document.getElementById('action-buttons-group').innerHTML = `
-            <div class="col-span-2 text-center p-3 rounded-lg bg-red-50 text-red-700 font-bold text-sm">
-              This produce is currently sold out. New harvest will be updated soon.
+            <div class="col-span-2 text-center p-3.5 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 font-bold text-sm">
+              This produce is currently sold out. New harvest will be threshed soon.
             </div>
           `;
         } else {
@@ -195,7 +197,7 @@ const { slug } = Astro.params;
 
         if (currentProduct.isSeasonal) {
           const badge = document.getElementById('p-badge');
-          badge.className = 'fd-badge fd-badge-seasonal shadow-sm';
+          badge.className = 'text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-full bg-amber-500 text-white shadow-xs';
           badge.textContent = 'Seasonal Harvest';
         }
 
@@ -203,7 +205,7 @@ const { slug } = Astro.params;
         const presets = currentProduct.quantityOptions || [1, 5, 10];
         const presetsEl = document.getElementById('p-presets');
         presetsEl.innerHTML = presets.map((kg, i) => `
-          <button type="button" class="preset-btn px-4 py-2 text-xs font-bold rounded-lg border border-[#c5d6c4] bg-white text-[#1a251b] hover:bg-[#eaf3e9] transition-all ${i === 0 ? 'bg-[#275629] text-white border-[#275629]' : ''}" onclick="selectPreset(${kg}, this)">
+          <button type="button" class="preset-btn px-4 py-2 text-xs font-extrabold rounded-xl border border-[#d9e4d5] bg-white text-[#132215] hover:bg-emerald-50 transition-all ${i === 0 ? 'bg-gradient-to-r from-[#1b4522] to-[#296032] text-white border-transparent shadow-xs' : ''}" onclick="selectPreset(${kg}, this)">
             ${kg} kg
           </button>
         `).join('');
@@ -213,19 +215,19 @@ const { slug } = Astro.params;
           const sampleBox = document.getElementById('sample-box');
           const sampleBtn = document.getElementById('btn-sample');
           sampleBox.classList.remove('hidden');
-          sampleBtn.href = `/farm/samples?product_id=${currentProduct.id}`;
+          sampleBtn.href = `/farm/samples?product=${currentProduct.slug}`;
         }
       } catch (e) {
-        loader.innerHTML = '<p class="text-sm text-red-600">Failed to load product details. Please check your connection.</p>';
+        loader.innerHTML = '<p class="text-sm text-red-600">Failed to load product details. Please check connection.</p>';
       }
     }
 
     window.selectPreset = function(kg, btn) {
       document.getElementById('product-qty-input').value = kg;
       document.querySelectorAll('.preset-btn').forEach(b => {
-        b.className = 'preset-btn px-4 py-2 text-xs font-bold rounded-lg border border-[#c5d6c4] bg-white text-[#1a251b] hover:bg-[#eaf3e9] transition-all';
+        b.className = 'preset-btn px-4 py-2 text-xs font-extrabold rounded-xl border border-[#d9e4d5] bg-white text-[#132215] hover:bg-emerald-50 transition-all';
       });
-      btn.className = 'preset-btn px-4 py-2 text-xs font-bold rounded-lg border border-[#275629] bg-[#275629] text-white transition-all';
+      btn.className = 'preset-btn px-4 py-2 text-xs font-extrabold rounded-xl border border-transparent bg-gradient-to-r from-[#1b4522] to-[#296032] text-white shadow-xs transition-all';
     };
 
     window.adjustProductQty = function(delta) {
@@ -250,15 +252,17 @@ const { slug } = Astro.params;
       } else {
         cart.push({
           productId: currentProduct.id,
-          productName: currentProduct.name,
-          priceRupees: currentProduct.pricePerKgRupees,
+          name: currentProduct.name,
+          estimatedPriceRupees: currentProduct.pricePerKgRupees,
           quantity: qty,
+          unit: 'kg',
         });
       }
 
       localStorage.setItem('fd_cart_v1', JSON.stringify(cart));
-      if (window.fdUpdateCart) window.fdUpdateCart();
-      alert(`Added ${qty} kg of ${currentProduct.name} to your cart.`);
+      if (typeof updateNavCartBadge === 'function') updateNavCartBadge();
+
+      showDetailToast(`Added ${qty} kg of ${currentProduct.name} to cart.`);
     };
 
     window.buyNowDetail = function() {
@@ -266,14 +270,23 @@ const { slug } = Astro.params;
       const qty = parseInt(document.getElementById('product-qty-input').value || '1', 10);
       let cart = [{
         productId: currentProduct.id,
-        productName: currentProduct.name,
-        priceRupees: currentProduct.pricePerKgRupees,
+        name: currentProduct.name,
+        estimatedPriceRupees: currentProduct.pricePerKgRupees,
         quantity: qty,
+        unit: 'kg',
       }];
       localStorage.setItem('fd_cart_v1', JSON.stringify(cart));
-      if (window.fdUpdateCart) window.fdUpdateCart();
+      if (typeof updateNavCartBadge === 'function') updateNavCartBadge();
       window.location.href = '/farm/checkout';
     };
+
+    function showDetailToast(msg) {
+      const toast = document.createElement('div');
+      toast.className = 'fixed bottom-20 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-2xl bg-[#132215] text-white text-xs font-bold shadow-2xl border border-white/10 animate-bounce flex items-center gap-2';
+      toast.innerHTML = `<span>✓</span> <span>${msg}</span>`;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 2500);
+    }
 
     document.addEventListener('DOMContentLoaded', fetchProduct);
   </script>

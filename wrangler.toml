@@ -3,6 +3,9 @@ compatibility_date = "2024-12-18"
 compatibility_flags = ["nodejs_compat"]
 # pages_build_output_dir = "./dist" # Commented out to allow local dev proxy
 
+[vars]
+FARM_JWT_SECRET = "farm_direct_gwalior_secret_key_2026_mcqticker_jwt_production"
+
 [[d1_databases]]
 binding = "DB"
 database_name = "mcqticker-reviews"

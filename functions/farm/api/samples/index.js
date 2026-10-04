@@ -18,13 +18,13 @@ export async function onRequestPost({ request, env }) {
   const body = await readJson(request);
   const user = await getUser(request, env);
 
-  const customerName = str(body.customer_name || user?.name, { label: 'Full name', min: 2, max: 80, required: true });
-  const customerPhone = phone(body.customer_phone || user?.phone, { label: 'Mobile number', required: true });
-  const customerEmail = email(body.customer_email || user?.email, { required: false });
+  const customerName = str(body.customer_name || body.name || user?.name, { label: 'Full name', min: 2, max: 80, required: true });
+  const customerPhone = phone(body.customer_phone || body.phone || user?.phone, { label: 'Mobile number', required: true });
+  const customerEmail = email(body.customer_email || body.email || user?.email, { required: false });
   const productId = id(body.product_id, 'Product');
   const sampleQuantityGrams = Number(oneOf(body.sample_quantity_grams, [100, 200, '100', '200'], 'Sample quantity'));
   const deliveryAreaId = id(body.delivery_area_id, 'Delivery Area');
-  const deliveryAddress = str(body.delivery_address, { label: 'Delivery Address', min: 5, max: 300, required: true });
+  const deliveryAddress = str(body.delivery_address || body.address, { label: 'Delivery Address', min: 5, max: 300, required: true });
   const customerNote = str(body.customer_note, { label: 'Note', max: 300, required: false });
 
   // 1. Verify Product Eligibility

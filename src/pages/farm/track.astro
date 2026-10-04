@@ -1,39 +1,43 @@
 ---
 import FarmLayout from '../../layouts/FarmLayout.astro';
+
+// Live Order & Sample Tracker — Modern UI
 ---
 
 <FarmLayout
   title="Track Pre-Order & Sample Requests | Farm Direct Gwalior"
-  description="Check live status and delivery updates for your Farm Direct produce pre-order or sample request."
+  description="Check live status and delivery updates for your Farm Direct produce pre-order or tasting sample in Gwalior."
   canonicalPath="/farm/track"
 >
   <div class="fd-container py-8 sm:py-16">
     <div class="max-w-2xl mx-auto space-y-8">
-      <div class="text-center">
-        <span class="text-xs uppercase tracking-wider text-[#275629] font-bold bg-[#eaf3e9] px-3 py-1 rounded-full">
-          Live Status Tracker
+      <!-- Title -->
+      <div class="text-center space-y-2">
+        <span class="inline-flex items-center gap-1.5 text-xs uppercase tracking-wider text-emerald-800 font-extrabold bg-emerald-50 border border-emerald-200 px-3.5 py-1 rounded-full">
+          <span>🔍</span>
+          <span>Live Farm Tracker</span>
         </span>
-        <h1 class="fd-serif text-3xl sm:text-4xl font-bold text-[#152317] mt-3">
+        <h1 class="fd-display text-3xl sm:text-4xl font-extrabold text-[#122815]">
           Track Your Pre-Order
         </h1>
-        <p class="text-xs sm:text-sm text-[#536354] mt-2">
-          Enter your Order Number or registered Mobile Number to see current delivery updates.
+        <p class="text-xs sm:text-sm text-[#5b6e5d]">
+          Enter your Order Number (e.g. FD-GWL-...) or registered 10-digit mobile number.
         </p>
       </div>
 
-      <!-- Search Box Card -->
-      <div class="bg-white p-6 sm:p-8 rounded-2xl border border-[#e0e8dc] shadow-sm">
+      <!-- Search Input Card -->
+      <div class="bg-white p-6 sm:p-8 rounded-3xl border border-[#e2ece0] shadow-sm space-y-4">
         <form onsubmit="handleTrack(event)" class="space-y-4">
           <div>
-            <label class="text-xs font-bold uppercase tracking-wider text-[#536354] block mb-1">
+            <label class="text-xs font-bold uppercase tracking-wider text-[#495c4b] block mb-1.5">
               Order Number or Mobile Number *
             </label>
             <input
               id="track-input"
               type="text"
               required
-              placeholder="e.g. FD-GWL-20261004-0012 or 8770767272"
-              class="w-full text-sm font-semibold p-3.5 rounded-xl border border-[#d0ded0] bg-white focus:outline-none focus:border-[#275629]"
+              placeholder="e.g. FD-GWL-20261004-0001 or 8770767272"
+              class="fd-input font-bold text-sm"
             />
           </div>
 
@@ -42,29 +46,29 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
             type="submit"
             class="fd-btn fd-btn-primary w-full py-3.5 font-bold text-sm shadow-md"
           >
-            Track Status &rarr;
+            Track Delivery Status &rarr;
           </button>
         </form>
       </div>
 
-      <!-- Result Container -->
+      <!-- Results Container -->
       <div id="track-result" class="hidden space-y-6"></div>
-      <div id="track-error" class="hidden p-4 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs sm:text-sm font-semibold text-center"></div>
+      <div id="track-error" class="hidden p-4 rounded-2xl bg-red-50 border border-red-200 text-red-700 text-xs sm:text-sm font-semibold text-center"></div>
     </div>
   </div>
 
   <script is:inline>
     const STATUS_MAP = {
-      'PENDING': { label: 'Pre-Order Received', color: 'bg-amber-100 text-amber-800' },
-      'CONFIRMED': { label: 'Confirmed & Reserved', color: 'bg-blue-100 text-blue-800' },
-      'PREPARING': { label: 'Packing at Farm', color: 'bg-indigo-100 text-indigo-800' },
-      'READY_FOR_DELIVERY': { label: 'Ready for Transport', color: 'bg-purple-100 text-purple-800' },
-      'OUT_FOR_DELIVERY': { label: 'Out for Delivery in Gwalior', color: 'bg-emerald-100 text-emerald-800' },
-      'DELIVERED': { label: 'Delivered', color: 'bg-green-100 text-green-800' },
-      'CANCELLED': { label: 'Cancelled', color: 'bg-red-100 text-red-800' },
-      'REQUESTED': { label: 'Sample Requested', color: 'bg-amber-100 text-amber-800' },
-      'APPROVED': { label: 'Sample Approved', color: 'bg-blue-100 text-blue-800' },
-      'SCHEDULED': { label: 'Scheduled for Round', color: 'bg-purple-100 text-purple-800' },
+      'PENDING': { label: 'Pre-Order Received', color: 'bg-amber-100 text-amber-900 border-amber-300' },
+      'CONFIRMED': { label: 'Confirmed & Stock Reserved', color: 'bg-blue-100 text-blue-900 border-blue-300' },
+      'PREPARING': { label: 'Packing at Farm', color: 'bg-indigo-100 text-indigo-900 border-indigo-300' },
+      'READY_FOR_DELIVERY': { label: 'Ready for Transport', color: 'bg-purple-100 text-purple-900 border-purple-300' },
+      'OUT_FOR_DELIVERY': { label: 'Out for Sunday Delivery', color: 'bg-emerald-100 text-emerald-900 border-emerald-300 animate-pulse' },
+      'DELIVERED': { label: 'Delivered', color: 'bg-green-100 text-green-900 border-green-300' },
+      'CANCELLED': { label: 'Cancelled', color: 'bg-red-100 text-red-900 border-red-300' },
+      'REQUESTED': { label: 'Sample Requested', color: 'bg-amber-100 text-amber-900 border-amber-300' },
+      'APPROVED': { label: 'Sample Approved for Round', color: 'bg-blue-100 text-blue-900 border-blue-300' },
+      'SCHEDULED': { label: 'Scheduled in Round', color: 'bg-purple-100 text-purple-900 border-purple-300' },
     };
 
     async function handleTrack(e) {
@@ -79,7 +83,7 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
       resBox.classList.add('hidden');
       errBox.classList.add('hidden');
       btn.disabled = true;
-      btn.textContent = 'Searching...';
+      btn.textContent = 'Searching records...';
 
       const isPhone = /^\d{10}$/.test(input.replace(/\D/g, ''));
       const param = isPhone ? `phone=${encodeURIComponent(input)}` : `order_number=${encodeURIComponent(input)}`;
@@ -89,10 +93,10 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
         const data = await res.json();
 
         btn.disabled = false;
-        btn.textContent = 'Track Status →';
+        btn.textContent = 'Track Delivery Status →';
 
         if (!data.success) {
-          errBox.textContent = data.error || 'No records found matching your query.';
+          errBox.textContent = data.error || 'No orders or samples found for this query.';
           errBox.classList.remove('hidden');
           return;
         }
@@ -100,8 +104,8 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
         renderTracking(data);
       } catch (err) {
         btn.disabled = false;
-        btn.textContent = 'Track Status →';
-        errBox.textContent = 'Failed to connect. Please check your network.';
+        btn.textContent = 'Track Delivery Status →';
+        errBox.textContent = 'Network error. Please try again.';
         errBox.classList.remove('hidden');
       }
     }
@@ -115,94 +119,87 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
         const st = STATUS_MAP[o.status] || { label: o.status, color: 'bg-gray-100 text-gray-800' };
 
         html += `
-          <div class="bg-white p-6 sm:p-8 rounded-2xl border border-[#e0e8dc] shadow-sm space-y-5">
-            <div class="flex items-center justify-between pb-3 border-b border-[#f0f4ee]">
+          <div class="bg-white p-6 sm:p-8 rounded-3xl border border-[#e2ece0] shadow-sm space-y-5">
+            <div class="flex items-center justify-between pb-3 border-b border-[#f0f5ee]">
               <div>
-                <span class="text-xs text-[#536354]">Order Number</span>
-                <h3 class="font-bold text-lg text-[#152317]">${o.orderNumber}</h3>
+                <span class="text-[11px] font-bold uppercase text-[#718573] block">Order Tracking Slip</span>
+                <h3 class="font-mono text-base font-extrabold text-[#122815]">${o.orderNumber}</h3>
               </div>
-              <span class="px-3 py-1 rounded-full text-xs font-bold ${st.color}">
+              <span class="px-3.5 py-1 rounded-full text-xs font-black uppercase tracking-wider border ${st.color}">
                 ${st.label}
               </span>
             </div>
 
-            <div class="grid grid-cols-2 gap-4 text-xs text-[#536354]">
+            <!-- Customer & Delivery Cluster Details -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-[#526454]">
               <div>
-                <span>Customer:</span>
-                <strong class="text-[#152317] block font-semibold">${o.customerName} (${o.maskedPhone})</strong>
+                <span class="text-[10px] font-bold uppercase text-[#718573] block">Customer</span>
+                <strong class="text-sm font-bold text-[#122815]">${o.customerName} (${o.maskedPhone})</strong>
               </div>
               <div>
-                <span>Delivery Cluster:</span>
-                <strong class="text-[#152317] block font-semibold">${o.deliveryArea}, Gwalior</strong>
+                <span class="text-[10px] font-bold uppercase text-[#718573] block">Gwalior Cluster</span>
+                <strong class="text-sm font-bold text-[#122815]">${o.deliveryArea}</strong>
               </div>
-              <div>
-                <span>Delivery Address:</span>
-                <strong class="text-[#152317] block font-semibold">${o.deliveryAddress}</strong>
-              </div>
-              <div>
-                <span>Grand Total (Pay on Delivery):</span>
-                <strong class="text-[#275629] block font-bold text-sm">₹${o.grandTotalRupees}</strong>
+              <div class="sm:col-span-2">
+                <span class="text-[10px] font-bold uppercase text-[#718573] block">Delivery Address</span>
+                <strong class="text-xs font-semibold text-[#122815]">${o.deliveryAddress}</strong>
               </div>
             </div>
 
-            <!-- Items -->
-            <div class="pt-3 border-t border-[#f0f4ee]">
-              <h4 class="text-xs font-bold uppercase tracking-wider text-[#536354] mb-2">Reserved Items</h4>
-              <div class="space-y-1 text-xs">
+            <!-- Items Reserved -->
+            <div class="pt-3 border-t border-[#f0f5ee]">
+              <h4 class="text-[11px] font-extrabold uppercase tracking-wider text-[#495c4b] mb-2">Reserved Produce</h4>
+              <div class="space-y-1.5 text-xs">
                 ${o.items.map(it => `
-                  <div class="flex justify-between py-1 border-b border-neutral-100 last:border-b-0">
-                    <span class="font-medium text-[#152317]">${it.name} (${it.quantity} ${it.unit})</span>
-                    <strong class="text-[#275629]">₹${it.lineTotalRupees}</strong>
+                  <div class="flex items-center justify-between py-1.5 px-3 rounded-xl bg-[#f8faf7] border border-[#edf3ec]">
+                    <span class="font-bold text-[#152317]">${it.name} (${it.quantity} ${it.unit})</span>
+                    <strong class="text-[#1b4522] font-black">₹${it.lineTotalRupees}</strong>
                   </div>
                 `).join('')}
               </div>
             </div>
 
-            <!-- Timeline -->
-            ${o.timeline && o.timeline.length > 0 ? `
-              <div class="pt-3 border-t border-[#f0f4ee]">
-                <h4 class="text-xs font-bold uppercase tracking-wider text-[#536354] mb-2">Order Activity Timeline</h4>
-                <div class="space-y-2 text-xs">
-                  ${o.timeline.map(t => `
-                    <div class="flex items-start gap-2 text-[#536354]">
-                      <span class="text-[#275629] font-bold">•</span>
-                      <div>
-                        <strong>${t.to_status}</strong>: ${t.note || ''}
-                      </div>
-                    </div>
-                  `).join('')}
-                </div>
+            <!-- Grand Total -->
+            <div class="p-4 rounded-2xl bg-[#edf4ec] border border-[#d6e3d4] flex items-center justify-between">
+              <div>
+                <span class="text-xs text-[#526454] block">Pay on Sunday Delivery:</span>
+                <span class="text-[11px] text-emerald-800 font-bold">Cash or UPI accepted</span>
               </div>
-            ` : ''}
+              <strong class="fd-display text-2xl font-black text-[#1b4522]">₹${o.grandTotalRupees}</strong>
+            </div>
 
-            <!-- Direct WhatsApp Help -->
-            <div class="pt-3 border-t border-[#f0f4ee] flex justify-between items-center text-xs">
-              <span class="text-[#536354]">Need help or address update?</span>
-              <a href="https://wa.me/918770767272?text=Hello%20Farm%20Direct,%20checking%20on%20my%20order%20${o.orderNumber}" target="_blank" rel="noopener noreferrer" class="text-[#25d366] font-bold hover:underline flex items-center gap-1">
-                WhatsApp Us (8770767272) &rarr;
+            <!-- WhatsApp Direct Help -->
+            <div class="pt-3 border-t border-[#f0f5ee] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+              <span class="text-[#5b6e5d]">Questions about dispatch timing?</span>
+              <a
+                href="https://wa.me/918770767272?text=${encodeURIComponent(`Namaste Farm Direct, checking on my order ${o.orderNumber} for Gwalior.`)}"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="fd-btn bg-[#25D366] hover:bg-[#1fa851] text-white text-xs font-bold py-2 px-3.5 rounded-xl shadow-xs"
+              >
+                <span>💬 WhatsApp Farmer (8770767272)</span>
               </a>
             </div>
           </div>
         `;
       }
 
-      // If sample requests exist
       if (data.sampleRequests && data.sampleRequests.length > 0) {
         html += `
-          <div class="bg-white p-6 sm:p-8 rounded-2xl border border-[#e0e8dc] shadow-sm space-y-4">
-            <h3 class="font-bold text-base text-[#152317] pb-2 border-b border-[#f0f4ee]">
-              Sample Requests (${data.sampleRequests.length})
+          <div class="bg-white p-6 sm:p-8 rounded-3xl border border-[#e2ece0] shadow-sm space-y-4">
+            <h3 class="fd-display font-extrabold text-lg text-[#122815] pb-2 border-b border-[#f0f5ee]">
+              Sample Tasting Requests (${data.sampleRequests.length})
             </h3>
-            <div class="space-y-3">
+            <div class="space-y-2.5">
               ${data.sampleRequests.map(s => {
                 const sst = STATUS_MAP[s.status] || { label: s.status, color: 'bg-gray-100 text-gray-800' };
                 return `
-                  <div class="p-3.5 rounded-xl bg-[#f8faf6] border border-[#e0e8dc] flex items-center justify-between text-xs">
+                  <div class="p-4 rounded-2xl bg-[#f8faf7] border border-[#e2ece0] flex items-center justify-between text-xs">
                     <div>
-                      <strong class="text-sm font-bold text-[#152317] block">${s.productName} (${s.quantityGrams} g)</strong>
-                      <span class="text-[#536354]">${s.areaName} • ${s.roundName || 'Pending next round schedule'}</span>
+                      <strong class="text-sm font-bold text-[#122815] block">${s.productName} (${s.quantityGrams}g)</strong>
+                      <span class="text-[#5b6e5d]">${s.areaName} • ${s.roundName || 'Next scheduled tasting round'}</span>
                     </div>
-                    <span class="px-2.5 py-1 rounded-full text-[11px] font-bold ${sst.color}">
+                    <span class="px-3 py-1 rounded-full text-xs font-bold border ${sst.color}">
                       ${sst.label}
                     </span>
                   </div>

@@ -1,61 +1,72 @@
 ---
 import FarmLayout from '../../layouts/FarmLayout.astro';
+
+// Free Sample Policy — Modern Transparency Guide
 ---
 
 <FarmLayout
   title="Free Sample Policy | Farm Direct Gwalior"
-  description="Transparent guidelines regarding free agricultural produce sample distribution in Gwalior."
+  description="Guidelines regarding free agricultural produce sample distribution in Gwalior neighbourhoods including Pawan Nagar and Chetakpuri."
   canonicalPath="/farm/sample-policy"
 >
-  <div class="fd-container py-8 sm:py-14">
-    <div class="max-w-3xl mx-auto bg-white p-6 sm:p-12 rounded-2xl border border-[#e0e8dc] shadow-sm space-y-8">
-      <div>
-        <span class="text-xs uppercase tracking-wider text-[#275629] font-bold">Policy & Guidelines</span>
-        <h1 class="fd-serif text-3xl sm:text-4xl font-bold text-[#152317] mt-1">
+  <div class="fd-container py-8 sm:py-16">
+    <div class="max-w-3xl mx-auto space-y-8">
+      <!-- Title Card -->
+      <div class="text-center max-w-xl mx-auto space-y-3">
+        <span class="inline-flex items-center gap-1.5 text-xs uppercase tracking-wider text-amber-900 font-extrabold bg-amber-50 border border-amber-200 px-3.5 py-1 rounded-full">
+          <span>🎁</span>
+          <span>Quality Transparency</span>
+        </span>
+        <h1 class="fd-display text-3xl sm:text-5xl font-extrabold text-[#122815] leading-tight">
           Free Sample Policy
         </h1>
-        <p class="text-xs sm:text-sm text-[#536354] mt-2">
-          Effective for all sample requests within the Gwalior delivery clusters.
+        <p class="text-xs sm:text-sm text-[#5b6e5d] leading-relaxed">
+          How our free 100g and 200g tasting program works for Pawan Nagar and Chetakpuri households in Gwalior.
         </p>
       </div>
 
-      <!-- Core Policy Text from Section 44 -->
-      <div class="space-y-4 text-xs sm:text-sm text-[#2d3a2e] leading-relaxed">
-        <div class="p-4 rounded-xl bg-[#f0f4ee] border border-[#e0e8dc] text-[#1f4420] font-medium">
-          The purpose of the free sample is to allow households to evaluate the actual raw product before placing a regular bulk pre-order.
+      <!-- Core Principle Box -->
+      <div class="relative bg-white rounded-3xl border border-[#e2ece0] p-6 sm:p-8 shadow-sm space-y-4">
+        <div class="p-4 rounded-2xl bg-[#edf5ec] border border-[#d6e5d3] text-xs sm:text-sm text-[#1b4522] font-semibold leading-relaxed">
+          🌾 <strong>Our Commitment:</strong> The purpose of our free sample tasting program is to allow Gwalior families to inspect, boil, or taste our raw unpolished produce before ordering 5kg, 10kg, or 25kg seasonal bags.
         </div>
 
-        <ul class="space-y-3 list-disc pl-5">
-          <li><strong>Eligible Products:</strong> Free samples are available for selected products and selected delivery areas only.</li>
-          <li><strong>Sample Quantities:</strong> Samples are strictly limited to <strong>100 grams</strong> or <strong>200 grams</strong>. Customers cannot request larger free quantities.</li>
-          <li><strong>Scheduled Distribution Rounds:</strong> Samples are distributed exclusively during scheduled sample-delivery rounds in Gwalior (typically planned once or twice per month).</li>
-          <li><strong>No Immediate Dispatch:</strong> Sample requests do not guarantee immediate delivery. We do not dispatch an individual vehicle from the farm for a single sample. Requests accumulate, are grouped by neighbourhood (Pawan Nagar / Chetakpuri), and delivered together.</li>
-          <li><strong>Availability:</strong> Sample distribution depends on available sample stock and the feasibility of the scheduled vehicle route.</li>
-          <li><strong>Household Limits:</strong> To prevent misuse and ensure fair access, reasonable limits apply (maximum 2 samples per customer per round, and maximum 1 sample of the same product per round). A 14-day cooldown period applies between repeated requests from the same mobile number.</li>
-          <li><strong>Zero Cost:</strong> Sample products have a price of ₹0. There is no hidden product cost for eligible approved samples during scheduled rounds.</li>
-        </ul>
-      </div>
+        <!-- Policy Rules Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 text-xs text-[#526454]">
+          <div class="p-4 rounded-2xl bg-[#f8faf7] border border-[#e8f0e6] space-y-1">
+            <strong class="font-extrabold text-[#122815] block">Eligible Produce Varieties</strong>
+            <p>Free samples are available for raw wheat, whole groundnut, desi chana, moong, urad, and seasonal specialties based on current farm stock.</p>
+          </div>
 
-      <!-- Route Model Diagram -->
-      <div class="p-6 rounded-xl bg-[#f8faf6] border border-[#e0e8dc] space-y-3">
-        <h3 class="font-bold text-sm text-[#152317]">Operational Sample Route Model</h3>
-        <div class="flex flex-col sm:flex-row items-center justify-between text-xs text-center gap-2 pt-2 text-[#536354]">
-          <div class="p-3 bg-white rounded-lg border border-[#e0e8dc] w-full sm:w-auto font-semibold">1. Requests Accumulate</div>
-          <span class="text-[#275629] font-bold">&rarr;</span>
-          <div class="p-3 bg-white rounded-lg border border-[#e0e8dc] w-full sm:w-auto font-semibold">2. Grouped by Locality</div>
-          <span class="text-[#275629] font-bold">&rarr;</span>
-          <div class="p-3 bg-white rounded-lg border border-[#e0e8dc] w-full sm:w-auto font-semibold">3. Scheduled Gwalior Trip</div>
-          <span class="text-[#275629] font-bold">&rarr;</span>
-          <div class="p-3 bg-white rounded-lg border border-[#e0e8dc] w-full sm:w-auto font-semibold">4. Doorstep Batch Delivery</div>
+          <div class="p-4 rounded-2xl bg-[#f8faf7] border border-[#e8f0e6] space-y-1">
+            <strong class="font-extrabold text-[#122815] block">Standardized Pouch Sizes</strong>
+            <p>Samples are strictly packaged in <strong>100 grams</strong> or <strong>200 grams</strong> pouches. Commercial or bulk free quantities are not supported.</p>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-[#f8faf7] border border-[#e8f0e6] space-y-1">
+            <strong class="font-extrabold text-[#122815] block">Consolidated Batch Rounds</strong>
+            <p>To avoid wasteful vehicle trips, samples are distributed during scheduled weekend sample-delivery rounds alongside regular pre-orders.</p>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-[#f8faf7] border border-[#e8f0e6] space-y-1">
+            <strong class="font-extrabold text-[#122815] block">Household Fair-Use Limits</strong>
+            <p>Maximum 2 produce samples per household per delivery round. A 14-day re-order cooldown applies per mobile number to ensure fair access for all neighbours.</p>
+          </div>
+        </div>
+
+        <div class="pt-4 border-t border-[#f0f5ee] flex items-center justify-between text-xs text-[#667a68]">
+          <span>Zero product cost (₹0) on eligible approved samples</span>
+          <span class="font-bold text-emerald-800">100% Raw • No Polishing</span>
         </div>
       </div>
 
-      <div class="pt-4 flex flex-wrap gap-4">
-        <a href="/farm/samples" class="fd-btn fd-btn-primary px-6 py-3 font-bold text-sm">
-          Request a Free Sample &rarr;
+      <!-- Action Buttons -->
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+        <a href="/farm/samples" class="fd-btn fd-btn-accent w-full sm:w-auto px-6 py-3 font-bold text-sm shadow-md">
+          Request a Free Sample (100g/200g) &rarr;
         </a>
-        <a href="/farm/products" class="fd-btn fd-btn-secondary px-6 py-3 font-bold text-sm">
-          Browse Farm Produce
+        <a href="/farm/products" class="fd-btn fd-btn-secondary w-full sm:w-auto px-6 py-3 font-bold text-sm">
+          Browse Farm Produce Catalogue
         </a>
       </div>
     </div>

@@ -1,93 +1,113 @@
 ---
 import FarmLayout from '../../../layouts/FarmLayout.astro';
+
+// Customer Registration — Modern Farm Portal
 ---
 
 <FarmLayout
   title="Create Customer Account | Farm Direct Gwalior"
-  description="Register a free Farm Direct account to easily manage raw agricultural produce pre-orders."
+  description="Register a free Farm Direct customer account for direct village farm produce pre-orders and tasting samples in Gwalior."
   canonicalPath="/farm/account/register"
 >
-  <div class="fd-container py-12 sm:py-20">
-    <div class="max-w-md mx-auto bg-white p-8 sm:p-10 rounded-2xl border border-[#e0e8dc] shadow-sm">
-      <div class="text-center mb-8">
-        <div class="w-12 h-12 bg-[#eaf3e9] text-[#275629] rounded-xl flex items-center justify-center text-2xl mx-auto mb-3">
-          🌱
-        </div>
-        <h1 class="fd-serif text-2xl sm:text-3xl font-bold text-[#152317]">
-          Create Account
-        </h1>
-        <p class="text-xs text-[#536354] mt-1.5">
-          Save your Gwalior delivery addresses and track raw produce orders.
-        </p>
-      </div>
+  <div class="fd-container py-12 sm:py-24">
+    <div class="max-w-md mx-auto relative">
+      <!-- Ambient Glow Behind Form -->
+      <div class="absolute -top-10 -right-10 w-64 h-64 bg-emerald-500/15 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -bottom-10 -left-10 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
-      <form id="reg-form" onsubmit="handleRegister(event)" class="space-y-4">
-        <div>
-          <label class="text-xs font-bold uppercase tracking-wider text-[#536354] block mb-1">Full Name *</label>
-          <input
-            id="reg-name"
-            type="text"
-            required
-            placeholder="e.g. Anand Sharma"
-            class="w-full text-xs font-semibold p-3.5 rounded-lg border border-[#d0ded0] bg-white focus:outline-none focus:border-[#275629]"
-          />
+      <div class="relative bg-white/95 backdrop-blur-xl p-8 sm:p-10 rounded-3xl border border-[#e2ece0] shadow-xl space-y-6">
+        <div class="text-center">
+          <div class="w-14 h-14 bg-gradient-to-br from-[#1b4522] to-[#296032] text-white rounded-2xl flex items-center justify-center text-2xl mx-auto mb-4 shadow-md shadow-emerald-950/20 font-bold">
+            🌱
+          </div>
+          <span class="text-[10px] font-extrabold uppercase tracking-widest text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+            Gwalior Direct Harvest
+          </span>
+          <h1 class="fd-display text-2xl sm:text-3xl font-extrabold text-[#122815] mt-2">
+            Create Customer Account
+          </h1>
+          <p class="text-xs text-[#5b6e5d] mt-1.5 leading-relaxed">
+            Save your Gwalior delivery address, track weekend harvest dispatches, and request free samples.
+          </p>
         </div>
 
-        <div>
-          <label class="text-xs font-bold uppercase tracking-wider text-[#536354] block mb-1">Mobile Number (WhatsApp) *</label>
-          <div class="flex">
-            <span class="inline-flex items-center px-3 text-xs font-bold bg-[#f0f4ee] border border-r-0 border-[#d0ded0] rounded-l-lg text-[#536354]">+91</span>
+        <form id="reg-form" onsubmit="handleRegister(event)" class="space-y-4">
+          <div>
+            <label class="text-xs font-bold uppercase tracking-wider text-[#495c4b] block mb-1.5">
+              Full Name *
+            </label>
             <input
-              id="reg-phone"
-              type="tel"
+              id="reg-name"
+              type="text"
               required
-              maxlength="10"
-              pattern="[6-9][0-9]{9}"
-              placeholder="10-digit mobile"
-              class="w-full text-xs font-semibold p-3.5 rounded-r-lg border border-[#d0ded0] bg-white focus:outline-none focus:border-[#275629]"
+              placeholder="e.g. Anand Sharma"
+              class="fd-input font-bold"
             />
           </div>
+
+          <div>
+            <label class="text-xs font-bold uppercase tracking-wider text-[#495c4b] block mb-1.5">
+              Mobile Number (WhatsApp) *
+            </label>
+            <div class="flex">
+              <span class="inline-flex items-center px-3.5 text-xs font-black bg-[#edf4ec] border border-r-0 border-[#d9e4d5] rounded-l-xl text-[#1b4522]">+91</span>
+              <input
+                id="reg-phone"
+                type="tel"
+                required
+                maxlength="10"
+                pattern="[6-9][0-9]{9}"
+                placeholder="10-digit mobile"
+                class="fd-input rounded-l-none font-bold"
+              />
+            </div>
+            <span class="text-[11px] text-[#718573] mt-1 block">Used for Sunday delivery coordination & order tracking.</span>
+          </div>
+
+          <div>
+            <label class="text-xs font-bold uppercase tracking-wider text-[#495c4b] block mb-1.5">
+              Email Address *
+            </label>
+            <input
+              id="reg-email"
+              type="email"
+              required
+              placeholder="name@example.com"
+              class="fd-input font-bold"
+            />
+          </div>
+
+          <div>
+            <label class="text-xs font-bold uppercase tracking-wider text-[#495c4b] block mb-1.5">
+              Password * (Min. 8 characters)
+            </label>
+            <input
+              id="reg-pw"
+              type="password"
+              required
+              minlength="8"
+              placeholder="••••••••"
+              class="fd-input font-bold"
+            />
+          </div>
+
+          <div id="reg-error" class="hidden p-3.5 rounded-2xl bg-red-50 border border-red-200 text-red-700 text-xs font-semibold text-center"></div>
+
+          <button
+            id="btn-reg-submit"
+            type="submit"
+            class="fd-btn fd-btn-primary w-full py-3.5 font-bold text-sm shadow-md"
+          >
+            Create Customer Account &rarr;
+          </button>
+        </form>
+
+        <div class="pt-6 border-t border-[#edf4ec] text-center text-xs text-[#5b6e5d]">
+          Already have an account?
+          <a href="/farm/account/login" class="font-extrabold text-[#1b4522] hover:underline">
+            Log in here
+          </a>
         </div>
-
-        <div>
-          <label class="text-xs font-bold uppercase tracking-wider text-[#536354] block mb-1">Email Address *</label>
-          <input
-            id="reg-email"
-            type="email"
-            required
-            placeholder="name@example.com"
-            class="w-full text-xs font-semibold p-3.5 rounded-lg border border-[#d0ded0] bg-white focus:outline-none focus:border-[#275629]"
-          />
-        </div>
-
-        <div>
-          <label class="text-xs font-bold uppercase tracking-wider text-[#536354] block mb-1">Password * (Min. 8 characters)</label>
-          <input
-            id="reg-pw"
-            type="password"
-            required
-            minlength="8"
-            placeholder="••••••••"
-            class="w-full text-xs font-semibold p-3.5 rounded-lg border border-[#d0ded0] bg-white focus:outline-none focus:border-[#275629]"
-          />
-        </div>
-
-        <div id="reg-error" class="hidden p-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-xs font-semibold text-center"></div>
-
-        <button
-          id="btn-reg-submit"
-          type="submit"
-          class="fd-btn fd-btn-primary w-full py-3.5 font-bold text-sm shadow-md"
-        >
-          Create Customer Account &rarr;
-        </button>
-      </form>
-
-      <div class="mt-8 pt-6 border-t border-[#f0f4ee] text-center text-xs text-[#536354]">
-        Already have an account?
-        <a href="/farm/account/login" class="font-bold text-[#275629] hover:underline">
-          Log in here
-        </a>
       </div>
     </div>
   </div>

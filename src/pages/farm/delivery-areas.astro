@@ -1,61 +1,97 @@
 ---
 import FarmLayout from '../../layouts/FarmLayout.astro';
+
+// Delivery Areas — Modern Clustered Route Explorer
 ---
 
 <FarmLayout
   title="Delivery Areas & Neighbourhood Schedule | Farm Direct Gwalior"
-  description="Scheduled delivery areas in Gwalior including Pawan Nagar and Chetakpuri. Check delivery charges and minimum order values."
+  description="Consolidated neighbourhood delivery areas in Gwalior including Pawan Nagar and Chetakpuri. Check delivery charges, schedules, and minimum orders."
   canonicalPath="/farm/delivery-areas"
 >
   <div class="fd-container py-8 sm:py-16">
-    <div class="max-w-3xl mx-auto space-y-10">
-      <!-- Title -->
-      <div class="text-center max-w-xl mx-auto">
-        <span class="text-xs uppercase tracking-wider text-[#275629] font-bold bg-[#eaf3e9] px-3 py-1 rounded-full">
-          Gwalior Delivery Clusters
+    <div class="max-w-4xl mx-auto space-y-10">
+      <!-- Title & Header -->
+      <div class="text-center max-w-2xl mx-auto space-y-3">
+        <span class="inline-flex items-center gap-1.5 text-xs uppercase tracking-wider text-emerald-800 font-extrabold bg-emerald-50 border border-emerald-200 px-3.5 py-1 rounded-full">
+          <span>📍</span>
+          <span>Gwalior Delivery Clusters</span>
         </span>
-        <h1 class="fd-serif text-3xl sm:text-4xl font-bold text-[#152317] mt-3">
+        <h1 class="fd-display text-3xl sm:text-5xl font-extrabold text-[#122815] leading-tight">
           Delivery Areas & Schedule
         </h1>
-        <p class="text-xs sm:text-sm text-[#536354] mt-2">
-          To maintain efficiency and direct farm prices, we deliver in grouped neighbourhood clusters.
+        <p class="text-xs sm:text-sm text-[#5b6e5d] leading-relaxed">
+          To maintain direct-from-field prices with zero middleman markups, we deliver in consolidated neighbourhood clusters across Gwalior on fixed weekend schedules.
         </p>
       </div>
 
-      <!-- Live Areas List -->
-      <div id="areas-loading" class="text-center py-16 text-[#536354]">
-        <div class="inline-block animate-spin w-8 h-8 border-4 border-[#275629] border-t-transparent rounded-full mb-3"></div>
-        <p class="text-sm font-semibold">Loading active delivery areas from database...</p>
+      <!-- Live Delivery Areas Container -->
+      <div id="areas-loading" class="text-center py-16 text-[#5b6e5d]">
+        <div class="inline-block animate-spin w-8 h-8 border-4 border-[#1b4522] border-t-transparent rounded-full mb-3"></div>
+        <p class="text-sm font-bold text-[#152317]">Loading live delivery routes from farm database...</p>
       </div>
 
       <div id="areas-container" class="hidden space-y-4">
         <!-- Rendered via JS -->
       </div>
 
-      <!-- Policy Clarification -->
-      <div class="bg-white p-6 sm:p-8 rounded-2xl border border-[#e0e8dc] shadow-sm space-y-4">
-        <h3 class="font-bold text-base text-[#152317] flex items-center gap-2">
-          <span>ℹ️</span>
-          <span>Why Selected Neighbourhoods Only?</span>
-        </h3>
-        <p class="text-xs sm:text-sm text-[#536354] leading-relaxed">
-          We intentionally do not advertise or promise instant city-wide delivery across Gwalior. Running individual delivery trips from village farms across distant corners of the city would drastically increase costs and fuel consumption.
-        </p>
-        <p class="text-xs sm:text-sm text-[#536354] leading-relaxed">
-          Instead, we consolidate pre-orders into targeted clusters like <strong>Pawan Nagar</strong> and <strong>Chetakpuri</strong>, passing all savings directly to our customers through lower prices and pure unpolished grains.
-        </p>
+      <!-- Why Selected Neighbourhoods? Infographic Card -->
+      <div class="relative bg-white rounded-3xl border border-[#e2ece0] p-6 sm:p-8 shadow-sm overflow-hidden space-y-4">
+        <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-emerald-500/10 rounded-full blur-2xl pointer-events-none"></div>
+
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-[#edf4ec] text-[#1b4522] flex items-center justify-center text-xl font-bold">
+            💡
+          </div>
+          <div>
+            <h3 class="fd-display text-lg sm:text-xl font-bold text-[#122815]">
+              Why Clustered Delivery Instead of Instant City-Wide Delivery?
+            </h3>
+            <span class="text-xs text-[#5b6e5d]">Sustainable Farm-to-Kitchen Logistics</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 text-xs text-[#526454] leading-relaxed">
+          <div class="p-4 rounded-2xl bg-[#f8faf7] border border-[#e8f0e6] space-y-1.5">
+            <strong class="font-extrabold text-[#152317] block flex items-center gap-1.5">
+              <span>🌾</span> Direct Farm Economics
+            </strong>
+            <p>
+              Sending individual motorcycles across distant corners of Gwalior burns fuel and adds 40% intermediary costs. We pass all logistics savings straight to you in lower produce prices.
+            </p>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-[#f8faf7] border border-[#e8f0e6] space-y-1.5">
+            <strong class="font-extrabold text-[#152317] block flex items-center gap-1.5">
+              <span>🚚</span> Fresh Weekend Morning Dispatch
+            </strong>
+            <p>
+              All grains and pulses are bagged directly at the farm on Friday/Saturday, loaded into our transport vehicle, and brought directly to your society gate on Sunday morning (8 AM – 1 PM).
+            </p>
+          </div>
+        </div>
       </div>
 
-      <!-- Request Your Locality Box -->
-      <div class="bg-[#f0f4ee] p-6 rounded-2xl border border-[#dce6d8] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div>
-          <h4 class="font-bold text-sm text-[#152317]">Live in another area of Gwalior?</h4>
-          <p class="text-xs text-[#536354] mt-0.5">
-            If your society or colony has 5+ households interested in raw farm produce, contact us on WhatsApp to request a new delivery cluster!
+      <!-- Request Your Locality on WhatsApp -->
+      <div class="bg-gradient-to-r from-[#122815] to-[#1e4624] text-white p-6 sm:p-8 rounded-3xl shadow-xl border border-emerald-900/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+        <div class="space-y-1.5 max-w-lg">
+          <div class="text-[10px] font-extrabold uppercase tracking-widest text-emerald-300">
+            Expand Our Gwalior Network
+          </div>
+          <h4 class="fd-display text-xl font-extrabold text-white">
+            Live in another area of Gwalior?
+          </h4>
+          <p class="text-xs text-emerald-100/80 leading-relaxed">
+            If your apartment complex, colony, or society (City Center, Morar, Lashkar, Thatipur, etc.) has 5+ households interested in pure raw harvest, message us to launch a new Sunday delivery round!
           </p>
         </div>
-        <a href="https://wa.me/918770767272?text=Hello%20Farm%20Direct,%20we%20would%20like%20to%20request%20scheduled%20farm%20delivery%20in%20our%20Gwalior%20colony:" target="_blank" rel="noopener noreferrer" class="fd-btn fd-btn-wa fd-btn-sm whitespace-nowrap font-bold">
-          Request Locality on WhatsApp &rarr;
+        <a
+          href="https://wa.me/918770767272?text=Namaste%20Farm%20Direct,%20we%20have%20multiple%20households%20interested%20in%20raw%20farm%20produce%20in%20our%20Gwalior%20colony:"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="fd-btn bg-[#25D366] hover:bg-[#1fa851] text-white font-extrabold text-xs px-5 py-3 rounded-xl shadow-lg shadow-black/20 whitespace-nowrap transition-transform hover:scale-105 active:scale-95"
+        >
+          <span>Request Locality on WhatsApp &rarr;</span>
         </a>
       </div>
     </div>
@@ -75,29 +111,35 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
           container.classList.remove('hidden');
 
           container.innerHTML = data.deliveryAreas.map((a, idx) => `
-            <div class="bg-white p-6 rounded-2xl border border-[#e0e8dc] shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-              <div>
-                <span class="text-[10px] font-bold uppercase text-[#275629] bg-[#eaf3e9] px-2.5 py-0.5 rounded-full">
-                  Active Cluster ${idx + 1}
-                </span>
-                <h3 class="fd-serif text-xl font-bold text-[#152317] mt-1.5">${a.name}</h3>
-                <div class="text-xs text-[#536354] mt-1 flex flex-wrap gap-x-4 gap-y-1">
-                  <span>City: <strong>${a.city}</strong></span>
+            <div class="bg-white p-6 sm:p-7 rounded-3xl border border-[#e2ece0] shadow-sm hover:shadow-md transition-shadow flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+              <div class="space-y-2">
+                <div class="flex items-center gap-2">
+                  <span class="text-[10px] font-black uppercase text-emerald-800 bg-emerald-50 border border-emerald-200 px-3 py-0.5 rounded-full">
+                    Active Cluster 0${idx + 1}
+                  </span>
+                  <span class="text-xs font-bold text-[#6a806c]">
+                    Gwalior, MP
+                  </span>
+                </div>
+                <h3 class="fd-display text-2xl font-extrabold text-[#122815]">${a.name}</h3>
+                <div class="text-xs text-[#526454] flex flex-wrap gap-x-4 gap-y-1">
+                  <span>📅 Scheduled Dispatch: <strong class="text-[#152317] font-bold">Every ${a.deliveryDay} morning</strong></span>
                   <span>•</span>
-                  <span>Delivery Round: <strong>${a.deliveryDay}</strong></span>
+                  <span>⏰ Window: <strong class="text-[#152317]">8:00 AM – 1:00 PM</strong></span>
                 </div>
               </div>
 
-              <div class="flex items-center gap-6 text-right w-full sm:w-auto justify-between sm:justify-end pt-3 sm:pt-0 border-t sm:border-t-0 border-[#f0f4ee]">
+              <div class="flex items-center gap-6 w-full sm:w-auto justify-between sm:justify-end pt-4 sm:pt-0 border-t sm:border-t-0 border-[#f0f5ee]">
                 <div>
-                  <div class="text-xs text-[#536354]">Delivery Fee</div>
-                  <strong class="text-sm font-bold text-[#152317]">₹${a.deliveryChargeRupees}</strong>
+                  <div class="text-[11px] font-bold uppercase text-[#718573]">Delivery Fee</div>
+                  <strong class="fd-display text-lg font-extrabold text-[#152317]">₹${a.deliveryChargeRupees}</strong>
+                  <span class="text-[10px] text-emerald-700 block font-semibold">(Free over ₹500)</span>
                 </div>
                 <div>
-                  <div class="text-xs text-[#536354]">Min. Order</div>
-                  <strong class="text-sm font-bold text-[#275629]">₹${a.minimumOrderRupees}</strong>
+                  <div class="text-[11px] font-bold uppercase text-[#718573]">Min. Order</div>
+                  <strong class="fd-display text-lg font-extrabold text-[#1b4522]">₹${a.minimumOrderRupees}</strong>
                 </div>
-                <a href="/farm/products" class="fd-btn fd-btn-primary fd-btn-sm font-bold">
+                <a href="/farm/products" class="fd-btn fd-btn-primary fd-btn-sm font-bold shadow-sm whitespace-nowrap">
                   Pre-Order &rarr;
                 </a>
               </div>
@@ -105,7 +147,7 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
           `).join('');
         }
       } catch (_) {
-        loader.innerHTML = '<p class="text-sm text-red-600">Failed to load delivery areas.</p>';
+        loader.innerHTML = '<p class="text-sm font-bold text-red-600">Failed to load delivery areas. Please refresh.</p>';
       }
     }
 

@@ -1,200 +1,342 @@
 ---
 import FarmLayout from '../../../layouts/FarmLayout.astro';
+
+// Produce Catalogue — Modern Direct-from-Farm Experience
 ---
 
 <FarmLayout
   title="Raw Farm Produce Catalogue | Farm Direct Gwalior"
-  description="Browse raw wheat, whole groundnut, desi chana, whole moong, raw urad, and seasonal farm produce with scheduled delivery in Gwalior."
+  description="Order 100% raw, unpolished wheat, raw groundnut, desi chana, whole moong, raw urad, and seasonal farm produce. Direct village harvest delivered to Pawan Nagar & Chetakpuri, Gwalior."
   canonicalPath="/farm/products"
 >
-  <div class="fd-container py-8 sm:py-14">
-    <!-- Header -->
-    <div class="max-w-2xl mb-8">
-      <span class="text-xs uppercase tracking-wider text-[#275629] font-bold">Field-Direct Catalogue</span>
-      <h1 class="fd-serif text-3xl sm:text-4xl font-bold text-[#152317] mt-1">
-        Raw Farm Produce
-      </h1>
-      <p class="text-sm text-[#536354] mt-2 leading-relaxed">
-        Grains and pulses harvested, sun-dried, and packed at our village farm. Delivered during scheduled neighbourhood rounds in Chetakpuri and Pawan Nagar, Gwalior.
-      </p>
-    </div>
+  <div class="fd-container py-8 sm:py-16">
+    <!-- Editorial Hero Banner -->
+    <div class="relative rounded-3xl overflow-hidden bg-gradient-to-br from-[#122815] via-[#1a3f20] to-[#0d1f11] text-white p-6 sm:p-12 mb-10 shadow-xl border border-emerald-900/40">
+      <div class="absolute -right-20 -bottom-20 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="relative z-10 max-w-3xl">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-bold border border-emerald-400/30 mb-4 backdrop-blur-sm">
+          <span>🌾</span>
+          <span>100% Raw • Naturally Sun-Dried • Zero Polishing</span>
+        </div>
+        <h1 class="fd-display text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight">
+          Field-Direct Farm Produce
+        </h1>
+        <p class="text-sm sm:text-base text-emerald-100/80 mt-3 max-w-2xl leading-relaxed">
+          Grown in fertile village soils surrounding Gwalior. Harvested, winnowed, and pre-ordered for scheduled consolidated Sunday delivery in <strong class="text-white underline decoration-emerald-400">Pawan Nagar</strong> and <strong class="text-white underline decoration-emerald-400">Chetakpuri</strong>.
+        </p>
 
-    <!-- Filter & Search Controls -->
-    <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 mb-8 bg-white p-4 rounded-xl border border-[#e0e8dc] shadow-sm">
-      <!-- Category Tabs -->
-      <div class="flex flex-wrap items-center gap-2" id="category-tabs">
-        <button type="button" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-[#275629] text-white" onclick="filterCat('all', this)">
-          All Produce
-        </button>
-        <button type="button" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-[#f0f4ee] text-[#2d3a2e] hover:bg-[#e2eae0]" onclick="filterCat('grain', this)">
-          Grains
-        </button>
-        <button type="button" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-[#f0f4ee] text-[#2d3a2e] hover:bg-[#e2eae0]" onclick="filterCat('pulse', this)">
-          Pulses (Dal/Chana)
-        </button>
-        <button type="button" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-[#f0f4ee] text-[#2d3a2e] hover:bg-[#e2eae0]" onclick="filterCat('oilseed', this)">
-          Oilseeds (Groundnut)
-        </button>
-        <button type="button" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-[#f0f4ee] text-[#2d3a2e] hover:bg-[#e2eae0]" onclick="filterCat('seasonal', this)">
-          Seasonal
-        </button>
-      </div>
-
-      <!-- Search Input -->
-      <div class="relative sm:w-64">
-        <input
-          id="product-search"
-          type="text"
-          placeholder="Search produce..."
-          class="w-full text-xs font-medium px-3.5 py-2 rounded-lg border border-[#d0ded0] bg-white focus:outline-none focus:border-[#275629]"
-          oninput="handleSearch()"
-        />
+        <!-- Fast Guarantees Pill Grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-8 pt-6 border-t border-emerald-800/60 text-xs font-semibold text-emerald-200">
+          <div class="flex items-center gap-2">
+            <span class="text-emerald-400 font-bold">✓</span> Direct Village Farm
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-emerald-400 font-bold">✓</span> Authoritative Live Prices
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-emerald-400 font-bold">✓</span> Free 100g/200g Samples
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-emerald-400 font-bold">✓</span> Pay on Delivery (UPI/Cash)
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- Product Grid -->
-    <div id="catalog-loading" class="text-center py-20 text-[#536354]">
-      <div class="inline-block animate-spin w-8 h-8 border-4 border-[#275629] border-t-transparent rounded-full mb-3"></div>
-      <p class="text-sm font-semibold">Connecting to live farm database...</p>
+    <!-- Filter & Search Toolbar -->
+    <div class="bg-white/90 backdrop-blur-md p-4 sm:p-5 rounded-2xl border border-[#e2ece0] shadow-sm mb-8 space-y-4">
+      <div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4">
+        <!-- Modern Pill Filter Buttons -->
+        <div class="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0 scrollbar-none" id="cat-filters">
+          <button type="button" class="cat-pill active-pill whitespace-nowrap px-4 py-2 rounded-xl text-xs font-bold transition-all" onclick="filterCategory('all', this)">
+            All Harvest
+          </button>
+          <button type="button" class="cat-pill inactive-pill whitespace-nowrap px-4 py-2 rounded-xl text-xs font-bold transition-all" onclick="filterCategory('grain', this)">
+            🌾 Grains
+          </button>
+          <button type="button" class="cat-pill inactive-pill whitespace-nowrap px-4 py-2 rounded-xl text-xs font-bold transition-all" onclick="filterCategory('pulse', this)">
+            🫘 Pulses & Chana
+          </button>
+          <button type="button" class="cat-pill inactive-pill whitespace-nowrap px-4 py-2 rounded-xl text-xs font-bold transition-all" onclick="filterCategory('oilseed', this)">
+            🥜 Oilseeds (Groundnut)
+          </button>
+          <button type="button" class="cat-pill inactive-pill whitespace-nowrap px-4 py-2 rounded-xl text-xs font-bold transition-all" onclick="filterCategory('seasonal', this)">
+            🥬 Seasonal
+          </button>
+        </div>
+
+        <!-- Search Input with Clear Button -->
+        <div class="relative w-full lg:w-72">
+          <input
+            id="search-input"
+            type="text"
+            placeholder="Search wheat, chana, moong..."
+            class="w-full pl-9 pr-8 py-2.5 rounded-xl border border-[#d6e3d4] bg-[#f8faf7] text-xs font-semibold text-[#152317] placeholder:text-[#8ba08c] focus:outline-none focus:bg-white focus:border-[#1b4522] focus:ring-2 focus:ring-[#1b4522]/10 transition-all"
+            oninput="handleSearch()"
+          />
+          <span class="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-[#798e7b]">🔍</span>
+          <button id="search-clear" type="button" class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700 text-xs font-bold px-1" onclick="clearSearch()">✕</button>
+        </div>
+      </div>
+
+      <!-- Live Count Sub-bar -->
+      <div class="flex items-center justify-between text-xs text-[#5b6e5d] pt-2 border-t border-[#edf3ec]">
+        <div id="results-count" class="font-semibold">Loading available harvest...</div>
+        <div class="flex items-center gap-1.5 text-[11px] font-bold text-emerald-800">
+          <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span>Next Scheduled Dispatch: Sunday 8:00 AM</span>
+        </div>
+      </div>
     </div>
 
+    <!-- Loading Skeleton Grid -->
+    <div id="catalog-skeleton" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+      {[1, 2, 3, 4, 5, 6].map(() => (
+        <div class="bg-white rounded-3xl border border-[#e2ece0] p-4 space-y-4 animate-pulse">
+          <div class="w-full h-56 bg-neutral-200/70 rounded-2xl"></div>
+          <div class="h-6 bg-neutral-200/70 rounded-lg w-3/4"></div>
+          <div class="h-4 bg-neutral-200/70 rounded-lg w-1/2"></div>
+          <div class="h-10 bg-neutral-200/70 rounded-xl w-full"></div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Active Product Cards Grid -->
     <div id="catalog-grid" class="hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"></div>
-    <div id="no-results" class="hidden text-center py-16 text-[#536354] bg-white rounded-xl border border-[#e0e8dc]">
-      <p class="text-sm font-semibold">No farm produce matching your filter or search query.</p>
+
+    <!-- Empty State -->
+    <div id="catalog-empty" class="hidden text-center py-20 bg-white rounded-3xl border border-[#e2ece0] p-8 max-w-lg mx-auto shadow-sm">
+      <div class="w-16 h-16 bg-emerald-50 text-[#1b4522] rounded-full flex items-center justify-center text-3xl mx-auto mb-4">🌾</div>
+      <h3 class="fd-display text-xl font-bold text-[#152317]">No Matching Produce Found</h3>
+      <p class="text-xs text-[#5b6e5d] mt-2 mb-6">
+        We could not find any produce matching your current filter. Clear your search or explore other harvest categories.
+      </p>
+      <button type="button" class="fd-btn fd-btn-primary fd-btn-sm" onclick="clearFilters()">
+        Show All Produce
+      </button>
     </div>
   </div>
 
-  <script is:inline>
-    let allProducts = [];
-    let activeCategory = 'all';
+  <style>
+    .cat-pill {
+      border: 1px solid #d9e6d7;
+    }
+    .active-pill {
+      background: #1b4522;
+      color: #ffffff;
+      border-color: #1b4522;
+      box-shadow: 0 3px 10px rgba(27, 69, 34, 0.2);
+    }
+    .inactive-pill {
+      background: #f4f8f3;
+      color: #2e4331;
+    }
+    .inactive-pill:hover {
+      background: #e6efe5;
+      color: #152317;
+    }
+  </style>
 
-    async function loadCatalog() {
-      const loader = document.getElementById('catalog-loading');
+  <script is:inline>
+    let productsList = [];
+    let activeFilter = 'all';
+
+    async function loadProducts() {
+      const skeleton = document.getElementById('catalog-skeleton');
       const grid = document.getElementById('catalog-grid');
+      const countEl = document.getElementById('results-count');
 
       try {
         const res = await fetch('/farm/api/products');
         const data = await res.json();
 
         if (data.success && data.products) {
-          allProducts = data.products;
-          loader.classList.add('hidden');
+          productsList = data.products;
+          skeleton.classList.add('hidden');
           grid.classList.remove('hidden');
-          renderFiltered();
+          renderList();
         } else {
-          loader.innerHTML = '<p class="text-sm text-red-600">Unable to load produce catalogue.</p>';
+          skeleton.innerHTML = '<div class="col-span-full text-center py-12 text-red-600 font-bold">Failed to load harvest catalogue. Please refresh.</div>';
         }
-      } catch (e) {
-        loader.innerHTML = '<p class="text-sm text-red-600">Connection error. Please try again.</p>';
+      } catch (err) {
+        skeleton.innerHTML = '<div class="col-span-full text-center py-12 text-red-600 font-bold">Network error. Please check your connection.</div>';
       }
     }
 
-    function renderFiltered() {
+    function renderList() {
       const grid = document.getElementById('catalog-grid');
-      const noResults = document.getElementById('no-results');
-      const query = (document.getElementById('product-search')?.value || '').toLowerCase().trim();
+      const empty = document.getElementById('catalog-empty');
+      const countEl = document.getElementById('results-count');
+      const query = (document.getElementById('search-input')?.value || '').toLowerCase().trim();
 
-      const filtered = allProducts.filter(p => {
-        const matchCat = activeCategory === 'all'
+      const filtered = productsList.filter(p => {
+        const matchCat = activeFilter === 'all'
           ? true
-          : (activeCategory === 'seasonal' ? p.isSeasonal : p.category === activeCategory);
-        const matchSearch = !query || p.name.toLowerCase().includes(query) || (p.localName && p.localName.toLowerCase().includes(query)) || p.description.toLowerCase().includes(query);
-        return matchCat && matchSearch;
+          : (activeFilter === 'seasonal' ? p.isSeasonal : p.category === activeFilter);
+        const matchQuery = !query ||
+          p.name.toLowerCase().includes(query) ||
+          (p.localName && p.localName.toLowerCase().includes(query)) ||
+          p.description.toLowerCase().includes(query);
+        return matchCat && matchQuery;
       });
+
+      countEl.textContent = `Showing ${filtered.length} farm harvest ${filtered.length === 1 ? 'item' : 'items'}`;
 
       if (filtered.length === 0) {
         grid.innerHTML = '';
-        noResults.classList.remove('hidden');
+        empty.classList.remove('hidden');
         return;
       }
 
-      noResults.classList.add('hidden');
+      empty.classList.add('hidden');
+
       grid.innerHTML = filtered.map(p => {
-        const isOut = p.isOutOfStock;
-        const priceDisplay = p.pricePerKgRupees !== null ? `₹${p.pricePerKgRupees}/kg` : 'Configured from DB';
-        const defaultPreset = p.quantityOptions[0] || 1;
+        const isSoldOut = p.isOutOfStock || (p.quantityAvailable !== null && p.quantityAvailable <= 0);
+        const defaultQty = (p.quantityOptions && p.quantityOptions[0]) || 1;
+        const price = p.pricePerKgRupees;
+        const lowStock = !isSoldOut && p.quantityAvailable && p.quantityAvailable < 20;
 
         return `
-          <div class="fd-card flex flex-col justify-between transition-all hover:shadow-md ${isOut ? 'opacity-75' : ''}">
+          <div class="group bg-white rounded-3xl border border-[#e2ece0] overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between ${isSoldOut ? 'opacity-80' : ''}">
             <div>
-              <div class="relative w-full h-56 bg-neutral-100 overflow-hidden">
-                <img
-                  src="${p.imageUrl || '/farm/images/wheat-500.jpg'}"
-                  alt="${p.imageAlt || p.name}"
-                  class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-                  loading="lazy"
-                />
-                <div class="absolute top-3 left-3 flex flex-col gap-1.5 items-start">
-                  <span class="fd-badge ${p.isSeasonal ? 'fd-badge-seasonal' : 'fd-badge-raw'} shadow-sm">
-                    ${p.label}
+              <!-- Product Image Frame -->
+              <div class="relative w-full h-56 sm:h-60 overflow-hidden bg-[#eef3ec]">
+                <a href="/farm/products/${p.slug}" class="block w-full h-full">
+                  <img
+                    src="${p.imageUrl || '/farm/images/wheat-960.jpg'}"
+                    alt="${p.imageAlt || p.name}"
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+                    loading="lazy"
+                  />
+                </a>
+
+                <!-- Floating Badges Top Left -->
+                <div class="absolute top-3.5 left-3.5 flex flex-col items-start gap-1.5 pointer-events-none">
+                  <span class="px-2.5 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider backdrop-blur-md ${
+                    p.isSeasonal
+                      ? 'bg-amber-500/90 text-white shadow-sm'
+                      : 'bg-[#122815]/85 text-emerald-300 border border-emerald-500/30 shadow-sm'
+                  }">
+                    ${p.label || (p.isSeasonal ? 'Seasonal Harvest' : 'Raw & Sun-Dried')}
                   </span>
                   ${p.localName ? `
-                    <span class="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-black/60 text-white backdrop-blur-sm">
+                    <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-white/90 text-[#1b4522] border border-[#d2dfd0] shadow-xs">
                       ${p.localName}
                     </span>
                   ` : ''}
                 </div>
-                ${isOut ? `
-                  <div class="absolute inset-0 bg-black/40 backdrop-blur-[1px] flex items-center justify-center">
-                    <span class="fd-badge fd-badge-out px-4 py-1.5 text-xs font-bold shadow-md">
-                      Out of Stock
+
+                <!-- Sold Out Overlay -->
+                ${isSoldOut ? `
+                  <div class="absolute inset-0 bg-black/50 backdrop-blur-[2px] flex items-center justify-center pointer-events-none">
+                    <span class="px-4 py-1.5 rounded-full bg-red-600 text-white font-extrabold text-xs shadow-lg uppercase tracking-wider">
+                      Sold Out This Round
                     </span>
                   </div>
                 ` : ''}
               </div>
 
-              <div class="p-5">
-                <div class="flex items-baseline justify-between gap-2">
-                  <h3 class="fd-serif text-xl font-bold text-[#152317]">
-                    <a href="/farm/products/${p.slug}" class="hover:underline">${p.name}</a>
-                  </h3>
-                  <div class="text-right">
-                    <div class="text-lg font-bold text-[#275629]">${priceDisplay}</div>
+              <!-- Product Details -->
+              <div class="p-5 sm:p-6">
+                <!-- Title & Price Line -->
+                <div class="flex items-start justify-between gap-3">
+                  <div>
+                    <h2 class="fd-display text-xl font-extrabold text-[#122815] leading-snug">
+                      <a href="/farm/products/${p.slug}" class="hover:text-[#1b4522] transition-colors">
+                        ${p.name}
+                      </a>
+                    </h2>
+                    <span class="text-[11px] font-semibold text-[#667a68] uppercase tracking-wider block mt-0.5">
+                      Village Farm • Gwalior Outskirts
+                    </span>
+                  </div>
+                  <div class="text-right flex-shrink-0">
+                    <div class="fd-display text-2xl font-black text-[#1b4522] leading-none">
+                      ₹${price}
+                    </div>
+                    <span class="text-[11px] font-bold text-[#667a68]">per kg</span>
                   </div>
                 </div>
 
-                <p class="text-xs text-[#536354] mt-2 line-clamp-2 leading-relaxed">
+                <p class="text-xs text-[#526454] mt-3 line-clamp-2 leading-relaxed">
                   ${p.description}
                 </p>
 
-                <div class="mt-4 pt-3 border-t border-[#f0f4ee] flex items-center justify-between text-xs text-[#536354]">
-                  <span>Availability:</span>
-                  <strong class="${p.quantityAvailable < 15 ? 'text-amber-700' : 'text-[#275629]'}">
-                    ${isOut ? 'Sold Out' : `${p.quantityAvailable} kg available`}
-                  </strong>
+                <!-- Stock & Quality Status Pill -->
+                <div class="mt-4 pt-3 border-t border-[#f0f5ee] flex items-center justify-between text-xs">
+                  <div class="flex items-center gap-1.5">
+                    <span class="inline-block w-2 h-2 rounded-full ${isSoldOut ? 'bg-red-400' : lowStock ? 'bg-amber-500 animate-ping' : 'bg-emerald-500'}"></span>
+                    <span class="font-bold ${isSoldOut ? 'text-red-700' : lowStock ? 'text-amber-700' : 'text-[#204a27]'}">
+                      ${isSoldOut ? 'Out of Stock' : lowStock ? `Only ${p.quantityAvailable} kg left!` : `${p.quantityAvailable} kg available in silo`}
+                    </span>
+                  </div>
+                  <span class="text-[11px] text-[#718573] font-semibold">Min. 1 kg</span>
                 </div>
               </div>
             </div>
 
-            <div class="p-5 pt-0 mt-auto space-y-3">
-              ${!isOut ? `
-                <div class="flex items-center justify-between gap-2">
-                  <span class="text-xs font-medium text-[#536354]">Qty:</span>
-                  <div class="flex items-center border border-[#d0ded0] rounded-lg overflow-hidden bg-white">
-                    <button type="button" class="px-2.5 py-1 text-sm font-bold text-[#275629] hover:bg-[#f0f4ee]" onclick="adjustCatQty('${p.id}', -1)">−</button>
-                    <input id="cat-qty-${p.id}" type="number" min="1" max="${p.quantityAvailable}" value="${defaultPreset}" class="w-12 text-center text-xs font-bold py-1 border-x border-[#d0ded0] focus:outline-none" readonly />
-                    <button type="button" class="px-2.5 py-1 text-sm font-bold text-[#275629] hover:bg-[#f0f4ee]" onclick="adjustCatQty('${p.id}', 1, ${p.quantityAvailable})">+</button>
+            <!-- Card Interactive Stepper & Action CTAs -->
+            <div class="p-5 sm:p-6 pt-0 mt-auto space-y-3">
+              ${!isSoldOut ? `
+                <!-- Tactile Stepper & Presets -->
+                <div class="flex items-center justify-between gap-2 p-2 rounded-2xl bg-[#f6faf5] border border-[#e2ede0]">
+                  <span class="text-xs font-bold text-[#3d503f] pl-1">Pre-order qty:</span>
+                  <div class="flex items-center gap-1.5 bg-white px-2 py-1 rounded-xl border border-[#d6e3d4] shadow-xs">
+                    <button
+                      type="button"
+                      class="w-7 h-7 rounded-lg bg-[#edf4ec] hover:bg-[#dfece0] text-[#1b4522] font-black text-sm flex items-center justify-center transition-colors"
+                      onclick="adjustQty(${p.id}, -1)"
+                      aria-label="Decrease quantity"
+                    >−</button>
+                    <input
+                      id="card-qty-${p.id}"
+                      type="number"
+                      min="1"
+                      max="${p.quantityAvailable || 100}"
+                      value="${defaultQty}"
+                      class="w-10 text-center font-black text-sm text-[#122815] bg-transparent focus:outline-none"
+                      readonly
+                    />
+                    <span class="text-xs font-bold text-[#5e7160] pr-1">kg</span>
+                    <button
+                      type="button"
+                      class="w-7 h-7 rounded-lg bg-[#edf4ec] hover:bg-[#dfece0] text-[#1b4522] font-black text-sm flex items-center justify-center transition-colors"
+                      onclick="adjustQty(${p.id}, 1, ${p.quantityAvailable || 100})"
+                      aria-label="Increase quantity"
+                    >+</button>
                   </div>
-                  <span class="text-xs text-[#536354] font-semibold">kg</span>
                 </div>
 
-                <div class="grid grid-cols-2 gap-2">
-                  <button type="button" class="fd-btn fd-btn-secondary fd-btn-sm w-full font-bold" onclick="addCatToCart(${p.id}, '${p.name.replace(/'/g, "\\'")}', ${p.pricePerKgRupees})">
-                    Add to Cart
+                <!-- Modern Dual CTA Buttons -->
+                <div class="grid grid-cols-2 gap-2 pt-1">
+                  <button
+                    type="button"
+                    class="fd-btn fd-btn-secondary fd-btn-sm font-bold w-full"
+                    onclick="addToBasket(${p.id}, '${p.name.replace(/'/g, "\\'")}', ${price})"
+                  >
+                    <span>🧺 Basket</span>
                   </button>
-                  <button type="button" class="fd-btn fd-btn-primary fd-btn-sm w-full font-bold" onclick="buyNowCat(${p.id}, '${p.name.replace(/'/g, "\\'")}', ${p.pricePerKgRupees})">
-                    Buy Now
+                  <button
+                    type="button"
+                    class="fd-btn fd-btn-primary fd-btn-sm font-bold w-full"
+                    onclick="buyNowItem(${p.id}, '${p.name.replace(/'/g, "\\'")}', ${price})"
+                  >
+                    <span>Pre-Order &rarr;</span>
                   </button>
                 </div>
               ` : `
-                <button type="button" class="fd-btn fd-btn-secondary fd-btn-sm w-full font-bold opacity-60 cursor-not-allowed" disabled>
+                <button type="button" class="w-full py-3 rounded-xl bg-gray-100 text-gray-400 font-bold text-xs cursor-not-allowed" disabled>
                   Currently Out of Stock
                 </button>
               `}
 
+              <!-- Free Sample Tasting Callout -->
               ${p.sampleAvailable ? `
-                <a href="/farm/samples?product_id=${p.id}" class="block text-center text-[11px] font-bold text-[#b07a33] hover:underline pt-1">
-                  🎁 Request Free Sample (100g / 200g) &rarr;
+                <a
+                  href="/farm/samples?product_id=${p.id}"
+                  class="flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl bg-[#fef7ec] hover:bg-[#fdedd3] border border-[#f7e0be] text-[11px] font-bold text-[#b8751c] transition-colors"
+                >
+                  <span>🎁 Free Taste Test: Request 100g/200g Sample &rarr;</span>
                 </a>
               ` : ''}
             </div>
@@ -203,21 +345,41 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
       }).join('');
     }
 
-    window.filterCat = function(category, btn) {
-      activeCategory = category;
-      document.querySelectorAll('.cat-btn').forEach(b => {
-        b.className = 'cat-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-[#f0f4ee] text-[#2d3a2e] hover:bg-[#e2eae0]';
+    window.filterCategory = function(cat, btn) {
+      activeFilter = cat;
+      document.querySelectorAll('#cat-filters .cat-pill').forEach(b => {
+        b.className = 'cat-pill inactive-pill whitespace-nowrap px-4 py-2 rounded-xl text-xs font-bold transition-all';
       });
-      btn.className = 'cat-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-[#275629] text-white';
-      renderFiltered();
+      btn.className = 'cat-pill active-pill whitespace-nowrap px-4 py-2 rounded-xl text-xs font-bold transition-all';
+      renderList();
     };
 
     window.handleSearch = function() {
-      renderFiltered();
+      const q = document.getElementById('search-input')?.value.trim();
+      const clearBtn = document.getElementById('search-clear');
+      if (clearBtn) {
+        if (q) clearBtn.classList.remove('hidden');
+        else clearBtn.classList.add('hidden');
+      }
+      renderList();
     };
 
-    window.adjustCatQty = function(id, delta, max = 100) {
-      const input = document.getElementById('cat-qty-' + id);
+    window.clearSearch = function() {
+      const input = document.getElementById('search-input');
+      if (input) input.value = '';
+      const clearBtn = document.getElementById('search-clear');
+      if (clearBtn) clearBtn.classList.add('hidden');
+      renderList();
+    };
+
+    window.clearFilters = function() {
+      clearSearch();
+      const firstBtn = document.querySelector('#cat-filters .cat-pill');
+      if (firstBtn) filterCategory('all', firstBtn);
+    };
+
+    window.adjustQty = function(id, delta, max = 100) {
+      const input = document.getElementById('card-qty-' + id);
       if (!input) return;
       let val = parseInt(input.value || '1', 10) + delta;
       if (val < 1) val = 1;
@@ -225,8 +387,8 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
       input.value = val;
     };
 
-    window.addCatToCart = function(productId, productName, priceRupees) {
-      const input = document.getElementById('cat-qty-' + productId);
+    window.addToBasket = function(productId, productName, priceRupees) {
+      const input = document.getElementById('card-qty-' + productId);
       const qty = input ? parseInt(input.value || '1', 10) : 1;
 
       let cart = [];
@@ -243,29 +405,37 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
           productName,
           priceRupees,
           quantity: qty,
+          unit: 'kg',
+          estimatedPriceRupees: priceRupees
         });
       }
 
       localStorage.setItem('fd_cart_v1', JSON.stringify(cart));
-      if (window.fdUpdateCart) window.fdUpdateCart();
-      alert(`Added ${qty} kg of ${productName} to your cart.`);
+      window.dispatchEvent(new Event('storage'));
+
+      if (window.fdToast) {
+        window.fdToast('Added to Basket!', `${qty} kg of ${productName} added to your Sunday dispatch basket.`, 'success');
+      }
     };
 
-    window.buyNowCat = function(productId, productName, priceRupees) {
-      const input = document.getElementById('cat-qty-' + productId);
+    window.buyNowItem = function(productId, productName, priceRupees) {
+      const input = document.getElementById('card-qty-' + productId);
       const qty = input ? parseInt(input.value || '1', 10) : 1;
 
-      let cart = [{
+      const cart = [{
         productId,
         productName,
         priceRupees,
         quantity: qty,
+        unit: 'kg',
+        estimatedPriceRupees: priceRupees
       }];
+
       localStorage.setItem('fd_cart_v1', JSON.stringify(cart));
-      if (window.fdUpdateCart) window.fdUpdateCart();
+      window.dispatchEvent(new Event('storage'));
       window.location.href = '/farm/checkout';
     };
 
-    document.addEventListener('DOMContentLoaded', loadCatalog);
+    document.addEventListener('DOMContentLoaded', loadProducts);
   </script>
 </FarmLayout>
