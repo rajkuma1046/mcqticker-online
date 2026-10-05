@@ -2,6 +2,7 @@
 import { json, fail, readJson } from '../../../_lib/http.js';
 import { str, oneOf } from '../../../_lib/validate.js';
 import { requireAdmin } from '../../../_lib/auth.js';
+import { sendStatusUpdateEmail } from '../../../_lib/email.js';
 
 const VALID_STATUSES = [
   'PENDING',
@@ -27,7 +28,7 @@ export async function onRequestPatch({ request, env, params }) {
 
   // Fetch current order
   const order = await env.DB.prepare(
-    'SELECT id, order_number, status, inventory_state, payment_status FROM farm_orders WHERE id = ?'
+    'SELECT id, order_number, status, inventory_state, payment_status, customer_email, customer_name FROM farm_orders WHERE id = ?'
   ).bind(orderId).first();
 
   if (!order) {
@@ -116,6 +117,23 @@ export async function onRequestPatch({ request, env, params }) {
   );
 
   await env.DB.batch(batch);
+
+  if (order.customer_email) {
+    try {
+      await sendStatusUpdateEmail({
+        to: order.customer_email,
+        order: {
+          orderNumber: order.order_number,
+          customerName: order.customer_name
+        },
+        newStatus,
+        note,
+        env
+      });
+    } catch (err) {
+      console.error('Failed to send status update email:', err);
+    }
+  }
 
   return json({
     success: true,

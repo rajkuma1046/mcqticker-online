@@ -128,12 +128,14 @@ async function sendViaGmailSmtp({ user, pass, to, subject, html, text }) {
     const boundary = '----=_Part_' + Math.random().toString(36).substring(2);
     const dateStr = new Date().toUTCString();
     const encodedSubject = `=?UTF-8?B?${b64Utf8(subject)}?=`;
+    const messageId = `<${Math.random().toString(36).substring(2)}.${Date.now()}@mcqticker.online>`;
 
     const rawMessage = [
       `From: "Farm Direct Gwalior" <${user}>`,
       `To: <${to}>`,
       `Subject: ${encodedSubject}`,
       `Date: ${dateStr}`,
+      `Message-ID: ${messageId}`,
       `MIME-Version: 1.0`,
       `Content-Type: multipart/alternative; boundary="${boundary}"`,
       '',
@@ -366,3 +368,181 @@ export async function sendVerificationEmail({ to, code, purpose, env }) {
   const result = await sendEmail({ to, subject, html, text, env });
   return result;
 }
+
+/**
+ * Creates and sends a formatted Farm Direct order confirmation email.
+ */
+export async function sendOrderConfirmationEmail({ to, order, env }) {
+  const subject = `🌾 Farm Direct Order Confirmation — #${order.orderNumber}`;
+  const trackUrl = `https://mcqticker.online/farm/track?order_number=${encodeURIComponent(order.orderNumber)}`;
+
+  const itemsRows = (order.items || []).map(it => `
+    <tr>
+      <td style="padding: 10px 0; border-bottom: 1px solid #edf4ec; font-size: 13px; color: #152518; font-weight: 600;">
+        ${it.productName || it.name} (${it.quantity} ${it.unit || 'kg'})
+      </td>
+      <td style="padding: 10px 0; border-bottom: 1px solid #edf4ec; font-size: 13px; color: #1b4522; font-weight: 800; text-align: right;">
+        ₹${it.lineTotalRupees || (it.lineTotalPaise ? it.lineTotalPaise / 100 : 0)}
+      </td>
+    </tr>
+  `).join('');
+
+  const html = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>${subject}</title>
+</head>
+<body style="margin: 0; padding: 24px 0; background-color: #f7faf5; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #152518;">
+  <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td align="center">
+        <table role="presentation" width="100%" style="max-width: 520px; background: #ffffff; border-radius: 24px; border: 1px solid #dce8db; overflow: hidden; box-shadow: 0 10px 30px rgba(18,34,21,0.06);">
+          <tr>
+            <td style="background: linear-gradient(135deg, #18421f 0%, #25582f 100%); padding: 32px 30px; text-align: center;">
+              <div style="font-size: 34px; margin-bottom: 8px;">🌾</div>
+              <h1 style="color: #ffffff; margin: 0; font-size: 20px; font-weight: 800;">Farm Direct Gwalior</h1>
+              <p style="color: #cde6d2; margin: 4px 0 0 0; font-size: 12px;">Pre-Order Receipt & Confirmation</p>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 30px;">
+              <div style="text-align: center; margin-bottom: 20px;">
+                <span style="display: inline-block; padding: 4px 12px; background: #edf6ee; color: #1e5628; border-radius: 999px; font-size: 11px; font-weight: 800; text-transform: uppercase;">
+                  Pre-Order Received
+                </span>
+                <h2 style="margin: 10px 0 4px 0; font-size: 18px; font-weight: 800; color: #132215;">
+                  Order #${order.orderNumber}
+                </h2>
+                <p style="margin: 0; font-size: 13px; color: #556857;">
+                  Namaste ${order.customerName || 'Customer'}, thank you for supporting direct village farming!
+                </p>
+              </div>
+
+              <!-- Produce Items Table -->
+              <table width="100%" cellspacing="0" cellpadding="0" style="margin-bottom: 20px;">
+                <thead>
+                  <tr>
+                    <th align="left" style="font-size: 11px; text-transform: uppercase; color: #728874; padding-bottom: 8px; border-bottom: 2px solid #e0ece0;">Harvest Produce</th>
+                    <th align="right" style="font-size: 11px; text-transform: uppercase; color: #728874; padding-bottom: 8px; border-bottom: 2px solid #e0ece0;">Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${itemsRows}
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td style="padding-top: 14px; font-weight: 800; font-size: 15px; color: #132215;">Grand Total:</td>
+                    <td style="padding-top: 14px; font-weight: 900; font-size: 20px; color: #194622; text-align: right;">₹${order.grandTotalRupees}</td>
+                  </tr>
+                </tfoot>
+              </table>
+
+              <!-- Delivery Info Card -->
+              <div style="background: #f7faf5; border: 1px solid #dce8db; border-radius: 14px; padding: 14px; margin-bottom: 22px; font-size: 12px; color: #4b5e4d; line-height: 1.5;">
+                <strong style="color: #152518;">📍 Delivery Cluster:</strong> ${order.areaName || 'Gwalior'}<br/>
+                <strong style="color: #152518;">🏠 Address:</strong> ${order.deliveryAddress}<br/>
+                <strong style="color: #152518;">💵 Payment:</strong> Pay on doorstep delivery (Cash / UPI)
+              </div>
+
+              <!-- Track Button -->
+              <div style="text-align: center; margin-bottom: 12px;">
+                <a href="${trackUrl}" style="display: inline-block; padding: 12px 28px; background: #194622; color: #ffffff; text-decoration: none; border-radius: 12px; font-weight: 700; font-size: 13px;">
+                  Track Order Status &rarr;
+                </a>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td style="background-color: #f4f8f3; border-top: 1px solid #e5ede3; padding: 18px 30px; text-align: center; font-size: 11px; color: #718473;">
+              Farm Direct &bull; Village Farm near Gwalior &bull; WhatsApp Helpline: +91 8770767272
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+  `;
+
+  const text = `Farm Direct Order Confirmation #${order.orderNumber}\n\nNamaste ${order.customerName},\nYour pre-order has been recorded.\nTotal: ₹${order.grandTotalRupees}\nTrack: ${trackUrl}\n\nPayment: Pay on delivery via Cash / UPI.`;
+
+  return await sendEmail({ to, subject, html, text, env });
+}
+
+/**
+ * Creates and sends a formatted Farm Direct order status update email.
+ */
+export async function sendStatusUpdateEmail({ to, order, newStatus, note, env }) {
+  const subject = `🌾 Farm Direct Order Update — #${order.orderNumber} is now ${newStatus.replace(/_/g, ' ')}`;
+  const trackUrl = `https://mcqticker.online/farm/track?order_number=${encodeURIComponent(order.orderNumber)}`;
+
+  const html = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>${subject}</title>
+</head>
+<body style="margin: 0; padding: 24px 0; background-color: #f7faf5; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #152518;">
+  <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td align="center">
+        <table role="presentation" width="100%" style="max-width: 520px; background: #ffffff; border-radius: 24px; border: 1px solid #dce8db; overflow: hidden; box-shadow: 0 10px 30px rgba(18,34,21,0.06);">
+          <tr>
+            <td style="background: linear-gradient(135deg, #18421f 0%, #25582f 100%); padding: 32px 30px; text-align: center;">
+              <div style="font-size: 34px; margin-bottom: 8px;">🚜</div>
+              <h1 style="color: #ffffff; margin: 0; font-size: 20px; font-weight: 800;">Farm Direct Gwalior</h1>
+              <p style="color: #cde6d2; margin: 4px 0 0 0; font-size: 12px;">Order Status Update</p>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 30px;">
+              <div style="text-align: center; margin-bottom: 20px;">
+                <h2 style="margin: 10px 0 4px 0; font-size: 18px; font-weight: 800; color: #132215;">
+                  Order #${order.orderNumber}
+                </h2>
+                <p style="margin: 0; font-size: 13px; color: #556857;">
+                  Namaste ${order.customerName || 'Customer'}, your order status has been updated.
+                </p>
+              </div>
+
+              <!-- Status Card -->
+              <div style="background: #edf6ee; border: 1px solid #c9e4cb; border-radius: 14px; padding: 20px; margin-bottom: 22px; text-align: center;">
+                <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #627b65; margin-bottom: 8px;">
+                  New Status
+                </div>
+                <div style="font-size: 20px; font-weight: 900; color: #18421f;">
+                  ${newStatus.replace(/_/g, ' ')}
+                </div>
+                ${note ? `<div style="margin-top: 12px; font-size: 13px; color: #4b5e4d; font-style: italic;">"${note}"</div>` : ''}
+              </div>
+
+              <!-- Track Button -->
+              <div style="text-align: center; margin-bottom: 12px;">
+                <a href="${trackUrl}" style="display: inline-block; padding: 12px 28px; background: #194622; color: #ffffff; text-decoration: none; border-radius: 12px; font-weight: 700; font-size: 13px;">
+                  Track Order Status &rarr;
+                </a>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td style="background-color: #f4f8f3; border-top: 1px solid #e5ede3; padding: 18px 30px; text-align: center; font-size: 11px; color: #718473;">
+              Farm Direct &bull; Village Farm near Gwalior &bull; WhatsApp Helpline: +91 8770767272
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+  `;
+
+  const text = `Farm Direct Order Update\n\nOrder #${order.orderNumber} is now ${newStatus.replace(/_/g, ' ')}.\n\nTrack your order: ${trackUrl}`;
+
+  return await sendEmail({ to, subject, html, text, env });
+}
+
