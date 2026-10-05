@@ -8,6 +8,7 @@ export async function onRequestPost({ request, env }) {
   }
 
   const body = await readJson(request);
+  const items = cartItems(body.items || [], { allowEmpty: true });
   const isCustomArea = body.delivery_area_id === 'custom' || !!body.custom_delivery_area;
   const deliveryAreaId = (!isCustomArea && body.delivery_area_id) ? Number(body.delivery_area_id) : null;
 

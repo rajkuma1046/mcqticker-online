@@ -303,7 +303,7 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
         const meRes = await fetch('/farm/api/auth/me');
         const meData = await meRes.json();
         if (!meData.success || !meData.user || meData.user.role !== 'ADMIN') {
-          window.location.href = '/farm/account/login?redirect=/farm/admin/products';
+          window.location.href = '/farm/admin/login?redirect=/farm/admin/products';
           return;
         }
 

@@ -20,20 +20,20 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
           <div class="w-14 h-14 bg-gradient-to-br from-[#1b4522] to-[#296032] text-white rounded-2xl flex items-center justify-center text-2xl mx-auto mb-4 shadow-md shadow-emerald-950/20 font-bold">
             🌾
           </div>
-          <span class="text-[10px] font-extrabold uppercase tracking-widest text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+          <span id="login-badge" class="text-[10px] font-extrabold uppercase tracking-widest text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
             Farm Direct Gwalior
           </span>
-          <h1 class="fd-display text-2xl sm:text-3xl font-extrabold text-[#122815] mt-2">
+          <h1 id="login-title" class="fd-display text-2xl sm:text-3xl font-extrabold text-[#122815] mt-2">
             Customer Login
           </h1>
-          <p class="text-xs text-[#5b6e5d] mt-1.5 leading-relaxed">
+          <p id="login-desc" class="text-xs text-[#5b6e5d] mt-1.5 leading-relaxed">
             Manage your Sunday cluster pre-orders, tasting samples, and saved delivery addresses.
           </p>
         </div>
 
         <form id="login-form" onsubmit="handleLogin(event)" class="space-y-4">
           <div>
-            <label class="text-xs font-bold uppercase tracking-wider text-[#495c4b] block mb-1.5">
+            <label id="login-id-label" class="text-xs font-bold uppercase tracking-wider text-[#495c4b] block mb-1.5">
               10-Digit Mobile or Email *
             </label>
             <input
@@ -75,20 +75,21 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
         </form>
 
         <!-- Guest Checkout Option -->
-        <div class="relative flex py-2 items-center">
+        <div id="guest-divider" class="relative flex py-2 items-center">
           <div class="flex-grow border-t border-[#e2ece0]"></div>
           <span class="flex-shrink mx-4 text-xs font-bold text-[#718573] uppercase tracking-wider">or</span>
           <div class="flex-grow border-t border-[#e2ece0]"></div>
         </div>
 
         <a
+          id="guest-btn"
           href="/farm/products"
           class="fd-btn fd-btn-secondary w-full py-3.5 font-bold text-xs flex items-center justify-center gap-2 border border-[#d6e3d4]"
         >
           <span>🛒 Continue as Guest (No Login Required) &rarr;</span>
         </a>
 
-        <div class="pt-6 border-t border-[#edf4ec] text-center text-xs text-[#5b6e5d] space-y-2">
+        <div id="register-prompt" class="pt-6 border-t border-[#edf4ec] text-center text-xs text-[#5b6e5d] space-y-2">
           <p>
             Don't have a customer account?
             <a href="/farm/account/register" class="font-extrabold text-[#1b4522] hover:underline">
@@ -100,6 +101,14 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
     </div>
   </div>
 
+  <script is:inline>
+    // If arriving here with an admin redirect, immediately route to dedicated farm admin portal
+    const urlParams = new URLSearchParams(window.location.search);
+    const redirect = urlParams.get('redirect') || '';
+    if (redirect.startsWith('/farm/admin')) {
+      window.location.replace(`/farm/admin/login?redirect=${encodeURIComponent(redirect)}`);
+    }
+  </script>
   <script is:inline>
     async function handleLogin(e) {
       e.preventDefault();

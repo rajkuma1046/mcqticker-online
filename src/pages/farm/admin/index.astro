@@ -168,7 +168,7 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
         const meData = await meRes.json();
 
         if (!meData.success || !meData.user || meData.user.role !== 'ADMIN') {
-          window.location.href = '/farm/account/login?redirect=/farm/admin';
+          renderInlineAdminLogin(loader, 'Dashboard');
           return;
         }
 
@@ -234,6 +234,86 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
           body: JSON.stringify({ status: 'CONFIRMED', note: 'Pre-order confirmed by admin' }),
         });
         loadAdminDashboard();
+      }
+    };
+
+    function renderInlineAdminLogin(container, pageTitle) {
+      container.innerHTML = `
+        <div class="max-w-md mx-auto bg-white p-6 sm:p-10 rounded-3xl border border-[#dce7db] shadow-xl text-center space-y-5">
+          <div class="w-14 h-14 bg-gradient-to-br from-[#1b4522] to-[#296032] text-white rounded-2xl flex items-center justify-center text-3xl mx-auto shadow-md font-bold">
+            👨‍🌾
+          </div>
+          <div>
+            <span class="text-[10px] font-extrabold uppercase tracking-widest text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+              Farmer Direct Operations
+            </span>
+            <h2 class="fd-display text-2xl font-extrabold text-[#122815] mt-2">
+              Sign In to View ${pageTitle}
+            </h2>
+            <p class="text-xs text-[#5b6e5d] mt-1.5 leading-relaxed">
+              Authorized admin credentials required to access live pre-orders and inventory telemetry.
+            </p>
+          </div>
+
+          <form id="inline-admin-form" onsubmit="handleInlineAdminLogin(event)" class="space-y-4 text-left pt-2">
+            <div>
+              <label class="text-xs font-bold text-[#132215] block mb-1">Admin Mobile / Login *</label>
+              <input id="inline-admin-id" type="text" required value="8770767272" class="fd-input font-bold" />
+            </div>
+
+            <div>
+              <label class="text-xs font-bold text-[#132215] block mb-1">Password *</label>
+              <input id="inline-admin-pw" type="password" required placeholder="Enter admin password" class="fd-input font-bold" />
+            </div>
+
+            <div id="inline-admin-err" class="hidden p-3 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 text-xs font-bold text-center"></div>
+
+            <button id="btn-inline-submit" type="submit" class="fd-btn fd-btn-primary w-full py-3.5 font-bold text-sm shadow-md">
+              Unlock ${pageTitle} &rarr;
+            </button>
+            <div class="pt-2 text-center text-xs text-[#5b6e5d]">
+              <a href="/farm/admin/login" class="font-bold text-[#275629] hover:underline">
+                Or switch to full Operations Login Page &rarr;
+              </a>
+            </div>
+          </form>
+        </div>
+      `;
+    }
+
+    window.handleInlineAdminLogin = async function(e) {
+      e.preventDefault();
+      const errBox = document.getElementById('inline-admin-err');
+      const btn = document.getElementById('btn-inline-submit');
+      const id = document.getElementById('inline-admin-id').value.trim();
+      const pw = document.getElementById('inline-admin-pw').value;
+
+      errBox.classList.add('hidden');
+      btn.disabled = true;
+      btn.textContent = 'Verifying credentials...';
+
+      try {
+        const res = await fetch('/farm/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ identifier: id, password: pw }),
+        });
+        const data = await res.json();
+        if (!data.success || data.user?.role !== 'ADMIN') {
+          errBox.textContent = data.error || 'Invalid credentials or non-admin account.';
+          errBox.classList.remove('hidden');
+          btn.disabled = false;
+          btn.textContent = 'Unlock Dashboard →';
+          return;
+        }
+
+        // Re-load the dashboard without redirecting
+        loadAdminDashboard();
+      } catch (_) {
+        errBox.textContent = 'Network error. Please try again.';
+        errBox.classList.remove('hidden');
+        btn.disabled = false;
+        btn.textContent = 'Unlock Dashboard →';
       }
     };
 

@@ -1,0 +1,150 @@
+---
+import FarmLayout from '../../../layouts/FarmLayout.astro';
+
+// Farm Direct — Dedicated Admin & Operations Portal Login
+---
+
+<FarmLayout
+  title="Admin Login | Farm Direct Gwalior"
+  description="Authorized administration portal for Farm Direct Gwalior. Log in to manage produce orders, inventory, and delivery dispatches."
+  canonicalPath="/farm/admin/login"
+  hideCartBar={true}
+>
+  <div class="fd-container py-12 sm:py-24">
+    <div class="max-w-md mx-auto relative">
+      <!-- Ambient Glow Behind Form -->
+      <div class="absolute -top-10 -left-10 w-64 h-64 bg-emerald-500/15 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -bottom-10 -right-10 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="relative bg-white/95 backdrop-blur-xl p-8 sm:p-10 rounded-3xl border border-[#e2ece0] shadow-xl space-y-6">
+        <div class="text-center">
+          <div class="w-16 h-16 bg-gradient-to-br from-[#1b4522] to-[#296032] text-white rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4 shadow-lg shadow-emerald-950/20 font-bold">
+            👨‍🌾
+          </div>
+          <span class="text-[10px] font-extrabold uppercase tracking-widest text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+            Operations Portal
+          </span>
+          <h1 class="fd-display text-2xl sm:text-3xl font-extrabold text-[#122815] mt-2">
+            Farm Operations Login
+          </h1>
+          <p class="text-xs text-[#5b6e5d] mt-1.5 leading-relaxed">
+            Authorized administrator access for managing Gwalior pre-orders, crop batches, inventory, and cluster delivery routes.
+          </p>
+        </div>
+
+        <form id="admin-login-form" onsubmit="handleAdminLogin(event)" class="space-y-4">
+          <div>
+            <label class="text-xs font-bold uppercase tracking-wider text-[#495c4b] block mb-1.5">
+              Admin Mobile / Username *
+            </label>
+            <input
+              id="admin-id"
+              type="text"
+              required
+              value="8770767272"
+              placeholder="e.g. 8770767272"
+              class="fd-input font-bold"
+            />
+          </div>
+
+          <div>
+            <label class="text-xs font-bold uppercase tracking-wider text-[#495c4b] block mb-1.5">
+              Admin Password *
+            </label>
+            <input
+              id="admin-pw"
+              type="password"
+              required
+              placeholder="Enter admin password"
+              class="fd-input font-bold"
+            />
+          </div>
+
+          <div id="admin-login-error" class="hidden p-3.5 rounded-2xl bg-red-50 border border-red-200 text-red-700 text-xs font-semibold text-center"></div>
+
+          <button
+            id="btn-admin-submit"
+            type="submit"
+            class="fd-btn fd-btn-primary w-full py-3.5 font-bold text-sm shadow-md"
+          >
+            Unlock Operations Portal &rarr;
+          </button>
+        </form>
+
+        <div class="pt-6 border-t border-[#edf4ec] text-center text-xs text-[#5b6e5d] space-y-2">
+          <p>
+            Customer looking to place an order?
+            <a href="/farm/products" class="font-extrabold text-[#1b4522] hover:underline">
+              Browse Produce Store &rarr;
+            </a>
+          </p>
+          <p class="text-[11px] text-[#788a7b]">
+            Need help? WhatsApp support at <a href="https://wa.me/918770767272" target="_blank" class="font-bold underline text-[#275629]">+91 8770767272</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script is:inline>
+    // If already logged in as ADMIN, redirect immediately to intended page
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        const res = await fetch('/farm/api/auth/me');
+        const data = await res.json();
+        if (data.success && data.user?.role === 'ADMIN') {
+          const urlParams = new URLSearchParams(window.location.search);
+          const redirect = urlParams.get('redirect') || '/farm/admin';
+          window.location.href = redirect;
+        }
+      } catch (_) {}
+    });
+
+    async function handleAdminLogin(e) {
+      e.preventDefault();
+      const errBox = document.getElementById('admin-login-error');
+      const submitBtn = document.getElementById('btn-admin-submit');
+
+      errBox.classList.add('hidden');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Verifying credentials...';
+
+      const identifier = document.getElementById('admin-id').value.trim();
+      const password = document.getElementById('admin-pw').value;
+
+      try {
+        const res = await fetch('/farm/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ identifier, password }),
+        });
+
+        const data = await res.json();
+        if (!data.success) {
+          errBox.textContent = data.error || 'Invalid credentials.';
+          errBox.classList.remove('hidden');
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Unlock Operations Portal →';
+          return;
+        }
+
+        if (data.user?.role !== 'ADMIN') {
+          errBox.textContent = 'Access denied: This account does not have administrator privileges.';
+          errBox.classList.remove('hidden');
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Unlock Operations Portal →';
+          return;
+        }
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const redirect = urlParams.get('redirect') || '/farm/admin';
+        window.location.href = redirect;
+      } catch (err) {
+        errBox.textContent = 'Network error. Please try again.';
+        errBox.classList.remove('hidden');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Unlock Operations Portal →';
+      }
+    }
+  </script>
+</FarmLayout>

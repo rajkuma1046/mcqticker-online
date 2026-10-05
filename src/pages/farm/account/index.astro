@@ -45,6 +45,13 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
             </div>
 
             <div class="flex items-center gap-2.5 w-full sm:w-auto">
+              <a
+                id="admin-switch-btn"
+                href="/farm/admin"
+                class="hidden px-4 py-2.5 rounded-xl bg-[#1b4522] text-white hover:bg-[#14371b] font-bold text-xs shadow-xs transition-colors flex items-center gap-1.5"
+              >
+                <span>🛠️ Admin Operations &rarr;</span>
+              </a>
               <button
                 type="button"
                 class="px-4 py-2.5 rounded-xl border border-red-200 text-red-600 hover:bg-red-50 font-bold text-xs transition-colors flex items-center gap-1.5"
@@ -201,6 +208,11 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
         document.getElementById('user-name').textContent = data.user.name;
         document.getElementById('user-phone').textContent = data.user.phone;
         document.getElementById('user-email').textContent = data.user.email;
+
+        if (data.user?.role === 'ADMIN') {
+          const admBtn = document.getElementById('admin-switch-btn');
+          if (admBtn) admBtn.classList.remove('hidden');
+        }
 
         renderAddresses(data.addresses || []);
         loadOrders();
