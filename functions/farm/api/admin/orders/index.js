@@ -8,6 +8,7 @@ export async function onRequestGet({ request, env }) {
   const url = new URL(request.url);
   const status = url.searchParams.get('status');
   const areaId = url.searchParams.get('delivery_area_id');
+  const time = url.searchParams.get('time');
   const queryText = url.searchParams.get('q');
   const page = Math.max(1, Number(url.searchParams.get('page')) || 1);
   const limit = Math.min(50, Number(url.searchParams.get('limit')) || 25);
@@ -31,6 +32,22 @@ export async function onRequestGet({ request, env }) {
   if (areaId && areaId !== 'ALL') {
     sql += ' AND o.delivery_area_id = ?';
     binds.push(Number(areaId));
+  }
+
+  if (time && time !== 'ALL') {
+    if (time === 'TODAY') {
+      sql += " AND date(o.created_at) = date('now')";
+    } else if (time === 'YESTERDAY') {
+      sql += " AND date(o.created_at) = date('now', '-1 day')";
+    } else if (time === 'THIS_WEEK') {
+      sql += " AND strftime('%W-%Y', o.created_at) = strftime('%W-%Y', 'now')";
+    } else if (time === 'THIS_MONTH') {
+      sql += " AND strftime('%m-%Y', o.created_at) = strftime('%m-%Y', 'now')";
+    } else if (time === 'THIS_YEAR') {
+      sql += " AND strftime('%Y', o.created_at) = strftime('%Y', 'now')";
+    } else if (time === 'LAST_YEAR') {
+      sql += " AND strftime('%Y', o.created_at) = strftime('%Y', 'now', '-1 year')";
+    }
   }
 
   if (queryText) {

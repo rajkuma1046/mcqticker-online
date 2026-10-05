@@ -51,7 +51,7 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
     <div id="admin-content" class="hidden space-y-6">
       <!-- Filter and Search Bar -->
       <div class="bg-white p-4 sm:p-5 rounded-2xl border border-[#e0e8dc] shadow-sm space-y-3">
-        <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs">
+        <div class="grid grid-cols-1 sm:grid-cols-5 gap-3 text-xs">
           <div>
             <label class="block font-bold text-[#152317] mb-1">Status Filter</label>
             <select id="filter-status" class="fd-input py-2 text-xs">
@@ -63,6 +63,19 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
               <option value="OUT_FOR_DELIVERY">Out for Delivery</option>
               <option value="DELIVERED">Delivered</option>
               <option value="CANCELLED">Cancelled</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block font-bold text-[#152317] mb-1">Time Filter</label>
+            <select id="filter-time" class="fd-input py-2 text-xs">
+              <option value="ALL">All Time</option>
+              <option value="TODAY">Today</option>
+              <option value="YESTERDAY">Yesterday</option>
+              <option value="THIS_WEEK">This Week</option>
+              <option value="THIS_MONTH">This Month</option>
+              <option value="THIS_YEAR">This Year</option>
+              <option value="LAST_YEAR">Last Year</option>
             </select>
           </div>
 
@@ -182,6 +195,7 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
     async function loadOrdersList() {
       const status = document.getElementById('filter-status').value;
       const area = document.getElementById('filter-area').value;
+      const time = document.getElementById('filter-time').value;
       const q = document.getElementById('search-query').value.trim();
 
       const params = new URLSearchParams({
@@ -191,6 +205,7 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
 
       if (status !== 'ALL') params.set('status', status);
       if (area !== 'ALL') params.set('delivery_area_id', area);
+      if (time !== 'ALL') params.set('time', time);
       if (q) params.set('q', q);
 
       const res = await fetch(`/farm/api/admin/orders?${params.toString()}`);
@@ -389,6 +404,7 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
 
     document.getElementById('filter-status').addEventListener('change', () => { currentPage = 1; loadOrdersList(); });
     document.getElementById('filter-area').addEventListener('change', () => { currentPage = 1; loadOrdersList(); });
+    document.getElementById('filter-time').addEventListener('change', () => { currentPage = 1; loadOrdersList(); });
     document.getElementById('btn-search').addEventListener('click', () => { currentPage = 1; loadOrdersList(); });
     document.getElementById('search-query').addEventListener('keyup', (e) => {
       if (e.key === 'Enter') { currentPage = 1; loadOrdersList(); }
