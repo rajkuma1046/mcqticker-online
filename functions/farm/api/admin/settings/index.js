@@ -1,4 +1,4 @@
-// GET  /farm/api/admin/settings — Read system settings (WhatsApp, thresholds, limits)
+// GET  /farm/api/admin/settings — Read system settings (WhatsApp, thresholds, limits, Gmail)
 // POST /farm/api/admin/settings — Update system settings
 
 import { json, readJson } from '../../_lib/http.js';
@@ -14,6 +14,10 @@ export async function onRequestGet({ request, env }) {
     settings[r.key] = r.value;
   }
 
+  const rawUser = settings.gmail_user || env?.GMAIL_USER || '';
+  const rawPass = settings.gmail_app_password || env?.GMAIL_APP_PASSWORD || '';
+  const rawWebhook = settings.gmail_webhook_url || env?.GMAIL_WEBHOOK_URL || '';
+
   return json({
     success: true,
     settings: {
@@ -26,6 +30,10 @@ export async function onRequestGet({ request, env }) {
       maxSamplesPerCustomerPerRound: Number(settings.max_samples_per_customer_per_round || 2),
       maxSamplesPerProductPerCustomer: Number(settings.max_samples_per_product_per_customer || 1),
       sampleCooldownDays: Number(settings.sample_cooldown_days || 14),
+      gmailUser: rawUser,
+      gmailAppPasswordSet: !!rawPass,
+      gmailWebhookUrl: rawWebhook,
+      isEmailConfigured: !!(rawWebhook || (rawUser && rawPass)),
     }
   });
 }
@@ -55,6 +63,18 @@ export async function onRequestPost({ request, env }) {
   if (body.farmOrigin !== undefined) {
     const val = str(body.farmOrigin, { max: 150 });
     updates.push(['farm_origin', val]);
+  }
+  if (body.gmailUser !== undefined) {
+    updates.push(['gmail_user', String(body.gmailUser || '').trim()]);
+  }
+  if (body.gmailAppPassword !== undefined) {
+    const cleanPass = String(body.gmailAppPassword || '').trim().replace(/\s+/g, '');
+    if (cleanPass && !cleanPass.includes('•')) {
+      updates.push(['gmail_app_password', cleanPass]);
+    }
+  }
+  if (body.gmailWebhookUrl !== undefined) {
+    updates.push(['gmail_webhook_url', String(body.gmailWebhookUrl || '').trim()]);
   }
 
   const batch = updates.map(([k, v]) =>

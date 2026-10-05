@@ -4,7 +4,7 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
 
 <FarmLayout
   title="System Settings | Admin | Farm Direct Gwalior"
-  description="Configure WhatsApp notification target, inventory alert thresholds, and sample policy rules."
+  description="Configure WhatsApp notification target, inventory alert thresholds, sample policy rules, and Gmail verification settings."
   canonicalPath="/farm/admin/settings"
   hideCartBar={true}
 >
@@ -23,7 +23,7 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
           Farm Operational Settings
         </h1>
         <p class="text-xs sm:text-sm text-[#536354] mt-1">
-          WhatsApp numbers, low stock alert limits, and sample anti-abuse policies.
+          WhatsApp numbers, low stock alerts, sample rules, and automated Gmail email verification.
         </p>
       </div>
 
@@ -50,6 +50,55 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
     <!-- Main Content -->
     <div id="admin-content" class="hidden max-w-2xl">
       <form id="settings-form" class="bg-white p-6 sm:p-8 rounded-2xl border border-[#e0e8dc] shadow-sm space-y-6 text-xs">
+        <!-- Section: Automated Gmail Configuration -->
+        <div class="p-5 rounded-2xl bg-[#f7faf5] border border-[#d8e6d5] space-y-4">
+          <div class="flex items-center justify-between">
+            <h2 class="font-bold text-sm text-[#152317] flex items-center gap-2">
+              <span class="text-red-600 text-base">📧</span> Automated Gmail Delivery
+            </h2>
+            <span id="email-status-pill" class="text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800">
+              Not Configured
+            </span>
+          </div>
+          <p class="text-[#536354] text-[11px] leading-relaxed">
+            Sends automated 6-digit OTP verification codes directly from your Gmail account for customer registration and forgot password recovery.
+          </p>
+
+          <div class="space-y-3 pt-1">
+            <div>
+              <label class="block font-bold text-[#152317] mb-1">Your Gmail Address</label>
+              <input type="email" id="setting-gmail-user" class="fd-input text-xs font-bold" placeholder="yourfarm@gmail.com" />
+              <p class="text-[10px] text-[#798a7a] mt-1">Emails will appear as sent from this Gmail address.</p>
+            </div>
+
+            <div>
+              <label class="block font-bold text-[#152317] mb-1">Gmail 16-Character App Password</label>
+              <input type="password" id="setting-gmail-pass" class="fd-input text-xs font-bold font-mono" placeholder="••••••••••••••••" />
+              <p class="text-[10px] text-[#798a7a] mt-1">
+                Generated via <strong>Google Account &rarr; Security &rarr; 2-Step Verification &rarr; App Passwords</strong>.
+              </p>
+            </div>
+
+            <!-- Alternative: Google Apps Script Webhook -->
+            <div>
+              <label class="block font-bold text-[#152317] mb-1">Or Google Apps Script Webhook URL (Optional Alternative)</label>
+              <input type="url" id="setting-gmail-webhook" class="fd-input text-xs" placeholder="https://script.google.com/macros/s/.../exec" />
+              <p class="text-[10px] text-[#798a7a] mt-1">Direct Google Cloud Web App fallback if you prefer Google Apps Script over SMTP.</p>
+            </div>
+          </div>
+
+          <!-- Test Email Sub-Card -->
+          <div class="pt-2 border-t border-[#e2ece0] flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+            <input type="email" id="test-email-target" class="fd-input text-xs flex-1" placeholder="Enter recipient email to test" />
+            <button type="button" id="btn-test-email" onclick="sendTestEmail()" class="fd-btn bg-white hover:bg-[#edf5ec] border border-[#b8d2b6] text-[#1b4522] text-xs font-bold px-4 py-2 rounded-xl whitespace-nowrap">
+              ✉️ Send Test Email
+            </button>
+          </div>
+          <div id="test-email-status" class="hidden text-[11px] p-2 rounded-lg font-semibold"></div>
+        </div>
+
+        <hr class="border-[#f0f4ee]" />
+
         <!-- Section: WhatsApp & Communications -->
         <div>
           <h2 class="font-bold text-sm text-[#152317] flex items-center gap-2 mb-1">
@@ -166,6 +215,25 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
           document.getElementById('setting-threshold').value = s.lowStockThresholdKg || 15;
           document.getElementById('setting-max-samples').value = s.maxSamplesPerCustomerPerRound || 2;
           document.getElementById('setting-cooldown').value = s.sampleCooldownDays || 14;
+
+          document.getElementById('setting-gmail-user').value = s.gmailUser || '';
+          if (s.gmailAppPasswordSet) {
+            document.getElementById('setting-gmail-pass').value = '••••••••••••••••';
+          }
+          document.getElementById('setting-gmail-webhook').value = s.gmailWebhookUrl || '';
+
+          const pill = document.getElementById('email-status-pill');
+          if (s.isEmailConfigured) {
+            pill.textContent = 'Active / Configured';
+            pill.className = 'text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800';
+          } else {
+            pill.textContent = 'Action Required';
+            pill.className = 'text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800';
+          }
+
+          if (s.gmailUser) {
+            document.getElementById('test-email-target').value = s.gmailUser;
+          }
         }
 
         loader.classList.add('hidden');
@@ -178,7 +246,10 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
     document.getElementById('settings-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       const statusBox = document.getElementById('settings-status');
+      const saveBtn = document.getElementById('btn-save-settings');
       statusBox.classList.add('hidden');
+      saveBtn.disabled = true;
+      saveBtn.textContent = 'Saving...';
 
       const payload = {
         adminWhatsappNumber: document.getElementById('setting-whatsapp').value.trim(),
@@ -186,6 +257,9 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
         lowStockThresholdKg: Number(document.getElementById('setting-threshold').value),
         maxSamplesPerCustomerPerRound: Number(document.getElementById('setting-max-samples').value),
         sampleCooldownDays: Number(document.getElementById('setting-cooldown').value),
+        gmailUser: document.getElementById('setting-gmail-user').value.trim(),
+        gmailAppPassword: document.getElementById('setting-gmail-pass').value.trim(),
+        gmailWebhookUrl: document.getElementById('setting-gmail-webhook').value.trim(),
       };
 
       try {
@@ -197,8 +271,9 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
 
         const data = await res.json();
         if (data.success) {
-          statusBox.textContent = 'Settings updated successfully.';
+          statusBox.textContent = 'Operational and Gmail settings saved successfully.';
           statusBox.className = 'p-3 rounded-xl text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200 block';
+          initSettings();
         } else {
           statusBox.textContent = data.message || 'Failed to update settings.';
           statusBox.className = 'p-3 rounded-xl text-xs font-semibold bg-red-50 text-red-800 border border-red-200 block';
@@ -206,8 +281,50 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
       } catch (err) {
         statusBox.textContent = 'Network error saving settings.';
         statusBox.className = 'p-3 rounded-xl text-xs font-semibold bg-red-50 text-red-800 border border-red-200 block';
+      } finally {
+        saveBtn.disabled = false;
+        saveBtn.textContent = 'Save Operational Settings';
       }
     });
+
+    window.sendTestEmail = async function() {
+      const target = document.getElementById('test-email-target').value.trim();
+      const status = document.getElementById('test-email-status');
+      const btn = document.getElementById('btn-test-email');
+
+      if (!target) {
+        status.textContent = 'Please enter a target recipient email.';
+        status.className = 'text-[11px] p-2 rounded-lg font-semibold bg-rose-50 text-rose-800 border border-rose-200 block mt-2';
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Sending...';
+      status.textContent = 'Dispatching test email...';
+      status.className = 'text-[11px] p-2 rounded-lg font-semibold bg-blue-50 text-blue-800 border border-blue-200 block mt-2';
+
+      try {
+        const res = await fetch('/farm/api/admin/settings/test-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ targetEmail: target }),
+        });
+        const data = await res.json();
+        if (data.success) {
+          status.textContent = `✓ ${data.message}`;
+          status.className = 'text-[11px] p-2 rounded-lg font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200 block mt-2';
+        } else {
+          status.textContent = `✕ Error: ${data.error || 'Failed to deliver test email.'}`;
+          status.className = 'text-[11px] p-2 rounded-lg font-semibold bg-rose-50 text-rose-800 border border-rose-200 block mt-2';
+        }
+      } catch (err) {
+        status.textContent = '✕ Network error dispatching test email.';
+        status.className = 'text-[11px] p-2 rounded-lg font-semibold bg-rose-50 text-rose-800 border border-rose-200 block mt-2';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = '✉️ Send Test Email';
+      }
+    };
 
     document.addEventListener('DOMContentLoaded', initSettings);
   </script>

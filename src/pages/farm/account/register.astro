@@ -1,7 +1,7 @@
 ---
 import FarmLayout from '../../../layouts/FarmLayout.astro';
 
-// Customer Registration — Modern Farm Portal
+// Customer Registration with Email OTP Verification
 ---
 
 <FarmLayout
@@ -16,6 +16,7 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
       <div class="absolute -bottom-10 -left-10 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
       <div class="relative bg-white/95 backdrop-blur-xl p-8 sm:p-10 rounded-3xl border border-[#e2ece0] shadow-xl space-y-6">
+        <!-- Header -->
         <div class="text-center">
           <div class="w-14 h-14 bg-gradient-to-br from-[#1b4522] to-[#296032] text-white rounded-2xl flex items-center justify-center text-2xl mx-auto mb-4 shadow-md shadow-emerald-950/20 font-bold">
             🌱
@@ -23,15 +24,16 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
           <span class="text-[10px] font-extrabold uppercase tracking-widest text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
             Gwalior Direct Harvest
           </span>
-          <h1 class="fd-display text-2xl sm:text-3xl font-extrabold text-[#122815] mt-2">
+          <h1 id="reg-title" class="fd-display text-2xl sm:text-3xl font-extrabold text-[#122815] mt-2">
             Create Customer Account
           </h1>
-          <p class="text-xs text-[#5b6e5d] mt-1.5 leading-relaxed">
+          <p id="reg-subtitle" class="text-xs text-[#5b6e5d] mt-1.5 leading-relaxed">
             Save your Gwalior delivery address, track weekend harvest dispatches, and request free samples.
           </p>
         </div>
 
-        <form id="reg-form" onsubmit="handleRegister(event)" class="space-y-4">
+        <!-- STEP 1: Registration Form -->
+        <form id="reg-form" onsubmit="handleInitialRegister(event)" class="space-y-4">
           <div>
             <label class="text-xs font-bold uppercase tracking-wider text-[#495c4b] block mb-1.5">
               Full Name *
@@ -66,7 +68,7 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
 
           <div>
             <label class="text-xs font-bold uppercase tracking-wider text-[#495c4b] block mb-1.5">
-              Email Address *
+              Email Address * (Verification Code will be sent here)
             </label>
             <input
               id="reg-email"
@@ -98,48 +100,116 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
             type="submit"
             class="fd-btn fd-btn-primary w-full py-3.5 font-bold text-sm shadow-md"
           >
-            Create Customer Account &rarr;
+            Send Verification Code &rarr;
           </button>
         </form>
 
-        <!-- Guest Checkout Option -->
-        <div class="relative flex py-2 items-center">
-          <div class="flex-grow border-t border-[#e2ece0]"></div>
-          <span class="flex-shrink mx-4 text-xs font-bold text-[#718573] uppercase tracking-wider">or</span>
-          <div class="flex-grow border-t border-[#e2ece0]"></div>
+        <!-- STEP 2: Email OTP Verification Card (Hidden initially) -->
+        <div id="otp-container" class="hidden space-y-5">
+          <div class="p-4 rounded-2xl bg-[#f4f9f4] border border-[#cde4d0] text-center space-y-2">
+            <span class="text-2xl">📩</span>
+            <h3 class="font-extrabold text-sm text-[#132215]">Check Your Email Inbox</h3>
+            <p class="text-xs text-[#556957] leading-relaxed">
+              We have sent a 6-digit verification code from our Gmail account to:
+              <br/><strong id="otp-target-email" class="text-[#194622] font-black break-all"></strong>
+            </p>
+          </div>
+
+          <form id="otp-form" onsubmit="handleVerifyOtp(event)" class="space-y-4">
+            <div>
+              <label class="text-xs font-bold uppercase tracking-wider text-[#495c4b] block mb-2 text-center">
+                Enter 6-Digit Verification Code *
+              </label>
+              <input
+                id="otp-code"
+                type="text"
+                required
+                maxlength="6"
+                pattern="[0-9]{6}"
+                placeholder="000000"
+                autocomplete="one-time-code"
+                class="fd-input text-center text-2xl tracking-[8px] font-black py-3 rounded-2xl text-[#18421f] border-2 border-[#b2d5b6] focus:border-[#1b4522]"
+              />
+              <p class="text-[11px] text-[#718573] text-center mt-1.5">⏱️ Code valid for 10 minutes</p>
+            </div>
+
+            <div id="otp-error" class="hidden p-3 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-semibold text-center"></div>
+            <div id="otp-success" class="hidden p-3 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold text-center"></div>
+
+            <button
+              id="btn-otp-submit"
+              type="submit"
+              class="fd-btn fd-btn-primary w-full py-3.5 font-bold text-sm shadow-md"
+            >
+              Verify & Complete Registration &rarr;
+            </button>
+          </form>
+
+          <div class="flex items-center justify-between pt-2 text-xs">
+            <button
+              id="btn-resend-otp"
+              type="button"
+              onclick="handleResendCode()"
+              class="font-bold text-[#1b4522] hover:underline disabled:opacity-50 disabled:no-underline"
+            >
+              Resend Code
+            </button>
+            <button
+              type="button"
+              onclick="backToStep1()"
+              class="text-[#687d6a] hover:text-[#1b4522] font-bold"
+            >
+              &larr; Change Details
+            </button>
+          </div>
         </div>
 
-        <a
-          href="/farm/products"
-          class="fd-btn fd-btn-secondary w-full py-3.5 font-bold text-xs flex items-center justify-center gap-2 border border-[#d6e3d4]"
-        >
-          <span>🛒 Continue as Guest (No Account Required) &rarr;</span>
-        </a>
+        <!-- Guest Checkout Option -->
+        <div id="guest-option-section">
+          <div class="relative flex py-2 items-center">
+            <div class="flex-grow border-t border-[#e2ece0]"></div>
+            <span class="flex-shrink mx-4 text-xs font-bold text-[#718573] uppercase tracking-wider">or</span>
+            <div class="flex-grow border-t border-[#e2ece0]"></div>
+          </div>
 
-        <div class="pt-6 border-t border-[#edf4ec] text-center text-xs text-[#5b6e5d]">
-          Already have an account?
-          <a href="/farm/account/login" class="font-extrabold text-[#1b4522] hover:underline">
-            Log in here
+          <a
+            href="/farm/products"
+            class="fd-btn fd-btn-secondary w-full py-3.5 font-bold text-xs flex items-center justify-center gap-2 border border-[#d6e3d4]"
+          >
+            <span>🛒 Continue as Guest (No Account Required) &rarr;</span>
           </a>
+
+          <div class="pt-6 border-t border-[#edf4ec] text-center text-xs text-[#5b6e5d]">
+            Already have an account?
+            <a href="/farm/account/login" class="font-extrabold text-[#1b4522] hover:underline">
+              Log in here
+            </a>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
   <script is:inline>
-    async function handleRegister(e) {
+    let registeredEmail = '';
+    let resendCountdown = 0;
+    let resendTimer = null;
+
+    async function handleInitialRegister(e) {
       e.preventDefault();
       const errBox = document.getElementById('reg-error');
       const submitBtn = document.getElementById('btn-reg-submit');
 
       errBox.classList.add('hidden');
       submitBtn.disabled = true;
-      submitBtn.textContent = 'Creating account...';
+      submitBtn.textContent = 'Sending verification code...';
 
       const name = document.getElementById('reg-name').value.trim();
       const phone = document.getElementById('reg-phone').value.trim();
       const email = document.getElementById('reg-email').value.trim();
       const password = document.getElementById('reg-pw').value;
+
+      registeredEmail = email;
 
       try {
         const res = await fetch('/farm/api/auth/register', {
@@ -153,7 +223,14 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
           errBox.textContent = data.error || 'Failed to create account.';
           errBox.classList.remove('hidden');
           submitBtn.disabled = false;
-          submitBtn.textContent = 'Create Customer Account →';
+          submitBtn.textContent = 'Send Verification Code →';
+          return;
+        }
+
+        // Check if server auto-verified or requested email OTP verification
+        if (data.requireVerification) {
+          switchToOtpStep(email, data.message);
+          startResendCountdown(60);
           return;
         }
 
@@ -162,8 +239,125 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
         errBox.textContent = 'Network error. Please try again.';
         errBox.classList.remove('hidden');
         submitBtn.disabled = false;
-        submitBtn.textContent = 'Create Customer Account →';
+        submitBtn.textContent = 'Send Verification Code →';
       }
+    }
+
+    function switchToOtpStep(email, note) {
+      document.getElementById('reg-form').classList.add('hidden');
+      document.getElementById('otp-container').classList.remove('hidden');
+      document.getElementById('otp-target-email').textContent = email;
+      document.getElementById('reg-title').textContent = 'Verify Your Email';
+      document.getElementById('reg-subtitle').textContent = 'Enter the 6-digit code sent to your email to activate your account.';
+      document.getElementById('guest-option-section').classList.add('hidden');
+      document.getElementById('otp-code').focus();
+    }
+
+    function backToStep1() {
+      document.getElementById('otp-container').classList.add('hidden');
+      document.getElementById('reg-form').classList.remove('hidden');
+      document.getElementById('reg-title').textContent = 'Create Customer Account';
+      document.getElementById('reg-subtitle').textContent = 'Save your Gwalior delivery address, track weekend harvest dispatches, and request free samples.';
+      document.getElementById('guest-option-section').classList.remove('hidden');
+      const submitBtn = document.getElementById('btn-reg-submit');
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Send Verification Code →';
+    }
+
+    async function handleVerifyOtp(e) {
+      e.preventDefault();
+      const errBox = document.getElementById('otp-error');
+      const succBox = document.getElementById('otp-success');
+      const btn = document.getElementById('btn-otp-submit');
+      const code = document.getElementById('otp-code').value.trim();
+
+      errBox.classList.add('hidden');
+      succBox.classList.add('hidden');
+      btn.disabled = true;
+      btn.textContent = 'Verifying code...';
+
+      try {
+        const res = await fetch('/farm/api/auth/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: registeredEmail, code }),
+        });
+
+        const data = await res.json();
+        if (!data.success) {
+          errBox.textContent = data.error || 'Invalid code.';
+          errBox.classList.remove('hidden');
+          btn.disabled = false;
+          btn.textContent = 'Verify & Complete Registration →';
+          return;
+        }
+
+        succBox.textContent = 'Email verified! Logging in...';
+        succBox.classList.remove('hidden');
+
+        setTimeout(() => {
+          window.location.href = '/farm/account';
+        }, 800);
+      } catch (err) {
+        errBox.textContent = 'Network error. Please try again.';
+        errBox.classList.remove('hidden');
+        btn.disabled = false;
+        btn.textContent = 'Verify & Complete Registration →';
+      }
+    }
+
+    async function handleResendCode() {
+      if (resendCountdown > 0) return;
+      const resendBtn = document.getElementById('btn-resend-otp');
+      const errBox = document.getElementById('otp-error');
+      const succBox = document.getElementById('otp-success');
+
+      errBox.classList.add('hidden');
+      resendBtn.disabled = true;
+      resendBtn.textContent = 'Sending...';
+
+      try {
+        const res = await fetch('/farm/api/auth/resend-code', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: registeredEmail, purpose: 'register' }),
+        });
+        const data = await res.json();
+        if (!data.success) {
+          errBox.textContent = data.error || 'Failed to resend code.';
+          errBox.classList.remove('hidden');
+          resendBtn.disabled = false;
+          resendBtn.textContent = 'Resend Code';
+          return;
+        }
+
+        succBox.textContent = 'New code sent! Please check your email inbox.';
+        succBox.classList.remove('hidden');
+        startResendCountdown(60);
+      } catch (err) {
+        errBox.textContent = 'Network error. Please try again.';
+        errBox.classList.remove('hidden');
+        resendBtn.disabled = false;
+        resendBtn.textContent = 'Resend Code';
+      }
+    }
+
+    function startResendCountdown(seconds) {
+      resendCountdown = seconds;
+      const btn = document.getElementById('btn-resend-otp');
+      btn.disabled = true;
+      if (resendTimer) clearInterval(resendTimer);
+
+      resendTimer = setInterval(() => {
+        resendCountdown--;
+        if (resendCountdown <= 0) {
+          clearInterval(resendTimer);
+          btn.disabled = false;
+          btn.textContent = 'Resend Code';
+        } else {
+          btn.textContent = `Resend in ${resendCountdown}s`;
+        }
+      }, 1000);
     }
   </script>
 </FarmLayout>
