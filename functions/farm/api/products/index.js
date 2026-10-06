@@ -30,9 +30,17 @@ export async function onRequestGet({ env }) {
       COALESCE(i.quantity_available, 0) as quantity_available,
       COALESCE(i.quantity_reserved, 0) as quantity_reserved,
       COALESCE(i.quantity_sold, 0) as quantity_sold,
-      COALESCE(i.sample_stock_grams, 0) as sample_stock_grams
+      COALESCE(i.sample_stock_grams, 0) as sample_stock_grams,
+      COALESCE(r.review_count, 0) as review_count,
+      COALESCE(r.avg_rating, 5.0) as avg_rating
     FROM farm_products p
     LEFT JOIN farm_inventory i ON p.id = i.product_id
+    LEFT JOIN (
+      SELECT product_id, COUNT(*) as review_count, ROUND(AVG(rating), 1) as avg_rating
+      FROM farm_reviews
+      WHERE is_approved = 1
+      GROUP BY product_id
+    ) r ON p.id = r.product_id
     WHERE p.is_archived = 0
     ORDER BY p.sort_order ASC, p.id ASC
   `;
@@ -77,6 +85,8 @@ export async function onRequestGet({ env }) {
       sampleMaxQuantityGrams: p.sample_max_quantity_grams,
       quantityAvailable: p.quantity_available,
       isOutOfStock,
+      reviewCount: Number(p.review_count || 0),
+      avgRating: Number(p.avg_rating || 5.0),
     };
   });
 

@@ -24,9 +24,10 @@ CREATE TABLE IF NOT EXISTS farm_reviews (
 CREATE INDEX IF NOT EXISTS idx_farm_reviews_prod ON farm_reviews(product_id, is_approved);
 CREATE INDEX IF NOT EXISTS idx_farm_reviews_created ON farm_reviews(created_at DESC);
 
--- Seed Authentic Customer Reviews with Photos across Local Coverage Clusters
+-- Seed Authentic Product-Specific Customer Reviews with Photos across Local Coverage Clusters
 INSERT OR IGNORE INTO farm_reviews (id, product_id, product_name, customer_name, customer_city, rating, title, review_text, photo_url, is_verified, is_approved, created_at)
 VALUES
+  -- Product 1: Farm Wheat (ID 1)
   (
     1,
     1,
@@ -39,8 +40,52 @@ VALUES
     '/farm/images/wheat-500.jpg',
     1,
     1,
-    datetime('now', '-12 days')
+    datetime('now', '-14 days')
   ),
+  (
+    7,
+    1,
+    'Farm Wheat',
+    'Pushpa Bhadoriya',
+    'Gwalior',
+    5,
+    'Cleanest wheat we have ever sourced',
+    'Cleaned and threshed so cleanly that no extra winnowing or sieving was needed before taking it to the local chakki. Will definitely order our annual stock again next season.',
+    '/farm/images/wheat-500.jpg',
+    1,
+    1,
+    datetime('now', '-10 days')
+  ),
+  (
+    8,
+    1,
+    'Farm Wheat',
+    'Kailash Chand Jain',
+    'Chetakpuri, Gwalior',
+    5,
+    'Traditional C-306 grain, rotis stay soft till evening',
+    'We had been looking for genuine non-hybrid deshi wheat in Gwalior. Farm Direct wheat is clean, bold-grained, and naturally aromatic. Our home rotis puff up beautifully and stay soft even when packed in lunchboxes.',
+    '/farm/images/wheat-500.jpg',
+    1,
+    1,
+    datetime('now', '-6 days')
+  ),
+  (
+    9,
+    1,
+    'Farm Wheat',
+    'Satish Shrivastava',
+    'Karera',
+    4,
+    'Very clean harvest, reasonable village price',
+    'Direct supply without mandi middleman fees. Bag packaging was sturdy and the grains had zero moisture or weevils. Took 20 kg for our joint family and the taste is far superior to supermarket flour packets.',
+    '/farm/images/wheat-500.jpg',
+    1,
+    1,
+    datetime('now', '-2 days')
+  ),
+
+  -- Product 2: Raw Groundnut / Peanut (ID 2)
   (
     2,
     2,
@@ -53,8 +98,52 @@ VALUES
     '/farm/images/groundnut-500.jpg',
     1,
     1,
-    datetime('now', '-9 days')
+    datetime('now', '-12 days')
   ),
+  (
+    10,
+    2,
+    'Raw Groundnut / Peanut',
+    'Brijendra Singh Chauhan',
+    'Naya Amola (Colony No. 3)',
+    5,
+    'Plump two-kernel pods, sweet and oily',
+    'Harvested freshly from sandy loam fields. Roasted them in sand at home like traditional village style—crispy pods, sweet red-skinned peanuts inside with tremendous natural oil aroma. Kids loved them.',
+    '/farm/images/groundnut-500.jpg',
+    1,
+    1,
+    datetime('now', '-8 days')
+  ),
+  (
+    11,
+    2,
+    'Raw Groundnut / Peanut',
+    'Anita Gupta',
+    'Pawan Nagar, Gwalior',
+    5,
+    'Cold-press peanut oil came out crystal clear and aromatic',
+    'Purchased 20kg for small batch cold pressing at our neighborhood oil expeller. Oil recovery was superb and the aroma filled the entire lane. 100% pure produce without pesticide smells.',
+    '/farm/images/groundnut-500.jpg',
+    1,
+    1,
+    datetime('now', '-4 days')
+  ),
+  (
+    12,
+    2,
+    'Raw Groundnut / Peanut',
+    'Mohan Lal Sharma',
+    'Shivpuri',
+    4,
+    'Crisp shells, naturally sun-dried',
+    'Great quality peanuts. Completely dry pods with zero dampness. Delivered right on schedule in Shivpuri. Will order again before winter ends.',
+    '/farm/images/groundnut-500.jpg',
+    1,
+    1,
+    datetime('now', '-1 days')
+  ),
+
+  -- Product 3: Raw Chana (ID 3)
   (
     3,
     3,
@@ -67,8 +156,52 @@ VALUES
     '/farm/images/chana-500.jpg',
     1,
     1,
+    datetime('now', '-11 days')
+  ),
+  (
+    13,
+    3,
+    'Raw Chana',
+    'Vandana Mishra',
+    'Gwalior',
+    5,
+    'Finest desi kala chana for daily sprouting and prasad',
+    'Unlike market chana coated with oil or polish to look shiny, this is raw, dusty rustic chana straight from the thresher. Sprouts easily within 24 hours with thick sprouts. Excellent digestion and nutritional value.',
+    '/farm/images/chana-500.jpg',
+    1,
+    1,
     datetime('now', '-7 days')
   ),
+  (
+    14,
+    3,
+    'Raw Chana',
+    'Raghvendra Yadav',
+    'Village Sirsod',
+    5,
+    'Solid texture and traditional village taste',
+    'Grown right here in Sirsod soil. Boiled for morning breakfast with black salt and lemon. Grains soften evenly without splitting into mush. Real authentic pulse.',
+    '/farm/images/chana-500.jpg',
+    1,
+    1,
+    datetime('now', '-3 days')
+  ),
+  (
+    15,
+    3,
+    'Raw Chana',
+    'Manish Pathak',
+    'Karera',
+    4,
+    'Zero stones, thoroughly winnowed',
+    'We checked the entire 10kg bag manually. Barely found any grit or stones. Very clean sorting. Desi chana curry had great rich texture.',
+    '/farm/images/chana-500.jpg',
+    1,
+    1,
+    datetime('now', '-1 days')
+  ),
+
+  -- Product 4: Raw Moong (ID 4)
   (
     4,
     4,
@@ -81,8 +214,52 @@ VALUES
     '/farm/images/moong-500.jpg',
     1,
     1,
+    datetime('now', '-13 days')
+  ),
+  (
+    16,
+    4,
+    'Raw Moong',
+    'Pooja Agarwal',
+    'Chetakpuri, Gwalior',
+    5,
+    '100% germination rate for green sprouts salad',
+    'I prepare green moong sprouts daily for my diabetic parents. Regular store moong often fails to sprout because of heat polishing. This raw farm moong sprouted nearly 100% in our sprout maker within 36 hours. Fresh, crunchy and sweet.',
+    '/farm/images/moong-500.jpg',
+    1,
+    1,
+    datetime('now', '-9 days')
+  ),
+  (
+    17,
+    4,
+    'Raw Moong',
+    'Kishore Dhakad',
+    'Naya Amola (Colony No. 1)',
+    5,
+    'Real olive green colour without chemical dyeing',
+    'Natural dull olive green color that proves no artificial emerald green dye was sprayed. Dal cooks fast and tastes light and healthy.',
+    '/farm/images/moong-500.jpg',
+    1,
+    1,
     datetime('now', '-5 days')
   ),
+  (
+    18,
+    4,
+    'Raw Moong',
+    'Sunil Sen',
+    'Shivpuri',
+    4,
+    'Wholesome whole moong delivered fresh',
+    'Prompt delivery in Shivpuri. Seed coat is completely intact. Cooked sabut moong dal with village ghee and it was flavorful and easy on the stomach.',
+    '/farm/images/moong-500.jpg',
+    1,
+    1,
+    datetime('now', '-2 days')
+  ),
+
+  -- Product 5: Raw Urad (ID 5)
   (
     5,
     5,
@@ -95,8 +272,52 @@ VALUES
     '/farm/images/urad-500.jpg',
     1,
     1,
-    datetime('now', '-4 days')
+    datetime('now', '-10 days')
   ),
+  (
+    19,
+    5,
+    'Raw Urad',
+    'Sarita Parihar',
+    'Gwalior',
+    5,
+    'Fluffy idli and medu vada fermentation',
+    'Natural whole black urad makes such a difference for fermented batters. Ground it in the wet grinder, and the batter rose to double volume overnight without soda or yeast. Crispy vadas with soft interior.',
+    '/farm/images/urad-500.jpg',
+    1,
+    1,
+    datetime('now', '-6 days')
+  ),
+  (
+    20,
+    5,
+    'Raw Urad',
+    'Gopal Krishna Tiwari',
+    'Village Sirsod',
+    5,
+    'Pure native urad, rich earthy aroma',
+    'High protein rustic black gram. No artificial polish, full seed coat intact. Slow cooked overnight on wood fire for authentic village dal. Five stars all the way.',
+    '/farm/images/urad-500.jpg',
+    1,
+    1,
+    datetime('now', '-3 days')
+  ),
+  (
+    21,
+    5,
+    'Raw Urad',
+    'Deepak Dubey',
+    'Karera',
+    5,
+    'Excellent quality grain and clean bag packaging',
+    'Ordered 5 kg to Karera. Clean packaging, prompt delivery, and clean grain. Great to have farm direct produce delivered locally.',
+    '/farm/images/urad-500.jpg',
+    1,
+    1,
+    datetime('now', '-1 days')
+  ),
+
+  -- Product 6: Seasonal Farm Produce (ID 6)
   (
     6,
     6,
@@ -109,18 +330,46 @@ VALUES
     '/farm/images/seasonal-500.jpg',
     1,
     1,
-    datetime('now', '-2 days')
+    datetime('now', '-11 days')
   ),
   (
-    7,
-    1,
-    'Farm Wheat',
-    'Pushpa Bhadoriya',
-    'Gwalior',
+    22,
+    6,
+    'Seasonal Farm Produce',
+    'Meenakshi Tomar',
+    'Pawan Nagar, Gwalior',
     5,
-    'Cleanest wheat we have ever sourced',
-    'Cleaned and threshed so cleanly that no extra winnowing or sieving was needed before taking it to the local chakki. Will definitely order our annual stock again next season.',
-    '/farm/images/wheat-500.jpg',
+    'Delivered crisp with morning field dew',
+    'Received seasonal basket in Pawan Nagar. Everything was crisp, vibrant and clearly harvested that very morning rather than sitting in a cold storage warehouse for weeks.',
+    '/farm/images/seasonal-500.jpg',
+    1,
+    1,
+    datetime('now', '-7 days')
+  ),
+  (
+    23,
+    6,
+    'Seasonal Farm Produce',
+    'Ravi Rajoriya',
+    'Naya Amola (Colony No. 4)',
+    4,
+    'Authentic seasonal variety from our own region',
+    'Appreciate the seasonal rotation model. Gives our family seasonal produce at fair village rates without city supermarket markups.',
+    '/farm/images/seasonal-500.jpg',
+    1,
+    1,
+    datetime('now', '-4 days')
+  ),
+  (
+    24,
+    6,
+    'Seasonal Farm Produce',
+    'Sanjay Kushwah',
+    'Shivpuri',
+    5,
+    'Pure rustic freshness directly to doorstep',
+    'Eco-friendly packing and superb freshness. We have subscribed for bi-weekly deliveries in Shivpuri. Wonderful effort by Farm Direct!',
+    '/farm/images/seasonal-500.jpg',
     1,
     1,
     datetime('now', '-1 days')

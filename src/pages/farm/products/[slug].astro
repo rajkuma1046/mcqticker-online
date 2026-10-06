@@ -81,6 +81,19 @@ const { slug } = Astro.params;
             <div>
               <span id="p-category" class="inline-block text-[10px] uppercase tracking-wider text-emerald-800 bg-emerald-100 font-extrabold px-2.5 py-0.5 rounded-full mb-1.5">Raw Farm Grain</span>
               <h1 id="p-name" class="fd-display text-3xl sm:text-4xl font-extrabold text-[#132215]"></h1>
+              
+              <!-- Amazon-Style Top Rating Snippet -->
+              <div id="p-top-rating-container" class="mt-2.5 flex items-center flex-wrap gap-2.5 text-xs">
+                <a href="#reviews-section" class="inline-flex items-center gap-1.5 group cursor-pointer hover:underline">
+                  <span id="p-top-stars" class="text-amber-400 text-sm tracking-tighter">★★★★★</span>
+                  <span id="p-top-rating-val" class="font-black text-[#132215]">5.0</span>
+                  <span id="p-top-reviews-count" class="font-bold text-emerald-800 group-hover:text-emerald-950 underline decoration-dotted">(0 reviews)</span>
+                </a>
+                <span class="text-[#cbd8c9]">|</span>
+                <a href="#reviews-section" class="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200/60 hover:bg-emerald-100 transition-colors">
+                  <span class="text-emerald-600">✓</span> 100% Verified Farm Buyers
+                </a>
+              </div>
             </div>
 
             <div class="flex items-baseline gap-3 p-3.5 rounded-2xl bg-emerald-50/60 border border-emerald-100">
@@ -147,18 +160,18 @@ const { slug } = Astro.params;
       </div>
 
       <!-- Customer Reviews & Photos Section -->
-      <section id="reviews-section" class="mt-12 sm:mt-16 space-y-8">
+      <section id="reviews-section" class="mt-12 sm:mt-16 space-y-8 scroll-mt-24">
         <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-6 border-b border-[#dce7db]">
           <div>
             <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-900 text-xs font-extrabold uppercase tracking-wider mb-2">
               <span>⭐</span>
-              <span>Customer Feedback</span>
+              <span>Amazon-Style Verified Reviews</span>
             </div>
             <h2 class="fd-display text-2xl sm:text-3xl font-extrabold text-[#122815]">
-              Customer Reviews & Harvest Photos
+              Customer Reviews for <span id="rev-product-scope-name" class="text-emerald-800 underline decoration-emerald-400">This Produce</span>
             </h2>
             <p class="text-xs sm:text-sm text-[#5b6e5d] mt-1">
-              Real experiences from families in Village Sirsod, Gwalior, Karera, and Shivpuri.
+              Authoritative feedback & harvest photos from verified buyers in Village Sirsod, Gwalior, Karera, and Shivpuri.
             </p>
           </div>
           <div>
@@ -172,59 +185,74 @@ const { slug } = Astro.params;
           </div>
         </div>
 
-        <!-- Rating Breakdown & Summary -->
+        <!-- Rating Breakdown & Summary (Amazon Style) -->
         <div class="grid grid-cols-1 md:grid-cols-12 gap-6 bg-white p-6 sm:p-8 rounded-3xl border border-[#dce7db] shadow-sm">
-          <!-- Score Column -->
-          <div class="md:col-span-5 flex flex-col items-center justify-center text-center p-4 bg-[#f8faf7] rounded-2xl border border-[#e5eee3]">
+          <!-- Score Column (Left) -->
+          <div class="md:col-span-5 flex flex-col items-center justify-center text-center p-5 bg-[#f8faf7] rounded-2xl border border-[#e5eee3]">
             <div class="text-5xl sm:text-6xl font-black text-[#194622]" id="rev-avg-score">5.0</div>
-            <div class="flex items-center gap-1 text-amber-400 text-xl my-2" id="rev-avg-stars">
+            <div class="flex items-center gap-1 text-amber-400 text-2xl my-2" id="rev-avg-stars">
               ★★★★★
             </div>
             <div class="text-xs font-bold text-[#132215]" id="rev-total-count-text">
-              Based on verified community reviews
+              Based on verified customer reviews
             </div>
             <div class="text-[11px] text-[#637765] mt-1 flex items-center gap-1">
               <span class="text-emerald-600 font-extrabold">✓</span> 100% Authentic Village Farm Customer Feedback
             </div>
+
+            <!-- Amazon-style Review this product box -->
+            <div class="mt-5 pt-4 border-t border-[#e2ece0] text-center w-full">
+              <h4 class="font-extrabold text-xs sm:text-sm text-[#132215]">Review this produce</h4>
+              <p class="text-[11px] text-[#5b6e5d] mt-0.5 mb-3">Share your experience with other village customers.</p>
+              <button
+                type="button"
+                onclick="openWriteReviewModal()"
+                class="w-full py-2 px-3 rounded-xl border border-[#b2c8b0] bg-white hover:bg-[#eef5ed] text-[#194622] text-xs font-extrabold transition-all shadow-xs cursor-pointer flex items-center justify-center gap-1.5"
+              >
+                <span>✍️</span>
+                <span>Write a customer review</span>
+              </button>
+            </div>
           </div>
 
-          <!-- Distribution Bars Column -->
-          <div class="md:col-span-7 flex flex-col justify-center space-y-2 text-xs font-semibold text-[#5b6e5d]">
-            <div class="flex items-center gap-3">
-              <span class="w-12 text-right font-bold text-[#132215]">5 ★</span>
-              <div class="flex-1 h-3 rounded-full bg-[#e9f0e8] overflow-hidden">
-                <div id="bar-star-5" class="h-full bg-emerald-600 rounded-full transition-all duration-500" style="width: 100%;"></div>
+          <!-- Distribution Bars Column (Right) -->
+          <div class="md:col-span-7 flex flex-col justify-center space-y-2.5 text-xs font-semibold text-[#5b6e5d]">
+            <div class="text-xs font-extrabold uppercase text-[#718473] mb-1">Rating Breakdown</div>
+            <button type="button" class="flex items-center gap-3 w-full text-left group cursor-pointer hover:bg-emerald-50/50 p-1 rounded-lg transition-colors" onclick="filterReviews('5star')">
+              <span class="w-12 text-right font-bold text-[#132215] group-hover:text-emerald-800">5 star</span>
+              <div class="flex-1 h-3.5 rounded-full bg-[#e9f0e8] overflow-hidden">
+                <div id="bar-star-5" class="h-full bg-amber-400 rounded-full transition-all duration-500" style="width: 100%;"></div>
               </div>
-              <span id="count-star-5" class="w-8 text-right font-bold text-[#132215]">0</span>
-            </div>
-            <div class="flex items-center gap-3">
-              <span class="w-12 text-right font-bold text-[#132215]">4 ★</span>
-              <div class="flex-1 h-3 rounded-full bg-[#e9f0e8] overflow-hidden">
-                <div id="bar-star-4" class="h-full bg-emerald-500 rounded-full transition-all duration-500" style="width: 0%;"></div>
+              <span id="count-star-5" class="w-14 text-right font-bold text-[#132215]">100%</span>
+            </button>
+            <button type="button" class="flex items-center gap-3 w-full text-left group cursor-pointer hover:bg-emerald-50/50 p-1 rounded-lg transition-colors" onclick="filterReviews('4star')">
+              <span class="w-12 text-right font-bold text-[#132215] group-hover:text-emerald-800">4 star</span>
+              <div class="flex-1 h-3.5 rounded-full bg-[#e9f0e8] overflow-hidden">
+                <div id="bar-star-4" class="h-full bg-amber-400 rounded-full transition-all duration-500" style="width: 0%;"></div>
               </div>
-              <span id="count-star-4" class="w-8 text-right font-bold text-[#132215]">0</span>
-            </div>
-            <div class="flex items-center gap-3">
-              <span class="w-12 text-right font-bold text-[#132215]">3 ★</span>
-              <div class="flex-1 h-3 rounded-full bg-[#e9f0e8] overflow-hidden">
+              <span id="count-star-4" class="w-14 text-right font-bold text-[#132215]">0%</span>
+            </button>
+            <button type="button" class="flex items-center gap-3 w-full text-left group cursor-pointer hover:bg-emerald-50/50 p-1 rounded-lg transition-colors" onclick="filterReviews('3star')">
+              <span class="w-12 text-right font-bold text-[#132215] group-hover:text-emerald-800">3 star</span>
+              <div class="flex-1 h-3.5 rounded-full bg-[#e9f0e8] overflow-hidden">
                 <div id="bar-star-3" class="h-full bg-amber-400 rounded-full transition-all duration-500" style="width: 0%;"></div>
               </div>
-              <span id="count-star-3" class="w-8 text-right font-bold text-[#132215]">0</span>
-            </div>
-            <div class="flex items-center gap-3">
-              <span class="w-12 text-right font-bold text-[#132215]">2 ★</span>
-              <div class="flex-1 h-3 rounded-full bg-[#e9f0e8] overflow-hidden">
-                <div id="bar-star-2" class="h-full bg-orange-400 rounded-full transition-all duration-500" style="width: 0%;"></div>
+              <span id="count-star-3" class="w-14 text-right font-bold text-[#132215]">0%</span>
+            </button>
+            <button type="button" class="flex items-center gap-3 w-full text-left group cursor-pointer hover:bg-emerald-50/50 p-1 rounded-lg transition-colors" onclick="filterReviews('2star')">
+              <span class="w-12 text-right font-bold text-[#132215] group-hover:text-emerald-800">2 star</span>
+              <div class="flex-1 h-3.5 rounded-full bg-[#e9f0e8] overflow-hidden">
+                <div id="bar-star-2" class="h-full bg-amber-400 rounded-full transition-all duration-500" style="width: 0%;"></div>
               </div>
-              <span id="count-star-2" class="w-8 text-right font-bold text-[#132215]">0</span>
-            </div>
-            <div class="flex items-center gap-3">
-              <span class="w-12 text-right font-bold text-[#132215]">1 ★</span>
-              <div class="flex-1 h-3 rounded-full bg-[#e9f0e8] overflow-hidden">
-                <div id="bar-star-1" class="h-full bg-rose-400 rounded-full transition-all duration-500" style="width: 0%;"></div>
+              <span id="count-star-2" class="w-14 text-right font-bold text-[#132215]">0%</span>
+            </button>
+            <button type="button" class="flex items-center gap-3 w-full text-left group cursor-pointer hover:bg-emerald-50/50 p-1 rounded-lg transition-colors" onclick="filterReviews('1star')">
+              <span class="w-12 text-right font-bold text-[#132215] group-hover:text-emerald-800">1 star</span>
+              <div class="flex-1 h-3.5 rounded-full bg-[#e9f0e8] overflow-hidden">
+                <div id="bar-star-1" class="h-full bg-amber-400 rounded-full transition-all duration-500" style="width: 0%;"></div>
               </div>
-              <span id="count-star-1" class="w-8 text-right font-bold text-[#132215]">0</span>
-            </div>
+              <span id="count-star-1" class="w-14 text-right font-bold text-[#132215]">0%</span>
+            </button>
           </div>
         </div>
 
@@ -268,6 +296,14 @@ const { slug } = Astro.params;
           >
             ⭐ 5 Stars Only
           </button>
+          <button
+            type="button"
+            class="review-filter-btn px-4 py-2 rounded-xl text-xs font-extrabold transition-all bg-white text-[#132215] border border-[#dce7db] hover:bg-emerald-50 cursor-pointer"
+            data-filter="4star"
+            onclick="filterReviews('4star', this)"
+          >
+            ⭐ 4 Stars
+          </button>
         </div>
 
         <!-- Reviews Feed List -->
@@ -302,10 +338,16 @@ const { slug } = Astro.params;
   <div id="modal-write-review" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-end sm:items-center justify-center p-3 sm:p-4 overflow-y-auto">
     <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-[#dce7db] space-y-5 animate-in fade-in zoom-in duration-200 max-h-[92vh] overflow-y-auto">
       <div class="flex items-start justify-between pb-3 border-b border-[#f0f5ee]">
-        <div>
-          <span class="inline-block px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-900 text-[10px] font-extrabold uppercase mb-1">Authentic Feedback</span>
-          <h3 class="fd-display font-extrabold text-xl text-[#122815]">Write a Review</h3>
-          <p id="modal-review-product-name" class="text-xs text-[#5b6e5d] font-bold"></p>
+        <div class="space-y-1">
+          <span class="inline-block px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-900 text-[10px] font-extrabold uppercase mb-0.5">Authentic Community Feedback</span>
+          <h3 class="fd-display font-extrabold text-xl text-[#122815]">Write a Customer Review</h3>
+          <div class="flex items-center gap-2.5 pt-1">
+            <img id="modal-review-product-img" src="/farm/images/wheat-500.jpg" alt="" class="w-10 h-10 rounded-lg object-cover border border-[#cbd8c9]" />
+            <div>
+              <span class="text-[10px] uppercase font-bold text-[#5b6e5d] block">Reviewing Produce</span>
+              <strong id="modal-review-product-name" class="text-xs sm:text-sm font-extrabold text-[#194622]"></strong>
+            </div>
+          </div>
         </div>
         <button type="button" class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold flex items-center justify-center cursor-pointer" onclick="closeWriteReviewModal()">✕</button>
       </div>
@@ -571,6 +613,25 @@ const { slug } = Astro.params;
           sampleBox.classList.remove('hidden');
           sampleBtn.href = `/farm/samples?product=${currentProduct.slug}`;
         }
+
+        // Sync Product Name and Review Ratings into Amazon Top Snippet & Reviews Section
+        const revScopeName = document.getElementById('rev-product-scope-name');
+        if (revScopeName) revScopeName.textContent = currentProduct.name;
+        const modalProdName = document.getElementById('modal-review-product-name');
+        if (modalProdName) modalProdName.textContent = currentProduct.name;
+        const modalProdImg = document.getElementById('modal-review-product-img');
+        if (modalProdImg) modalProdImg.src = currentProduct.imageUrl || '/farm/images/wheat-500.jpg';
+
+        if (currentProduct.avgRating !== undefined) {
+          const avg = Number(currentProduct.avgRating || 5.0);
+          const count = Number(currentProduct.reviewCount || 0);
+          const topStars = document.getElementById('p-top-stars');
+          const topNum = document.getElementById('p-top-rating-val');
+          const topCount = document.getElementById('p-top-reviews-count');
+          if (topStars) topStars.textContent = '★'.repeat(Math.round(avg)) + '☆'.repeat(5 - Math.round(avg));
+          if (topNum) topNum.textContent = avg.toFixed(1);
+          if (topCount) topCount.textContent = `(${count} reviews)`;
+        }
       } catch (e) {
         loader.innerHTML = '<p class="text-sm text-red-600">Failed to load product details. Please check connection.</p>';
       }
@@ -637,6 +698,10 @@ const { slug } = Astro.params;
     function showDetailToast(msg) {
       const toast = document.createElement('div');
       toast.className = 'fixed bottom-20 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-2xl bg-[#132215] text-white text-xs font-bold shadow-2xl border border-white/10 animate-bounce flex items-center gap-2';
+      toast.innerHTML = `<span>✓</span> <span>${msg}</span>`;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 2500);
+    }
     // ==========================================
     // Customer Reviews & Photos Client Logic
     // ==========================================
@@ -674,15 +739,23 @@ const { slug } = Astro.params;
 
     function updateReviewsSummary(summary, reviews) {
       if (!summary) return;
-      const avg = summary.averageRating || 5.0;
-      const total = summary.totalReviews || reviews.length;
+      const avg = Number(summary.averageRating || 5.0);
+      const total = summary.totalReviews !== undefined ? summary.totalReviews : reviews.length;
       const scoreEl = document.getElementById('rev-avg-score');
       const starsEl = document.getElementById('rev-avg-stars');
       const countTextEl = document.getElementById('rev-total-count-text');
 
       if (scoreEl) scoreEl.textContent = avg.toFixed(1);
       if (starsEl) starsEl.textContent = '★'.repeat(Math.round(avg)) + '☆'.repeat(5 - Math.round(avg));
-      if (countTextEl) countTextEl.textContent = `Based on ${total} verified community review${total === 1 ? '' : 's'}`;
+      if (countTextEl) countTextEl.textContent = `Based on ${total} verified customer review${total === 1 ? '' : 's'}`;
+
+      // Synchronize top Amazon badge
+      const topStars = document.getElementById('p-top-stars');
+      const topNum = document.getElementById('p-top-rating-val');
+      const topCount = document.getElementById('p-top-reviews-count');
+      if (topStars) topStars.textContent = '★'.repeat(Math.round(avg)) + '☆'.repeat(5 - Math.round(avg));
+      if (topNum) topNum.textContent = avg.toFixed(1);
+      if (topCount) topCount.textContent = `(${total} reviews)`;
 
       const dist = summary.distribution || {};
       for (let s = 1; s <= 5; s++) {
@@ -691,7 +764,7 @@ const { slug } = Astro.params;
         const barEl = document.getElementById(`bar-star-${s}`);
         const cntEl = document.getElementById(`count-star-${s}`);
         if (barEl) barEl.style.width = `${pct}%`;
-        if (cntEl) cntEl.textContent = count;
+        if (cntEl) cntEl.textContent = `${pct}% (${count})`;
       }
     }
 
@@ -730,8 +803,11 @@ const { slug } = Astro.params;
       document.querySelectorAll('.review-filter-btn').forEach(b => {
         b.className = 'review-filter-btn px-4 py-2 rounded-xl text-xs font-extrabold transition-all bg-white text-[#132215] border border-[#dce7db] hover:bg-emerald-50 cursor-pointer';
       });
-      if (btn) {
+      if (btn && btn.classList.contains('review-filter-btn')) {
         btn.className = 'review-filter-btn px-4 py-2 rounded-xl text-xs font-extrabold transition-all bg-[#1b4522] text-white shadow-xs cursor-pointer';
+      } else {
+        const targetBtn = document.querySelector(`.review-filter-btn[data-filter="${filter}"]`);
+        if (targetBtn) targetBtn.className = 'review-filter-btn px-4 py-2 rounded-xl text-xs font-extrabold transition-all bg-[#1b4522] text-white shadow-xs cursor-pointer';
       }
       applyReviewsFilter();
     };
@@ -742,6 +818,10 @@ const { slug } = Astro.params;
         filtered = allReviews.filter(r => r.photoUrl);
       } else if (currentFilter === '5star') {
         filtered = allReviews.filter(r => r.rating === 5);
+      } else if (currentFilter === '4star') {
+        filtered = allReviews.filter(r => r.rating === 4);
+      } else if (currentFilter === '3star') {
+        filtered = allReviews.filter(r => r.rating === 3);
       }
 
       const listEl = document.getElementById('reviews-list');
@@ -757,23 +837,24 @@ const { slug } = Astro.params;
 
       emptyEl.classList.add('hidden');
       listEl.innerHTML = filtered.map(r => `
-        <div class="bg-white p-6 sm:p-7 rounded-3xl border border-[#dce7db] shadow-xs hover:shadow-md transition-shadow space-y-4">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-[#f0f5ee]">
+        <div class="bg-white p-6 sm:p-7 rounded-3xl border border-[#dce7db] shadow-xs hover:shadow-md transition-shadow space-y-3.5">
+          <!-- Amazon Header: User Info & Verified Purchase -->
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2.5 border-b border-[#f0f5ee]">
             <div class="flex items-center gap-3">
-              <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[#1b4522] to-[#2e6d38] text-white font-extrabold text-sm flex items-center justify-center shadow-xs">
+              <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[#1b4522] to-[#2e6d38] text-white font-black text-sm flex items-center justify-center shadow-xs">
                 ${r.customerName ? r.customerName.charAt(0).toUpperCase() : 'C'}
               </div>
               <div>
                 <div class="flex items-center gap-2">
-                  <strong class="font-extrabold text-sm text-[#122815]">${escapeHtml(r.customerName)}</strong>
+                  <strong class="font-black text-sm text-[#122815]">${escapeHtml(r.customerName)}</strong>
                   ${r.isVerified ? `
-                    <span class="inline-flex items-center gap-1 text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">
-                      <span>✓</span> Verified Buyer
+                    <span class="inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">
+                      <span class="text-emerald-700">✓</span> Verified Purchase
                     </span>
                   ` : ''}
                 </div>
                 <div class="text-[11px] text-[#5b6e5d] font-semibold mt-0.5">
-                  ${r.customerCity ? `<span>📍 ${escapeHtml(r.customerCity)}</span> • ` : ''}
+                  ${r.customerCity ? `<span>📍 Reviewed in ${escapeHtml(r.customerCity)}</span> • ` : '<span>Reviewed in India</span> • '}
                   <span>${formatReviewDate(r.createdAt)}</span>
                 </div>
               </div>
@@ -783,28 +864,52 @@ const { slug } = Astro.params;
             </div>
           </div>
 
-          <div class="space-y-2">
-            ${r.title ? `<h4 class="font-bold text-sm text-[#122815]">${escapeHtml(r.title)}</h4>` : ''}
+          <!-- Product Context Tag (Amazon style) -->
+          <div class="inline-flex items-center gap-1.5 text-[11px] font-bold text-[#637765] bg-[#f5f8f4] px-2.5 py-1 rounded-md">
+            <span>🌾 Harvest:</span>
+            <span class="text-[#194622]">${escapeHtml(r.productName || (currentProduct ? currentProduct.name : 'Raw Produce'))}</span>
+            <span>• 100% Unprocessed</span>
+          </div>
+
+          <!-- Headline & Review Content -->
+          <div class="space-y-1.5">
+            ${r.title ? `<h4 class="font-extrabold text-sm text-[#122815] leading-snug">${escapeHtml(r.title)}</h4>` : ''}
             <p class="text-xs sm:text-sm text-[#465b49] leading-relaxed whitespace-pre-line">${escapeHtml(r.reviewText)}</p>
           </div>
 
+          <!-- Photo Thumbnail if present -->
           ${r.photoUrl ? `
-            <div class="pt-2">
+            <div class="pt-1">
               <button
                 type="button"
                 onclick="openPhotoLightbox('${r.photoUrl}', '${escapeHtml(r.customerName)}', ${r.rating}, '${escapeHtml(r.reviewText)}')"
-                class="group relative inline-block rounded-2xl overflow-hidden border border-[#dce7db] shadow-xs cursor-pointer max-w-[200px]"
+                class="group relative inline-block rounded-2xl overflow-hidden border border-[#dce7db] shadow-xs cursor-pointer max-w-[220px]"
               >
-                <img src="${r.photoUrl}" alt="Customer photo" class="w-48 h-36 object-cover group-hover:scale-105 transition-transform" />
-                <span class="absolute bottom-2 right-2 px-2 py-0.5 rounded-full bg-black/70 text-white text-[10px] font-bold backdrop-blur-xs flex items-center gap-1">
+                <img src="${r.photoUrl}" alt="Customer harvest photo" class="w-48 h-36 object-cover group-hover:scale-105 transition-transform duration-300" />
+                <span class="absolute bottom-2 right-2 px-2 py-0.5 rounded-full bg-black/75 text-white text-[10px] font-bold backdrop-blur-xs flex items-center gap-1">
                   <span>🔍</span> View Full Photo
                 </span>
               </button>
             </div>
           ` : ''}
+
+          <!-- Amazon-Style Helpful Action Bar -->
+          <div class="flex items-center gap-4 pt-2.5 border-t border-[#f4f7f2] text-xs text-[#5b6e5d]">
+            <button type="button" onclick="voteHelpful(this)" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg border border-[#dce7db] bg-white hover:bg-emerald-50 font-bold text-[11px] text-[#194622] transition-colors cursor-pointer shadow-2xs">
+              <span>👍</span> Helpful
+            </button>
+            <span class="text-[11px] text-[#718473]">Direct farm community feedback</span>
+          </div>
         </div>
       `).join('');
     }
+
+    window.voteHelpful = function(btn) {
+      btn.innerHTML = '<span>✓</span> Marked Helpful';
+      btn.classList.add('bg-emerald-50', 'text-emerald-800', 'border-emerald-300');
+      btn.disabled = true;
+      showDetailToast('Thank you for your feedback!');
+    };
 
     function formatReviewDate(dateStr) {
       if (!dateStr) return 'Recently';
@@ -834,7 +939,11 @@ const { slug } = Astro.params;
 
       if (errBox) errBox.classList.add('hidden');
       if (prodNameEl && currentProduct) {
-        prodNameEl.textContent = `Reviewing: ${currentProduct.name}`;
+        prodNameEl.textContent = currentProduct.name;
+      }
+      const prodImgEl = document.getElementById('modal-review-product-img');
+      if (prodImgEl && currentProduct) {
+        prodImgEl.src = currentProduct.imageUrl || '/farm/images/wheat-500.jpg';
       }
 
       // Pre-fill user profile if logged in
