@@ -60,6 +60,21 @@ const isCart = canonicalPath.startsWith('/farm/cart') || canonicalPath.startsWit
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet" />
 
+    <!-- Immediate Farm Direct Dark Mode Initialization (Zero Flash) -->
+    <script is:inline>
+      (function() {
+        try {
+          var t = localStorage.getItem('farm_theme') || localStorage.getItem('theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (t === 'dark' || (!t && prefersDark)) {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
+
     <!-- Immediate Service Worker & Cache Healing for Farm Direct -->
     <script is:inline>
       (function() {
@@ -131,6 +146,28 @@ const isCart = canonicalPath.startsWith('/farm/cart') || canonicalPath.startsWit
         --fd-shadow-lg: 0 20px 40px -6px rgba(18, 38, 20, 0.12), 0 8px 18px -4px rgba(18, 38, 20, 0.05);
       }
 
+      /* Curated Dark Emerald Theme for Farm Direct */
+      html.dark {
+        --fd-bg: #0b150e;
+        --fd-surface: #122216;
+        --fd-surface-subtle: #172a1c;
+        --fd-border: #1f3a26;
+        --fd-border-subtle: #182e1f;
+        --fd-text: #edf6ef;
+        --fd-text-muted: #a3c2a9;
+        --fd-text-subtle: #76987c;
+        --fd-primary: #38a84e;
+        --fd-primary-hover: #48c05f;
+        --fd-primary-light: #16361e;
+        --fd-accent: #f59e0b;
+        --fd-accent-light: #382408;
+        --fd-danger: #f87171;
+        --fd-danger-light: #3f1515;
+        --fd-shadow-sm: 0 2px 8px -1px rgba(0, 0, 0, 0.35);
+        --fd-shadow: 0 10px 30px -4px rgba(0, 0, 0, 0.5);
+        --fd-shadow-lg: 0 20px 40px -6px rgba(0, 0, 0, 0.7);
+      }
+
       * {
         box-sizing: border-box;
       }
@@ -142,6 +179,149 @@ const isCart = canonicalPath.startsWith('/farm/cart') || canonicalPath.startsWit
         line-height: 1.5;
         -webkit-font-smoothing: antialiased;
         overflow-x: hidden;
+      }
+
+      /* Dark Mode System Overrides */
+      html.dark body {
+        background-color: #0b150e !important;
+        color: #edf6ef !important;
+      }
+
+      html.dark header {
+        background-color: rgba(11, 21, 14, 0.94) !important;
+        border-bottom-color: #1f3a26 !important;
+      }
+      html.dark header nav a {
+        color: #cde2d1 !important;
+      }
+      html.dark header nav a:hover {
+        background-color: #172c1c !important;
+        color: #4ed469 !important;
+      }
+
+      html.dark .bg-white {
+        background-color: #122216 !important;
+        border-color: #1f3a26 !important;
+        color: #edf6ef !important;
+      }
+      html.dark .bg-\[\#fbfbf9\],
+      html.dark .bg-\[\#f4f7f2\],
+      html.dark .bg-\[\#f8faf7\],
+      html.dark .bg-\[\#fafcf9\],
+      html.dark .bg-\[\#f7faf5\],
+      html.dark .bg-\[\#f4f6f2\],
+      html.dark .bg-\[\#fafafa\],
+      html.dark .bg-gray-50 {
+        background-color: #0d1810 !important;
+        border-color: #1c3323 !important;
+      }
+
+      html.dark .text-\[\#132215\],
+      html.dark .text-\[\#122815\],
+      html.dark .text-\[\#194622\],
+      html.dark .text-\[\#1b4522\],
+      html.dark .text-\[\#2d3e30\],
+      html.dark .text-\[\#152518\],
+      html.dark .text-gray-900 {
+        color: #edf6ef !important;
+      }
+      html.dark .text-\[\#5b6e5d\],
+      html.dark .text-\[\#4e6050\],
+      html.dark .text-\[\#465b49\],
+      html.dark .text-\[\#556857\],
+      html.dark .text-gray-600 {
+        color: #a3c2a9 !important;
+      }
+      html.dark .text-\[\#748776\],
+      html.dark .text-\[\#788e7b\],
+      html.dark .text-\[\#718573\],
+      html.dark .text-\[\#8ea490\],
+      html.dark .text-gray-500 {
+        color: #76987c !important;
+      }
+
+      html.dark .border-\[\#dce7db\],
+      html.dark .border-\[\#e2e8df\],
+      html.dark .border-\[\#f0f5ee\],
+      html.dark .border-\[\#d8e3d6\],
+      html.dark .border-\[\#e2ece0\],
+      html.dark .border-\[\#cfe0cc\],
+      html.dark .border-gray-200 {
+        border-color: #1f3a26 !important;
+      }
+
+      html.dark .fd-input,
+      html.dark input[type="text"],
+      html.dark input[type="tel"],
+      html.dark input[type="email"],
+      html.dark input[type="password"],
+      html.dark select,
+      html.dark textarea {
+        background-color: #152719 !important;
+        border-color: #24412c !important;
+        color: #edf6ef !important;
+      }
+      html.dark .fd-input:focus,
+      html.dark input:focus,
+      html.dark textarea:focus,
+      html.dark select:focus {
+        border-color: #38a84e !important;
+        background-color: #193120 !important;
+        box-shadow: 0 0 0 3px rgba(56, 168, 78, 0.25) !important;
+      }
+
+      html.dark .fd-btn-secondary {
+        background-color: #162a1c !important;
+        border-color: #24412c !important;
+        color: #edf6ef !important;
+      }
+      html.dark .fd-btn-secondary:hover {
+        background-color: #1c3524 !important;
+        border-color: #2e5338 !important;
+      }
+
+      html.dark #fd-bottom-nav {
+        background-color: rgba(11, 21, 14, 0.95) !important;
+        border-top-color: #1f3a26 !important;
+      }
+      html.dark #fd-bottom-nav a {
+        color: #8db194 !important;
+      }
+      html.dark #fd-bottom-nav a:hover,
+      html.dark #fd-bottom-nav a.font-extrabold {
+        color: #4ed469 !important;
+      }
+
+      html.dark #fd-mobile-nav .bg-white {
+        background-color: #101e14 !important;
+        color: #edf6ef !important;
+      }
+      html.dark #fd-mobile-nav a {
+        color: #cde2d1 !important;
+      }
+      html.dark #fd-mobile-nav a:hover {
+        background-color: #182e1f !important;
+        color: #4ed469 !important;
+      }
+
+      html.dark footer {
+        background-color: #070e09 !important;
+        border-top-color: #162a1c !important;
+      }
+
+      html.dark .bg-emerald-100 {
+        background-color: #16361e !important;
+        color: #6fe08a !important;
+      }
+      html.dark .bg-emerald-50 {
+        background-color: #132b18 !important;
+        color: #6fe08a !important;
+      }
+      html.dark .bg-amber-50,
+      html.dark .bg-\[\#fef7ec\] {
+        background-color: #281d09 !important;
+        color: #fcd34d !important;
+        border-color: #453210 !important;
       }
 
       .fd-display {
@@ -354,6 +534,19 @@ const isCart = canonicalPath.startsWith('/farm/cart') || canonicalPath.startsWit
             <span class="hidden sm:inline" id="fd-account-label">Account</span>
           </a>
 
+          <!-- Dark / Light Theme Toggle -->
+          <button
+            id="fd-theme-toggle"
+            type="button"
+            onclick="toggleFarmTheme()"
+            class="p-2 sm:px-2.5 sm:py-2 text-xs font-bold rounded-xl text-[#2d3e30] hover:bg-[#f0f4ee] flex items-center gap-1.5 transition-colors border border-transparent hover:border-[#d9e4d5] cursor-pointer"
+            title="Toggle Light / Dark Mode"
+            aria-label="Toggle theme"
+          >
+            <span id="fd-theme-icon" class="text-base leading-none">🌙</span>
+            <span class="hidden xl:inline text-[11px]" id="fd-theme-label">Theme</span>
+          </button>
+
           <!-- Cart Link (with dynamic badge) -->
           <a href="/farm/cart" class="relative px-3.5 py-2 sm:px-4 sm:py-2.5 text-xs font-bold rounded-xl bg-gradient-to-r from-[#1b4522] to-[#296032] text-white hover:from-[#15371b] hover:to-[#204e28] flex items-center gap-2 shadow-sm shadow-emerald-950/20 transition-all hover:scale-[1.02] active:scale-[0.98]" title="View Cart">
             <svg width="20" height="20" class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -416,7 +609,20 @@ const isCart = canonicalPath.startsWith('/farm/cart') || canonicalPath.startsWit
           <a href="/farm/track" class="px-3.5 py-2.5 rounded-xl hover:bg-emerald-50 hover:text-[#194622] transition-colors">
             Track My Order
           </a>
-          <div class="border-t border-[#e2ece0] my-3"></div>
+          <div class="border-t border-[#e2ece0] my-2"></div>
+          <!-- Appearance Toggle in Drawer -->
+          <button
+            type="button"
+            onclick="toggleFarmTheme()"
+            class="w-full px-3.5 py-2.5 rounded-xl hover:bg-emerald-50 flex items-center justify-between text-sm font-bold text-[#2d3e30] transition-colors cursor-pointer border border-[#e2ece0] my-1"
+          >
+            <span class="flex items-center gap-2">
+              <span id="fd-drawer-theme-icon">🌙</span>
+              <span>Theme Appearance</span>
+            </span>
+            <span id="fd-drawer-theme-text" class="text-xs px-2 py-0.5 rounded-full bg-emerald-100 text-[#194622] font-extrabold">Light</span>
+          </button>
+          <div class="border-t border-[#e2ece0] my-2"></div>
           <a href="/farm/account" class="px-3.5 py-2.5 rounded-xl hover:bg-emerald-50 flex items-center gap-2">
             <span>👤 Customer Account</span>
           </a>
@@ -719,9 +925,36 @@ const isCart = canonicalPath.startsWith('/farm/cart') || canonicalPath.startsWit
         if (e.key === CART_STORAGE_KEY) updateNavCartBadge();
       });
 
+      // Dark Mode Synchronizer
+      function updateFarmThemeIcons() {
+        const isDark = document.documentElement.classList.contains('dark');
+        const icon = document.getElementById('fd-theme-icon');
+        const label = document.getElementById('fd-theme-label');
+        const drawerIcon = document.getElementById('fd-drawer-theme-icon');
+        const drawerText = document.getElementById('fd-drawer-theme-text');
+        if (icon) icon.textContent = isDark ? '☀️' : '🌙';
+        if (label) label.textContent = isDark ? 'Light' : 'Dark';
+        if (drawerIcon) drawerIcon.textContent = isDark ? '☀️' : '🌙';
+        if (drawerText) {
+          drawerText.textContent = isDark ? 'Dark Mode' : 'Light Mode';
+          drawerText.className = isDark 
+            ? 'text-xs px-2 py-0.5 rounded-full bg-[#1c3822] text-emerald-300 font-extrabold'
+            : 'text-xs px-2 py-0.5 rounded-full bg-emerald-100 text-[#194622] font-extrabold';
+        }
+      }
+
+      window.toggleFarmTheme = function() {
+        const isDark = document.documentElement.classList.toggle('dark');
+        try {
+          localStorage.setItem('farm_theme', isDark ? 'dark' : 'light');
+        } catch (e) {}
+        updateFarmThemeIcons();
+      };
+
       document.addEventListener('DOMContentLoaded', () => {
         updateNavCartBadge();
         syncUserAuthNav();
+        updateFarmThemeIcons();
       });
     </script>
   </body>

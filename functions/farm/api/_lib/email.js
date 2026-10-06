@@ -547,65 +547,200 @@ export async function sendStatusUpdateEmail({ to, order, newStatus, note, env })
 }
 
 /**
- * Creates and sends an instant administrative alert to the primary admin.
+ * Creates and sends an executive-grade, stylish, and data-driven administrative alert.
  * Primary Admin Email: rajkuma1046@gmail.com
  */
 export async function sendAdminNotificationEmail({ event, details, env }) {
   const adminEmail = 'rajkuma1046@gmail.com';
-  const subject = `🔔 Farm Direct Alert: ${event}`;
+  
+  // Clean phone number for WhatsApp deep-link if available
+  const phoneRaw = details['Mobile Number'] || details['Mobile Phone'] || details['Customer Phone'] || '';
+  const phoneClean = String(phoneRaw).replace(/[^0-9]/g, '').slice(-10);
+  const waUrl = phoneClean.length === 10 ? `https://wa.me/91${phoneClean}` : null;
+  const custName = details['Customer Name'] || 'Valued Customer';
 
+  // Determine icon & theme mood based on event type
+  let eventIcon = '🔔';
+  let badgeText = 'Admin Alert';
+  let badgeBg = '#edf6ee';
+  let badgeColor = '#184921';
+  let highlightTitle = '';
+  let highlightValue = '';
+
+  const evLower = String(event).toLowerCase();
+  if (evLower.includes('order received') || evLower.includes('new order')) {
+    eventIcon = '🛒';
+    badgeText = 'New Pre-Order';
+    badgeBg = '#eaf5eb';
+    badgeColor = '#134e1e';
+    highlightTitle = 'Grand Total';
+    highlightValue = details['Grand Total'] || details['Order Total'] || '';
+  } else if (evLower.includes('account created') || evLower.includes('new customer')) {
+    eventIcon = '👤';
+    badgeText = 'New Customer Registration';
+    badgeBg = '#e8f4fc';
+    badgeColor = '#0c4a6e';
+    highlightTitle = 'Account Status';
+    highlightValue = '✓ OTP Verified';
+  } else if (evLower.includes('sample')) {
+    eventIcon = '🎁';
+    badgeText = 'Free Sample Request';
+    badgeBg = '#fef3c7';
+    badgeColor = '#92400e';
+    highlightTitle = 'Sample Quantity';
+    highlightValue = details['Total Grams'] || 'Sample Packet';
+  } else if (evLower.includes('review')) {
+    eventIcon = '⭐';
+    badgeText = 'Customer Review';
+    badgeBg = '#fef9c3';
+    badgeColor = '#854d0e';
+    highlightTitle = 'Rating';
+    highlightValue = details['Rating'] || '5 Stars';
+  } else if (evLower.includes('cancel')) {
+    eventIcon = '⚠️';
+    badgeText = 'Order Cancelled';
+    badgeBg = '#fee2e2';
+    badgeColor = '#991b1b';
+    highlightTitle = 'Status';
+    highlightValue = 'Cancelled by Customer';
+  } else if (evLower.includes('password') || evLower.includes('security')) {
+    eventIcon = '🔑';
+    badgeText = 'Security Update';
+    badgeBg = '#f3e8ff';
+    badgeColor = '#6b21a8';
+    highlightTitle = 'Security Event';
+    highlightValue = 'Password Reset';
+  }
+
+  const subject = `${eventIcon} [Farm Direct] ${event}`;
+
+  // Filter out the highlight value if already featured prominently
   const detailRows = Object.entries(details || {})
     .filter(([_, v]) => v !== undefined && v !== null && v !== '')
-    .map(([k, v]) => `
-      <tr>
-        <td style="padding: 10px 14px; font-weight: 700; color: #194622; border-bottom: 1px solid #e5ede3; font-size: 13px; width: 34%; vertical-align: top;">
-          ${k}
-        </td>
-        <td style="padding: 10px 14px; color: #132215; border-bottom: 1px solid #e5ede3; font-size: 13px; font-weight: 500; vertical-align: top;">
-          ${typeof v === 'object' ? `<pre style="margin: 0; font-family: monospace; white-space: pre-wrap;">${JSON.stringify(v, null, 2)}</pre>` : String(v)}
-        </td>
-      </tr>
-    `).join('');
+    .map(([k, v]) => {
+      let valFormatted = String(v);
+      if (k.toLowerCase().includes('phone') && phoneClean.length === 10) {
+        valFormatted = `<a href="tel:+91${phoneClean}" style="color: #194622; font-weight: 700; text-decoration: none;">+91 ${phoneClean}</a> &nbsp;&bull;&nbsp; <a href="${waUrl}" style="color: #15803d; font-weight: 700; text-decoration: none;">Chat on WhatsApp &rarr;</a>`;
+      } else if (k.toLowerCase().includes('email') && typeof v === 'string' && v.includes('@')) {
+        valFormatted = `<a href="mailto:${v}" style="color: #194622; font-weight: 700; text-decoration: none;">${v}</a>`;
+      } else if (typeof v === 'object') {
+        valFormatted = `<pre style="margin: 0; font-family: monospace; font-size: 11px; white-space: pre-wrap; background: #f6faf5; padding: 6px; border-radius: 6px;">${JSON.stringify(v, null, 2)}</pre>`;
+      }
+      return `
+        <tr>
+          <td style="padding: 10px 14px; font-weight: 700; color: #536955; border-bottom: 1px solid #edf4ec; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; width: 34%; vertical-align: top;">
+            ${k}
+          </td>
+          <td style="padding: 10px 14px; color: #132215; border-bottom: 1px solid #edf4ec; font-size: 13px; font-weight: 600; vertical-align: top;">
+            ${valFormatted}
+          </td>
+        </tr>
+      `;
+    }).join('');
 
   const html = `
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${subject}</title>
 </head>
-<body style="margin: 0; padding: 24px 0; background-color: #f7faf5; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #152518;">
+<body style="margin: 0; padding: 24px 0; background-color: #f5f8f3; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #152518;">
   <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0">
     <tr>
       <td align="center">
-        <table role="presentation" width="100%" style="max-width: 540px; background: #ffffff; border-radius: 20px; border: 1px solid #dce8db; overflow: hidden; box-shadow: 0 8px 24px rgba(18,34,21,0.06);">
+        <table role="presentation" width="100%" style="max-width: 560px; background: #ffffff; border-radius: 24px; border: 1px solid #dce8db; overflow: hidden; box-shadow: 0 12px 36px rgba(18,34,21,0.08);">
+          
+          <!-- Header Hero -->
           <tr>
-            <td style="background: linear-gradient(135deg, #18421f 0%, #25582f 100%); padding: 26px 24px; text-align: center;">
-              <div style="font-size: 32px; margin-bottom: 6px;">🔔</div>
-              <h1 style="color: #ffffff; margin: 0; font-size: 19px; font-weight: 800;">Farm Direct Admin Notification</h1>
-              <p style="color: #cde6d2; margin: 4px 0 0 0; font-size: 12px; font-weight: 600;">Action Requiring Admin Attention</p>
+            <td style="background: linear-gradient(135deg, #123718 0%, #1c4e25 60%, #286333 100%); padding: 32px 28px; text-align: center;">
+              <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td align="center">
+                    <div style="display: inline-block; width: 56px; height: 56px; line-height: 56px; font-size: 28px; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); border-radius: 18px; margin-bottom: 12px;">
+                      ${eventIcon}
+                    </div>
+                    <h1 style="color: #ffffff; margin: 0 0 6px 0; font-size: 21px; font-weight: 800; letter-spacing: -0.3px;">
+                      Farm Direct Admin Notification
+                    </h1>
+                    <p style="color: #cae5cf; margin: 0; font-size: 13px; font-weight: 500;">
+                      Authoritative Real-Time System Dispatch
+                    </p>
+                  </td>
+                </tr>
+              </table>
             </td>
           </tr>
+
+          <!-- Notification Event Pill -->
           <tr>
-            <td style="padding: 24px;">
-              <div style="display: inline-block; padding: 5px 12px; background: #edf6ee; color: #194622; border-radius: 999px; font-size: 11px; font-weight: 800; text-transform: uppercase; margin-bottom: 16px;">
+            <td style="padding: 24px 28px 12px 28px; text-align: center;">
+              <span style="display: inline-block; padding: 5px 14px; background: ${badgeBg}; color: ${badgeColor}; border: 1px solid rgba(0,0,0,0.06); border-radius: 999px; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.6px;">
+                ${badgeText}
+              </span>
+              <h2 style="margin: 10px 0 0 0; font-size: 18px; font-weight: 800; color: #132215;">
                 ${event}
-              </div>
-              <table width="100%" cellspacing="0" cellpadding="0" style="border-collapse: collapse;">
+              </h2>
+            </td>
+          </tr>
+
+          ${highlightValue ? `
+          <!-- Prominent Highlight Card -->
+          <tr>
+            <td style="padding: 0 28px 16px 28px;">
+              <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="background: #f7faf5; border: 1px solid #dce8db; border-radius: 16px; padding: 16px;">
+                <tr>
+                  <td style="text-align: center;">
+                    <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #627b65; margin-bottom: 4px;">
+                      ${highlightTitle}
+                    </div>
+                    <div style="font-size: 24px; font-weight: 900; color: #194622;">
+                      ${highlightValue}
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          ` : ''}
+
+          <!-- Details Table -->
+          <tr>
+            <td style="padding: 0 28px 24px 28px;">
+              <table width="100%" cellspacing="0" cellpadding="0" style="border-collapse: collapse; background: #ffffff; border: 1px solid #edf4ec; border-radius: 14px; overflow: hidden;">
                 <tbody>
                   ${detailRows}
                 </tbody>
               </table>
-              <div style="margin-top: 24px; text-align: center;">
-                <a href="https://mcqticker.online/farm/admin" style="display: inline-block; padding: 12px 26px; background: #194622; color: #ffffff; text-decoration: none; border-radius: 12px; font-weight: 700; font-size: 13px;">
-                  Open Admin Dashboard &rarr;
-                </a>
-              </div>
+
+              <!-- Quick Action Buttons -->
+              <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 24px;">
+                <tr>
+                  <td align="center">
+                    <a href="https://mcqticker.online/farm/admin" style="display: inline-block; padding: 13px 26px; background: #194622; color: #ffffff; text-decoration: none; border-radius: 12px; font-weight: 800; font-size: 13px; box-shadow: 0 4px 12px rgba(25,70,34,0.25); margin: 4px;">
+                      Open Admin Operations Dashboard &rarr;
+                    </a>
+                    ${waUrl ? `
+                    <a href="${waUrl}" style="display: inline-block; padding: 13px 22px; background: #25D366; color: #ffffff; text-decoration: none; border-radius: 12px; font-weight: 800; font-size: 13px; box-shadow: 0 4px 12px rgba(37,211,102,0.25); margin: 4px;">
+                      💬 WhatsApp ${custName}
+                    </a>
+                    ` : ''}
+                  </td>
+                </tr>
+              </table>
             </td>
           </tr>
+
+          <!-- Footer -->
           <tr>
-            <td style="background-color: #f4f8f3; border-top: 1px solid #e5ede3; padding: 14px 24px; text-align: center; font-size: 11px; color: #718473;">
-              Delivering fresh to Gwalior, Karera, and Shivpuri &bull; Primary Admin: ${adminEmail}
+            <td style="background-color: #f4f8f3; border-top: 1px solid #e3ede1; padding: 20px 28px; text-align: center;">
+              <p style="margin: 0 0 6px 0; font-size: 11px; font-weight: 700; color: #435946;">
+                Farm Direct &bull; Fresh Harvest Logistical Network (Gwalior & Shivpuri, MP)
+              </p>
+              <p style="margin: 0; font-size: 11px; color: #728874;">
+                Delivered automatically to primary administrator: <strong style="color: #194622;">${adminEmail}</strong>
+              </p>
             </td>
           </tr>
         </table>
@@ -618,10 +753,10 @@ export async function sendAdminNotificationEmail({ event, details, env }) {
 
   const textLines = Object.entries(details || {})
     .filter(([_, v]) => v !== undefined && v !== null && v !== '')
-    .map(([k, v]) => `${k}: ${typeof v === 'object' ? JSON.stringify(v) : v}`)
+    .map(([k, v]) => `• ${k}: ${typeof v === 'object' ? JSON.stringify(v) : v}`)
     .join('\n');
 
-  const text = `Farm Direct Admin Alert: ${event}\n\n${textLines}\n\nAdmin Dashboard: https://mcqticker.online/farm/admin`;
+  const text = `Farm Direct Administrative Alert: ${event}\n\n${textLines}\n\nOpen Admin: https://mcqticker.online/farm/admin${waUrl ? `\nWhatsApp Customer: ${waUrl}` : ''}`;
 
   return await sendEmail({ to: adminEmail, subject, html, text, env });
 }

@@ -3,6 +3,7 @@ import { json, fail, readJson, clientIp, rateLimit } from '../_lib/http.js';
 import { email } from '../_lib/validate.js';
 import { hashPassword, validatePassword, signSession, sessionCookie } from '../_lib/auth.js';
 import { verifyCode } from '../_lib/verification.js';
+import { sendAdminNotificationEmail } from '../_lib/email.js';
 
 export async function onRequestPost({ request, env }) {
   if (!env?.DB) {
@@ -46,6 +47,20 @@ export async function onRequestPost({ request, env }) {
     SET password_hash = ?, updated_at = datetime('now')
     WHERE id = ?
   `).bind(passwordHash, user.id).run();
+
+  // Send admin notification
+  sendAdminNotificationEmail({
+    event: 'Customer Password Reset Completed',
+    details: {
+      'Customer Name': user.name,
+      'Email Address': user.email,
+      'Mobile Number': user.phone,
+      'Account ID': user.id,
+      'Reset Time': new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }),
+      'Security Action': 'Password updated and new session issued',
+    },
+    env,
+  }).catch(err => console.error('[Admin Notification Reset Password Error]:', err));
 
   // Sign session token so user is instantly logged in
   const token = await signSession(user.id, env);
