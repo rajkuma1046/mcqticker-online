@@ -303,9 +303,14 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
                 <!-- Amazon-Style Rating Snippet -->
                 <div class="flex items-center gap-1.5 text-xs">
                   <a href="/farm/products/${p.slug}#reviews-section" class="inline-flex items-center gap-1 group hover:underline">
-                    <span class="text-amber-400 text-xs tracking-tight">${'★'.repeat(Math.round(p.avgRating || 5))}${'☆'.repeat(5 - Math.round(p.avgRating || 5))}</span>
-                    <span class="font-extrabold text-[#132215] text-[11px]">${(p.avgRating || 5.0).toFixed(1)}</span>
-                    <span class="text-emerald-800 font-bold text-[11px] group-hover:text-emerald-950">(${p.reviewCount || 0} reviews)</span>
+                    ${(p.reviewCount || 0) > 0 ? `
+                      <span class="text-amber-400 text-xs tracking-tight">${'★'.repeat(Math.round(p.avgRating))}${'☆'.repeat(5 - Math.round(p.avgRating))}</span>
+                      <span class="font-extrabold text-[#132215] text-[11px]">${Number(p.avgRating).toFixed(1)}</span>
+                      <span class="text-emerald-800 font-bold text-[11px] group-hover:text-emerald-950">(${p.reviewCount} review${p.reviewCount === 1 ? '' : 's'})</span>
+                    ` : `
+                      <span class="text-gray-300 text-xs tracking-tight">☆☆☆☆☆</span>
+                      <span class="text-emerald-800 font-bold text-[11px] group-hover:text-emerald-950">No reviews yet</span>
+                    `}
                   </a>
                   <span class="text-[10px] text-[#8ea490]">•</span>
                   <span class="text-[10px] font-bold text-emerald-800 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200/60">Verified</span>

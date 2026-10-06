@@ -86,7 +86,7 @@ const { slug } = Astro.params;
               <div id="p-top-rating-container" class="mt-2.5 flex items-center flex-wrap gap-2.5 text-xs">
                 <a href="#reviews-section" class="inline-flex items-center gap-1.5 group cursor-pointer hover:underline">
                   <span id="p-top-stars" class="text-amber-400 text-sm tracking-tighter">★★★★★</span>
-                  <span id="p-top-rating-val" class="font-black text-[#132215]">5.0</span>
+                  <span id="p-top-rating-val" class="font-black text-[#132215]"></span>
                   <span id="p-top-reviews-count" class="font-bold text-emerald-800 group-hover:text-emerald-950 underline decoration-dotted">(0 reviews)</span>
                 </a>
                 <span class="text-[#cbd8c9]">|</span>
@@ -189,7 +189,7 @@ const { slug } = Astro.params;
         <div class="grid grid-cols-1 md:grid-cols-12 gap-6 bg-white p-6 sm:p-8 rounded-3xl border border-[#dce7db] shadow-sm">
           <!-- Score Column (Left) -->
           <div class="md:col-span-5 flex flex-col items-center justify-center text-center p-5 bg-[#f8faf7] rounded-2xl border border-[#e5eee3]">
-            <div class="text-5xl sm:text-6xl font-black text-[#194622]" id="rev-avg-score">5.0</div>
+            <div class="text-5xl sm:text-6xl font-black text-[#194622]" id="rev-avg-score">—</div>
             <div class="flex items-center gap-1 text-amber-400 text-2xl my-2" id="rev-avg-stars">
               ★★★★★
             </div>
@@ -335,8 +335,8 @@ const { slug } = Astro.params;
   </div>
 
   <!-- Modal: Write a Review with Photos -->
-  <div id="modal-write-review" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-end sm:items-center justify-center p-3 sm:p-4 overflow-y-auto">
-    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-[#dce7db] space-y-5 animate-in fade-in zoom-in duration-200 max-h-[92vh] overflow-y-auto">
+  <div id="modal-write-review" class="hidden fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-end sm:items-center justify-center p-3 sm:p-4 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 pb-8 shadow-2xl border border-[#dce7db] space-y-5 animate-in fade-in zoom-in duration-200 max-h-[88dvh] overflow-y-auto overscroll-contain">
       <div class="flex items-start justify-between pb-3 border-b border-[#f0f5ee]">
         <div class="space-y-1">
           <span class="inline-block px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-900 text-[10px] font-extrabold uppercase mb-0.5">Authentic Community Feedback</span>
@@ -423,7 +423,7 @@ const { slug } = Astro.params;
             <div id="dropzone-empty-state" class="space-y-1">
               <div class="text-2xl">📸</div>
               <p class="font-bold text-[#132215] text-xs">Tap to choose a photo or take a picture</p>
-              <p class="text-[10px] text-[#718573]">PNG, JPG, WEBP up to 5MB</p>
+              <p class="text-[10px] text-[#718573]">PNG, JPG, WEBP — auto-compressed for fast upload</p>
             </div>
 
             <!-- Preview State -->
@@ -479,7 +479,7 @@ const { slug } = Astro.params;
   </div>
 
   <!-- Modal: Photo Lightbox -->
-  <div id="modal-photo-lightbox" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4" onclick="closePhotoLightbox()">
+  <div id="modal-photo-lightbox" class="hidden fixed inset-0 z-[100] bg-black/85 backdrop-blur-md flex items-center justify-center p-4" onclick="closePhotoLightbox()">
     <div class="relative max-w-2xl w-full bg-white rounded-3xl overflow-hidden shadow-2xl space-y-0" onclick="event.stopPropagation()">
       <button type="button" class="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-black/50 text-white font-bold flex items-center justify-center hover:bg-black/75 cursor-pointer" onclick="closePhotoLightbox()">✕</button>
       <div class="bg-black flex items-center justify-center max-h-[60vh] overflow-hidden">
@@ -623,14 +623,14 @@ const { slug } = Astro.params;
         if (modalProdImg) modalProdImg.src = currentProduct.imageUrl || '/farm/images/wheat-500.jpg';
 
         if (currentProduct.avgRating !== undefined) {
-          const avg = Number(currentProduct.avgRating || 5.0);
+          const avg = Number(currentProduct.avgRating || 0);
           const count = Number(currentProduct.reviewCount || 0);
           const topStars = document.getElementById('p-top-stars');
           const topNum = document.getElementById('p-top-rating-val');
           const topCount = document.getElementById('p-top-reviews-count');
           if (topStars) topStars.textContent = '★'.repeat(Math.round(avg)) + '☆'.repeat(5 - Math.round(avg));
-          if (topNum) topNum.textContent = avg.toFixed(1);
-          if (topCount) topCount.textContent = `(${count} reviews)`;
+          if (topNum) topNum.textContent = count > 0 ? avg.toFixed(1) : '';
+          if (topCount) topCount.textContent = count > 0 ? `(${count} review${count === 1 ? '' : 's'})` : 'No reviews yet — be the first';
         }
       } catch (e) {
         loader.innerHTML = '<p class="text-sm text-red-600">Failed to load product details. Please check connection.</p>';
@@ -739,23 +739,25 @@ const { slug } = Astro.params;
 
     function updateReviewsSummary(summary, reviews) {
       if (!summary) return;
-      const avg = Number(summary.averageRating || 5.0);
       const total = summary.totalReviews !== undefined ? summary.totalReviews : reviews.length;
+      const avg = total > 0 ? Number(summary.averageRating || 0) : 0;
       const scoreEl = document.getElementById('rev-avg-score');
       const starsEl = document.getElementById('rev-avg-stars');
       const countTextEl = document.getElementById('rev-total-count-text');
 
-      if (scoreEl) scoreEl.textContent = avg.toFixed(1);
+      if (scoreEl) scoreEl.textContent = total > 0 ? avg.toFixed(1) : '—';
       if (starsEl) starsEl.textContent = '★'.repeat(Math.round(avg)) + '☆'.repeat(5 - Math.round(avg));
-      if (countTextEl) countTextEl.textContent = `Based on ${total} verified customer review${total === 1 ? '' : 's'}`;
+      if (countTextEl) countTextEl.textContent = total > 0
+        ? `Based on ${total} verified customer review${total === 1 ? '' : 's'}`
+        : 'No reviews yet — be the first to review this produce';
 
       // Synchronize top Amazon badge
       const topStars = document.getElementById('p-top-stars');
       const topNum = document.getElementById('p-top-rating-val');
       const topCount = document.getElementById('p-top-reviews-count');
       if (topStars) topStars.textContent = '★'.repeat(Math.round(avg)) + '☆'.repeat(5 - Math.round(avg));
-      if (topNum) topNum.textContent = avg.toFixed(1);
-      if (topCount) topCount.textContent = `(${total} reviews)`;
+      if (topNum) topNum.textContent = total > 0 ? avg.toFixed(1) : '';
+      if (topCount) topCount.textContent = total > 0 ? `(${total} review${total === 1 ? '' : 's'})` : 'No reviews yet — be the first';
 
       const dist = summary.distribution || {};
       for (let s = 1; s <= 5; s++) {
@@ -984,28 +986,58 @@ const { slug } = Astro.params;
       if (countEl) countEl.textContent = `${textarea.value.length} / 1000`;
     };
 
-    window.handleReviewPhotoSelect = function(input) {
+    // Downscale + re-encode photos in the browser so phone camera images (3–8MB)
+    // become ~150–400KB before upload.
+    function compressReviewImage(file, maxDim = 1280, quality = 0.8) {
+      return new Promise((resolve, reject) => {
+        const url = URL.createObjectURL(file);
+        const img = new Image();
+        img.onload = () => {
+          URL.revokeObjectURL(url);
+          const scale = Math.min(1, maxDim / Math.max(img.width, img.height));
+          const canvas = document.createElement('canvas');
+          canvas.width = Math.round(img.width * scale);
+          canvas.height = Math.round(img.height * scale);
+          const ctx = canvas.getContext('2d');
+          ctx.fillStyle = '#ffffff';
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          let dataUrl = canvas.toDataURL('image/jpeg', quality);
+          if (dataUrl.length > 1200 * 1024) dataUrl = canvas.toDataURL('image/jpeg', 0.6);
+          resolve(dataUrl);
+        };
+        img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('decode')); };
+        img.src = url;
+      });
+    }
+
+    window.handleReviewPhotoSelect = async function(input) {
       const file = input.files && input.files[0];
       if (!file) return;
 
-      if (file.size > 5 * 1024 * 1024) {
-        alert('Photo is larger than 5MB. Please choose a smaller image.');
+      if (file.size > 20 * 1024 * 1024) {
+        alert('Photo is larger than 20MB. Please choose a smaller image.');
         input.value = '';
         return;
       }
 
-      selectedPhotoName = file.name;
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        selectedPhotoBase64 = e.target.result;
-        document.getElementById('dropzone-empty-state').classList.add('hidden');
-        const previewState = document.getElementById('dropzone-preview-state');
-        previewState.classList.remove('hidden');
-        document.getElementById('rev-preview-img').src = selectedPhotoBase64;
-        document.getElementById('rev-preview-filename').textContent = file.name;
-        document.getElementById('rev-preview-filesize').textContent = `${(file.size / 1024).toFixed(0)} KB`;
-      };
-      reader.readAsDataURL(file);
+      let dataUrl;
+      try {
+        dataUrl = await compressReviewImage(file);
+      } catch (_) {
+        alert('This photo format could not be read. Please choose a JPG or PNG photo.');
+        input.value = '';
+        return;
+      }
+
+      selectedPhotoBase64 = dataUrl;
+      selectedPhotoName = (file.name || 'review').replace(/\.[^.]+$/, '') + '.jpg';
+      const sizeKb = Math.round((dataUrl.length * 3) / 4 / 1024);
+      document.getElementById('dropzone-empty-state').classList.add('hidden');
+      document.getElementById('dropzone-preview-state').classList.remove('hidden');
+      document.getElementById('rev-preview-img').src = dataUrl;
+      document.getElementById('rev-preview-filename').textContent = file.name;
+      document.getElementById('rev-preview-filesize').textContent = `${sizeKb} KB (optimized)`;
     };
 
     window.removeReviewPhoto = function(e) {

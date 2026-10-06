@@ -36,7 +36,7 @@ export async function onRequestGet({ env, params }) {
       COALESCE(i.quantity_sold, 0) as quantity_sold,
       COALESCE(i.sample_stock_grams, 0) as sample_stock_grams,
       COALESCE(r.review_count, 0) as review_count,
-      COALESCE(r.avg_rating, 5.0) as avg_rating
+      COALESCE(r.avg_rating, 0) as avg_rating
     FROM farm_products p
     LEFT JOIN farm_inventory i ON p.id = i.product_id
     LEFT JOIN (
@@ -94,7 +94,7 @@ export async function onRequestGet({ env, params }) {
       quantityAvailable: p.quantity_available,
       isOutOfStock,
       reviewCount: Number(p.review_count || 0),
-      avgRating: Number(p.avg_rating || 5.0),
+      avgRating: Number(p.avg_rating || 0),
     }
   });
 }

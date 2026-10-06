@@ -17,7 +17,7 @@ export async function onRequestPost({ request, env }) {
   let fileSize = 0;
 
   if (contentType.includes('application/json')) {
-    const body = await readJson(request);
+    const body = await readJson(request, 3 * 1024 * 1024);
     fileName = (body.fileName || body.name || 'review_photo.jpg').replace(/[^a-zA-Z0-9._-]/g, '_');
     mimeType = body.mimeType || body.type || 'image/jpeg';
     base64Data = body.dataBase64 || body.data || '';

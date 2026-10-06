@@ -93,7 +93,7 @@ export async function onRequestGet({ request, env }) {
   `).bind(...summaryParams).first();
 
   const totalReviews = Number(stats?.total_count || 0);
-  const avgRating = totalReviews > 0 ? Number(Number(stats?.avg_rating || 5).toFixed(1)) : 5.0;
+  const avgRating = totalReviews > 0 ? Number(Number(stats?.avg_rating || 0).toFixed(1)) : 0;
 
   return json({
     success: true,
@@ -181,7 +181,8 @@ export async function onRequestPost({ request, env }) {
       photoData = btoa(binary);
     }
   } else {
-    const body = await readJson(request);
+    // Photo is embedded as base64, so allow a larger body than the 32KB default.
+    const body = await readJson(request, 3 * 1024 * 1024);
     customerName = (body.customer_name || '').trim();
     customerPhone = (body.customer_phone || '').trim();
     customerCity = (body.customer_city || '').trim();
@@ -242,6 +243,11 @@ export async function onRequestPost({ request, env }) {
       productId = prod.id;
       productName = prod.name;
     }
+  }
+
+  // D1 limits a single value to ~2MB; clients compress photos well below this.
+  if (photoData && photoData.length > 1800 * 1024) {
+    fail(413, 'Photo is too large even after compression. Please choose a smaller photo.');
   }
 
   // If photo binary was supplied, store in farm_media
