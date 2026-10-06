@@ -335,8 +335,8 @@ const { slug } = Astro.params;
   </div>
 
   <!-- Modal: Write a Review with Photos -->
-  <div id="modal-write-review" class="hidden fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-end sm:items-center justify-center p-3 sm:p-4 overflow-y-auto">
-    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 pb-8 shadow-2xl border border-[#dce7db] space-y-5 animate-in fade-in zoom-in duration-200 max-h-[88dvh] overflow-y-auto overscroll-contain">
+  <div id="modal-write-review" class="hidden fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-end sm:items-center justify-center p-3 sm:p-4 pb-4 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 pb-10 sm:pb-8 shadow-2xl border border-[#dce7db] space-y-5 animate-in fade-in zoom-in duration-200 max-h-[86dvh] overflow-y-auto overscroll-contain">
       <div class="flex items-start justify-between pb-3 border-b border-[#f0f5ee]">
         <div class="space-y-1">
           <span class="inline-block px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-900 text-[10px] font-extrabold uppercase mb-0.5">Authentic Community Feedback</span>
@@ -465,11 +465,11 @@ const { slug } = Astro.params;
 
         <div id="rev-error-box" class="hidden p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 font-semibold text-xs"></div>
 
-        <div class="pt-2">
+        <div class="pt-3 pb-3">
           <button
             type="submit"
             id="btn-submit-review"
-            class="fd-btn fd-btn-primary w-full py-3.5 font-extrabold text-sm rounded-2xl shadow-md cursor-pointer"
+            class="fd-btn fd-btn-primary w-full py-4 font-extrabold text-sm rounded-2xl shadow-lg cursor-pointer transition-transform active:scale-[0.98]"
           >
             Publish Review & Photo &rarr;
           </button>
@@ -958,11 +958,15 @@ const { slug } = Astro.params;
         }
       }).catch(() => {});
 
+      const bottomNav = document.getElementById('fd-bottom-nav');
+      if (bottomNav) bottomNav.style.display = 'none';
       if (modal) modal.classList.remove('hidden');
     };
 
     window.closeWriteReviewModal = function() {
       const modal = document.getElementById('modal-write-review');
+      const bottomNav = document.getElementById('fd-bottom-nav');
+      if (bottomNav) bottomNav.style.display = '';
       if (modal) modal.classList.add('hidden');
     };
 
