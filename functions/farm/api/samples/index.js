@@ -5,6 +5,7 @@ import { json, fail, readJson, clientIp, rateLimit } from '../_lib/http.js';
 import { str, phone, email, id, oneOf } from '../_lib/validate.js';
 import { getUser } from '../_lib/auth.js';
 import { formatSampleWaMessage, dispatchWhatsAppNotification, DEFAULT_ADMIN_WHATSAPP } from '../_lib/whatsapp.js';
+import { sendAdminNotificationEmail } from '../_lib/email.js';
 
 export async function onRequestPost({ request, env }) {
   if (!env?.DB) {
@@ -89,20 +90,20 @@ export async function onRequestPost({ request, env }) {
     } else {
       const insArea = await env.DB.prepare(`
         INSERT INTO farm_delivery_areas (name, city, delivery_day, delivery_charge_paise, minimum_order_paise, is_active, sort_order)
-        VALUES (?, 'Gwalior', 'Scheduled Cluster Round', 0, 0, 1, 99)
+        VALUES (?, 'Gwalior / Shivpuri', 'Scheduled Cluster Round', 0, 0, 1, 99)
       `).bind(cleanName).run();
 
       area = {
         id: insArea.meta.last_row_id,
         name: cleanName,
-        city: 'Gwalior',
+        city: 'Gwalior / Shivpuri',
         is_active: 1,
       };
     }
   }
 
   if (!area || !area.is_active) {
-    fail(400, 'Please select a delivery cluster or enter your colony name in Gwalior.');
+    fail(400, 'Please select a delivery cluster or enter your colony / area name.');
   }
 
   const deliveryAreaId = area.id;
@@ -226,6 +227,23 @@ export async function onRequestPost({ request, env }) {
     recipientPhone: DEFAULT_ADMIN_WHATSAPP,
     message: waMessage,
   });
+
+  // Admin Notification Email (rajkuma1046@gmail.com)
+  sendAdminNotificationEmail({
+    event: `New Free Sample Request (Batch #${insertedSamples[0].id})`,
+    details: {
+      'Customer Name': customerName,
+      'Mobile Number': customerPhone,
+      'Customer Email': customerEmail || 'Not provided',
+      'Delivery Cluster': `${area.name} (${area.city || 'MP'})`,
+      'Delivery Address': deliveryAddress,
+      'Sample Items': waItems.map(it => `${it.name} (${it.quantityGrams}g)`).join(', '),
+      'Total Grams': `${batchGrams}g`,
+      'Scheduled Round': round ? `${round.delivery_date} (${round.round_name})` : 'Next scheduled trip',
+      'Request Time': new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }),
+    },
+    env,
+  }).catch(err => console.error('[Admin Notification Sample Error]:', err));
 
   return json({
     success: true,

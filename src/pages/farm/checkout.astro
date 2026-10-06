@@ -3,7 +3,7 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
 ---
 
 <FarmLayout
-  title="Checkout Pre-Order | Farm Direct Gwalior"
+  title="Checkout Pre-Order | Farm Direct"
   description="Finalize your raw farm produce pre-order with neighbourhood delivery in Gwalior."
   canonicalPath="/farm/checkout"
   hideCartBar={true}
@@ -114,7 +114,7 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
 
               <!-- Delivery Area Selector -->
               <div>
-                <label class="text-xs font-bold text-[#132215] block mb-1.5">Target Neighbourhood Cluster in Gwalior *</label>
+                <label class="text-xs font-bold text-[#132215] block mb-1.5">Target Delivery Area / Cluster (Gwalior & Shivpuri) *</label>
                 <select id="checkout-area" required class="fd-input font-bold text-xs" onchange="onAreaChanged()">
                   <option value="">Select delivery area...</option>
                 </select>
@@ -125,17 +125,17 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
               <div id="checkout-custom-cluster-box" class="hidden">
                 <label class="text-xs font-bold text-[#194622] block mb-1.5 flex items-center gap-1.5">
                   <span>📍</span>
-                  <span>Enter Your Custom Gwalior Colony / Neighbourhood *</span>
+                  <span>Enter Your Colony / Village / Area Name *</span>
                 </label>
                 <input
                   id="checkout-custom-cluster"
                   type="text"
-                  placeholder="e.g. Thatipur, City Center, Morar, Lashkar, Hazira, etc."
+                  placeholder="e.g. Sirsod, Naya Amola, Karera, Shivpuri, Thatipur, City Center, etc."
                   class="fd-input border-emerald-600 bg-emerald-50/40 text-xs font-bold"
                   oninput="onCustomClusterInput()"
                 />
                 <p class="text-[10px] text-[#5b6e5d] mt-1">
-                  🌾 Direct doorstep farm dispatch will be scheduled for your colony!
+                  🌾 Direct doorstep farm dispatch will be scheduled for your location!
                 </p>
               </div>
 
@@ -323,9 +323,9 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
           const select = document.getElementById('checkout-area');
           select.innerHTML = '<option value="">Select delivery area...</option>' +
             deliveryAreas.map(a => `
-              <option value="${a.id}">${a.name} (Delivery: ₹${a.deliveryChargeRupees})</option>
+              <option value="${a.id}">${a.name} (${a.city}) — Delivery: ₹${a.deliveryChargeRupees}</option>
             `).join('') +
-            '<option value="custom">📍 + Other / Custom Gwalior Colony (Enter Name)</option>';
+            '<option value="custom">📍 + Other / Custom Area or Village (Enter Name)</option>';
 
           const storedAreaId = localStorage.getItem('fd_selected_area_id');
           if (storedAreaId && (deliveryAreas.some(a => a.id == storedAreaId) || storedAreaId === 'custom')) {

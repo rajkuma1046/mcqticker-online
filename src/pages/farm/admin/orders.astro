@@ -3,7 +3,7 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
 ---
 
 <FarmLayout
-  title="Manage Orders | Admin | Farm Direct Gwalior"
+  title="Manage Orders | Admin | Farm Direct"
   description="Manage customer pre-orders, neighbourhood delivery routes, and atomic stock state."
   canonicalPath="/farm/admin/orders"
   hideCartBar={true}
@@ -241,7 +241,7 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
 
         const customerPhoneDigits = (o.customerPhone || '').replace(/\D/g, '').slice(-10);
         const waText = encodeURIComponent(
-          `Namaste ${o.customerName} ji! This is an update from Farm Direct Gwalior regarding your Pre-Order ${o.orderNumber}.\nStatus: ${o.status}\nTotal: ₹${o.grandTotalRupees}`
+          `Namaste ${o.customerName} ji! This is an update from Farm Direct regarding your Pre-Order ${o.orderNumber}.\nStatus: ${o.status}\nTotal: ₹${o.grandTotalRupees}`
         );
         const waUrl = `https://wa.me/91${customerPhoneDigits}?text=${waText}`;
 

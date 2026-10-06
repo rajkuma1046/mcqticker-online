@@ -145,6 +145,311 @@ const { slug } = Astro.params;
           </div>
         </div>
       </div>
+
+      <!-- Customer Reviews & Photos Section -->
+      <section id="reviews-section" class="mt-12 sm:mt-16 space-y-8">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-6 border-b border-[#dce7db]">
+          <div>
+            <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-900 text-xs font-extrabold uppercase tracking-wider mb-2">
+              <span>⭐</span>
+              <span>Customer Feedback</span>
+            </div>
+            <h2 class="fd-display text-2xl sm:text-3xl font-extrabold text-[#122815]">
+              Customer Reviews & Harvest Photos
+            </h2>
+            <p class="text-xs sm:text-sm text-[#5b6e5d] mt-1">
+              Real experiences from families in Village Sirsod, Gwalior, Karera, and Shivpuri.
+            </p>
+          </div>
+          <div>
+            <button
+              type="button"
+              onclick="openWriteReviewModal()"
+              class="fd-btn fd-btn-primary px-5 py-3 rounded-2xl text-xs sm:text-sm font-extrabold shadow-md flex items-center gap-2 cursor-pointer w-full sm:w-auto justify-center"
+            >
+              <span>✍️ Write a Review & Photos</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Rating Breakdown & Summary -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-6 bg-white p-6 sm:p-8 rounded-3xl border border-[#dce7db] shadow-sm">
+          <!-- Score Column -->
+          <div class="md:col-span-5 flex flex-col items-center justify-center text-center p-4 bg-[#f8faf7] rounded-2xl border border-[#e5eee3]">
+            <div class="text-5xl sm:text-6xl font-black text-[#194622]" id="rev-avg-score">5.0</div>
+            <div class="flex items-center gap-1 text-amber-400 text-xl my-2" id="rev-avg-stars">
+              ★★★★★
+            </div>
+            <div class="text-xs font-bold text-[#132215]" id="rev-total-count-text">
+              Based on verified community reviews
+            </div>
+            <div class="text-[11px] text-[#637765] mt-1 flex items-center gap-1">
+              <span class="text-emerald-600 font-extrabold">✓</span> 100% Authentic Village Farm Customer Feedback
+            </div>
+          </div>
+
+          <!-- Distribution Bars Column -->
+          <div class="md:col-span-7 flex flex-col justify-center space-y-2 text-xs font-semibold text-[#5b6e5d]">
+            <div class="flex items-center gap-3">
+              <span class="w-12 text-right font-bold text-[#132215]">5 ★</span>
+              <div class="flex-1 h-3 rounded-full bg-[#e9f0e8] overflow-hidden">
+                <div id="bar-star-5" class="h-full bg-emerald-600 rounded-full transition-all duration-500" style="width: 100%;"></div>
+              </div>
+              <span id="count-star-5" class="w-8 text-right font-bold text-[#132215]">0</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="w-12 text-right font-bold text-[#132215]">4 ★</span>
+              <div class="flex-1 h-3 rounded-full bg-[#e9f0e8] overflow-hidden">
+                <div id="bar-star-4" class="h-full bg-emerald-500 rounded-full transition-all duration-500" style="width: 0%;"></div>
+              </div>
+              <span id="count-star-4" class="w-8 text-right font-bold text-[#132215]">0</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="w-12 text-right font-bold text-[#132215]">3 ★</span>
+              <div class="flex-1 h-3 rounded-full bg-[#e9f0e8] overflow-hidden">
+                <div id="bar-star-3" class="h-full bg-amber-400 rounded-full transition-all duration-500" style="width: 0%;"></div>
+              </div>
+              <span id="count-star-3" class="w-8 text-right font-bold text-[#132215]">0</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="w-12 text-right font-bold text-[#132215]">2 ★</span>
+              <div class="flex-1 h-3 rounded-full bg-[#e9f0e8] overflow-hidden">
+                <div id="bar-star-2" class="h-full bg-orange-400 rounded-full transition-all duration-500" style="width: 0%;"></div>
+              </div>
+              <span id="count-star-2" class="w-8 text-right font-bold text-[#132215]">0</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="w-12 text-right font-bold text-[#132215]">1 ★</span>
+              <div class="flex-1 h-3 rounded-full bg-[#e9f0e8] overflow-hidden">
+                <div id="bar-star-1" class="h-full bg-rose-400 rounded-full transition-all duration-500" style="width: 0%;"></div>
+              </div>
+              <span id="count-star-1" class="w-8 text-right font-bold text-[#132215]">0</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Customer Photos Gallery Strip -->
+        <div id="customer-photos-box" class="hidden space-y-3">
+          <div class="flex items-center justify-between">
+            <h3 class="font-extrabold text-sm sm:text-base text-[#122815] flex items-center gap-2">
+              <span>📸</span>
+              <span>Photos from Customers</span>
+            </h3>
+            <span id="photos-count-label" class="text-xs text-[#5b6e5d] font-bold"></span>
+          </div>
+          <div id="photos-strip" class="flex gap-3 overflow-x-auto pb-2 scrollbar-none">
+            <!-- Rendered via JS -->
+          </div>
+        </div>
+
+        <!-- Filter Tabs -->
+        <div class="flex flex-wrap items-center gap-2 pt-2">
+          <button
+            type="button"
+            class="review-filter-btn px-4 py-2 rounded-xl text-xs font-extrabold transition-all bg-[#1b4522] text-white shadow-xs cursor-pointer"
+            data-filter="all"
+            onclick="filterReviews('all', this)"
+          >
+            All Reviews
+          </button>
+          <button
+            type="button"
+            class="review-filter-btn px-4 py-2 rounded-xl text-xs font-extrabold transition-all bg-white text-[#132215] border border-[#dce7db] hover:bg-emerald-50 cursor-pointer"
+            data-filter="photos"
+            onclick="filterReviews('photos', this)"
+          >
+            📸 With Photos
+          </button>
+          <button
+            type="button"
+            class="review-filter-btn px-4 py-2 rounded-xl text-xs font-extrabold transition-all bg-white text-[#132215] border border-[#dce7db] hover:bg-emerald-50 cursor-pointer"
+            data-filter="5star"
+            onclick="filterReviews('5star', this)"
+          >
+            ⭐ 5 Stars Only
+          </button>
+        </div>
+
+        <!-- Reviews Feed List -->
+        <div id="reviews-loading" class="text-center py-12 text-[#5b6e5d]">
+          <div class="inline-block animate-spin w-6 h-6 border-3 border-[#194622] border-t-transparent rounded-full mb-2"></div>
+          <p class="text-xs font-bold">Loading community reviews & photos...</p>
+        </div>
+
+        <div id="reviews-list" class="space-y-4">
+          <!-- Rendered via JS -->
+        </div>
+
+        <div id="reviews-empty" class="hidden text-center py-12 bg-white rounded-3xl border border-[#dce7db] p-8 space-y-3">
+          <div class="text-4xl">🌾</div>
+          <h4 class="font-extrabold text-[#122815] text-base">No reviews in this filter yet</h4>
+          <p class="text-xs text-[#5b6e5d] max-w-sm mx-auto">
+            Be the first customer to share your thoughts and photos of this harvest!
+          </p>
+          <button
+            type="button"
+            onclick="openWriteReviewModal()"
+            class="fd-btn fd-btn-primary px-5 py-2.5 rounded-xl text-xs font-bold inline-block cursor-pointer"
+          >
+            Write the First Review &rarr;
+          </button>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- Modal: Write a Review with Photos -->
+  <div id="modal-write-review" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-end sm:items-center justify-center p-3 sm:p-4 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-[#dce7db] space-y-5 animate-in fade-in zoom-in duration-200 max-h-[92vh] overflow-y-auto">
+      <div class="flex items-start justify-between pb-3 border-b border-[#f0f5ee]">
+        <div>
+          <span class="inline-block px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-900 text-[10px] font-extrabold uppercase mb-1">Authentic Feedback</span>
+          <h3 class="fd-display font-extrabold text-xl text-[#122815]">Write a Review</h3>
+          <p id="modal-review-product-name" class="text-xs text-[#5b6e5d] font-bold"></p>
+        </div>
+        <button type="button" class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold flex items-center justify-center cursor-pointer" onclick="closeWriteReviewModal()">✕</button>
+      </div>
+
+      <form id="review-form" onsubmit="submitCustomerReview(event)" class="space-y-4 text-xs">
+        <!-- Interactive Star Rating Picker -->
+        <div>
+          <label class="font-extrabold uppercase tracking-wider text-[#5b6e5d] text-[11px] block mb-1.5">
+            Your Overall Rating *
+          </label>
+          <div class="flex items-center gap-2">
+            <div id="star-picker" class="flex items-center gap-1.5 text-3xl cursor-pointer">
+              <span class="star-btn text-amber-400 transition-transform hover:scale-125" data-val="1" onclick="setPickerRating(1)">★</span>
+              <span class="star-btn text-amber-400 transition-transform hover:scale-125" data-val="2" onclick="setPickerRating(2)">★</span>
+              <span class="star-btn text-amber-400 transition-transform hover:scale-125" data-val="3" onclick="setPickerRating(3)">★</span>
+              <span class="star-btn text-amber-400 transition-transform hover:scale-125" data-val="4" onclick="setPickerRating(4)">★</span>
+              <span class="star-btn text-amber-400 transition-transform hover:scale-125" data-val="5" onclick="setPickerRating(5)">★</span>
+            </div>
+            <span id="star-picker-label" class="text-xs font-bold text-[#194622] ml-2">5 - Excellent</span>
+          </div>
+        </div>
+
+        <!-- Headline / Title -->
+        <div>
+          <label class="font-bold uppercase tracking-wider text-[#5b6e5d] text-[11px] block mb-1">
+            Review Headline (Optional)
+          </label>
+          <input
+            id="rev-input-title"
+            type="text"
+            maxlength="100"
+            class="fd-input font-bold"
+            placeholder="e.g. Natural sweet taste, clean unpolished grain"
+          />
+        </div>
+
+        <!-- Written Review Text -->
+        <div>
+          <div class="flex items-center justify-between mb-1">
+            <label class="font-bold uppercase tracking-wider text-[#5b6e5d] text-[11px]">
+              Detailed Written Review *
+            </label>
+            <span id="rev-char-count" class="text-[10px] text-[#788e7b]">0 / 1000</span>
+          </div>
+          <textarea
+            id="rev-input-text"
+            required
+            rows="4"
+            maxlength="1000"
+            class="fd-input"
+            placeholder="Tell other families about freshness, grain cleanliness, aroma, softness of rotis, sprouting speed, or delivery experience..."
+            oninput="updateReviewCharCount(this)"
+          ></textarea>
+        </div>
+
+        <!-- Photo Upload Dropzone & Mobile Tap Area -->
+        <div>
+          <label class="font-bold uppercase tracking-wider text-[#5b6e5d] text-[11px] block mb-1">
+            Attach Harvest / Cooking Photo (Optional)
+          </label>
+          <div
+            id="rev-photo-dropzone"
+            class="relative border-2 border-dashed border-[#cfe0cc] rounded-2xl p-4 text-center hover:bg-[#f7faf5] transition-colors cursor-pointer bg-[#fafcf9]"
+            onclick="document.getElementById('rev-file-input').click()"
+          >
+            <input
+              id="rev-file-input"
+              type="file"
+              accept="image/*"
+              class="hidden"
+              onchange="handleReviewPhotoSelect(this)"
+            />
+            <div id="dropzone-empty-state" class="space-y-1">
+              <div class="text-2xl">📸</div>
+              <p class="font-bold text-[#132215] text-xs">Tap to choose a photo or take a picture</p>
+              <p class="text-[10px] text-[#718573]">PNG, JPG, WEBP up to 5MB</p>
+            </div>
+
+            <!-- Preview State -->
+            <div id="dropzone-preview-state" class="hidden flex items-center justify-between gap-3 p-2 bg-white rounded-xl border border-[#dce7db]">
+              <div class="flex items-center gap-3">
+                <img id="rev-preview-img" src="" alt="Review preview" class="w-12 h-12 rounded-lg object-cover border border-[#dce7db]" />
+                <div class="text-left">
+                  <span id="rev-preview-filename" class="font-bold text-[#132215] text-xs block truncate max-w-[180px]">photo.jpg</span>
+                  <span id="rev-preview-filesize" class="text-[10px] text-[#718573]"></span>
+                </div>
+              </div>
+              <button
+                type="button"
+                onclick="removeReviewPhoto(event)"
+                class="px-2.5 py-1 rounded-lg bg-rose-50 text-rose-700 hover:bg-rose-100 font-bold text-xs cursor-pointer"
+              >
+                ✕ Remove
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Customer Identity Fields -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+          <div>
+            <label class="font-bold uppercase tracking-wider text-[#5b6e5d] text-[11px] block mb-1">Your Name *</label>
+            <input id="rev-input-name" type="text" required class="fd-input font-bold" placeholder="e.g. Ramesh Sharma" />
+          </div>
+          <div>
+            <label class="font-bold uppercase tracking-wider text-[#5b6e5d] text-[11px] block mb-1">Neighbourhood / Village *</label>
+            <input id="rev-input-city" type="text" required class="fd-input font-bold" placeholder="e.g. Sirsod / Pawan Nagar" />
+          </div>
+        </div>
+
+        <div>
+          <label class="font-bold uppercase tracking-wider text-[#5b6e5d] text-[11px] block mb-1">WhatsApp Mobile (Optional)</label>
+          <input id="rev-input-phone" type="tel" maxlength="10" class="fd-input" placeholder="For verified purchase badge" />
+        </div>
+
+        <div id="rev-error-box" class="hidden p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 font-semibold text-xs"></div>
+
+        <div class="pt-2">
+          <button
+            type="submit"
+            id="btn-submit-review"
+            class="fd-btn fd-btn-primary w-full py-3.5 font-extrabold text-sm rounded-2xl shadow-md cursor-pointer"
+          >
+            Publish Review & Photo &rarr;
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Photo Lightbox -->
+  <div id="modal-photo-lightbox" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4" onclick="closePhotoLightbox()">
+    <div class="relative max-w-2xl w-full bg-white rounded-3xl overflow-hidden shadow-2xl space-y-0" onclick="event.stopPropagation()">
+      <button type="button" class="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-black/50 text-white font-bold flex items-center justify-center hover:bg-black/75 cursor-pointer" onclick="closePhotoLightbox()">✕</button>
+      <div class="bg-black flex items-center justify-center max-h-[60vh] overflow-hidden">
+        <img id="lightbox-img" src="" alt="Harvest photo" class="w-full h-full object-contain max-h-[60vh]" />
+      </div>
+      <div class="p-6 space-y-2 bg-white">
+        <div class="flex items-center justify-between">
+          <strong id="lightbox-author" class="text-sm font-extrabold text-[#122815]"></strong>
+          <span id="lightbox-stars" class="text-amber-400 font-bold text-sm"></span>
+        </div>
+        <p id="lightbox-caption" class="text-xs text-[#5b6e5d] leading-relaxed"></p>
+      </div>
     </div>
   </div>
 
@@ -183,7 +488,7 @@ const { slug } = Astro.params;
         content.classList.remove('hidden');
 
         // Populate fields
-        document.title = `${currentProduct.name} | Farm Direct Gwalior`;
+        document.title = `${currentProduct.name} | Farm Direct`;
         document.getElementById('breadcrumb-title').textContent = currentProduct.name;
         document.getElementById('p-name').textContent = currentProduct.name;
         document.getElementById('p-desc').textContent = currentProduct.description;
@@ -332,11 +637,369 @@ const { slug } = Astro.params;
     function showDetailToast(msg) {
       const toast = document.createElement('div');
       toast.className = 'fixed bottom-20 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-2xl bg-[#132215] text-white text-xs font-bold shadow-2xl border border-white/10 animate-bounce flex items-center gap-2';
-      toast.innerHTML = `<span>✓</span> <span>${msg}</span>`;
-      document.body.appendChild(toast);
-      setTimeout(() => toast.remove(), 2500);
+    // ==========================================
+    // Customer Reviews & Photos Client Logic
+    // ==========================================
+    let allReviews = [];
+    let currentFilter = 'all';
+    let selectedRating = 5;
+    let selectedPhotoBase64 = null;
+    let selectedPhotoName = 'review.jpg';
+
+    const RATING_LABELS = {
+      5: '5 - Excellent, authentic farm quality',
+      4: '4 - Very Good harvest',
+      3: '3 - Satisfactory',
+      2: '2 - Below expectations',
+      1: '1 - Poor'
+    };
+
+    async function fetchReviews() {
+      const loader = document.getElementById('reviews-loading');
+      try {
+        const res = await fetch(`/farm/api/reviews?slug=${activeSlug}`);
+        const data = await res.json();
+        if (loader) loader.classList.add('hidden');
+
+        if (data.success) {
+          allReviews = data.reviews || [];
+          updateReviewsSummary(data.summary, allReviews);
+          renderCustomerPhotos(allReviews);
+          applyReviewsFilter();
+        }
+      } catch (err) {
+        if (loader) loader.innerHTML = '<p class="text-xs text-red-500 font-bold">Failed to load reviews.</p>';
+      }
     }
 
-    document.addEventListener('DOMContentLoaded', fetchProduct);
+    function updateReviewsSummary(summary, reviews) {
+      if (!summary) return;
+      const avg = summary.averageRating || 5.0;
+      const total = summary.totalReviews || reviews.length;
+      const scoreEl = document.getElementById('rev-avg-score');
+      const starsEl = document.getElementById('rev-avg-stars');
+      const countTextEl = document.getElementById('rev-total-count-text');
+
+      if (scoreEl) scoreEl.textContent = avg.toFixed(1);
+      if (starsEl) starsEl.textContent = '★'.repeat(Math.round(avg)) + '☆'.repeat(5 - Math.round(avg));
+      if (countTextEl) countTextEl.textContent = `Based on ${total} verified community review${total === 1 ? '' : 's'}`;
+
+      const dist = summary.distribution || {};
+      for (let s = 1; s <= 5; s++) {
+        const count = dist[s] || 0;
+        const pct = total > 0 ? Math.round((count / total) * 100) : 0;
+        const barEl = document.getElementById(`bar-star-${s}`);
+        const cntEl = document.getElementById(`count-star-${s}`);
+        if (barEl) barEl.style.width = `${pct}%`;
+        if (cntEl) cntEl.textContent = count;
+      }
+    }
+
+    function renderCustomerPhotos(reviews) {
+      const photoReviews = reviews.filter(r => r.photoUrl);
+      const box = document.getElementById('customer-photos-box');
+      const strip = document.getElementById('photos-strip');
+      const label = document.getElementById('photos-count-label');
+
+      if (!box || !strip) return;
+
+      if (photoReviews.length > 0) {
+        box.classList.remove('hidden');
+        if (label) label.textContent = `${photoReviews.length} photo${photoReviews.length === 1 ? '' : 's'}`;
+
+        strip.innerHTML = photoReviews.map(r => `
+          <button
+            type="button"
+            onclick="openPhotoLightbox('${r.photoUrl}', '${escapeHtml(r.customerName)}', ${r.rating}, '${escapeHtml(r.reviewText)}')"
+            class="group relative shrink-0 w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden border border-[#dce7db] shadow-xs cursor-pointer hover:scale-105 transition-transform"
+          >
+            <img src="${r.photoUrl}" alt="${escapeHtml(r.customerName)}" class="w-full h-full object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-2 text-white">
+              <span class="text-[10px] font-bold truncate">${escapeHtml(r.customerName)}</span>
+              <span class="text-[9px] text-amber-300">★ ${r.rating}</span>
+            </div>
+          </button>
+        `).join('');
+      } else {
+        box.classList.add('hidden');
+      }
+    }
+
+    window.filterReviews = function(filter, btn) {
+      currentFilter = filter;
+      document.querySelectorAll('.review-filter-btn').forEach(b => {
+        b.className = 'review-filter-btn px-4 py-2 rounded-xl text-xs font-extrabold transition-all bg-white text-[#132215] border border-[#dce7db] hover:bg-emerald-50 cursor-pointer';
+      });
+      if (btn) {
+        btn.className = 'review-filter-btn px-4 py-2 rounded-xl text-xs font-extrabold transition-all bg-[#1b4522] text-white shadow-xs cursor-pointer';
+      }
+      applyReviewsFilter();
+    };
+
+    function applyReviewsFilter() {
+      let filtered = allReviews;
+      if (currentFilter === 'photos') {
+        filtered = allReviews.filter(r => r.photoUrl);
+      } else if (currentFilter === '5star') {
+        filtered = allReviews.filter(r => r.rating === 5);
+      }
+
+      const listEl = document.getElementById('reviews-list');
+      const emptyEl = document.getElementById('reviews-empty');
+
+      if (!listEl || !emptyEl) return;
+
+      if (filtered.length === 0) {
+        listEl.innerHTML = '';
+        emptyEl.classList.remove('hidden');
+        return;
+      }
+
+      emptyEl.classList.add('hidden');
+      listEl.innerHTML = filtered.map(r => `
+        <div class="bg-white p-6 sm:p-7 rounded-3xl border border-[#dce7db] shadow-xs hover:shadow-md transition-shadow space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-[#f0f5ee]">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[#1b4522] to-[#2e6d38] text-white font-extrabold text-sm flex items-center justify-center shadow-xs">
+                ${r.customerName ? r.customerName.charAt(0).toUpperCase() : 'C'}
+              </div>
+              <div>
+                <div class="flex items-center gap-2">
+                  <strong class="font-extrabold text-sm text-[#122815]">${escapeHtml(r.customerName)}</strong>
+                  ${r.isVerified ? `
+                    <span class="inline-flex items-center gap-1 text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">
+                      <span>✓</span> Verified Buyer
+                    </span>
+                  ` : ''}
+                </div>
+                <div class="text-[11px] text-[#5b6e5d] font-semibold mt-0.5">
+                  ${r.customerCity ? `<span>📍 ${escapeHtml(r.customerCity)}</span> • ` : ''}
+                  <span>${formatReviewDate(r.createdAt)}</span>
+                </div>
+              </div>
+            </div>
+            <div class="text-amber-400 font-extrabold text-base tracking-wider">
+              ${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            ${r.title ? `<h4 class="font-bold text-sm text-[#122815]">${escapeHtml(r.title)}</h4>` : ''}
+            <p class="text-xs sm:text-sm text-[#465b49] leading-relaxed whitespace-pre-line">${escapeHtml(r.reviewText)}</p>
+          </div>
+
+          ${r.photoUrl ? `
+            <div class="pt-2">
+              <button
+                type="button"
+                onclick="openPhotoLightbox('${r.photoUrl}', '${escapeHtml(r.customerName)}', ${r.rating}, '${escapeHtml(r.reviewText)}')"
+                class="group relative inline-block rounded-2xl overflow-hidden border border-[#dce7db] shadow-xs cursor-pointer max-w-[200px]"
+              >
+                <img src="${r.photoUrl}" alt="Customer photo" class="w-48 h-36 object-cover group-hover:scale-105 transition-transform" />
+                <span class="absolute bottom-2 right-2 px-2 py-0.5 rounded-full bg-black/70 text-white text-[10px] font-bold backdrop-blur-xs flex items-center gap-1">
+                  <span>🔍</span> View Full Photo
+                </span>
+              </button>
+            </div>
+          ` : ''}
+        </div>
+      `).join('');
+    }
+
+    function formatReviewDate(dateStr) {
+      if (!dateStr) return 'Recently';
+      try {
+        const d = new Date(dateStr);
+        return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+      } catch (_) {
+        return 'Recently';
+      }
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    // Modal & Interactive Controls
+    window.openWriteReviewModal = function() {
+      const modal = document.getElementById('modal-write-review');
+      const prodNameEl = document.getElementById('modal-review-product-name');
+      const errBox = document.getElementById('rev-error-box');
+
+      if (errBox) errBox.classList.add('hidden');
+      if (prodNameEl && currentProduct) {
+        prodNameEl.textContent = `Reviewing: ${currentProduct.name}`;
+      }
+
+      // Pre-fill user profile if logged in
+      fetch('/farm/api/auth/me').then(r => r.json()).then(data => {
+        if (data.success && data.user) {
+          const nameInput = document.getElementById('rev-input-name');
+          const phoneInput = document.getElementById('rev-input-phone');
+          if (nameInput && !nameInput.value) nameInput.value = data.user.name;
+          if (phoneInput && !phoneInput.value) phoneInput.value = data.user.phone;
+        }
+      }).catch(() => {});
+
+      if (modal) modal.classList.remove('hidden');
+    };
+
+    window.closeWriteReviewModal = function() {
+      const modal = document.getElementById('modal-write-review');
+      if (modal) modal.classList.add('hidden');
+    };
+
+    window.setPickerRating = function(rating) {
+      selectedRating = rating;
+      const labelEl = document.getElementById('star-picker-label');
+      if (labelEl) labelEl.textContent = RATING_LABELS[rating] || `${rating} Stars`;
+
+      document.querySelectorAll('#star-picker .star-btn').forEach(btn => {
+        const val = parseInt(btn.getAttribute('data-val') || '1', 10);
+        if (val <= rating) {
+          btn.className = 'star-btn text-amber-400 transition-transform hover:scale-125';
+        } else {
+          btn.className = 'star-btn text-gray-300 transition-transform hover:scale-125';
+        }
+      });
+    };
+
+    window.updateReviewCharCount = function(textarea) {
+      const countEl = document.getElementById('rev-char-count');
+      if (countEl) countEl.textContent = `${textarea.value.length} / 1000`;
+    };
+
+    window.handleReviewPhotoSelect = function(input) {
+      const file = input.files && input.files[0];
+      if (!file) return;
+
+      if (file.size > 5 * 1024 * 1024) {
+        alert('Photo is larger than 5MB. Please choose a smaller image.');
+        input.value = '';
+        return;
+      }
+
+      selectedPhotoName = file.name;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        selectedPhotoBase64 = e.target.result;
+        document.getElementById('dropzone-empty-state').classList.add('hidden');
+        const previewState = document.getElementById('dropzone-preview-state');
+        previewState.classList.remove('hidden');
+        document.getElementById('rev-preview-img').src = selectedPhotoBase64;
+        document.getElementById('rev-preview-filename').textContent = file.name;
+        document.getElementById('rev-preview-filesize').textContent = `${(file.size / 1024).toFixed(0)} KB`;
+      };
+      reader.readAsDataURL(file);
+    };
+
+    window.removeReviewPhoto = function(e) {
+      if (e) e.stopPropagation();
+      selectedPhotoBase64 = null;
+      document.getElementById('rev-file-input').value = '';
+      document.getElementById('dropzone-preview-state').classList.add('hidden');
+      document.getElementById('dropzone-empty-state').classList.remove('hidden');
+    };
+
+    window.submitCustomerReview = async function(event) {
+      event.preventDefault();
+      const btn = document.getElementById('btn-submit-review');
+      const errBox = document.getElementById('rev-error-box');
+      if (errBox) errBox.classList.add('hidden');
+
+      const name = document.getElementById('rev-input-name').value.trim();
+      const city = document.getElementById('rev-input-city').value.trim();
+      const phone = document.getElementById('rev-input-phone').value.trim();
+      const title = document.getElementById('rev-input-title').value.trim();
+      const reviewText = document.getElementById('rev-input-text').value.trim();
+
+      if (!reviewText || reviewText.length < 5) {
+        if (errBox) {
+          errBox.textContent = 'Please write at least a few words describing your experience.';
+          errBox.classList.remove('hidden');
+        }
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Submitting Review...';
+
+      try {
+        const payload = {
+          product_id: currentProduct ? currentProduct.id : null,
+          product_slug: activeSlug,
+          rating: selectedRating,
+          title: title,
+          review_text: reviewText,
+          customer_name: name,
+          customer_city: city,
+          customer_phone: phone,
+          photo_base64: selectedPhotoBase64,
+          photo_name: selectedPhotoName
+        };
+
+        const res = await fetch('/farm/api/reviews', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+        if (!data.success) {
+          if (errBox) {
+            errBox.textContent = data.error || 'Failed to submit review.';
+            errBox.classList.remove('hidden');
+          }
+          btn.disabled = false;
+          btn.textContent = 'Publish Review & Photo →';
+          return;
+        }
+
+        closeWriteReviewModal();
+        showDetailToast('Review published! Thank you for supporting village farming.');
+        // Reset form
+        document.getElementById('review-form').reset();
+        removeReviewPhoto();
+        setPickerRating(5);
+        btn.disabled = false;
+        btn.textContent = 'Publish Review & Photo →';
+
+        // Reload reviews feed
+        fetchReviews();
+      } catch (err) {
+        if (errBox) {
+          errBox.textContent = 'Network error while submitting review. Please try again.';
+          errBox.classList.remove('hidden');
+        }
+        btn.disabled = false;
+        btn.textContent = 'Publish Review & Photo →';
+      }
+    };
+
+    // Lightbox Controls
+    window.openPhotoLightbox = function(url, author, rating, caption) {
+      document.getElementById('lightbox-img').src = url;
+      document.getElementById('lightbox-author').textContent = author;
+      document.getElementById('lightbox-stars').textContent = '★'.repeat(rating || 5);
+      document.getElementById('lightbox-caption').textContent = caption || '';
+      document.getElementById('modal-photo-lightbox').classList.remove('hidden');
+    };
+
+    window.closePhotoLightbox = function() {
+      document.getElementById('modal-photo-lightbox').classList.add('hidden');
+    };
+
+    function initPage() {
+      fetchProduct();
+      fetchReviews();
+    }
+
+    document.addEventListener('DOMContentLoaded', initPage);
   </script>
 </FarmLayout>

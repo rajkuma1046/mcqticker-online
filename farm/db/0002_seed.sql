@@ -2,11 +2,15 @@
 -- Farm Direct — Initial Seed Data
 -- ============================================================================
 
--- 1. Initial Delivery Areas in Gwalior
+-- 1. Initial Delivery Areas in Gwalior & Shivpuri
 INSERT OR IGNORE INTO farm_delivery_areas (id, name, city, is_active, delivery_day, delivery_charge_paise, minimum_order_paise, sort_order)
 VALUES
   (1, 'Pawanshut Colony', 'Gwalior', 1, 'Sunday', 3000, 20000, 1),
-  (2, 'Chetakpuri', 'Gwalior', 1, 'Sunday', 3000, 20000, 2);
+  (2, 'Chetakpuri', 'Gwalior', 1, 'Sunday', 3000, 20000, 2),
+  (3, 'Village Sirsod', 'Shivpuri', 1, 'Scheduled Round', 0, 0, 3),
+  (4, 'Naya Amola (Colony No. 1 to 4)', 'Shivpuri', 1, 'Scheduled Round', 0, 0, 4),
+  (5, 'Karera (Block)', 'Shivpuri', 1, 'Scheduled Round', 0, 0, 5),
+  (6, 'Shivpuri (District)', 'Shivpuri', 1, 'Scheduled Round', 0, 0, 6);
 
 -- 2. Initial Products & Pricing
 -- Money stored in paise (₹1 = 100 paise)
@@ -153,10 +157,11 @@ VALUES
 INSERT OR REPLACE INTO farm_settings (key, value)
 VALUES
   ('admin_whatsapp_number', '8770767272'),
+  ('admin_email', 'rajkuma1046@gmail.com'),
   ('farm_name', 'Farm Direct'),
   ('farm_tagline', 'Raw Produce, Direct from the Farm'),
-  ('farm_origin', 'Village Farm near Gwalior, Madhya Pradesh'),
-  ('default_city', 'Gwalior'),
+  ('farm_origin', 'Village Farm serving Gwalior & Shivpuri Districts, Madhya Pradesh'),
+  ('default_city', 'Gwalior & Shivpuri'),
   ('currency_symbol', '₹'),
   ('low_stock_threshold_kg', '15'),
   ('max_samples_per_customer_per_round', '2'),

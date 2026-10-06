@@ -5,8 +5,8 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
 ---
 
 <FarmLayout
-  title="Delivery Areas & Neighbourhood Schedule | Farm Direct Gwalior"
-  description="Consolidated neighbourhood delivery areas in Gwalior including Pawan Nagar and Chetakpuri. Check delivery charges, schedules, and minimum orders."
+  title="Delivery Areas & Schedule | Farm Direct"
+  description="Consolidated neighbourhood delivery areas in Gwalior & Shivpuri Districts including Sirsod, Naya Amola, Karera, Shivpuri, Pawan Nagar, and Chetakpuri."
   canonicalPath="/farm/delivery-areas"
 >
   <div class="fd-container py-8 sm:py-16">
@@ -15,14 +15,26 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
       <div class="text-center max-w-2xl mx-auto space-y-3">
         <span class="inline-flex items-center gap-1.5 text-xs uppercase tracking-wider text-emerald-800 font-extrabold bg-emerald-50 border border-emerald-200 px-3.5 py-1 rounded-full">
           <span>📍</span>
-          <span>Gwalior Delivery Clusters</span>
+          <span>Gwalior & Shivpuri Delivery Clusters</span>
         </span>
         <h1 class="fd-display text-3xl sm:text-5xl font-extrabold text-[#122815] leading-tight">
           Delivery Areas & Schedule
         </h1>
         <p class="text-xs sm:text-sm text-[#5b6e5d] leading-relaxed">
-          To maintain direct-from-field prices with zero middleman markups, we deliver in consolidated neighbourhood clusters across Gwalior on fixed weekend schedules.
+          To maintain direct-from-field prices with zero middleman markups, we deliver in consolidated neighbourhood clusters across Gwalior, Karera, and Shivpuri on scheduled trips.
         </p>
+        <div class="pt-2 flex justify-center">
+          <a
+            href="https://share.google/WybqH9qjZj9aiYcoz"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-[#d6e3d5] text-xs font-bold text-[#194622] hover:bg-emerald-50 transition-colors shadow-xs"
+          >
+            <img src="/farm/images/google-maps-icon.svg" alt="Google Maps" class="w-4 h-4 object-contain shrink-0" />
+            <span>View Farm Origin on Google Maps</span>
+            <span>↗</span>
+          </a>
+        </div>
       </div>
 
       <!-- Live Delivery Areas Container -->
@@ -76,17 +88,17 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
       <div class="bg-gradient-to-r from-[#122815] to-[#1e4624] text-white p-6 sm:p-8 rounded-3xl shadow-xl border border-emerald-900/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
         <div class="space-y-1.5 max-w-lg">
           <div class="text-[10px] font-extrabold uppercase tracking-widest text-emerald-300">
-            Expand Our Gwalior Network
+            Expand Our Regional Network
           </div>
           <h4 class="fd-display text-xl font-extrabold text-white">
-            Live in another area of Gwalior?
+            Live in another colony, village, or town?
           </h4>
           <p class="text-xs text-emerald-100/80 leading-relaxed">
-            If your apartment complex, colony, or society (City Center, Morar, Lashkar, Thatipur, etc.) has 5+ households interested in pure raw harvest, message us to launch a new Sunday delivery round!
+            If your colony, society, or village (in Gwalior or Shivpuri districts) has 5+ households interested in pure raw harvest, message us to launch a new scheduled delivery round!
           </p>
         </div>
         <a
-          href="https://wa.me/918770767272?text=Namaste%20Farm%20Direct,%20we%20have%20multiple%20households%20interested%20in%20raw%20farm%20produce%20in%20our%20Gwalior%20colony:"
+          href="https://wa.me/918770767272?text=Namaste%20Farm%20Direct,%20we%20have%20multiple%20households%20interested%20in%20raw%20farm%20produce%20in%20our%20colony/village:"
           target="_blank"
           rel="noopener noreferrer"
           class="fd-btn bg-[#25D366] hover:bg-[#1fa851] text-white font-extrabold text-xs px-5 py-3 rounded-xl shadow-lg shadow-black/20 whitespace-nowrap transition-transform hover:scale-105 active:scale-95"
@@ -118,7 +130,7 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
                     Active Cluster 0${idx + 1}
                   </span>
                   <span class="text-xs font-bold text-[#6a806c]">
-                    Gwalior, MP
+                    ${a.city || 'MP'}, MP
                   </span>
                 </div>
                 <h3 class="fd-display text-2xl font-extrabold text-[#122815]">${a.name}</h3>

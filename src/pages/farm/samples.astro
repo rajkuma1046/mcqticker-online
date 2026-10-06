@@ -3,7 +3,7 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
 ---
 
 <FarmLayout
-  title="Request a Free Produce Sample | Farm Direct Gwalior"
+  title="Request a Free Produce Sample | Farm Direct"
   description="Request a free 100g or 200g sample of raw wheat, groundnut, chana, moong, or urad before ordering. Scheduled delivery in Gwalior."
   canonicalPath="/farm/samples"
 >
@@ -137,16 +137,16 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
             <div id="sample-custom-cluster-box" class="hidden">
               <label class="text-xs font-bold text-[#194622] block mb-1.5 flex items-center gap-1.5">
                 <span>📍</span>
-                <span>Enter Your Custom Gwalior Colony / Neighbourhood *</span>
+                <span>Enter Your Colony / Village / Area Name *</span>
               </label>
               <input
                 id="sample-custom-cluster"
                 type="text"
-                placeholder="e.g. Thatipur, City Center, Morar, Lashkar, Hazira, etc."
+                placeholder="e.g. Sirsod, Naya Amola, Karera, Shivpuri, Thatipur, City Center, etc."
                 class="fd-input border-emerald-600 bg-emerald-50/40 text-xs font-bold"
               />
               <p class="text-[10px] text-[#5b6e5d] mt-1">
-                🌾 We aggregate requests by colony to schedule regular doorstep delivery rounds!
+                🌾 We aggregate requests by colony/village to schedule regular doorstep delivery rounds!
               </p>
             </div>
 
@@ -156,7 +156,7 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
                 id="sample-address"
                 rows="2"
                 required
-                placeholder="House / Flat No, Lane/Street, Landmark, Gwalior"
+                placeholder="House / Flat No, Lane/Street, Landmark, Village / Colony"
                 class="fd-input"
               ></textarea>
             </div>
@@ -462,7 +462,7 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
       }
       const customOpt = document.createElement('option');
       customOpt.value = 'custom';
-      customOpt.textContent = '📍 + Other / Custom Gwalior Colony (Enter Name)';
+      customOpt.textContent = '📍 + Other / Custom Colony or Village (Enter Name)';
       select.appendChild(customOpt);
     }
 

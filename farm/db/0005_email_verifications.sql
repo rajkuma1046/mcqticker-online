@@ -1,5 +1,5 @@
 -- ============================================================================
--- Farm Direct Gwalior — Email Verifications & Password Reset
+-- Farm Direct — Email Verifications & Password Reset
 -- ============================================================================
 
 CREATE TABLE IF NOT EXISTS farm_email_verifications (

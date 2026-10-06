@@ -3,7 +3,7 @@ import { json, fail, readJson, clientIp, rateLimit } from '../_lib/http.js';
 import { str, phone, email } from '../_lib/validate.js';
 import { hashPassword, validatePassword, signSession, sessionCookie } from '../_lib/auth.js';
 import { createVerification, verifyCode } from '../_lib/verification.js';
-import { sendVerificationEmail } from '../_lib/email.js';
+import { sendVerificationEmail, sendAdminNotificationEmail } from '../_lib/email.js';
 
 export async function onRequestPost({ request, env }) {
   if (!env?.DB) {
@@ -48,6 +48,19 @@ export async function onRequestPost({ request, env }) {
 
     const userId = result.meta.last_row_id;
     const user = { id: userId, name, phone: rawPhone, email: rawEmail, role: 'CUSTOMER' };
+
+    // Send admin notification
+    sendAdminNotificationEmail({
+      event: 'New Customer Account Created',
+      details: {
+        'Customer Name': name,
+        'Email Address': rawEmail,
+        'Mobile Number': rawPhone,
+        'Account ID': userId,
+        'Timestamp': new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })
+      },
+      env
+    }).catch(err => console.error('[Admin Notification Register Error]:', err));
 
     // Sign session token
     const token = await signSession(userId, env);

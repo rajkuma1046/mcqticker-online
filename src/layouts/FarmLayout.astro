@@ -12,8 +12,8 @@ interface Props {
 }
 
 const {
-  title = 'Farm Direct Gwalior | Raw Farm Produce by Pre-Order',
-  description = 'Order raw wheat, groundnut, chana, moong, urad and seasonal farm produce with scheduled neighbourhood delivery in selected areas of Gwalior.',
+  title = 'Farm Direct | Raw Farm Produce by Pre-Order',
+  description = 'Order raw wheat, groundnut, chana, moong, urad and seasonal farm produce with scheduled delivery in Gwalior, Karera, and Shivpuri.',
   canonicalPath = '/farm',
   hideCartBar = false,
 } = Astro.props;
@@ -21,7 +21,7 @@ const {
 const SITE_URL = 'https://mcqticker.online';
 const canonicalURL = `${SITE_URL}${canonicalPath}`;
 const WHATSAPP_NUMBER = '8770767272';
-const WHATSAPP_LINK = `https://wa.me/91${WHATSAPP_NUMBER}?text=${encodeURIComponent('Namaste Farm Direct, I have a question about raw farm produce in Gwalior.')}`;
+const WHATSAPP_LINK = `https://wa.me/91${WHATSAPP_NUMBER}?text=${encodeURIComponent('Namaste Farm Direct, I have a question about raw farm produce.')}`;
 
 const isHome = canonicalPath === '/farm' || canonicalPath === '/farm/';
 const isProduce = canonicalPath.startsWith('/farm/products');
@@ -46,7 +46,7 @@ const isCart = canonicalPath.startsWith('/farm/cart') || canonicalPath.startsWit
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={`${SITE_URL}/farm/images/hero-1280.jpg`} />
-    <meta property="og:site_name" content="Farm Direct Gwalior" />
+    <meta property="og:site_name" content="Farm Direct" />
     <meta property="og:locale" content="en_IN" />
 
     <!-- Twitter -->
@@ -311,9 +311,6 @@ const isCart = canonicalPath.startsWith('/farm/cart') || canonicalPath.startsWit
           <div>
             <div class="fd-display text-xl sm:text-2xl font-bold tracking-tight text-[#132215] flex items-center gap-2">
               Farm Direct
-              <span class="hidden sm:inline-block text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 tracking-wider">
-                Gwalior
-              </span>
             </div>
             <div class="text-[10px] sm:text-[11px] text-[#5b6e5d] font-semibold tracking-wide">
               Direct from Village Farm • Zero Middlemen
@@ -328,6 +325,9 @@ const isCart = canonicalPath.startsWith('/farm/cart') || canonicalPath.startsWit
           </a>
           <a href="/farm/products" class="px-3 py-2 rounded-xl hover:bg-emerald-50 hover:text-[#194622] transition-colors">
             Produce Catalogue
+          </a>
+          <a href="/farm/reviews" class="px-3 py-2 rounded-xl hover:bg-emerald-50 hover:text-[#194622] transition-colors flex items-center gap-1">
+            <span>⭐ Reviews</span>
           </a>
           <a href="/farm/how-it-works" class="px-3 py-2 rounded-xl hover:bg-emerald-50 hover:text-[#194622] transition-colors">
             How It Works
@@ -382,7 +382,7 @@ const isCart = canonicalPath.startsWith('/farm/cart') || canonicalPath.startsWit
             <span class="text-2xl">🌾</span>
             <div>
               <span class="fd-display font-bold text-lg text-[#132215] block leading-tight">Farm Direct</span>
-              <span class="text-[10px] text-[#748776] uppercase font-bold tracking-wider">Gwalior Direct Harvest</span>
+              <span class="text-[10px] text-[#748776] uppercase font-bold tracking-wider">Direct Harvest • Zero Middlemen</span>
             </div>
           </div>
           <button id="fd-mobile-close" type="button" class="p-2 rounded-xl text-gray-500 hover:bg-gray-100 transition-colors">
@@ -398,6 +398,10 @@ const isCart = canonicalPath.startsWith('/farm/cart') || canonicalPath.startsWit
           </a>
           <a href="/farm/products" class="px-3.5 py-2.5 rounded-xl hover:bg-emerald-50 hover:text-[#194622] transition-colors">
             This Week's Produce
+          </a>
+          <a href="/farm/reviews" class="px-3.5 py-2.5 rounded-xl hover:bg-emerald-50 hover:text-[#194622] transition-colors flex items-center justify-between">
+            <span>⭐ Customer Reviews & Photos</span>
+            <span class="text-[10px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full font-extrabold">New</span>
           </a>
           <a href="/farm/how-it-works" class="px-3.5 py-2.5 rounded-xl hover:bg-emerald-50 hover:text-[#194622] transition-colors">
             How It Works
@@ -426,7 +430,7 @@ const isCart = canonicalPath.startsWith('/farm/cart') || canonicalPath.startsWit
             <span>Chat with Farmer on WhatsApp</span>
           </a>
           <p class="text-[11px] text-[#748776] text-center mt-3">
-            Pawan Nagar & Chetakpuri, Gwalior
+            Delivering fresh to Gwalior, Karera, and Shivpuri
           </p>
         </div>
       </div>
@@ -468,11 +472,11 @@ const isCart = canonicalPath.startsWith('/farm/cart') || canonicalPath.startsWit
             </div>
             <div>
               <span class="fd-display text-xl font-bold text-white tracking-tight block">Farm Direct</span>
-              <span class="text-[10px] text-emerald-400/80 font-bold uppercase tracking-wider">Gwalior, Madhya Pradesh</span>
+              <span class="text-[10px] text-emerald-400/80 font-bold uppercase tracking-wider">Village Farm serving Gwalior & Shivpuri Districts</span>
             </div>
           </div>
           <p class="text-[#96ab95] leading-relaxed">
-            Raw, minimally handled agricultural grains, pulses, and oilseeds supplied directly from fertile village farmland surrounding Gwalior.
+            Raw, minimally handled agricultural grains, pulses, and oilseeds supplied directly from fertile village farmland serving Gwalior & Shivpuri Districts.
           </p>
           <div class="pt-2 text-[11px] text-[#778d76]">
             WhatsApp Coordination: <a href={WHATSAPP_LINK} class="text-emerald-400 font-bold underline">+91 {WHATSAPP_NUMBER}</a>
@@ -484,7 +488,12 @@ const isCart = canonicalPath.startsWith('/farm/cart') || canonicalPath.startsWit
               rel="noopener noreferrer"
               class="inline-flex items-center gap-1.5 text-emerald-400 hover:text-emerald-300 font-bold underline"
             >
-              <span>📍 View Farm on Google Maps</span>
+              <img
+                src="/farm/images/google-maps-icon.svg"
+                alt="Google Maps"
+                class="w-4 h-4 object-contain inline-block shrink-0"
+              />
+              <span>View Farm on Google Maps</span>
               <span>↗</span>
             </a>
           </div>
@@ -492,17 +501,20 @@ const isCart = canonicalPath.startsWith('/farm/cart') || canonicalPath.startsWit
 
         <!-- Serving Neighbourhoods -->
         <div>
-          <h4 class="text-white font-bold mb-4 uppercase tracking-wider text-[11px] text-emerald-400">Current Neighbourhood Clusters</h4>
+          <h4 class="text-white font-bold mb-4 uppercase tracking-wider text-[11px] text-emerald-400">Serving Neighbourhoods & Villages</h4>
           <ul class="space-y-2.5 text-[#c0d4be]">
             <li class="flex items-center gap-2">
-              <span class="text-emerald-400 font-bold">✓</span> Pawan Nagar / Pavan Nagar Colony
+              <span class="text-emerald-400 font-bold">✓</span> Village Sirsod & Naya Amola (Colony 1–4)
             </li>
             <li class="flex items-center gap-2">
-              <span class="text-emerald-400 font-bold">✓</span> Chetakpuri & nearby lanes
+              <span class="text-emerald-400 font-bold">✓</span> Karera (Block) & Shivpuri District
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="text-emerald-400 font-bold">✓</span> Pawan Nagar & Chetakpuri (Gwalior)
             </li>
           </ul>
           <p class="text-[11px] text-[#778d76] mt-4 leading-relaxed">
-            Pre-order consolidated trips dispatch on scheduled weekend mornings with zero intermediary markups.
+            Consolidated weekend morning trips with zero intermediary markups.
           </p>
         </div>
 
@@ -511,6 +523,7 @@ const isCart = canonicalPath.startsWith('/farm/cart') || canonicalPath.startsWit
           <h4 class="text-white font-bold mb-4 uppercase tracking-wider text-[11px] text-emerald-400">Catalogue & Pre-Orders</h4>
           <ul class="space-y-2 text-[#96ab95]">
             <li><a href="/farm/products" class="hover:text-white transition-colors">Raw Produce Catalogue</a></li>
+            <li><a href="/farm/reviews" class="hover:text-white transition-colors text-emerald-300 font-bold flex items-center gap-1"><span>⭐ Customer Reviews & Photos</span></a></li>
             <li><a href="/farm/how-it-works" class="hover:text-white transition-colors">Consolidated Logistics Model</a></li>
             <li><a href="/farm/samples" class="hover:text-white transition-colors">Request Free Sample (100g/200g)</a></li>
             <li><a href="/farm/sample-policy" class="hover:text-white transition-colors">Free Sample Rules & Cooldown</a></li>
@@ -523,7 +536,7 @@ const isCart = canonicalPath.startsWith('/farm/cart') || canonicalPath.startsWit
         <div>
           <h4 class="text-white font-bold mb-4 uppercase tracking-wider text-[11px] text-emerald-400">Trust & Transparency</h4>
           <ul class="space-y-2 text-[#96ab95]">
-            <li><a href="https://share.google/WybqH9qjZj9aiYcoz" target="_blank" rel="noopener noreferrer" class="text-emerald-400 hover:text-white font-semibold transition-colors">📍 Farm Location (Google Maps) ↗</a></li>
+            <li><a href="https://share.google/WybqH9qjZj9aiYcoz" target="_blank" rel="noopener noreferrer" class="text-emerald-400 hover:text-white font-semibold transition-colors inline-flex items-center gap-1.5"><img src="/farm/images/google-maps-icon.svg" alt="Google Maps" class="w-4 h-4 object-contain inline-block shrink-0" /> Farm Location (Google Maps) ↗</a></li>
             <li><a href="/farm/contact" class="hover:text-white transition-colors">Farmer Contact & Coordinates</a></li>
             <li><a href="/farm/terms" class="hover:text-white transition-colors">Produce Terms & Conditions</a></li>
             <li><a href="/farm/privacy" class="hover:text-white transition-colors">Privacy & Delivery Data</a></li>
@@ -537,10 +550,10 @@ const isCart = canonicalPath.startsWith('/farm/cart') || canonicalPath.startsWit
 
       <div class="fd-container mt-12 pt-8 border-t border-[#1c3820] flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-[#6b826a]">
         <div>
-          © {new Date().getFullYear()} Farm Direct Gwalior. Standalone direct-to-consumer agricultural platform.
+          © {new Date().getFullYear()} Farm Direct. Standalone direct-to-consumer agricultural platform.
         </div>
         <div>
-          Independent farm initiative • Pawan Nagar & Chetakpuri clusters
+          Village Farm serving Gwalior & Shivpuri Districts • Delivering fresh to Gwalior, Karera, and Shivpuri
         </div>
       </div>
     </footer>

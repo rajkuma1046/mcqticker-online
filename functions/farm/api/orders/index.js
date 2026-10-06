@@ -5,6 +5,7 @@ import { json, fail, readJson, clientIp, rateLimit, istToday } from '../_lib/htt
 import { str, phone, email, id, cartItems } from '../_lib/validate.js';
 import { getUser } from '../_lib/auth.js';
 import { formatOrderWaMessage, dispatchWhatsAppNotification, DEFAULT_ADMIN_WHATSAPP } from '../_lib/whatsapp.js';
+import { sendOrderConfirmationEmail, sendAdminNotificationEmail } from '../_lib/email.js';
 
 export async function onRequestPost({ request, env }) {
   if (!env?.DB) {
@@ -47,13 +48,13 @@ export async function onRequestPost({ request, env }) {
     } else {
       const insArea = await env.DB.prepare(`
         INSERT INTO farm_delivery_areas (name, city, delivery_day, delivery_charge_paise, minimum_order_paise, is_active, sort_order)
-        VALUES (?, 'Gwalior', 'Scheduled Cluster Round', 0, 0, 1, 99)
+        VALUES (?, 'Gwalior / Shivpuri', 'Scheduled Cluster Round', 0, 0, 1, 99)
       `).bind(cleanName).run();
 
       area = {
         id: insArea.meta.last_row_id,
         name: cleanName,
-        city: 'Gwalior',
+        city: 'Gwalior / Shivpuri',
         is_active: 1,
         delivery_charge_paise: 0,
         minimum_order_paise: 0,
@@ -62,7 +63,7 @@ export async function onRequestPost({ request, env }) {
   }
 
   if (!area || !area.is_active) {
-    fail(400, 'Please select a delivery cluster or enter your colony name in Gwalior.');
+    fail(400, 'Please select a delivery cluster or enter your colony / area name.');
   }
 
   const deliveryAreaId = area.id;
@@ -140,7 +141,7 @@ export async function onRequestPost({ request, env }) {
   ).bind(today).first();
 
   const seqNumber = String(counter?.seq || 1).padStart(4, '0');
-  const orderNumber = `FD-GWL-${dayClean}-${seqNumber}`;
+  const orderNumber = `FD-${dayClean}-${seqNumber}`;
 
   // 10 & 11. Atomic transaction using D1 batch:
   // - Deduct available stock & increment reserved stock with atomic check
@@ -290,6 +291,47 @@ export async function onRequestPost({ request, env }) {
     recipientPhone: DEFAULT_ADMIN_WHATSAPP,
     message: waMessage,
   });
+
+  // Customer Confirmation Email (if email address was entered)
+  if (customerEmail) {
+    sendOrderConfirmationEmail({
+      to: customerEmail,
+      order: {
+        orderNumber,
+        customerName,
+        areaName: area.name,
+        deliveryAddress,
+        items: itemSnapshots.map(it => ({
+          productName: it.productName,
+          quantity: it.quantity,
+          unit: it.unit,
+          lineTotalPaise: it.lineTotalPaise,
+        })),
+        grandTotalRupees: grandTotalPaise / 100,
+      },
+      env,
+    }).catch(err => console.error('[Order Email Error]:', err));
+  }
+
+  // Primary Admin Notification Email (rajkuma1046@gmail.com)
+  sendAdminNotificationEmail({
+    event: `New Order Received #${orderNumber}`,
+    details: {
+      'Order Number': orderNumber,
+      'Customer Name': customerName,
+      'Mobile Number': customerPhone,
+      'Customer Email': customerEmail || 'Not provided',
+      'Delivery Area': `${area.name} (${area.city || 'MP'})`,
+      'Delivery Address': deliveryAddress,
+      'Produce Items': itemSnapshots.map(it => `${it.productName}: ${it.quantity} ${it.unit} (₹${it.lineTotalPaise / 100})`).join(' | '),
+      'Produce Subtotal': `₹${subtotalPaise / 100}`,
+      'Delivery Fee': `₹${deliveryChargePaise / 100}`,
+      'Grand Total': `₹${grandTotalPaise / 100}`,
+      'Payment Mode': 'Cash on Doorstep / UPI',
+      'Placed At': new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }),
+    },
+    env,
+  }).catch(err => console.error('[Admin Notification Order Error]:', err));
 
   return json({
     success: true,

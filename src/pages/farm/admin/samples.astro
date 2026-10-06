@@ -3,7 +3,7 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
 ---
 
 <FarmLayout
-  title="Manage Free Samples | Admin | Farm Direct Gwalior"
+  title="Manage Free Samples | Admin | Farm Direct"
   description="Route aggregation, delivery rounds, and sample request fulfillment for Gwalior clusters."
   canonicalPath="/farm/admin/samples"
   hideCartBar={true}
@@ -276,7 +276,7 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
         else if (s.status === 'DECLINED' || s.status === 'CANCELLED') badgeColor = 'bg-rose-100 text-rose-800';
 
         const phoneDigits = (s.phone || '').replace(/\D/g, '').slice(-10);
-        const waMsg = encodeURIComponent(`Namaste ${s.customerName} ji! Farm Direct Gwalior update regarding your free ${s.sampleQuantityGrams}g sample of ${s.productName}.`);
+        const waMsg = encodeURIComponent(`Namaste ${s.customerName} ji! Farm Direct update regarding your free ${s.sampleQuantityGrams}g sample of ${s.productName}.`);
         const waLink = `https://wa.me/91${phoneDigits}?text=${waMsg}`;
 
         return `

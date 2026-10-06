@@ -27,7 +27,7 @@ export async function onRequestPost({ request, env }) {
         <strong>Timestamp:</strong> ${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })} (IST)
       </div>
       <p style="font-size: 12px; color: #718573; margin-top: 16px;">
-        Farm Direct Gwalior &bull; Zero Middlemen Village Harvest
+        Farm Direct &bull; Zero Middlemen Village Harvest
       </p>
     </div>
   `;

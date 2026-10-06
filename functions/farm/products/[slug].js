@@ -23,7 +23,7 @@ export async function onRequest({ request, env, params }) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Produce Not Found | Farm Direct Gwalior</title>
+  <title>Produce Not Found | Farm Direct</title>
   <style>
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #fbfbf9; color: #132215; text-align: center; padding: 80px 20px; }
     .card { max-width: 480px; margin: 0 auto; background: white; padding: 40px; border-radius: 24px; border: 1px solid #dce7db; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
@@ -57,8 +57,8 @@ export async function onRequest({ request, env, params }) {
 
     // 3. Inject product metadata for SEO & Social Sharing
     if (product) {
-      const cleanDesc = (product.description || 'Fresh raw agricultural produce directly from our farm for neighbourhood delivery in Gwalior.').replace(/"/g, '&quot;');
-      const cleanTitle = `${product.name} ${product.local_name ? `(${product.local_name}) ` : ''}| Farm Direct Gwalior`;
+      const cleanDesc = (product.description || 'Fresh raw agricultural produce directly from our farm for neighbourhood delivery in Gwalior & Shivpuri.').replace(/"/g, '&quot;');
+      const cleanTitle = `${product.name} ${product.local_name ? `(${product.local_name}) ` : ''}| Farm Direct`;
 
       html = html.replace(/<title>.*?<\/title>/, `<title>${cleanTitle}</title>`);
       html = html.replace(/<meta name="description" content=".*?">/, `<meta name="description" content="${cleanDesc}">`);

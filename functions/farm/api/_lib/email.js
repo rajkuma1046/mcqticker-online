@@ -131,7 +131,7 @@ async function sendViaGmailSmtp({ user, pass, to, subject, html, text }) {
     const messageId = `<${Math.random().toString(36).substring(2)}.${Date.now()}@mcqticker.online>`;
 
     const rawMessage = [
-      `From: "Farm Direct Gwalior" <${user}>`,
+      `From: "Farm Direct" <${user}>`,
       `To: <${to}>`,
       `Subject: ${encodedSubject}`,
       `Date: ${dateStr}`,
@@ -288,7 +288,7 @@ export async function sendVerificationEmail({ to, code, purpose, env }) {
   const title = isReset ? 'Reset Your Account Password' : 'Verify Your Email Address';
   const subtitle = isReset
     ? 'Use the 6-digit code below to set a new password for your Farm Direct customer account.'
-    : 'Welcome to Farm Direct Gwalior! Use the 6-digit code below to complete your customer account registration.';
+    : 'Welcome to Farm Direct! Use the 6-digit code below to complete your customer account registration.';
 
   const html = `
 <!DOCTYPE html>
@@ -307,7 +307,7 @@ export async function sendVerificationEmail({ to, code, purpose, env }) {
           <tr>
             <td style="background: linear-gradient(135deg, #18421f 0%, #25582f 100%); padding: 36px 30px; text-align: center;">
               <div style="font-size: 38px; line-height: 1; margin-bottom: 10px;">🌾</div>
-              <h1 style="color: #ffffff; margin: 0; font-size: 22px; font-weight: 800; letter-spacing: -0.3px;">Farm Direct Gwalior</h1>
+              <h1 style="color: #ffffff; margin: 0; font-size: 22px; font-weight: 800; letter-spacing: -0.3px;">Farm Direct</h1>
               <p style="color: #cde6d2; margin: 6px 0 0 0; font-size: 13px; font-weight: 500;">Direct from Village Farm &bull; Zero Middlemen</p>
             </td>
           </tr>
@@ -350,7 +350,7 @@ export async function sendVerificationEmail({ to, code, purpose, env }) {
           <tr>
             <td style="background-color: #f4f8f3; border-top: 1px solid #e5ede3; padding: 22px 30px; text-align: center;">
               <p style="margin: 0; font-size: 11px; color: #718473;">
-                Farm Direct &bull; Village Farm near Gwalior, Madhya Pradesh<br/>
+                Farm Direct &bull; Village Farm serving Gwalior & Shivpuri Districts, Madhya Pradesh<br/>
                 WhatsApp Helpline: +91 8770767272 &bull; <a href="https://mcqticker.online/farm" style="color: #1f572a; text-decoration: none; font-weight: 700;">mcqticker.online/farm</a>
               </p>
             </td>
@@ -363,7 +363,7 @@ export async function sendVerificationEmail({ to, code, purpose, env }) {
 </html>
   `;
 
-  const text = `${title}\n\nYour 6-digit verification code is: ${code}\n\nThis code is valid for 10 minutes.\n\nFarm Direct Gwalior\nWhatsApp: +91 8770767272`;
+  const text = `${title}\n\nYour 6-digit verification code is: ${code}\n\nThis code is valid for 10 minutes.\n\nFarm Direct\nWhatsApp: +91 8770767272`;
 
   const result = await sendEmail({ to, subject, html, text, env });
   return result;
@@ -402,7 +402,7 @@ export async function sendOrderConfirmationEmail({ to, order, env }) {
           <tr>
             <td style="background: linear-gradient(135deg, #18421f 0%, #25582f 100%); padding: 32px 30px; text-align: center;">
               <div style="font-size: 34px; margin-bottom: 8px;">🌾</div>
-              <h1 style="color: #ffffff; margin: 0; font-size: 20px; font-weight: 800;">Farm Direct Gwalior</h1>
+              <h1 style="color: #ffffff; margin: 0; font-size: 20px; font-weight: 800;">Farm Direct</h1>
               <p style="color: #cde6d2; margin: 4px 0 0 0; font-size: 12px;">Pre-Order Receipt & Confirmation</p>
             </td>
           </tr>
@@ -456,7 +456,7 @@ export async function sendOrderConfirmationEmail({ to, order, env }) {
           </tr>
           <tr>
             <td style="background-color: #f4f8f3; border-top: 1px solid #e5ede3; padding: 18px 30px; text-align: center; font-size: 11px; color: #718473;">
-              Farm Direct &bull; Village Farm near Gwalior &bull; WhatsApp Helpline: +91 8770767272
+              Farm Direct &bull; Village Farm serving Gwalior & Shivpuri Districts &bull; WhatsApp Helpline: +91 8770767272
             </td>
           </tr>
         </table>
@@ -494,7 +494,7 @@ export async function sendStatusUpdateEmail({ to, order, newStatus, note, env })
           <tr>
             <td style="background: linear-gradient(135deg, #18421f 0%, #25582f 100%); padding: 32px 30px; text-align: center;">
               <div style="font-size: 34px; margin-bottom: 8px;">🚜</div>
-              <h1 style="color: #ffffff; margin: 0; font-size: 20px; font-weight: 800;">Farm Direct Gwalior</h1>
+              <h1 style="color: #ffffff; margin: 0; font-size: 20px; font-weight: 800;">Farm Direct</h1>
               <p style="color: #cde6d2; margin: 4px 0 0 0; font-size: 12px;">Order Status Update</p>
             </td>
           </tr>
@@ -530,7 +530,7 @@ export async function sendStatusUpdateEmail({ to, order, newStatus, note, env })
           </tr>
           <tr>
             <td style="background-color: #f4f8f3; border-top: 1px solid #e5ede3; padding: 18px 30px; text-align: center; font-size: 11px; color: #718473;">
-              Farm Direct &bull; Village Farm near Gwalior &bull; WhatsApp Helpline: +91 8770767272
+              Farm Direct &bull; Village Farm serving Gwalior & Shivpuri Districts &bull; WhatsApp Helpline: +91 8770767272
             </td>
           </tr>
         </table>
@@ -545,4 +545,85 @@ export async function sendStatusUpdateEmail({ to, order, newStatus, note, env })
 
   return await sendEmail({ to, subject, html, text, env });
 }
+
+/**
+ * Creates and sends an instant administrative alert to the primary admin.
+ * Primary Admin Email: rajkuma1046@gmail.com
+ */
+export async function sendAdminNotificationEmail({ event, details, env }) {
+  const adminEmail = 'rajkuma1046@gmail.com';
+  const subject = `🔔 Farm Direct Alert: ${event}`;
+
+  const detailRows = Object.entries(details || {})
+    .filter(([_, v]) => v !== undefined && v !== null && v !== '')
+    .map(([k, v]) => `
+      <tr>
+        <td style="padding: 10px 14px; font-weight: 700; color: #194622; border-bottom: 1px solid #e5ede3; font-size: 13px; width: 34%; vertical-align: top;">
+          ${k}
+        </td>
+        <td style="padding: 10px 14px; color: #132215; border-bottom: 1px solid #e5ede3; font-size: 13px; font-weight: 500; vertical-align: top;">
+          ${typeof v === 'object' ? `<pre style="margin: 0; font-family: monospace; white-space: pre-wrap;">${JSON.stringify(v, null, 2)}</pre>` : String(v)}
+        </td>
+      </tr>
+    `).join('');
+
+  const html = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>${subject}</title>
+</head>
+<body style="margin: 0; padding: 24px 0; background-color: #f7faf5; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #152518;">
+  <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td align="center">
+        <table role="presentation" width="100%" style="max-width: 540px; background: #ffffff; border-radius: 20px; border: 1px solid #dce8db; overflow: hidden; box-shadow: 0 8px 24px rgba(18,34,21,0.06);">
+          <tr>
+            <td style="background: linear-gradient(135deg, #18421f 0%, #25582f 100%); padding: 26px 24px; text-align: center;">
+              <div style="font-size: 32px; margin-bottom: 6px;">🔔</div>
+              <h1 style="color: #ffffff; margin: 0; font-size: 19px; font-weight: 800;">Farm Direct Admin Notification</h1>
+              <p style="color: #cde6d2; margin: 4px 0 0 0; font-size: 12px; font-weight: 600;">Action Requiring Admin Attention</p>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 24px;">
+              <div style="display: inline-block; padding: 5px 12px; background: #edf6ee; color: #194622; border-radius: 999px; font-size: 11px; font-weight: 800; text-transform: uppercase; margin-bottom: 16px;">
+                ${event}
+              </div>
+              <table width="100%" cellspacing="0" cellpadding="0" style="border-collapse: collapse;">
+                <tbody>
+                  ${detailRows}
+                </tbody>
+              </table>
+              <div style="margin-top: 24px; text-align: center;">
+                <a href="https://mcqticker.online/farm/admin" style="display: inline-block; padding: 12px 26px; background: #194622; color: #ffffff; text-decoration: none; border-radius: 12px; font-weight: 700; font-size: 13px;">
+                  Open Admin Dashboard &rarr;
+                </a>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td style="background-color: #f4f8f3; border-top: 1px solid #e5ede3; padding: 14px 24px; text-align: center; font-size: 11px; color: #718473;">
+              Delivering fresh to Gwalior, Karera, and Shivpuri &bull; Primary Admin: ${adminEmail}
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+  `;
+
+  const textLines = Object.entries(details || {})
+    .filter(([_, v]) => v !== undefined && v !== null && v !== '')
+    .map(([k, v]) => `${k}: ${typeof v === 'object' ? JSON.stringify(v) : v}`)
+    .join('\n');
+
+  const text = `Farm Direct Admin Alert: ${event}\n\n${textLines}\n\nAdmin Dashboard: https://mcqticker.online/farm/admin`;
+
+  return await sendEmail({ to: adminEmail, subject, html, text, env });
+}
+
 
