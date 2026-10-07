@@ -116,7 +116,7 @@ export async function onRequestPost({ request, env, params }) {
   await env.DB.batch(batch);
 
   // Send Admin Notification Email (rajkuma1046@gmail.com)
-  sendAdminNotificationEmail({
+  await sendAdminNotificationEmail({
     event: `⚠️ Order Cancelled by Customer #${order.order_number}`,
     details: {
       'Order Number': order.order_number,

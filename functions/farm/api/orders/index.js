@@ -292,46 +292,56 @@ export async function onRequestPost({ request, env }) {
     message: waMessage,
   });
 
+  // Dispatch emails and await delivery so Cloudflare isolate does not terminate prematurely
+  const emailDispatches = [];
+
   // Customer Confirmation Email (if email address was entered)
   if (customerEmail) {
-    sendOrderConfirmationEmail({
-      to: customerEmail,
-      order: {
-        orderNumber,
-        customerName,
-        areaName: area.name,
-        deliveryAddress,
-        items: itemSnapshots.map(it => ({
-          productName: it.productName,
-          quantity: it.quantity,
-          unit: it.unit,
-          lineTotalPaise: it.lineTotalPaise,
-        })),
-        grandTotalRupees: grandTotalPaise / 100,
-      },
-      env,
-    }).catch(err => console.error('[Order Email Error]:', err));
+    emailDispatches.push(
+      sendOrderConfirmationEmail({
+        to: customerEmail,
+        order: {
+          orderNumber,
+          customerName,
+          areaName: area.name,
+          deliveryAddress,
+          items: itemSnapshots.map(it => ({
+            productName: it.productName,
+            quantity: it.quantity,
+            unit: it.unit,
+            lineTotalPaise: it.lineTotalPaise,
+          })),
+          grandTotalRupees: grandTotalPaise / 100,
+        },
+        env,
+      }).catch(err => console.error('[Order Customer Confirmation Email Error]:', err))
+    );
   }
 
   // Primary Admin Notification Email (rajkuma1046@gmail.com)
-  sendAdminNotificationEmail({
-    event: `New Order Received #${orderNumber}`,
-    details: {
-      'Order Number': orderNumber,
-      'Customer Name': customerName,
-      'Mobile Number': customerPhone,
-      'Customer Email': customerEmail || 'Not provided',
-      'Delivery Area': `${area.name} (${area.city || 'MP'})`,
-      'Delivery Address': deliveryAddress,
-      'Produce Items': itemSnapshots.map(it => `${it.productName}: ${it.quantity} ${it.unit} (₹${it.lineTotalPaise / 100})`).join(' | '),
-      'Produce Subtotal': `₹${subtotalPaise / 100}`,
-      'Delivery Fee': `₹${deliveryChargePaise / 100}`,
-      'Grand Total': `₹${grandTotalPaise / 100}`,
-      'Payment Mode': 'Cash on Doorstep / UPI',
-      'Placed At': new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }),
-    },
-    env,
-  }).catch(err => console.error('[Admin Notification Order Error]:', err));
+  emailDispatches.push(
+    sendAdminNotificationEmail({
+      event: `New Order Received #${orderNumber}`,
+      details: {
+        'Order Number': orderNumber,
+        'Customer Name': customerName,
+        'Mobile Number': customerPhone,
+        'Customer Email': customerEmail || 'Not provided',
+        'Delivery Area': `${area.name} (${area.city || 'MP'})`,
+        'Delivery Address': deliveryAddress,
+        'Produce Items': itemSnapshots.map(it => `${it.productName}: ${it.quantity} ${it.unit} (₹${it.lineTotalPaise / 100})`).join(' | '),
+        'Produce Subtotal': `₹${subtotalPaise / 100}`,
+        'Delivery Fee': `₹${deliveryChargePaise / 100}`,
+        'Grand Total': `₹${grandTotalPaise / 100}`,
+        'Payment Mode': 'Cash on Doorstep / UPI',
+        'Placed At': new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }),
+      },
+      env,
+    }).catch(err => console.error('[Admin Notification Order Error]:', err))
+  );
+
+  // Await email transmissions so Gmail SMTP handshake completes fully
+  await Promise.allSettled(emailDispatches);
 
   return json({
     success: true,

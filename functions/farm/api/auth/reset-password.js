@@ -49,7 +49,7 @@ export async function onRequestPost({ request, env }) {
   `).bind(passwordHash, user.id).run();
 
   // Send admin notification
-  sendAdminNotificationEmail({
+  await sendAdminNotificationEmail({
     event: 'Customer Password Reset Completed',
     details: {
       'Customer Name': user.name,

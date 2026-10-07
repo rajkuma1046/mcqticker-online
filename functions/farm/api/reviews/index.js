@@ -296,7 +296,7 @@ export async function onRequestPost({ request, env }) {
   const newReviewId = insertRes?.meta?.last_row_id;
 
   // Trigger Admin Notification Email to rajkuma1046@gmail.com
-  sendAdminNotificationEmail({
+  await sendAdminNotificationEmail({
     event: `⭐ New Customer Review (${rating} Stars) - ${customerName}`,
     details: {
       'Customer Name': customerName,

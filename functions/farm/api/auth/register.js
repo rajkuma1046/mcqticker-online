@@ -49,8 +49,8 @@ export async function onRequestPost({ request, env }) {
     const userId = result.meta.last_row_id;
     const user = { id: userId, name, phone: rawPhone, email: rawEmail, role: 'CUSTOMER' };
 
-    // Send admin notification
-    sendAdminNotificationEmail({
+    // Send admin notification and await so SMTP connection finishes
+    await sendAdminNotificationEmail({
       event: 'New Customer Account Created',
       details: {
         'Customer Name': name,

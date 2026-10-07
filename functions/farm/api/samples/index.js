@@ -228,8 +228,8 @@ export async function onRequestPost({ request, env }) {
     message: waMessage,
   });
 
-  // Admin Notification Email (rajkuma1046@gmail.com)
-  sendAdminNotificationEmail({
+  // Admin Notification Email (rajkuma1046@gmail.com) - Await to ensure SMTP socket finishes
+  await sendAdminNotificationEmail({
     event: `New Free Sample Request (Batch #${insertedSamples[0].id})`,
     details: {
       'Customer Name': customerName,
