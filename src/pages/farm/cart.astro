@@ -3,45 +3,45 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
 ---
 
 <FarmLayout
-  title="Your Farm Cart | Farm Direct"
-  description="Review your selected raw agricultural produce pre-order."
+  title="आपकी ऑर्डर टोकरी (Cart) | खेत से सीधे — Farm Direct"
+  description="खेत से सीधे बिना पॉलिश अनाज, दालों और तिलहन की टोकरी और प्री-ऑर्डर सारांश।"
   canonicalPath="/farm/cart"
   hideCartBar={true}
 >
   <div class="fd-container py-10 sm:py-16">
     <div class="max-w-4xl mx-auto">
       <!-- Title -->
-      <div class="flex items-center justify-between pb-6 border-b border-[#e2ece0] mb-8">
+      <div class="flex items-center justify-between pb-6 border-b border-[#e2ece0] dark:border-[#223d26] mb-8">
         <div>
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 text-emerald-900 text-[10px] font-extrabold uppercase tracking-wider mb-2">
-            Direct Farm Harvest
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-900/60 text-emerald-900 dark:text-emerald-200 text-[10px] font-extrabold uppercase tracking-wider mb-2">
+            खेत से सीधा हार्वेस्ट • Direct Farm
           </div>
-          <h1 class="fd-display text-3xl sm:text-4xl font-extrabold text-[#132215]">
-            Your Pre-Order Basket
+          <h1 class="fd-display text-3xl sm:text-4xl font-extrabold text-[#132215] dark:text-white">
+            आपकी प्री-ऑर्डर टोकरी <span class="text-base font-normal text-[#5b6e5d] dark:text-gray-400 block sm:inline">(Pre-Order Basket)</span>
           </h1>
         </div>
-        <button id="btn-clear-cart" type="button" class="text-xs font-bold text-rose-700 hover:text-rose-800 bg-rose-50 hover:bg-rose-100 px-3 py-1.5 rounded-xl transition-colors" onclick="clearEntireCart()">
-          Clear Basket
+        <button id="btn-clear-cart" type="button" class="text-xs font-bold text-rose-700 dark:text-rose-400 hover:text-rose-800 bg-rose-50 dark:bg-rose-950/40 hover:bg-rose-100 dark:hover:bg-rose-900/40 px-3.5 py-2 rounded-xl transition-colors" onclick="clearEntireCart()">
+          टोकरी ख़ाली करें (Clear)
         </button>
       </div>
 
       <!-- Live Server Verification Indicator -->
-      <div id="cart-loading" class="text-center py-16 text-[#5b6e5d]">
-        <div class="inline-block animate-spin w-8 h-8 border-4 border-[#194622] border-t-transparent rounded-full mb-3"></div>
-        <p class="text-sm font-semibold">Validating live prices and stock with Cloudflare D1...</p>
+      <div id="cart-loading" class="text-center py-16 text-[#5b6e5d] dark:text-gray-400">
+        <div class="inline-block animate-spin w-8 h-8 border-4 border-[#194622] dark:border-emerald-500 border-t-transparent rounded-full mb-3"></div>
+        <p class="text-sm font-semibold">ताज़ा भाव व स्टॉक की पुष्टि हो रही है... (Validating stock...)</p>
       </div>
 
       <!-- Empty Cart Message -->
-      <div id="cart-empty" class="hidden text-center py-20 bg-white rounded-3xl border border-[#dce7db] p-8 shadow-xl shadow-emerald-950/[0.03]">
-        <div class="w-16 h-16 rounded-3xl bg-emerald-50 text-emerald-800 flex items-center justify-center text-3xl mx-auto mb-4 shadow-xs">
+      <div id="cart-empty" class="hidden text-center py-20 bg-white dark:bg-[#152317] rounded-3xl border border-[#dce7db] dark:border-[#223d26] p-8 shadow-xl shadow-emerald-950/[0.03]">
+        <div class="w-16 h-16 rounded-3xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 flex items-center justify-center text-3xl mx-auto mb-4 shadow-xs">
           🌾
         </div>
-        <h2 class="fd-display text-2xl font-extrabold text-[#132215] mb-2">Your basket is currently empty</h2>
-        <p class="text-xs sm:text-sm text-[#5b6e5d] max-w-md mx-auto mb-6 leading-relaxed">
-          You haven't reserved any raw produce yet. Browse this week's unpolished wheat, pulses, and oilseeds directly from our farm.
+        <h2 class="fd-display text-2xl font-extrabold text-[#132215] dark:text-white mb-2">आपकी टोकरी अभी ख़ाली है</h2>
+        <p class="text-xs sm:text-sm text-[#5b6e5d] dark:text-gray-300 max-w-md mx-auto mb-6 leading-relaxed">
+          आपने अभी तक कोई खेत उत्पाद नहीं चुना है। इस सप्ताह की ताज़ा फ़सलें, शुद्ध गेहूँ, देशी चना, कच्ची मूँगफली और दालें देखें।
         </p>
         <a href="/farm/products" class="fd-btn fd-btn-primary px-7 py-3.5 font-bold text-sm rounded-xl shadow-md">
-          Browse Farm Produce &rarr;
+          फ़सल सूची देखें (Browse Produce) &rarr;
         </a>
       </div>
 
@@ -50,62 +50,62 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
         <!-- Items Table Column -->
         <div class="lg:col-span-8 space-y-4">
           <!-- Stock issue warning banner -->
-          <div id="stock-warning" class="hidden p-4 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 text-xs font-bold leading-relaxed flex items-center gap-3">
+          <div id="stock-warning" class="hidden p-4 rounded-2xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 text-amber-900 dark:text-amber-200 text-xs font-bold leading-relaxed flex items-center gap-3">
             <span class="text-base">⚠️</span>
-            <span>Some quantities were adjusted to match current warehouse stock limits.</span>
+            <span>कुछ उत्पादों की मात्रा वर्तमान गोदाम स्टॉक सीमा के अनुसार समायोजित की गई है।</span>
           </div>
 
           <div id="cart-items-list" class="space-y-3.5">
             <!-- Rendered via JS -->
           </div>
 
-          <div class="pt-4 flex justify-between items-center text-xs text-[#5b6e5d]">
-            <a href="/farm/products" class="font-bold text-[#194622] hover:underline flex items-center gap-1">
-              &larr; Add more produce items
+          <div class="pt-4 flex justify-between items-center text-xs text-[#5b6e5d] dark:text-gray-400">
+            <a href="/farm/products" class="font-bold text-[#194622] dark:text-emerald-400 hover:underline flex items-center gap-1">
+              &larr; अन्य फ़सलें जोड़ें (Add more produce)
             </a>
-            <span class="text-[11px] text-[#748776]">Cloudflare D1 real-time calculation</span>
+            <span class="text-[11px] text-[#748776] dark:text-gray-400">खेत से सीधी गारंटी</span>
           </div>
         </div>
 
         <!-- Order Summary Column -->
         <div class="lg:col-span-4">
-          <div class="bg-white p-6 sm:p-7 rounded-3xl border border-[#dce7db] shadow-xl shadow-emerald-950/[0.04] space-y-5 sticky top-24">
-            <h3 class="fd-display font-extrabold text-lg text-[#132215] pb-3 border-b border-[#edf2eb]">
-              Pre-Order Summary
+          <div class="bg-white dark:bg-[#152317] p-6 sm:p-7 rounded-3xl border border-[#dce7db] dark:border-[#223d26] shadow-xl shadow-emerald-950/[0.04] space-y-5 sticky top-24">
+            <h3 class="fd-display font-extrabold text-lg text-[#132215] dark:text-white pb-3 border-b border-[#edf2eb] dark:border-[#223d26]">
+              ऑर्डर सारांश (Summary)
             </h3>
 
             <!-- Delivery Area Selector for live delivery charge -->
             <div class="space-y-1.5">
-              <label class="text-[11px] font-extrabold uppercase tracking-wider text-[#748776] block">Delivery Cluster</label>
+              <label class="text-[11px] font-extrabold uppercase tracking-wider text-[#748776] dark:text-gray-400 block">डिलीवरी इलाक़ा / क्लस्टर *</label>
               <select id="cart-delivery-area" class="fd-input font-bold text-xs" onchange="recalculateTotals()">
-                <option value="">Select Delivery Area in Gwalior</option>
+                <option value="">ग्वालियर / शिवपुरी में इलाक़ा चुनें...</option>
               </select>
             </div>
 
             <!-- Price Breakdown -->
-            <div class="space-y-3 text-xs text-[#5b6e5d] pt-1">
+            <div class="space-y-3 text-xs text-[#5b6e5d] dark:text-gray-300 pt-1">
               <div class="flex justify-between">
-                <span>Produce Subtotal:</span>
-                <strong id="summary-subtotal" class="text-[#132215] font-extrabold text-sm">₹0</strong>
+                <span>फ़सलों का कुल मूल्य (Subtotal):</span>
+                <strong id="summary-subtotal" class="text-[#132215] dark:text-white font-extrabold text-sm">₹0</strong>
               </div>
               <div class="flex justify-between">
-                <span>Cluster Transport Fee:</span>
-                <strong id="summary-delivery" class="text-[#132215] font-bold">Select area</strong>
+                <span>परिवहन व सुपुर्दगी शुल्क (Delivery):</span>
+                <strong id="summary-delivery" class="text-[#132215] dark:text-white font-bold">इलाक़ा चुनें</strong>
               </div>
-              <div id="min-order-note" class="hidden text-[11px] text-amber-800 bg-amber-50 p-2.5 rounded-xl border border-amber-200"></div>
-              <div class="border-t border-[#edf2eb] pt-3 flex justify-between items-baseline text-sm">
-                <span class="font-extrabold text-[#132215]">Grand Total:</span>
-                <strong id="summary-grand-total" class="text-2xl font-extrabold text-[#194622]">₹0</strong>
+              <div id="min-order-note" class="hidden text-[11px] text-amber-800 dark:text-amber-200 bg-amber-50 dark:bg-amber-950/40 p-2.5 rounded-xl border border-amber-200 dark:border-amber-800"></div>
+              <div class="border-t border-[#edf2eb] dark:border-[#223d26] pt-3 flex justify-between items-baseline text-sm">
+                <span class="font-extrabold text-[#132215] dark:text-white">कुल देय राशि (Grand Total):</span>
+                <strong id="summary-grand-total" class="text-2xl font-extrabold text-[#194622] dark:text-emerald-400">₹0</strong>
               </div>
             </div>
 
             <!-- Pre-Order Notice -->
-            <div class="text-[11px] text-[#5b6e5d] bg-[#f7faf5] p-3.5 rounded-xl border border-[#dce7db] leading-relaxed">
-              🌾 <strong>Pay on Doorstep Delivery:</strong> Payment via Cash or direct UPI scan at time of delivery.
+            <div class="text-[11px] text-[#5b6e5d] dark:text-gray-300 bg-[#f7faf5] dark:bg-[#1a2d1d] p-3.5 rounded-xl border border-[#dce7db] dark:border-[#244229] leading-relaxed">
+              🌾 <strong>डिलीवरी पर भुगतान (Pay on Delivery):</strong> घर पर माल पहुँचने पर नक़द (Cash) या यूपीआई (UPI) स्कैन से भुगतान करें।
             </div>
 
             <button id="btn-proceed-checkout" type="button" class="fd-btn fd-btn-primary w-full py-4 font-extrabold text-sm rounded-2xl shadow-lg shadow-emerald-950/20" onclick="proceedToCheckout()">
-              Proceed to Checkout &rarr;
+              ऑर्डर बुक करने आगे बढ़ें &rarr;
             </button>
           </div>
         </div>
@@ -124,9 +124,9 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
         if (areaData.success && areaData.deliveryAreas) {
           deliveryAreas = areaData.deliveryAreas;
           const select = document.getElementById('cart-delivery-area');
-          select.innerHTML = '<option value="">Select Delivery Area in Gwalior</option>' +
+          select.innerHTML = '<option value="">ग्वालियर / शिवपुरी में इलाक़ा चुनें...</option>' +
             deliveryAreas.map(a => `
-              <option value="${a.id}">${a.name} (Delivery: ₹${a.deliveryChargeRupees})</option>
+              <option value="${a.id}">${a.name} (${a.city}) — डिलीवरी: ₹${a.deliveryChargeRupees}</option>
             `).join('');
 
           const savedAreaId = localStorage.getItem('fd_selected_area_id');
@@ -173,7 +173,7 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
 
         const data = await res.json();
         if (!data.success) {
-          loader.innerHTML = `<p class="text-sm text-red-600">${data.error || 'Failed to validate cart.'}</p>`;
+          loader.innerHTML = `<p class="text-sm text-red-600">${data.error || 'टोकरी की पुष्टि नहीं हो सकी।'}</p>`;
           return;
         }
 
@@ -192,7 +192,7 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
         renderCartItems(data.items);
         renderSummary(data);
       } catch (err) {
-        loader.innerHTML = '<p class="text-sm text-red-600">Failed to connect to farm database. Please check connection.</p>';
+        loader.innerHTML = '<p class="text-sm text-red-600">सर्वर से संपर्क नहीं हो सका। कृपया इंटरनेट कनेक्शन जाँचें।</p>';
       }
     }
 
@@ -205,38 +205,38 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
       }
 
       list.innerHTML = items.map(item => {
-        const priceDisplay = item.priceRupees !== null ? `₹${item.priceRupees}/kg` : '';
+        const priceDisplay = item.priceRupees !== null ? `₹${item.priceRupees}/किलो` : '';
         const lineTotalDisplay = item.lineTotalRupees !== null ? `₹${item.lineTotalRupees}` : '—';
         const hasErr = item.error !== null;
 
         return `
-          <div class="bg-white p-4 sm:p-5 rounded-2xl border border-[#dce7db] shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div class="bg-white dark:bg-[#162719] p-4 sm:p-5 rounded-2xl border border-[#dce7db] dark:border-[#223d26] shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div class="flex items-center gap-4">
               <img
                 src="${item.imageUrl || '/farm/images/wheat-500.jpg'}"
                 alt="${item.productName}"
-                class="w-16 h-16 rounded-xl object-cover border border-[#dce7db] flex-shrink-0"
+                class="w-16 h-16 rounded-xl object-cover border border-[#dce7db] dark:border-[#2d4d32] flex-shrink-0"
               />
               <div>
-                <strong class="font-extrabold text-sm sm:text-base text-[#132215] block">${item.productName}</strong>
-                <div class="text-xs text-[#5b6e5d] mt-0.5">${priceDisplay}</div>
+                <strong class="font-extrabold text-sm sm:text-base text-[#132215] dark:text-white block">${item.productName}</strong>
+                <div class="text-xs text-[#5b6e5d] dark:text-gray-300 mt-0.5">${priceDisplay}</div>
                 ${hasErr ? `
-                  <span class="text-[11px] font-bold text-rose-700 bg-rose-50 px-2 py-0.5 rounded mt-1 inline-block">${item.error}</span>
+                  <span class="text-[11px] font-bold text-rose-700 dark:text-rose-300 bg-rose-50 dark:bg-rose-950/50 px-2 py-0.5 rounded mt-1 inline-block">${item.error}</span>
                 ` : ''}
               </div>
             </div>
 
-            <div class="flex items-center justify-between sm:justify-end gap-5 w-full sm:w-auto pt-2 sm:pt-0 border-t sm:border-t-0 border-[#edf2eb]">
+            <div class="flex items-center justify-between sm:justify-end gap-5 w-full sm:w-auto pt-2 sm:pt-0 border-t sm:border-t-0 border-[#edf2eb] dark:border-[#223d26]">
               <!-- Stepper -->
-              <div class="flex items-center gap-1.5 p-1 rounded-xl bg-[#f7faf5] border border-[#dce7db]">
-                <button type="button" class="w-7 h-7 rounded-lg bg-white border border-[#d0ded0] text-xs font-bold text-[#194622] hover:bg-[#eaf4ec]" onclick="updateItemQty(${item.productId}, -1)">−</button>
-                <span class="w-10 text-center text-xs font-extrabold text-[#132215]">${item.quantity} kg</span>
-                <button type="button" class="w-7 h-7 rounded-lg bg-white border border-[#d0ded0] text-xs font-bold text-[#194622] hover:bg-[#eaf4ec]" onclick="updateItemQty(${item.productId}, 1)">+</button>
+              <div class="flex items-center gap-1.5 p-1 rounded-xl bg-[#f7faf5] dark:bg-[#1b2f1e] border border-[#dce7db] dark:border-[#2d4d32]">
+                <button type="button" class="w-7 h-7 rounded-lg bg-white dark:bg-[#223d26] border border-[#d0ded0] dark:border-[#2d4d32] text-xs font-bold text-[#194622] dark:text-emerald-400 hover:bg-[#eaf4ec]" onclick="updateItemQty(${item.productId}, -1)">−</button>
+                <span class="w-12 text-center text-xs font-extrabold text-[#132215] dark:text-white">${item.quantity} kg</span>
+                <button type="button" class="w-7 h-7 rounded-lg bg-white dark:bg-[#223d26] border border-[#d0ded0] dark:border-[#2d4d32] text-xs font-bold text-[#194622] dark:text-emerald-400 hover:bg-[#eaf4ec]" onclick="updateItemQty(${item.productId}, 1)">+</button>
               </div>
 
-              <strong class="font-extrabold text-sm text-[#194622] min-w-[70px] text-right">${lineTotalDisplay}</strong>
+              <strong class="font-extrabold text-sm text-[#194622] dark:text-emerald-400 min-w-[70px] text-right">${lineTotalDisplay}</strong>
 
-              <button type="button" class="text-xs text-rose-600 hover:text-rose-800 p-1.5 rounded-lg hover:bg-rose-50 transition-colors" title="Remove" onclick="removeItem(${item.productId})">
+              <button type="button" class="text-xs text-rose-600 dark:text-rose-400 hover:text-rose-800 p-1.5 rounded-lg hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-colors" title="हटाएँ (Remove)" onclick="removeItem(${item.productId})">
                 ✕
               </button>
             </div>
@@ -256,7 +256,7 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
         const meetsMin = data.meetsMinimumOrder !== undefined ? data.meetsMinimumOrder : data.minOrderMet;
         const minVal = data.deliveryArea.minimumOrderRupees !== undefined ? data.deliveryArea.minimumOrderRupees : 200;
         if (!meetsMin) {
-          minNote.textContent = `Minimum order for ${data.deliveryArea.name} is ₹${minVal}. Please add more items.`;
+          minNote.textContent = `${data.deliveryArea.name} के लिए न्यूनतम ऑर्डर ₹${minVal} है। कृपया और सामग्री जोड़ें।`;
           minNote.classList.remove('hidden');
           btn.disabled = true;
           btn.classList.add('opacity-50', 'cursor-not-allowed');
@@ -266,7 +266,7 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
           btn.classList.remove('opacity-50', 'cursor-not-allowed');
         }
       } else {
-        delEl.textContent = 'Select area';
+        delEl.textContent = 'इलाक़ा चुनें';
         minNote.classList.add('hidden');
         btn.disabled = false;
         btn.classList.remove('opacity-50', 'cursor-not-allowed');
@@ -298,7 +298,7 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
     };
 
     window.clearEntireCart = function() {
-      if (confirm('Clear all items from your basket?')) {
+      if (confirm('क्या आप टोकरी से सभी उत्पाद हटाना चाहते हैं? (Clear all items?)')) {
         localStorage.removeItem('fd_cart_v1');
         if (typeof updateNavCartBadge === 'function') updateNavCartBadge();
         validateAndRenderCart();

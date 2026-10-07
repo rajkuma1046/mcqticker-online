@@ -3,11 +3,11 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
 ---
 
 <FarmLayout
-  title="Farm Direct | Raw Farm Produce by Pre-Order"
-  description="Order raw wheat, groundnut, chana, moong, urad and seasonal farm produce with scheduled delivery in Gwalior, Karera, and Shivpuri."
+  title="फार्म डायरेक्ट | सीधे खेत से शुद्ध देशी गेहूँ, दालें व मूँगफली (Gwalior, Shivpuri, Karera)"
+  description="गाँव के खेत से 100% शुद्ध, बिना पॉलिश का देशी गेहूँ, कच्ची मूँगफली, देशी चना, मूँग व उड़द दाल। ग्वालियर (पवन नगर, चेतकपुरी), करैरा, सिरसौद और शिवपुरी में ताज़ा होम डिलीवरी। मुफ़्त सैंपल उपलब्ध।"
   canonicalPath="/farm"
 >
-  <!-- HERO SECTION -->
+  <!-- HERO SECTION (Hindi Primary / English Secondary) -->
   <section class="relative pt-8 pb-16 sm:py-20 lg:py-24 overflow-hidden">
     <div class="fd-container relative z-10">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
@@ -15,27 +15,28 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
         <div class="lg:col-span-7 space-y-6">
           <div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-600/20 text-[#194622] text-xs font-extrabold uppercase tracking-wider shadow-xs">
             <span class="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
-            <span>Direct From Village Farm • Zero Middlemen</span>
+            <span>सीधे गाँव के खेत से • शून्य बिचौलिया (Direct From Village Farm)</span>
           </div>
 
-          <h1 class="fd-display text-4xl sm:text-6xl lg:text-7xl font-extrabold text-[#132215] tracking-tight leading-[1.08]">
-            Pure Raw Harvest,<br />
+          <h1 class="fd-display text-4xl sm:text-6xl lg:text-7xl font-extrabold text-[#132215] tracking-tight leading-[1.1]">
+            शुद्ध देशी उपज,<br />
             <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#194622] via-[#2d6f3b] to-[#c98528]">
-              Delivered Direct
+              सीधे आपके घर तक
             </span>
           </h1>
 
           <p class="text-base sm:text-lg text-[#4a5f4d] leading-relaxed max-w-xl font-medium">
-            Raw, unpolished wheat, pulses, and oilseeds threshed on village farmland and delivered fresh to <strong>Gwalior, Karera, Sirsod, and Shivpuri</strong>.
+            खेत से ताज़ा निकला बिना पॉलिश का देशी गेहूँ, कच्ची मूँगफली, देशी चना, मूँग और उड़द दाल। <strong>ग्वालियर (Pawan Nagar, Chetakpuri), करैरा, सिरसौद और शिवपुरी</strong> में ताज़ा व सुरक्षित होम डिलीवरी।
+            <span class="block text-xs sm:text-sm text-[#748776] font-normal mt-1">Pure raw harvest delivered direct to your kitchen with scheduled cluster transport.</span>
           </p>
 
           <div class="flex flex-wrap items-center gap-3.5 pt-2">
             <a href="#produce-catalogue" class="fd-btn fd-btn-primary fd-btn-lg text-base shadow-lg shadow-emerald-950/20 hover:shadow-xl hover:shadow-emerald-950/30">
-              <span>Explore This Week's Harvest</span>
+              <span>ताज़ा फसलें देखें • Explore Harvest</span>
               <span>&darr;</span>
             </a>
             <a href="/farm/samples" class="fd-btn fd-btn-secondary fd-btn-lg text-base border-emerald-900/15">
-              <span>🎁 Request Free Sample</span>
+              <span>🎁 मुफ़्त सैंपल मँगवाएँ • Free Sample</span>
             </a>
           </div>
 
@@ -43,15 +44,15 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
           <div class="pt-4 flex flex-wrap items-center gap-5 text-xs text-[#5b6e5d] font-semibold border-t border-[#e2ece0]/80">
             <div class="flex items-center gap-2">
               <span class="text-emerald-700 font-extrabold text-sm">✓</span>
-              <span>100% Unprocessed & Natural</span>
+              <span>100% शुद्ध व प्राकृतिक (Unprocessed)</span>
             </div>
             <div class="flex items-center gap-2">
               <span class="text-emerald-700 font-extrabold text-sm">✓</span>
-              <span>Authoritative Farm Gate Pricing</span>
+              <span>खेत की सीधी दरें (Farm-Gate Pricing)</span>
             </div>
             <div class="flex items-center gap-2">
               <span class="text-emerald-700 font-extrabold text-sm">✓</span>
-              <span>Pay on Doorstep Delivery</span>
+              <span>माल देखकर भुगतान (Pay on Delivery)</span>
             </div>
           </div>
         </div>
@@ -61,19 +62,19 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
           <div class="relative rounded-3xl overflow-hidden shadow-2xl shadow-emerald-950/20 border-4 border-white bg-white group">
             <img
               src="/farm/images/hero-1280.jpg"
-              alt="Wheat harvest in Raisen district, Madhya Pradesh"
+              alt="मध्य प्रदेश में खेत से गेहूँ की कटाई - Farm Wheat Harvest"
               class="w-full h-80 sm:h-[440px] object-cover object-center group-hover:scale-105 transition-transform duration-700"
               loading="eager"
             />
             <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-6 text-white">
               <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-[10px] uppercase font-extrabold tracking-wider w-fit mb-2 text-emerald-200">
-                <span>📍 Madhya Pradesh Harvest Belt</span>
+                <span>📍 मध्य प्रदेश कृषि पट्टी (Madhya Pradesh Harvest Belt)</span>
               </div>
               <h3 class="font-extrabold text-lg sm:text-xl text-white leading-snug">
-                Cleaned & Threshed by Farmers
+                किसानों द्वारा स्वच्छ व तैयार (Threshed by Farmers)
               </h3>
               <p class="text-xs text-white/80 mt-1 leading-relaxed">
-                No chemical bleaching, talc coating, or factory processing. Delivered in eco-sacks on scheduled cluster days.
+                कोई केमिकल पॉलिश नहीं, कोई कृत्रिम चमक नहीं। सुरक्षित बोरियों में सीधे आपके घर तक रविवार सुबह डिलीवरी।
               </p>
             </div>
           </div>
@@ -82,7 +83,7 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
     </div>
   </section>
 
-  <!-- 4 VALUE PILLARS -->
+  <!-- 4 VALUE PILLARS (Hindi Primary / English Secondary) -->
   <section class="py-10 bg-white/70 backdrop-blur-md border-y border-[#e2ece0]">
     <div class="fd-container">
       <div class="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
@@ -90,32 +91,36 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
           <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-800 flex items-center justify-center text-2xl shadow-xs">
             🌾
           </div>
-          <h4 class="fd-display font-extrabold text-base text-[#132215]">Raw & Unprocessed</h4>
-          <p class="text-xs text-[#5b6e5d] leading-relaxed">Natural whole grains with germ and seed coat intact for peak nutrition.</p>
+          <h4 class="fd-display font-extrabold text-base text-[#132215]">शुद्ध व बिना पॉलिश</h4>
+          <span class="text-[10px] font-bold text-[#748776] uppercase tracking-wide block">Raw & Unprocessed</span>
+          <p class="text-xs text-[#5b6e5d] leading-relaxed">प्राकृतिक चोकर और पोषक तत्वों से भरपूर, बिना किसी मशीन पॉलिश या केमिकल के।</p>
         </div>
 
         <div class="space-y-2">
           <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-800 flex items-center justify-center text-2xl shadow-xs">
             ⚖️
           </div>
-          <h4 class="fd-display font-extrabold text-base text-[#132215]">Farm-Gate Pricing</h4>
-          <p class="text-xs text-[#5b6e5d] leading-relaxed">Direct ₹/kg rates validated live against our Cloudflare D1 database.</p>
+          <h4 class="fd-display font-extrabold text-base text-[#132215]">खेत की सीधी कीमत</h4>
+          <span class="text-[10px] font-bold text-[#748776] uppercase tracking-wide block">Farm-Gate Pricing</span>
+          <p class="text-xs text-[#5b6e5d] leading-relaxed">बिचौलियों के मुनाफे से मुक्त, पारदर्शी सीधी ₹/किलो दरें।</p>
         </div>
 
         <div class="space-y-2">
           <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-800 flex items-center justify-center text-2xl shadow-xs">
             🚚
           </div>
-          <h4 class="fd-display font-extrabold text-base text-[#132215]">Scheduled Transport</h4>
-          <p class="text-xs text-[#5b6e5d] leading-relaxed">Consolidated weekly trips direct to Sirsod, Karera, Shivpuri, Pawan Nagar & Chetakpuri.</p>
+          <h4 class="fd-display font-extrabold text-base text-[#132215]">नियमित डिलीवरी</h4>
+          <span class="text-[10px] font-bold text-[#748776] uppercase tracking-wide block">Scheduled Transport</span>
+          <p class="text-xs text-[#5b6e5d] leading-relaxed">हर रविवार सुबह सिरसौद, करैरा, शिवपुरी, पवन नगर व चेतकपुरी में सुरक्षित होम डिलीवरी।</p>
         </div>
 
         <div class="space-y-2">
           <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-800 flex items-center justify-center text-2xl shadow-xs">
             🎁
           </div>
-          <h4 class="fd-display font-extrabold text-base text-[#132215]">Complimentary Tasting</h4>
-          <p class="text-xs text-[#5b6e5d] leading-relaxed">Order 100g or 200g free sample packets before booking seasonal stock.</p>
+          <h4 class="fd-display font-extrabold text-base text-[#132215]">मुफ़्त सैंपल सुविधा</h4>
+          <span class="text-[10px] font-bold text-[#748776] uppercase tracking-wide block">Free Tasting Sample</span>
+          <p class="text-xs text-[#5b6e5d] leading-relaxed">बड़ा ऑर्डर करने से पहले 100g या 200g मुफ़्त सैंपल मँगवाकर घर पर गुणवत्ता जाँचें।</p>
         </div>
       </div>
     </div>
@@ -127,20 +132,21 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
       <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12">
         <div>
           <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 text-emerald-900 text-[10px] font-extrabold uppercase tracking-wider mb-2">
-            Live Warehouse Inventory
+            लाइव वेयरहाउस स्टॉक • Live Inventory
           </div>
           <h2 class="fd-display text-3xl sm:text-5xl font-extrabold text-[#132215] tracking-tight">
-            This Week's Farm Produce
+            इस हफ्ते की ताज़ा फसलें
           </h2>
-          <p class="text-xs sm:text-sm text-[#5b6e5d] mt-2 max-w-xl font-medium">
-            Live rates and available grain weights retrieved directly from the farm server. All orders are weighed and packed to order.
+          <span class="text-xs font-bold text-[#748776] uppercase tracking-wider block mt-1">This Week's Farm Produce</span>
+          <p class="text-xs sm:text-sm text-[#5b6e5d] mt-2 max-w-xl font-medium leading-relaxed">
+            खेत के सर्वर से सीधे लाइव रेट्स और उपलब्ध स्टॉक। सभी बोरियाँ व पैकेट तौलकर ताज़ा पैक किए जाते हैं।
           </p>
         </div>
 
         <div class="flex items-center gap-3 self-start sm:self-end">
-          <span class="text-xs text-[#748776] font-semibold">Serving Clusters:</span>
+          <span class="text-xs text-[#748776] font-semibold">डिलीवरी क्षेत्र:</span>
           <span class="px-3 py-1.5 rounded-xl bg-white border border-[#d9e4d5] text-[#194622] text-xs font-bold shadow-xs">
-            📍 Pawan Nagar & Chetakpuri
+            📍 ग्वालियर, शिवपुरी, करैरा, सिरसौद
           </span>
         </div>
       </div>
@@ -148,35 +154,35 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
       <!-- Live Product Grid Container -->
       <div id="product-grid-loading" class="text-center py-20 text-[#5b6e5d]">
         <div class="inline-block animate-spin w-8 h-8 border-4 border-[#194622] border-t-transparent rounded-full mb-3"></div>
-        <p class="text-sm font-semibold">Connecting to Cloudflare D1 and loading live produce...</p>
+        <p class="text-sm font-semibold">खेत के सर्वर से ताज़ा फसलें लोड हो रही हैं... (Loading produce)</p>
       </div>
 
       <div id="product-grid" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
     </div>
   </section>
 
-  <!-- Real Customer Reviews & Harvest Photos Section -->
+  <!-- Real Customer Reviews & Harvest Photos Section (Hindi Primary) -->
   <section class="py-14 sm:py-20 bg-[#f4f7f2] border-t border-[#dce7db]">
     <div class="fd-container space-y-10">
       <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
         <div>
           <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-900 text-xs font-extrabold uppercase tracking-wider mb-2">
             <span>⭐</span>
-            <span>Customer Photos & Reviews</span>
+            <span>स्थानीय परिवारों का विश्वास • Verified Reviews</span>
           </span>
           <h2 class="fd-display text-2xl sm:text-4xl font-extrabold text-[#122815]">
-            Loved by Local Families
+            ग्वालियर व शिवपुरी के परिवारों का अनुभव
           </h2>
           <p class="text-xs sm:text-sm text-[#5b6e5d] mt-1">
-            Real feedback and photos from village homes and city kitchens in Sirsod, Gwalior, Karera, and Shivpuri.
+            सिरसौद, नया अमोला, करैरा और ग्वालियर (पवन नगर) के रसोईघरों से सीधे खेत की उपज के प्रामाणिक अनुभव।
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2">
           <a href="/farm/reviews" class="fd-btn fd-btn-secondary px-4 py-2.5 rounded-xl text-xs font-bold flex items-center gap-1">
-            <span>View All Reviews & Photos (⭐) &rarr;</span>
+            <span>सभी समीक्षाएँ व तस्वीरें देखें (⭐) &rarr;</span>
           </a>
           <a href="/farm/reviews?write=1" class="fd-btn fd-btn-primary px-4 py-2.5 rounded-xl text-xs font-bold">
-            <span>Write a Review</span>
+            <span>अपनी समीक्षा लिखें • Write Review</span>
           </a>
         </div>
       </div>
@@ -191,21 +197,21 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
                   R
                 </div>
                 <div>
-                  <strong class="font-extrabold text-xs text-[#122815] block">Ramesh Sharma</strong>
-                  <span class="text-[10px] text-[#5b6e5d]">📍 Pawan Nagar, Gwalior</span>
+                  <strong class="font-extrabold text-xs text-[#122815] block">रमेश शर्मा (Ramesh Sharma)</strong>
+                  <span class="text-[10px] text-[#5b6e5d]">📍 पवन नगर, ग्वालियर (Gwalior)</span>
                 </div>
               </div>
               <span class="text-amber-400 font-bold text-sm">★★★★★</span>
             </div>
             <p class="text-xs text-[#4a5f4d] leading-relaxed">
-              "Rotis are naturally sweet and exceptionally soft. Golden grains, completely clean without stones or dirt, and free from any chemical polish."
+              "रोटियाँ बेहद मुलायम और प्राकृतिक मिठास से भरपूर बनती हैं। दाने एकदम साफ़, बिना किसी कंकड़-मिट्टी और बिना किसी केमिकल पॉलिश के मिले।"
             </p>
           </div>
           <div class="pt-3 border-t border-[#f0f5ee] flex items-center gap-3">
             <img src="/farm/images/wheat-500.jpg" alt="Wheat review photo" class="w-12 h-12 rounded-xl object-cover border border-[#dce7db]" />
             <div>
-              <span class="text-[10px] font-extrabold text-[#194622] block">🌾 Farm Wheat (Gehu)</span>
-              <span class="text-[10px] text-emerald-700 font-bold">✓ Verified Purchase</span>
+              <span class="text-[10px] font-extrabold text-[#194622] block">🌾 देशी गेहूँ (Farm Wheat)</span>
+              <span class="text-[10px] text-emerald-700 font-bold">✓ प्रमाणित खरीददार (Verified)</span>
             </div>
           </div>
         </div>
@@ -219,21 +225,21 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
                   D
                 </div>
                 <div>
-                  <strong class="font-extrabold text-xs text-[#122815] block">Devendra Rawat</strong>
-                  <span class="text-[10px] text-[#5b6e5d]">📍 Village Sirsod</span>
+                  <strong class="font-extrabold text-xs text-[#122815] block">देवेन्द्र रावत (Devendra Rawat)</strong>
+                  <span class="text-[10px] text-[#5b6e5d]">📍 ग्राम सिरसौद (Village Sirsod)</span>
                 </div>
               </div>
               <span class="text-amber-400 font-bold text-sm">★★★★★</span>
             </div>
             <p class="text-xs text-[#4a5f4d] leading-relaxed">
-              "Native Sirsod village harvest. Desi kala chana is unpolished and natural. Soaked a handful overnight and healthy long sprouts came out within 24 hours."
+              "सिरसौद की शुद्ध देशी उपज। काला चना बिना पॉलिश का है। रात को मुट्ठी भर भिगोया और 24 घंटे में लंबे स्वस्थ अंकुर निकल आए। स्वाद बहुत बढ़िया है।"
             </p>
           </div>
           <div class="pt-3 border-t border-[#f0f5ee] flex items-center gap-3">
             <img src="/farm/images/chana-500.jpg" alt="Chana review photo" class="w-12 h-12 rounded-xl object-cover border border-[#dce7db]" />
             <div>
-              <span class="text-[10px] font-extrabold text-[#194622] block">🥣 Raw Chana</span>
-              <span class="text-[10px] text-emerald-700 font-bold">✓ Verified Purchase</span>
+              <span class="text-[10px] font-extrabold text-[#194622] block">🥣 देशी चना (Raw Chana)</span>
+              <span class="text-[10px] text-emerald-700 font-bold">✓ प्रमाणित खरीददार (Verified)</span>
             </div>
           </div>
         </div>
@@ -247,21 +253,21 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
                   A
                 </div>
                 <div>
-                  <strong class="font-extrabold text-xs text-[#122815] block">Amit Verma</strong>
-                  <span class="text-[10px] text-[#5b6e5d]">📍 Karera (Block)</span>
+                  <strong class="font-extrabold text-xs text-[#122815] block">अमित वर्मा (Amit Verma)</strong>
+                  <span class="text-[10px] text-[#5b6e5d]">📍 करैरा ब्लॉक (Karera, Shivpuri)</span>
                 </div>
               </div>
               <span class="text-amber-400 font-bold text-sm">★★★★★</span>
             </div>
             <p class="text-xs text-[#4a5f4d] leading-relaxed">
-              "Whole green moong is clean with zero stones or dust. Direct village farm delivery reached Karera promptly. Clean harvest shine without synthetic polish."
+              "साबुत हरी मूँग बिल्कुल साफ़ है। दालों में कोई पाउडर या सिंथेटिक चमक नहीं। करैरा में घर पर समय से डिलीवरी मिली। परिवार को बहुत पसंद आई।"
             </p>
           </div>
           <div class="pt-3 border-t border-[#f0f5ee] flex items-center gap-3">
             <img src="/farm/images/moong-500.jpg" alt="Moong review photo" class="w-12 h-12 rounded-xl object-cover border border-[#dce7db]" />
             <div>
-              <span class="text-[10px] font-extrabold text-[#194622] block">🌱 Raw Moong</span>
-              <span class="text-[10px] text-emerald-700 font-bold">✓ Verified Purchase</span>
+              <span class="text-[10px] font-extrabold text-[#194622] block">🌱 साबुत मूँग (Raw Moong)</span>
+              <span class="text-[10px] text-emerald-700 font-bold">✓ प्रमाणित खरीददार (Verified)</span>
             </div>
           </div>
         </div>
@@ -281,7 +287,7 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
         const data = await res.json();
 
         if (!data.success || !data.products || data.products.length === 0) {
-          loader.innerHTML = '<p class="text-sm text-red-600">No produce currently listed. Please check back soon.</p>';
+          loader.innerHTML = '<p class="text-sm text-red-600">वर्तमान में कोई फसल उपलब्ध नहीं है। कृपया जल्द पुनः देखें।</p>';
           return;
         }
 
@@ -290,23 +296,23 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
 
         grid.innerHTML = data.products.map(p => {
           const isOut = p.isOutOfStock;
-          const priceDisplay = p.pricePerKgRupees !== null ? `₹${p.pricePerKgRupees}` : 'Seasonal';
           const defaultPreset = p.quantityOptions[0] || 1;
-
           const price = p.pricePerKgRupees;
+          const displayTitle = p.localName ? `${p.localName} (${p.name})` : p.name;
+
           return `
             <div class="bg-white rounded-2xl border border-[#d6e2d4] overflow-hidden shadow-xs hover:shadow-lg transition-all duration-300 flex flex-col justify-between ${isOut ? 'opacity-85' : ''}">
               <div>
-                <!-- Top Image Area matching Screenshot -->
+                <!-- Top Image Area -->
                 <div class="relative w-full h-48 sm:h-52 bg-[#d7e2d5] flex items-center justify-center overflow-hidden">
                   <!-- Top-left pill: Raw / Unprocessed -->
                   <span class="absolute top-3 left-3 bg-[#243527] text-white text-[11px] font-semibold px-2.5 py-1 rounded-md shadow-xs z-10">
-                    ${p.label || (p.isSeasonal ? 'Seasonal Harvest' : 'Raw / Unprocessed')}
+                    ${p.label || (p.isSeasonal ? 'मौसमी फसल • Seasonal' : '100% शुद्ध देशी उपज')}
                   </span>
 
                   <!-- Bottom-right pill: Available: 85 kg -->
                   <span class="absolute bottom-3 right-3 bg-white/95 text-[#132215] text-[11px] font-bold px-2.5 py-1 rounded-md shadow-xs border border-black/5 z-10">
-                    ${isOut ? 'Sold Out' : `Available: ${p.quantityAvailable !== null ? `${p.quantityAvailable} kg` : 'In Stock'}`}
+                    ${isOut ? 'स्टॉक समाप्त • Sold Out' : `उपलब्ध: ${p.quantityAvailable !== null ? `${p.quantityAvailable} किलो` : 'In Stock'}`}
                   </span>
 
                   <a href="/farm/products/${p.slug}" class="block w-full h-full relative group">
@@ -318,7 +324,7 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
                     />
                     <div class="absolute inset-0 bg-[#1c3820]/15 flex items-center justify-center p-4">
                       <span class="font-extrabold text-[#194622] text-lg sm:text-xl drop-shadow-sm text-center">
-                        ${p.name}
+                        ${displayTitle}
                       </span>
                     </div>
                   </a>
@@ -326,7 +332,7 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
                   ${isOut ? `
                     <div class="absolute inset-0 bg-black/60 backdrop-blur-xs flex items-center justify-center z-20">
                       <span class="px-4 py-1.5 rounded-lg bg-red-600 text-white font-black text-xs uppercase tracking-wider shadow-md">
-                        Sold Out
+                        स्टॉक समाप्त • Sold Out
                       </span>
                     </div>
                   ` : ''}
@@ -338,14 +344,12 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
                   <div class="flex items-center justify-between gap-2">
                     <h2 class="text-base sm:text-lg font-black text-[#132215] truncate">
                       <a href="/farm/products/${p.slug}" class="hover:text-[#194622] transition-colors">
-                        ${p.name}
+                        ${p.localName || p.name}
                       </a>
                     </h2>
-                    ${p.localName ? `
-                      <span class="text-xs sm:text-sm font-bold text-[#8c5324] whitespace-nowrap">
-                        ${p.localName}
-                      </span>
-                    ` : ''}
+                    <span class="text-xs sm:text-sm font-bold text-[#8c5324] whitespace-nowrap">
+                      ${p.name}
+                    </span>
                   </div>
 
                   <!-- Description -->
@@ -360,7 +364,7 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
                   <div class="flex items-center justify-between gap-2 pt-1">
                     <div class="flex items-baseline gap-1">
                       <span class="text-xl sm:text-2xl font-black text-[#132215]">₹${price}</span>
-                      <span class="text-xs font-semibold text-[#667a68]">/ kg</span>
+                      <span class="text-xs font-semibold text-[#667a68]">/ किलो (kg)</span>
                     </div>
 
                     ${!isOut ? `
@@ -396,22 +400,24 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
                   <div class="grid grid-cols-2 gap-2.5">
                     <button
                       type="button"
-                      class="w-full py-2.5 px-3 rounded-xl border border-[#1b4522] bg-[#f7faf5] hover:bg-[#ebf4e9] text-[#1b4522] font-bold text-xs sm:text-sm transition-all text-center"
+                      class="w-full py-2.5 px-3 rounded-xl border border-[#1b4522] bg-[#f7faf5] hover:bg-[#ebf4e9] text-[#1b4522] font-bold text-xs sm:text-sm transition-all text-center flex flex-col items-center justify-center leading-tight"
                       onclick="addHomeToCart(${p.id}, '${p.name.replace(/'/g, "\\'")}', ${price})"
                     >
-                      Add to Cart
+                      <span>टोकरी में जोड़ें</span>
+                      <span class="text-[9px] opacity-75 font-normal">Add to Cart</span>
                     </button>
                     <button
                       type="button"
-                      class="w-full py-2.5 px-3 rounded-xl bg-[#6d4623] hover:bg-[#5a381a] text-white font-bold text-xs sm:text-sm shadow-xs transition-all text-center"
+                      class="w-full py-2.5 px-3 rounded-xl bg-[#6d4623] hover:bg-[#5a381a] text-white font-bold text-xs sm:text-sm shadow-xs transition-all text-center flex flex-col items-center justify-center leading-tight"
                       onclick="buyNowHome(${p.id}, '${p.name.replace(/'/g, "\\'")}', ${price})"
                     >
-                      Buy Now
+                      <span>तुरंत खरीदें</span>
+                      <span class="text-[9px] opacity-80 font-normal">Buy Now</span>
                     </button>
                   </div>
                 ` : `
                   <button type="button" class="w-full py-2.5 rounded-xl bg-gray-100 text-gray-400 font-bold text-xs cursor-not-allowed" disabled>
-                    Currently Out of Stock
+                    वर्तमान में स्टॉक समाप्त (Out of Stock)
                   </button>
                 `}
 
@@ -419,14 +425,14 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
                   href="/farm/samples?product_id=${p.id}"
                   class="block w-full py-2 px-3 rounded-xl border border-dashed border-[#b8751c] bg-[#fef8f0] hover:bg-[#faeedb] text-center text-[11px] sm:text-xs font-semibold text-[#8c5324] transition-colors"
                 >
-                  Not sure? Request Free Sample (100g/200g)
+                  🎁 पहले परखें: मुफ़्त 100g/200g सैंपल मँगवाएँ
                 </a>
               </div>
             </div>
           `;
         }).join('');
       } catch (err) {
-        loader.innerHTML = '<p class="text-sm text-red-600">Failed to connect to database. Please refresh.</p>';
+        loader.innerHTML = '<p class="text-sm text-red-600">सर्वर से जुड़ने में त्रुटि। कृपया पेज रिफ्रेश करें।</p>';
       }
     }
 
@@ -465,7 +471,7 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
       if (typeof updateNavCartBadge === 'function') updateNavCartBadge();
 
       // Modern Toast Notification
-      showToast(`Added ${qty} kg ${productName} to your farm cart.`);
+      showToast(`${qty} किलो ${productName} टोकरी में जोड़ा गया (Added to cart).`);
     };
 
     window.buyNowHome = function(productId, productName, priceRupees) {

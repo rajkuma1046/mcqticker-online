@@ -5,38 +5,38 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
 ---
 
 <FarmLayout
-  title="Track Pre-Order & Sample Requests | Farm Direct"
-  description="Check live status and delivery updates for your Farm Direct produce pre-order or tasting sample in Gwalior."
+  title="ऑर्डर व सैंपल ट्रैक करें (Track Order) | खेत से सीधे — Farm Direct"
+  description="ग्वालियर और शिवपुरी में अपने प्री-ऑर्डर या मुफ़्त सैंपल का लाइव डिलीवरी स्टेटस और प्रेषण अपडेट देखें।"
   canonicalPath="/farm/track"
 >
   <div class="fd-container py-8 sm:py-16">
     <div class="max-w-2xl mx-auto space-y-8">
       <!-- Title -->
       <div class="text-center space-y-2">
-        <span class="inline-flex items-center gap-1.5 text-xs uppercase tracking-wider text-emerald-800 font-extrabold bg-emerald-50 border border-emerald-200 px-3.5 py-1 rounded-full">
+        <span class="inline-flex items-center gap-1.5 text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-300 font-extrabold bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 px-3.5 py-1 rounded-full">
           <span>🔍</span>
-          <span>Live Farm Tracker</span>
+          <span>लाइव फ़ार्म ट्रैकर • Live Order Tracker</span>
         </span>
-        <h1 class="fd-display text-3xl sm:text-4xl font-extrabold text-[#122815]">
-          Track Your Pre-Order
+        <h1 class="fd-display text-3xl sm:text-4xl font-extrabold text-[#122815] dark:text-white">
+          अपना प्री-ऑर्डर ट्रैक करें
         </h1>
-        <p class="text-xs sm:text-sm text-[#5b6e5d]">
-          Enter your Order Number (e.g. FD-GWL-...) or registered 10-digit mobile number.
+        <p class="text-xs sm:text-sm text-[#5b6e5d] dark:text-gray-300">
+          अपना ऑर्डर नंबर (उदा. FD-GWL-...) या पंजीकृत 10 अंकों का मोबाइल नंबर दर्ज करें।
         </p>
       </div>
 
       <!-- Search Input Card -->
-      <div class="bg-white p-6 sm:p-8 rounded-3xl border border-[#e2ece0] shadow-sm space-y-4">
+      <div class="bg-white dark:bg-[#152317] p-6 sm:p-8 rounded-3xl border border-[#e2ece0] dark:border-[#223d26] shadow-sm space-y-4">
         <form onsubmit="handleTrack(event)" class="space-y-4">
           <div>
-            <label class="text-xs font-bold uppercase tracking-wider text-[#495c4b] block mb-1.5">
-              Order Number or Mobile Number *
+            <label class="text-xs font-bold uppercase tracking-wider text-[#495c4b] dark:text-gray-300 block mb-1.5">
+              ऑर्डर नंबर या मोबाइल नंबर (Order No / Mobile) *
             </label>
             <input
               id="track-input"
               type="text"
               required
-              placeholder="e.g. FD-GWL-20261004-0001 or 8770767272"
+              placeholder="उदा. FD-GWL-20261004-0001 या 8770767272"
               class="fd-input font-bold text-sm"
             />
           </div>
@@ -46,29 +46,29 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
             type="submit"
             class="fd-btn fd-btn-primary w-full py-3.5 font-bold text-sm shadow-md"
           >
-            Track Delivery Status &rarr;
+            डिलीवरी स्थिति ट्रैक करें (Track Delivery) &rarr;
           </button>
         </form>
       </div>
 
       <!-- Results Container -->
       <div id="track-result" class="hidden space-y-6"></div>
-      <div id="track-error" class="hidden p-4 rounded-2xl bg-red-50 border border-red-200 text-red-700 text-xs sm:text-sm font-semibold text-center"></div>
+      <div id="track-error" class="hidden p-4 rounded-2xl bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-200 text-xs sm:text-sm font-semibold text-center"></div>
     </div>
   </div>
 
   <script is:inline>
     const STATUS_MAP = {
-      'PENDING': { label: 'Pre-Order Received', color: 'bg-amber-100 text-amber-900 border-amber-300' },
-      'CONFIRMED': { label: 'Confirmed & Stock Reserved', color: 'bg-blue-100 text-blue-900 border-blue-300' },
-      'PREPARING': { label: 'Packing at Farm', color: 'bg-indigo-100 text-indigo-900 border-indigo-300' },
-      'READY_FOR_DELIVERY': { label: 'Ready for Transport', color: 'bg-purple-100 text-purple-900 border-purple-300' },
-      'OUT_FOR_DELIVERY': { label: 'Out for Sunday Delivery', color: 'bg-emerald-100 text-emerald-900 border-emerald-300 animate-pulse' },
-      'DELIVERED': { label: 'Delivered', color: 'bg-green-100 text-green-900 border-green-300' },
-      'CANCELLED': { label: 'Cancelled', color: 'bg-red-100 text-red-900 border-red-300' },
-      'REQUESTED': { label: 'Sample Requested', color: 'bg-amber-100 text-amber-900 border-amber-300' },
-      'APPROVED': { label: 'Sample Approved for Round', color: 'bg-blue-100 text-blue-900 border-blue-300' },
-      'SCHEDULED': { label: 'Scheduled in Round', color: 'bg-purple-100 text-purple-900 border-purple-300' },
+      'PENDING': { label: 'ऑर्डर प्राप्त हुआ (Order Received)', color: 'bg-amber-100 dark:bg-amber-950/60 text-amber-900 dark:text-amber-200 border-amber-300 dark:border-amber-700' },
+      'CONFIRMED': { label: 'स्वीकृत व आरक्षित (Confirmed)', color: 'bg-blue-100 dark:bg-blue-950/60 text-blue-900 dark:text-blue-200 border-blue-300 dark:border-blue-700' },
+      'PREPARING': { label: 'खेत पर पैकिंग जारी (Packing at Farm)', color: 'bg-indigo-100 dark:bg-indigo-950/60 text-indigo-900 dark:text-indigo-200 border-indigo-300 dark:border-indigo-700' },
+      'READY_FOR_DELIVERY': { label: 'रवानगी हेतु तैयार (Ready)', color: 'bg-purple-100 dark:bg-purple-950/60 text-purple-900 dark:text-purple-200 border-purple-300 dark:border-purple-700' },
+      'OUT_FOR_DELIVERY': { label: 'डिलीवरी हेतु रवाना (Out for Delivery)', color: 'bg-emerald-100 dark:bg-emerald-900/60 text-emerald-900 dark:text-emerald-200 border-emerald-300 dark:border-emerald-700 animate-pulse' },
+      'DELIVERED': { label: 'डिलीवर हुआ (Delivered)', color: 'bg-green-100 dark:bg-green-950/60 text-green-900 dark:text-green-200 border-green-300 dark:border-green-700' },
+      'CANCELLED': { label: 'रद्द (Cancelled)', color: 'bg-red-100 dark:bg-red-950/60 text-red-900 dark:text-red-200 border-red-300 dark:border-red-700' },
+      'REQUESTED': { label: 'सैंपल अनुरोध दर्ज (Requested)', color: 'bg-amber-100 dark:bg-amber-950/60 text-amber-900 dark:text-amber-200 border-amber-300 dark:border-amber-700' },
+      'APPROVED': { label: 'सैंपल स्वीकृत (Approved)', color: 'bg-blue-100 dark:bg-blue-950/60 text-blue-900 dark:text-blue-200 border-blue-300 dark:border-blue-700' },
+      'SCHEDULED': { label: 'डिलीवरी राउंड तय (Scheduled)', color: 'bg-purple-100 dark:bg-purple-950/60 text-purple-900 dark:text-purple-200 border-purple-300 dark:border-purple-700' },
     };
 
     async function handleTrack(e) {
@@ -83,7 +83,7 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
       resBox.classList.add('hidden');
       errBox.classList.add('hidden');
       btn.disabled = true;
-      btn.textContent = 'Searching records...';
+      btn.textContent = 'विवरण खोजा जा रहा है... (Searching...)';
 
       const isPhone = /^\d{10}$/.test(input.replace(/\D/g, ''));
       const param = isPhone ? `phone=${encodeURIComponent(input)}` : `order_number=${encodeURIComponent(input)}`;
@@ -93,10 +93,10 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
         const data = await res.json();
 
         btn.disabled = false;
-        btn.textContent = 'Track Delivery Status →';
+        btn.textContent = 'डिलीवरी स्थिति ट्रैक करें (Track Delivery) →';
 
         if (!data.success) {
-          errBox.textContent = data.error || 'No orders or samples found for this query.';
+          errBox.textContent = data.error || 'इस विवरण से कोई ऑर्डर या सैंपल नहीं मिला। कृपया नंबर जाँचें।';
           errBox.classList.remove('hidden');
           return;
         }
@@ -104,8 +104,8 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
         renderTracking(data);
       } catch (err) {
         btn.disabled = false;
-        btn.textContent = 'Track Delivery Status →';
-        errBox.textContent = 'Network error. Please try again.';
+        btn.textContent = 'डिलीवरी स्थिति ट्रैक करें (Track Delivery) →';
+        errBox.textContent = 'नेटवर्क त्रुटि: कृपया इंटरनेट कनेक्शन जाँचें और पुनः प्रयास करें।';
         errBox.classList.remove('hidden');
       }
     }
@@ -114,7 +114,7 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
       if (!str) return '';
       try {
         const d = new Date(str.includes('Z') ? str : str + 'Z');
-        return d.toLocaleString('en-IN', {
+        return d.toLocaleString('hi-IN', {
           timeZone: 'Asia/Kolkata',
           day: 'numeric',
           month: 'short',
@@ -129,12 +129,12 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
     }
 
     const ORDER_STEPS = [
-      { key: 'PENDING', label: 'Placed', icon: '📝' },
-      { key: 'CONFIRMED', label: 'Confirmed', icon: '🌾' },
-      { key: 'PREPARING', label: 'Threshing', icon: '⚙️' },
-      { key: 'READY_FOR_DELIVERY', label: 'Ready', icon: '📦' },
-      { key: 'OUT_FOR_DELIVERY', label: 'Out for Delivery', icon: '🚚' },
-      { key: 'DELIVERED', label: 'Delivered', icon: '🏡' },
+      { key: 'PENDING', label: 'प्राप्त (Placed)', icon: '📝' },
+      { key: 'CONFIRMED', label: 'कन्फ़र्म (Confirmed)', icon: '🌾' },
+      { key: 'PREPARING', label: 'पैकिंग (Packing)', icon: '⚙️' },
+      { key: 'READY_FOR_DELIVERY', label: 'तैयार (Ready)', icon: '📦' },
+      { key: 'OUT_FOR_DELIVERY', label: 'रवाना (On Route)', icon: '🚚' },
+      { key: 'DELIVERED', label: 'सुपुर्द (Delivered)', icon: '🏡' },
     ];
 
     function renderTracking(data) {
@@ -148,13 +148,13 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
         const currentStepIndex = isCancelled ? -1 : ORDER_STEPS.findIndex(s => s.key === o.status);
 
         html += `
-          <div class="bg-white p-6 sm:p-8 rounded-3xl border border-[#e2ece0] shadow-sm space-y-6">
+          <div class="bg-white dark:bg-[#152317] p-6 sm:p-8 rounded-3xl border border-[#e2ece0] dark:border-[#223d26] shadow-sm space-y-6">
             <!-- Header Slip -->
-            <div class="flex items-center justify-between pb-4 border-b border-[#f0f5ee]">
+            <div class="flex items-center justify-between pb-4 border-b border-[#f0f5ee] dark:border-[#223d26]">
               <div>
-                <span class="text-[10px] font-extrabold uppercase tracking-wider text-[#718573] block">Official Farm Order Slip</span>
-                <h3 class="font-mono text-lg font-black text-[#122815] tracking-tight">${o.orderNumber}</h3>
-                <span class="text-[11px] text-[#718573]">Placed on: ${formatDateTime(o.createdAt)}</span>
+                <span class="text-[10px] font-extrabold uppercase tracking-wider text-[#718573] dark:text-gray-400 block">अधिकृत खेत ऑर्डर पर्ची (Farm Slip)</span>
+                <h3 class="font-mono text-lg font-black text-[#122815] dark:text-white tracking-tight">${o.orderNumber}</h3>
+                <span class="text-[11px] text-[#718573] dark:text-gray-400">ऑर्डर तिथि: ${formatDateTime(o.createdAt)}</span>
               </div>
               <span class="px-3.5 py-1.5 rounded-full text-xs font-black uppercase tracking-wider border shadow-xs ${st.color}">
                 ${st.label}
@@ -164,18 +164,18 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
             <!-- Horizontal Order Progress Stepper -->
             <div class="py-2">
               <div class="flex items-center justify-between mb-3">
-                <span class="text-[11px] font-extrabold uppercase tracking-wider text-[#355239]">Live Fulfillment Progress</span>
-                <span class="text-[10px] font-bold text-emerald-800 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-full">
-                  Sunday Dispatch Cycle
+                <span class="text-[11px] font-extrabold uppercase tracking-wider text-[#355239] dark:text-emerald-400">लाइव पूर्ति प्रगति (Fulfillment Progress)</span>
+                <span class="text-[10px] font-bold text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 px-2.5 py-0.5 rounded-full">
+                  शेड्यूल्ड डिलीवरी साइकिल
                 </span>
               </div>
 
               ${isCancelled ? `
-                <div class="p-4 rounded-2xl bg-rose-50 border border-rose-200 flex items-center gap-3 text-rose-800">
+                <div class="p-4 rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800 flex items-center gap-3 text-rose-800 dark:text-rose-200">
                   <span class="text-2xl">❌</span>
                   <div>
-                    <strong class="text-sm font-bold block">Order Cancelled</strong>
-                    <span class="text-xs text-rose-700">${o.adminNote || 'This order was cancelled and reserved harvest was restored.'}</span>
+                    <strong class="text-sm font-bold block">ऑर्डर रद्द कर दिया गया (Order Cancelled)</strong>
+                    <span class="text-xs text-rose-700 dark:text-rose-300">${o.adminNote || 'यह ऑर्डर रद्द किया गया और आरक्षित स्टॉक रिस्टोर कर दिया गया है।'}</span>
                   </div>
                 </div>
               ` : `
@@ -183,7 +183,7 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
                 <div class="overflow-x-auto pb-4 pt-2 -mx-2 px-2 scrollbar-none">
                   <div class="min-w-[620px] relative flex items-center justify-between">
                     <!-- Background Connector Line -->
-                    <div class="absolute left-6 right-6 top-5 -translate-y-1/2 h-1 bg-[#e2ece0] z-0"></div>
+                    <div class="absolute left-6 right-6 top-5 -translate-y-1/2 h-1 bg-[#e2ece0] dark:bg-[#223d26] z-0"></div>
                     
                     <!-- Active Fill Line -->
                     <div 
@@ -195,20 +195,19 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
                     ${ORDER_STEPS.map((step, idx) => {
                       const isCompleted = currentStepIndex >= 0 && idx < currentStepIndex;
                       const isCurrent = currentStepIndex >= 0 && idx === currentStepIndex;
-                      const isUpcoming = currentStepIndex >= 0 && idx > currentStepIndex;
 
-                      let circleClass = 'bg-[#f4f7f2] border-2 border-[#d6e3d4] text-[#8aa08c]';
+                      let circleClass = 'bg-[#f4f7f2] dark:bg-[#1b2f1e] border-2 border-[#d6e3d4] dark:border-[#2d4d32] text-[#8aa08c]';
                       let iconContent = step.icon;
-                      let labelClass = 'text-[#8aa08c] font-semibold';
+                      let labelClass = 'text-[#8aa08c] dark:text-gray-400 font-semibold';
 
                       if (isCompleted) {
                         circleClass = 'bg-emerald-700 border-2 border-emerald-700 text-white shadow-xs';
                         iconContent = '✓';
-                        labelClass = 'text-[#1b4522] font-bold';
+                        labelClass = 'text-[#1b4522] dark:text-emerald-400 font-bold';
                       } else if (isCurrent) {
-                        circleClass = 'bg-white border-2 border-emerald-600 text-emerald-800 ring-4 ring-emerald-100 shadow-md scale-110';
+                        circleClass = 'bg-white dark:bg-[#162719] border-2 border-emerald-600 text-emerald-800 dark:text-emerald-400 ring-4 ring-emerald-100 dark:ring-emerald-900/40 shadow-md scale-110';
                         iconContent = step.icon;
-                        labelClass = 'text-emerald-950 font-black';
+                        labelClass = 'text-emerald-950 dark:text-white font-black';
                       }
 
                       return `
@@ -220,8 +219,8 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
                             ${step.label}
                           </span>
                           ${isCurrent ? `
-                            <span class="mt-1 text-[9px] font-black uppercase tracking-wider text-emerald-700 bg-emerald-100/90 px-1.5 py-0.5 rounded-full animate-pulse">
-                              Current
+                            <span class="mt-1 text-[9px] font-black uppercase tracking-wider text-emerald-700 dark:text-emerald-300 bg-emerald-100/90 dark:bg-emerald-900/60 px-1.5 py-0.5 rounded-full animate-pulse">
+                              वर्तमान
                             </span>
                           ` : ''}
                         </div>
@@ -234,24 +233,24 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
 
             <!-- Farmer's Admin Note / Latest Update Card -->
             ${o.adminNote ? `
-              <div class="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-emerald-50/90 via-[#f0f7ef] to-teal-50 border border-emerald-200/80 shadow-xs">
+              <div class="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-emerald-50/90 via-[#f0f7ef] to-teal-50 dark:from-emerald-950/40 dark:via-[#1a2e1d] dark:to-teal-950/30 border border-emerald-200/80 dark:border-emerald-800 shadow-xs">
                 <div class="flex items-start gap-3.5">
                   <div class="w-10 h-10 rounded-2xl bg-emerald-700 text-white flex items-center justify-center text-xl shrink-0 shadow-xs">
                     👨‍🌾
                   </div>
                   <div class="space-y-1 flex-1">
                     <div class="flex items-center justify-between flex-wrap gap-1">
-                      <strong class="text-xs font-black uppercase tracking-wider text-emerald-950 flex items-center gap-1.5">
-                        <span>Farmer Note & Status Update</span>
+                      <strong class="text-xs font-black uppercase tracking-wider text-emerald-950 dark:text-white flex items-center gap-1.5">
+                        <span>किसान का संदेश व स्टेटस अपडेट (Farmer Note)</span>
                         <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
                       </strong>
                       ${o.updatedAt ? `
-                        <span class="text-[11px] text-emerald-800 font-bold bg-white/80 px-2 py-0.5 rounded-md border border-emerald-200">
+                        <span class="text-[11px] text-emerald-800 dark:text-emerald-300 font-bold bg-white/80 dark:bg-black/30 px-2 py-0.5 rounded-md border border-emerald-200 dark:border-emerald-800">
                           ${formatDateTime(o.updatedAt)}
                         </span>
                       ` : ''}
                     </div>
-                    <p class="text-sm font-bold text-[#143317] leading-relaxed pt-0.5">
+                    <p class="text-sm font-bold text-[#143317] dark:text-gray-100 leading-relaxed pt-0.5">
                       "${o.adminNote}"
                     </p>
                   </div>
@@ -261,28 +260,27 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
 
             <!-- Status Updation History with Notes for each step -->
             ${o.timeline && o.timeline.length > 0 ? `
-              <div class="pt-2 border-t border-[#f0f5ee]">
-                <h4 class="text-xs font-extrabold uppercase tracking-wider text-[#355239] mb-3 flex items-center gap-1.5">
+              <div class="pt-2 border-t border-[#f0f5ee] dark:border-[#223d26]">
+                <h4 class="text-xs font-extrabold uppercase tracking-wider text-[#355239] dark:text-emerald-400 mb-3 flex items-center gap-1.5">
                   <span>📜</span>
-                  <span>Timeline & Updation Notes (${o.timeline.length})</span>
+                  <span>टाइमलाइन व प्रगति नोट्स (${o.timeline.length})</span>
                 </h4>
-                <div class="space-y-3 relative before:absolute before:left-3.5 before:top-2 before:bottom-2 before:w-0.5 before:bg-[#e2ece0]">
+                <div class="space-y-3 relative before:absolute before:left-3.5 before:top-2 before:bottom-2 before:w-0.5 before:bg-[#e2ece0] dark:before:bg-[#223d26]">
                   ${o.timeline.slice().reverse().map((h, i) => {
                     const hst = STATUS_MAP[h.toStatus] || { label: h.toStatus, color: 'bg-gray-100 text-gray-800' };
                     return `
                       <div class="relative flex items-start gap-3 pl-8">
-                        <!-- Bullet dot -->
-                        <span class="absolute left-2.5 top-2 -translate-x-1/2 w-2.5 h-2.5 rounded-full ${i === 0 ? 'bg-emerald-600 ring-4 ring-emerald-100' : 'bg-gray-400'}"></span>
+                        <span class="absolute left-2.5 top-2 -translate-x-1/2 w-2.5 h-2.5 rounded-full ${i === 0 ? 'bg-emerald-600 ring-4 ring-emerald-100 dark:ring-emerald-900/60' : 'bg-gray-400'}"></span>
                         
-                        <div class="flex-1 p-3 rounded-2xl bg-[#f8faf7] border border-[#e5eee3] space-y-1">
+                        <div class="flex-1 p-3 rounded-2xl bg-[#f8faf7] dark:bg-[#1a2d1d] border border-[#e5eee3] dark:border-[#2d4d32] space-y-1">
                           <div class="flex items-center justify-between flex-wrap gap-1">
-                            <span class="text-xs font-black text-[#152317]">
-                              Status: <span class="px-2 py-0.5 rounded-md text-[10px] font-extrabold uppercase ${hst.color}">${hst.label}</span>
+                            <span class="text-xs font-black text-[#152317] dark:text-white">
+                              स्थिति: <span class="px-2 py-0.5 rounded-md text-[10px] font-extrabold uppercase ${hst.color}">${hst.label}</span>
                             </span>
-                            <span class="text-[10px] text-[#718573] font-semibold">${formatDateTime(h.createdAt)}</span>
+                            <span class="text-[10px] text-[#718573] dark:text-gray-400 font-semibold">${formatDateTime(h.createdAt)}</span>
                           </div>
                           ${h.note ? `
-                            <p class="text-xs font-bold text-emerald-950 bg-white/70 p-2 rounded-xl border border-emerald-100">
+                            <p class="text-xs font-bold text-emerald-950 dark:text-emerald-200 bg-white/70 dark:bg-black/20 p-2 rounded-xl border border-emerald-100 dark:border-emerald-800">
                               💬 ${h.note}
                             </p>
                           ` : ''}
@@ -295,56 +293,56 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
             ` : ''}
 
             <!-- Customer & Delivery Cluster Details -->
-            <div class="pt-2 border-t border-[#f0f5ee]">
-              <h4 class="text-xs font-extrabold uppercase tracking-wider text-[#355239] mb-3">Delivery Information</h4>
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-[#526454] bg-[#f9fbf8] p-4 rounded-2xl border border-[#e8efe7]">
+            <div class="pt-2 border-t border-[#f0f5ee] dark:border-[#223d26]">
+              <h4 class="text-xs font-extrabold uppercase tracking-wider text-[#355239] dark:text-emerald-400 mb-3">डिलीवरी विवरण (Delivery Info)</h4>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-[#526454] dark:text-gray-300 bg-[#f9fbf8] dark:bg-[#1a2d1d] p-4 rounded-2xl border border-[#e8efe7] dark:border-[#2d4d32]">
                 <div>
-                  <span class="text-[10px] font-bold uppercase text-[#718573] block">Customer</span>
-                  <strong class="text-sm font-bold text-[#122815]">${o.customerName} (${o.maskedPhone})</strong>
+                  <span class="text-[10px] font-bold uppercase text-[#718573] dark:text-gray-400 block">ग्राहक (Customer)</span>
+                  <strong class="text-sm font-bold text-[#122815] dark:text-white">${o.customerName} (${o.maskedPhone})</strong>
                 </div>
                 <div>
-                  <span class="text-[10px] font-bold uppercase text-[#718573] block">Gwalior Delivery Cluster</span>
-                  <strong class="text-sm font-bold text-[#122815]">${o.deliveryArea} (${o.deliveryDay || 'Sunday'})</strong>
+                  <span class="text-[10px] font-bold uppercase text-[#718573] dark:text-gray-400 block">डिलीवरी इलाक़ा / क्लस्टर</span>
+                  <strong class="text-sm font-bold text-[#122815] dark:text-white">${o.deliveryArea} (${o.deliveryDay || 'Sunday'})</strong>
                 </div>
                 <div class="sm:col-span-2">
-                  <span class="text-[10px] font-bold uppercase text-[#718573] block">Delivery Address</span>
-                  <strong class="text-xs font-semibold text-[#122815]">${o.deliveryAddress}</strong>
+                  <span class="text-[10px] font-bold uppercase text-[#718573] dark:text-gray-400 block">डिलीवरी का पता (Address)</span>
+                  <strong class="text-xs font-semibold text-[#122815] dark:text-white">${o.deliveryAddress}</strong>
                 </div>
               </div>
             </div>
 
             <!-- Items Reserved -->
-            <div class="pt-2 border-t border-[#f0f5ee]">
-              <h4 class="text-xs font-extrabold uppercase tracking-wider text-[#355239] mb-3">Reserved Farm Harvest</h4>
+            <div class="pt-2 border-t border-[#f0f5ee] dark:border-[#223d26]">
+              <h4 class="text-xs font-extrabold uppercase tracking-wider text-[#355239] dark:text-emerald-400 mb-3">बुक की गई फ़सलें (Reserved Produce)</h4>
               <div class="space-y-1.5 text-xs">
                 ${o.items.map(it => `
-                  <div class="flex items-center justify-between py-2 px-3.5 rounded-xl bg-[#f8faf7] border border-[#edf3ec]">
-                    <span class="font-bold text-[#152317]">${it.name} (${it.quantity} ${it.unit})</span>
-                    <strong class="text-[#1b4522] font-black">₹${it.lineTotalRupees}</strong>
+                  <div class="flex items-center justify-between py-2 px-3.5 rounded-xl bg-[#f8faf7] dark:bg-[#1a2d1d] border border-[#edf3ec] dark:border-[#2d4d32]">
+                    <span class="font-bold text-[#152317] dark:text-white">${it.name} (${it.quantity} ${it.unit})</span>
+                    <strong class="text-[#1b4522] dark:text-emerald-400 font-black">₹${it.lineTotalRupees}</strong>
                   </div>
                 `).join('')}
               </div>
             </div>
 
             <!-- Grand Total -->
-            <div class="p-4 rounded-2xl bg-gradient-to-r from-[#edf4ec] to-[#e4efe2] border border-[#d6e3d4] flex items-center justify-between shadow-xs">
+            <div class="p-4 rounded-2xl bg-gradient-to-r from-[#edf4ec] to-[#e4efe2] dark:from-[#1b2f1e] dark:to-[#162719] border border-[#d6e3d4] dark:border-[#2d4d32] flex items-center justify-between shadow-xs">
               <div>
-                <span class="text-xs font-semibold text-[#526454] block">Pay on Sunday Delivery:</span>
-                <span class="text-[11px] text-emerald-800 font-bold">UPI / Cash on Delivery accepted</span>
+                <span class="text-xs font-semibold text-[#526454] dark:text-gray-300 block">डिलीवरी पर भुगतान (Pay on Delivery):</span>
+                <span class="text-[11px] text-emerald-800 dark:text-emerald-400 font-bold">यूपीआई (UPI) या नक़द (Cash) स्वीकार्य</span>
               </div>
-              <strong class="fd-display text-2xl font-black text-[#1b4522]">₹${o.grandTotalRupees}</strong>
+              <strong class="fd-display text-2xl font-black text-[#1b4522] dark:text-emerald-400">₹${o.grandTotalRupees}</strong>
             </div>
 
             <!-- WhatsApp Direct Help -->
-            <div class="pt-2 border-t border-[#f0f5ee] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
-              <span class="text-[#5b6e5d]">Questions about harvest cuts or timing?</span>
+            <div class="pt-2 border-t border-[#f0f5ee] dark:border-[#223d26] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+              <span class="text-[#5b6e5d] dark:text-gray-300">डिलीवरी समय या फ़सल के संबंध में कोई प्रश्न?</span>
               <a
-                href="https://wa.me/918770767272?text=${encodeURIComponent(`Namaste Farm Direct, checking on my order ${o.orderNumber} for Gwalior.`)}"
+                href="https://wa.me/918770767272?text=${encodeURIComponent(`नमस्ते! फार्म डायरेक्ट, मैं अपने ऑर्डर ${o.orderNumber} के बारे में जानकारी चाहता हूँ।`)}"
                 target="_blank"
                 rel="noopener noreferrer"
                 class="fd-btn bg-[#25D366] hover:bg-[#1fa851] text-white text-xs font-bold py-2.5 px-4 rounded-xl shadow-xs"
               >
-                <span>💬 WhatsApp Farmer (8770767272)</span>
+                <span>💬 किसान से व्हाट्सएप पर बात करें (8770767272)</span>
               </a>
             </div>
           </div>
@@ -353,18 +351,18 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
 
       if (data.sampleRequests && data.sampleRequests.length > 0) {
         html += `
-          <div class="bg-white p-6 sm:p-8 rounded-3xl border border-[#e2ece0] shadow-sm space-y-4">
-            <h3 class="fd-display font-extrabold text-lg text-[#122815] pb-2 border-b border-[#f0f5ee]">
-              Sample Tasting Requests (${data.sampleRequests.length})
+          <div class="bg-white dark:bg-[#152317] p-6 sm:p-8 rounded-3xl border border-[#e2ece0] dark:border-[#223d26] shadow-sm space-y-4">
+            <h3 class="fd-display font-extrabold text-lg text-[#122815] dark:text-white pb-2 border-b border-[#f0f5ee] dark:border-[#223d26]">
+              मुफ़्त सैंपल टेस्टिंग अनुरोध (${data.sampleRequests.length})
             </h3>
             <div class="space-y-2.5">
               ${data.sampleRequests.map(s => {
                 const sst = STATUS_MAP[s.status] || { label: s.status, color: 'bg-gray-100 text-gray-800' };
                 return `
-                  <div class="p-4 rounded-2xl bg-[#f8faf7] border border-[#e2ece0] flex items-center justify-between text-xs">
+                  <div class="p-4 rounded-2xl bg-[#f8faf7] dark:bg-[#1a2d1d] border border-[#e2ece0] dark:border-[#223d26] flex items-center justify-between text-xs">
                     <div>
-                      <strong class="text-sm font-bold text-[#122815] block">${s.productName} (${s.quantityGrams}g)</strong>
-                      <span class="text-[#5b6e5d]">${s.areaName} • ${s.roundName || 'Next scheduled tasting round'}</span>
+                      <strong class="text-sm font-bold text-[#122815] dark:text-white block">${s.productName} (${s.quantityGrams}g)</strong>
+                      <span class="text-[#5b6e5d] dark:text-gray-400">${s.areaName} • ${s.roundName || 'आगामी टेस्टिंग राउंड'}</span>
                     </div>
                     <span class="px-3 py-1 rounded-full text-xs font-bold border ${sst.color}">
                       ${sst.label}
@@ -374,15 +372,15 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
               }).join('')}
             </div>
             ${!data.order ? `
-              <div class="pt-3 border-t border-[#f0f5ee] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
-                <span class="text-[#5b6e5d]">Questions about tasting delivery rounds or timings?</span>
+              <div class="pt-3 border-t border-[#f0f5ee] dark:border-[#223d26] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+                <span class="text-[#5b6e5d] dark:text-gray-300">सैंपल डिलीवरी राउंड के बारे में कोई प्रश्न?</span>
                 <a
-                  href="https://wa.me/918770767272?text=${encodeURIComponent(`Namaste Farm Direct, checking on my free sample tasting request for phone ${document.getElementById('track-input').value.trim()}.`)}"
+                  href="https://wa.me/918770767272?text=${encodeURIComponent(`नमस्ते फार्म डायरेक्ट, मुफ़्त सैंपल टेस्टिंग अनुरोध स्थिति - फ़ोन: ${document.getElementById('track-input').value.trim()}`)}"
                   target="_blank"
                   rel="noopener noreferrer"
                   class="fd-btn bg-[#25D366] hover:bg-[#1fa851] text-white text-xs font-bold py-2.5 px-4 rounded-xl shadow-xs"
                 >
-                  <span>💬 WhatsApp Farmer (8770767272)</span>
+                  <span>💬 किसान से व्हाट्सएप पर बात करें (8770767272)</span>
                 </a>
               </div>
             ` : ''}

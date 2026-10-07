@@ -3,38 +3,38 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
 ---
 
 <FarmLayout
-  title="Checkout Pre-Order | Farm Direct"
-  description="Finalize your raw farm produce pre-order with neighbourhood delivery in Gwalior."
+  title="ऑर्डर पूरा करें (Checkout) | खेत से सीधे — Farm Direct"
+  description="ग्वालियर और शिवपुरी में खेत से ताज़ा बिना पॉलिश अनाज व दालों का प्री-ऑर्डर पूरा करें। भुगतान डिलीवरी के समय।"
   canonicalPath="/farm/checkout"
   hideCartBar={true}
 >
   <div class="fd-container py-10 sm:py-16">
     <div class="max-w-4xl mx-auto">
       <div class="mb-8">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 text-emerald-900 text-[10px] font-extrabold uppercase tracking-wider mb-2">
-          Secure Pre-Order
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-900/60 text-emerald-900 dark:text-emerald-200 text-[10px] font-extrabold uppercase tracking-wider mb-2">
+          सुरक्षित प्री-ऑर्डर • 100% शुद्धता
         </div>
-        <h1 class="fd-display text-3xl sm:text-4xl font-extrabold text-[#132215]">
-          Finalize Your Pre-Order
+        <h1 class="fd-display text-3xl sm:text-4xl font-extrabold text-[#132215] dark:text-white">
+          प्री-ऑर्डर पूरा करें <span class="text-base font-normal text-[#5b6e5d] dark:text-gray-400 block sm:inline">(Finalize Pre-Order)</span>
         </h1>
-        <p class="text-xs sm:text-sm text-[#5b6e5d] mt-1.5 leading-relaxed">
-          Produce is threshed from harvest batches and prepared for scheduled cluster delivery in Gwalior. Payment is collected on doorstep delivery.
+        <p class="text-xs sm:text-sm text-[#5b6e5d] dark:text-gray-300 mt-1.5 leading-relaxed">
+          फ़सलें हमारे खेत से ताज़ा गहाई करके ग्वालियर व शिवपुरी के तय डिलीवरी रूट में सीधे आपके घर पहुँचाई जाती हैं। डिलीवरी मिलने पर भुगतान करें (Pay on Delivery)।
         </p>
       </div>
 
       <!-- Checkout Loading Container -->
-      <div id="checkout-loading" class="text-center py-20 text-[#5b6e5d]">
-        <div class="inline-block animate-spin w-8 h-8 border-4 border-[#194622] border-t-transparent rounded-full mb-3"></div>
-        <p class="text-sm font-semibold">Preparing your order summary and verifying live stock...</p>
+      <div id="checkout-loading" class="text-center py-20 text-[#5b6e5d] dark:text-gray-400">
+        <div class="inline-block animate-spin w-8 h-8 border-4 border-[#194622] dark:border-emerald-500 border-t-transparent rounded-full mb-3"></div>
+        <p class="text-sm font-semibold">ऑर्डर सारांश तैयार हो रहा है और स्टॉक जाँचा जा रहा है...</p>
       </div>
 
       <!-- Empty Cart Redirection -->
-      <div id="checkout-empty" class="hidden text-center py-20 bg-white rounded-3xl border border-[#dce7db] p-8 shadow-xl shadow-emerald-950/[0.03]">
+      <div id="checkout-empty" class="hidden text-center py-20 bg-white dark:bg-[#152317] rounded-3xl border border-[#dce7db] dark:border-[#223d26] p-8 shadow-xl shadow-emerald-950/[0.03]">
         <div class="text-4xl mb-3">🌾</div>
-        <h2 class="fd-display text-2xl font-extrabold text-[#132215] mb-2">No items to checkout</h2>
-        <p class="text-xs sm:text-sm text-[#5b6e5d] mb-6">Please add raw farm produce to your cart before proceeding.</p>
+        <h2 class="fd-display text-2xl font-extrabold text-[#132215] dark:text-white mb-2">टोकरी ख़ाली है (Cart is empty)</h2>
+        <p class="text-xs sm:text-sm text-[#5b6e5d] dark:text-gray-300 mb-6">कृपया आगे बढ़ने से पहले अपनी टोकरी में खेत उत्पाद जोड़ें।</p>
         <a href="/farm/products" class="fd-btn fd-btn-primary px-7 py-3.5 font-bold text-sm rounded-xl shadow-md">
-          Browse Farm Produce &rarr;
+          फ़सल सूची देखें (Browse Produce) &rarr;
         </a>
       </div>
 
@@ -43,43 +43,43 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
         <!-- Customer Details & Address Form (Left) -->
         <div class="lg:col-span-7 space-y-6">
           <!-- Auth Status Banner -->
-          <div id="auth-status-box" class="p-4 rounded-2xl bg-[#f7faf5] border border-[#dce7db] flex items-center justify-between text-xs">
-            <span id="auth-msg" class="text-[#2d3e30] font-bold">Ordering as Guest</span>
-            <a id="auth-link" href="/farm/account/login?redirect=/farm/checkout" class="font-extrabold text-[#194622] hover:underline">
-              Log in to use saved addresses &rarr;
+          <div id="auth-status-box" class="p-4 rounded-2xl bg-[#f7faf5] dark:bg-[#1b2f1e] border border-[#dce7db] dark:border-[#2d4d32] flex items-center justify-between text-xs">
+            <span id="auth-msg" class="text-[#2d3e30] dark:text-gray-200 font-bold">अतिथि के रूप में ऑर्डर (Guest Order)</span>
+            <a id="auth-link" href="/farm/account/login?redirect=/farm/checkout" class="font-extrabold text-[#194622] dark:text-emerald-400 hover:underline">
+              सहेजे गए पते इस्तेमाल करने हेतु लॉगिन करें &rarr;
             </a>
           </div>
 
           <form id="order-form" onsubmit="handlePlaceOrder(event)" class="space-y-6">
             <!-- Customer Details Card -->
-            <div class="bg-white p-6 sm:p-7 rounded-3xl border border-[#dce7db] shadow-xl shadow-emerald-950/[0.03] space-y-4">
-              <h3 class="fd-display font-extrabold text-base text-[#132215] pb-3 border-b border-[#edf2eb] flex items-center gap-2">
+            <div class="bg-white dark:bg-[#152317] p-6 sm:p-7 rounded-3xl border border-[#dce7db] dark:border-[#223d26] shadow-xl shadow-emerald-950/[0.03] space-y-4">
+              <h3 class="fd-display font-extrabold text-base text-[#132215] dark:text-white pb-3 border-b border-[#edf2eb] dark:border-[#223d26] flex items-center gap-2">
                 <span>👤</span>
-                <span>Customer Contact Details</span>
+                <span>ग्राहक संपर्क विवरण (Contact Details)</span>
               </h3>
 
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label class="text-xs font-bold text-[#132215] block mb-1.5">Full Name *</label>
+                  <label class="text-xs font-bold text-[#132215] dark:text-gray-200 block mb-1.5">पूरा नाम (Full Name) *</label>
                   <input
                     id="cust-name"
                     type="text"
                     required
-                    placeholder="e.g. Ramesh Sharma"
+                    placeholder="उदा. रमेश शर्मा"
                     class="fd-input"
                   />
                 </div>
                 <div>
-                  <label class="text-xs font-bold text-[#132215] block mb-1.5">WhatsApp Mobile (10 Digits) *</label>
+                  <label class="text-xs font-bold text-[#132215] dark:text-gray-200 block mb-1.5">व्हाट्सएप मोबाइल नंबर (10 Digits) *</label>
                   <div class="flex">
-                    <span class="inline-flex items-center px-3.5 text-xs font-bold bg-[#edf2eb] border border-r-0 border-[#d9e4d5] rounded-l-xl text-[#5b6e5d]">+91</span>
+                    <span class="inline-flex items-center px-3.5 text-xs font-bold bg-[#edf2eb] dark:bg-[#1b2f1e] border border-r-0 border-[#d9e4d5] dark:border-[#2d4d32] rounded-l-xl text-[#5b6e5d] dark:text-gray-300">+91</span>
                     <input
                       id="cust-phone"
                       type="tel"
                       required
                       maxlength="10"
                       pattern="[6-9][0-9]{9}"
-                      placeholder="10-digit mobile"
+                      placeholder="10 अंकों का मोबाइल"
                       class="fd-input rounded-l-none"
                     />
                   </div>
@@ -87,122 +87,122 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
               </div>
 
               <div>
-                <label class="text-xs font-bold text-[#132215] block mb-1.5">Email Address (Optional)</label>
+                <label class="text-xs font-bold text-[#132215] dark:text-gray-200 block mb-1.5">ईमेल पता (वैकल्पिक / Optional)</label>
                 <input
                   id="cust-email"
                   type="email"
-                  placeholder="For pre-order confirmation copy"
+                  placeholder="ऑर्डर रसीद की कॉपी पाने हेतु"
                   class="fd-input"
                 />
               </div>
             </div>
 
             <!-- Delivery Address Card -->
-            <div class="bg-white p-6 sm:p-7 rounded-3xl border border-[#dce7db] shadow-xl shadow-emerald-950/[0.03] space-y-4">
-              <h3 class="fd-display font-extrabold text-base text-[#132215] pb-3 border-b border-[#edf2eb] flex items-center gap-2">
+            <div class="bg-white dark:bg-[#152317] p-6 sm:p-7 rounded-3xl border border-[#dce7db] dark:border-[#223d26] shadow-xl shadow-emerald-950/[0.03] space-y-4">
+              <h3 class="fd-display font-extrabold text-base text-[#132215] dark:text-white pb-3 border-b border-[#edf2eb] dark:border-[#223d26] flex items-center gap-2">
                 <span>📍</span>
-                <span>Delivery Neighbourhood & Address</span>
+                <span>डिलीवरी इलाक़ा व पता (Delivery Address)</span>
               </h3>
 
               <!-- Saved Addresses Picker (if logged in) -->
               <div id="saved-address-picker" class="hidden space-y-2">
-                <label class="text-xs font-bold text-[#132215] block">Use Saved Address</label>
+                <label class="text-xs font-bold text-[#132215] dark:text-gray-200 block">सहेजा गया पता चुनें (Use Saved Address)</label>
                 <select id="saved-addresses-select" class="fd-input font-bold text-xs" onchange="applySavedAddress(this.value)">
-                  <option value="">Select a saved address...</option>
+                  <option value="">सहेजे गए पतों में से चुनें...</option>
                 </select>
               </div>
 
               <!-- Delivery Area Selector -->
               <div>
-                <label class="text-xs font-bold text-[#132215] block mb-1.5">Target Delivery Area / Cluster (Gwalior & Shivpuri) *</label>
+                <label class="text-xs font-bold text-[#132215] dark:text-gray-200 block mb-1.5">डिलीवरी इलाक़ा / क्लस्टर (Gwalior & Shivpuri) *</label>
                 <select id="checkout-area" required class="fd-input font-bold text-xs" onchange="onAreaChanged()">
-                  <option value="">Select delivery area...</option>
+                  <option value="">डिलीवरी इलाक़ा चुनें...</option>
                 </select>
-                <p id="area-hint" class="text-[11px] text-[#5b6e5d] mt-1 font-medium"></p>
+                <p id="area-hint" class="text-[11px] text-[#5b6e5d] dark:text-gray-400 mt-1 font-medium"></p>
               </div>
 
               <!-- Custom Cluster Input for Checkout -->
               <div id="checkout-custom-cluster-box" class="hidden">
-                <label class="text-xs font-bold text-[#194622] block mb-1.5 flex items-center gap-1.5">
+                <label class="text-xs font-bold text-[#194622] dark:text-emerald-400 block mb-1.5 flex items-center gap-1.5">
                   <span>📍</span>
-                  <span>Enter Your Colony / Village / Area Name *</span>
+                  <span>अपनी कॉलोनी / गाँव / इलाक़े का नाम दर्ज करें *</span>
                 </label>
                 <input
                   id="checkout-custom-cluster"
                   type="text"
-                  placeholder="e.g. Sirsod, Naya Amola, Karera, Shivpuri, Thatipur, City Center, etc."
-                  class="fd-input border-emerald-600 bg-emerald-50/40 text-xs font-bold"
+                  placeholder="उदा. सिरसौद, करैरा, पवन नगर, चेतकपुरी, थाटीपुर, आदि"
+                  class="fd-input border-emerald-600 bg-emerald-50/40 dark:bg-emerald-950/30 text-xs font-bold"
                   oninput="onCustomClusterInput()"
                 />
-                <p class="text-[10px] text-[#5b6e5d] mt-1">
-                  🌾 Direct doorstep farm dispatch will be scheduled for your location!
+                <p class="text-[10px] text-[#5b6e5d] dark:text-gray-400 mt-1">
+                  🌾 आपके इलाक़े के लिए सीधे खेत से वाहन का रूट तय किया जाएगा!
                 </p>
               </div>
 
               <!-- Address Fields -->
               <div>
-                <label class="text-xs font-bold text-[#132215] block mb-1.5">House / Flat No. & Building Name *</label>
+                <label class="text-xs font-bold text-[#132215] dark:text-gray-200 block mb-1.5">मकान / फ्लैट नं. व भवन का नाम *</label>
                 <input
                   id="cust-house"
                   type="text"
                   required
-                  placeholder="e.g. Flat 204, Shanti Apartments"
+                  placeholder="उदा. फ्लैट 204, शांति अपार्टमेंट / मकान 12"
                   class="fd-input"
                 />
               </div>
 
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label class="text-xs font-bold text-[#132215] block mb-1.5">Street / Colony *</label>
+                  <label class="text-xs font-bold text-[#132215] dark:text-gray-200 block mb-1.5">गली / रास्ता / कॉलोनी *</label>
                   <input
                     id="cust-street"
                     type="text"
                     required
-                    placeholder="e.g. Lane 3, Near Water Tank"
+                    placeholder="उदा. गली 3, पानी की टंकी के पास"
                     class="fd-input"
                   />
                 </div>
                 <div>
-                  <label class="text-xs font-bold text-[#132215] block mb-1.5">Landmark (Optional)</label>
+                  <label class="text-xs font-bold text-[#132215] dark:text-gray-200 block mb-1.5">लैंडमार्क / पहचान (वैकल्पिक)</label>
                   <input
                     id="cust-landmark"
                     type="text"
-                    placeholder="e.g. Opposite Shiv Temple"
+                    placeholder="उदा. शिव मंदिर के सामने"
                     class="fd-input"
                   />
                 </div>
               </div>
 
               <div>
-                <label class="text-xs font-bold text-[#132215] block mb-1.5">Delivery Instructions / Colony Notes</label>
+                <label class="text-xs font-bold text-[#132215] dark:text-gray-200 block mb-1.5">डिलीवरी निर्देश / टिप्पणी (Delivery Notes)</label>
                 <textarea
                   id="cust-notes"
                   rows="2"
-                  placeholder="e.g. Please call before vehicle arrival on Sunday morning"
+                  placeholder="उदा. वाहन आने से पहले फ़ोन करें, सुबह के समय डिलीवरी करें, आदि"
                   class="fd-input"
                 ></textarea>
               </div>
             </div>
 
             <!-- Payment Method Card -->
-            <div class="bg-white p-6 sm:p-7 rounded-3xl border border-[#dce7db] shadow-xl shadow-emerald-950/[0.03] space-y-3">
-              <h3 class="fd-display font-extrabold text-base text-[#132215] pb-3 border-b border-[#edf2eb] flex items-center gap-2">
+            <div class="bg-white dark:bg-[#152317] p-6 sm:p-7 rounded-3xl border border-[#dce7db] dark:border-[#223d26] shadow-xl shadow-emerald-950/[0.03] space-y-3">
+              <h3 class="fd-display font-extrabold text-base text-[#132215] dark:text-white pb-3 border-b border-[#edf2eb] dark:border-[#223d26] flex items-center gap-2">
                 <span>💵</span>
-                <span>Payment Method</span>
+                <span>भुगतान का माध्यम (Payment Method)</span>
               </h3>
-              <div class="p-4 rounded-2xl border-2 border-[#194622] bg-[#eaf4ec] flex items-center justify-between">
+              <div class="p-4 rounded-2xl border-2 border-[#194622] dark:border-emerald-600 bg-[#eaf4ec] dark:bg-[#1c3321] flex items-center justify-between">
                 <div>
-                  <strong class="text-sm font-extrabold text-[#132215] block">Payment on Delivery (Cash or Direct UPI Scan)</strong>
-                  <span class="text-xs text-[#5b6e5d] mt-0.5 block">Pay cash or scan QR when your fresh grain bag arrives at your doorstep.</span>
+                  <strong class="text-sm font-extrabold text-[#132215] dark:text-white block">घर पर डिलीवरी मिलने पर भुगतान (Cash / Direct UPI Scan)</strong>
+                  <span class="text-xs text-[#5b6e5d] dark:text-gray-300 mt-0.5 block">जब ताज़ा बोरी आपके घर पहुँचे, तब नक़द दें या यूपीआई से क्यूआर कोड स्कैन करके भुगतान करें।</span>
                 </div>
-                <div class="w-8 h-8 rounded-full bg-[#194622] text-white flex items-center justify-center font-bold text-sm shadow-xs">
+                <div class="w-8 h-8 rounded-full bg-[#194622] dark:bg-emerald-600 text-white flex items-center justify-center font-bold text-sm shadow-xs">
                   ✓
                 </div>
               </div>
             </div>
 
             <!-- Error Banner -->
-            <div id="checkout-error" class="hidden p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs sm:text-sm font-bold"></div>
+            <div id="checkout-error" class="hidden p-4 rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800 text-rose-700 dark:text-rose-200 text-xs sm:text-sm font-bold"></div>
 
             <!-- Submit Button (Mobile & Desktop) -->
             <button
@@ -210,49 +210,49 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
               type="submit"
               class="fd-btn fd-btn-primary w-full py-4 text-base font-extrabold rounded-2xl shadow-xl shadow-emerald-950/20 hover:shadow-2xl hover:shadow-emerald-950/30 flex items-center justify-center gap-2"
             >
-              <span>CONFIRM & PLACE PRE-ORDER</span>
+              <span>ऑर्डर कन्फ़र्म करें (CONFIRM & PLACE ORDER)</span>
               <span>&rarr;</span>
             </button>
-            <p class="text-[11px] text-[#748776] text-center">
-              🔒 Authoritative Cloudflare D1 verification. Instant WhatsApp order slip generated upon submission.
+            <p class="text-[11px] text-[#748776] dark:text-gray-400 text-center">
+              🔒 सुरक्षित क्लाउडफ़्लेयर D1 सत्यापन। सबमिट होते ही व्हाट्सएप पर पर्ची व सूचना प्राप्त होगी।
             </p>
           </form>
         </div>
 
         <!-- Order Items Summary Column (Right) -->
         <div class="lg:col-span-5">
-          <div class="bg-white p-6 sm:p-7 rounded-3xl border border-[#dce7db] shadow-xl shadow-emerald-950/[0.04] space-y-5 sticky top-24">
-            <h3 class="fd-display font-extrabold text-lg text-[#132215] pb-3 border-b border-[#edf2eb]">
-              Pre-Order Summary
+          <div class="bg-white dark:bg-[#152317] p-6 sm:p-7 rounded-3xl border border-[#dce7db] dark:border-[#223d26] shadow-xl shadow-emerald-950/[0.04] space-y-5 sticky top-24">
+            <h3 class="fd-display font-extrabold text-lg text-[#132215] dark:text-white pb-3 border-b border-[#edf2eb] dark:border-[#223d26]">
+              प्री-ऑर्डर सारांश (Summary)
             </h3>
 
             <!-- Item List -->
             <div id="checkout-items-list" class="space-y-3 max-h-72 overflow-y-auto pr-1"></div>
 
             <!-- Totals Breakdown -->
-            <div class="space-y-2.5 text-xs text-[#5b6e5d] pt-3 border-t border-[#edf2eb]">
+            <div class="space-y-2.5 text-xs text-[#5b6e5d] dark:text-gray-300 pt-3 border-t border-[#edf2eb] dark:border-[#223d26]">
               <div class="flex justify-between">
-                <span>Produce Subtotal:</span>
-                <strong id="chk-subtotal" class="text-[#132215] font-extrabold text-sm">₹0</strong>
+                <span>सामग्री का मूल्य (Subtotal):</span>
+                <strong id="chk-subtotal" class="text-[#132215] dark:text-white font-extrabold text-sm">₹0</strong>
               </div>
               <div class="flex justify-between">
-                <span>Neighbourhood Transport:</span>
-                <strong id="chk-delivery" class="text-[#132215] font-bold">Select area</strong>
+                <span>परिवहन शुल्क (Delivery):</span>
+                <strong id="chk-delivery" class="text-[#132215] dark:text-white font-bold">इलाक़ा चुनें</strong>
               </div>
-              <div class="border-t border-[#edf2eb] pt-3 flex justify-between items-baseline text-sm">
-                <span class="font-extrabold text-[#132215]">Grand Total:</span>
-                <strong id="chk-grand-total" class="text-2xl font-extrabold text-[#194622]">₹0</strong>
+              <div class="border-t border-[#edf2eb] dark:border-[#223d26] pt-3 flex justify-between items-baseline text-sm">
+                <span class="font-extrabold text-[#132215] dark:text-white">कुल देय राशि (Grand Total):</span>
+                <strong id="chk-grand-total" class="text-2xl font-extrabold text-[#194622] dark:text-emerald-400">₹0</strong>
               </div>
             </div>
 
             <!-- Delivery Round Info -->
-            <div class="p-3.5 rounded-2xl bg-[#f7faf5] border border-[#dce7db] text-xs text-[#5b6e5d] space-y-1">
-              <div class="font-bold text-[#132215] flex items-center gap-1.5">
+            <div class="p-3.5 rounded-2xl bg-[#f7faf5] dark:bg-[#1b2f1e] border border-[#dce7db] dark:border-[#2d4d32] text-xs text-[#5b6e5d] dark:text-gray-300 space-y-1">
+              <div class="font-bold text-[#132215] dark:text-white flex items-center gap-1.5">
                 <span>🚚</span>
-                <span id="chk-round-title">Scheduled Delivery Round</span>
+                <span id="chk-round-title">डिलीवरी राउंड शेड्यूल</span>
               </div>
-              <p class="text-[11px] text-[#748776]" id="chk-round-desc">
-                Orders are consolidated by neighbourhood. Produce will be delivered during the upcoming scheduled trip.
+              <p class="text-[11px] text-[#748776] dark:text-gray-400" id="chk-round-desc">
+                ऑर्डर मोहल्ले अनुसार समूहीकृत किए जाते हैं। आगामी राउंड में खेत से सीधा प्रेषण किया जाएगा।
               </p>
             </div>
           </div>
@@ -372,12 +372,12 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
     function renderCheckoutSummary(data) {
       const list = document.getElementById('checkout-items-list');
       list.innerHTML = data.items.map(it => `
-        <div class="flex items-center justify-between text-xs py-2.5 border-b border-[#edf2eb]">
+        <div class="flex items-center justify-between text-xs py-2.5 border-b border-[#edf2eb] dark:border-[#223d26]">
           <div>
-            <strong class="font-extrabold text-[#132215] text-sm">${it.productName}</strong>
-            <div class="text-[#5b6e5d] mt-0.5">${it.quantity} kg × ₹${it.priceRupees}</div>
+            <strong class="font-extrabold text-[#132215] dark:text-white text-sm">${it.productName}</strong>
+            <div class="text-[#5b6e5d] dark:text-gray-300 mt-0.5">${it.quantity} किलो × ₹${it.priceRupees}</div>
           </div>
-          <strong class="font-extrabold text-[#194622] text-sm">₹${it.lineTotalRupees}</strong>
+          <strong class="font-extrabold text-[#194622] dark:text-emerald-400 text-sm">₹${it.lineTotalRupees}</strong>
         </div>
       `).join('');
 
@@ -385,10 +385,10 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
       const delEl = document.getElementById('chk-delivery');
       if (data.deliveryArea) {
         delEl.textContent = `₹${data.deliveryChargeRupees}`;
-        document.getElementById('chk-round-title').textContent = `Cluster: ${data.deliveryArea.name}`;
-        document.getElementById('chk-round-desc').textContent = `Scheduled vehicle dispatch: ${data.deliveryArea.deliveryDay}. Payment collected on delivery.`;
+        document.getElementById('chk-round-title').textContent = `क्लस्टर: ${data.deliveryArea.name}`;
+        document.getElementById('chk-round-desc').textContent = `तय वाहन रवानगी: ${data.deliveryArea.deliveryDay} सुबह। डिलीवरी के समय भुगतान।`;
       } else {
-        delEl.textContent = 'Select area';
+        delEl.textContent = 'इलाक़ा चुनें';
       }
 
       document.getElementById('chk-grand-total').textContent = `₹${data.grandTotalRupees}`;
@@ -402,14 +402,14 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
       if (areaId === 'custom') {
         customBox.classList.remove('hidden');
         customInput.focus();
-        document.getElementById('area-hint').textContent = 'Custom colony pre-order. We consolidate and dispatch direct to your area!';
+        document.getElementById('area-hint').textContent = 'कस्टम कॉलोनी प्री-ऑर्डर: हम अनुरोध समूहीकृत करके आपके क्षेत्र के लिए वाहन रूट तय करेंगे!';
       } else {
         customBox.classList.add('hidden');
         if (areaId) {
           localStorage.setItem('fd_selected_area_id', areaId);
           const area = deliveryAreas.find(a => a.id == areaId);
           if (area) {
-            document.getElementById('area-hint').textContent = `Scheduled dispatch: ${area.deliveryDay} morning. Minimum order: ₹${area.minimumOrderRupees}`;
+            document.getElementById('area-hint').textContent = `तय रवानगी: ${area.deliveryDay} सुबह। न्यूनतम ऑर्डर: ₹${area.minimumOrderRupees}`;
           }
         }
       }
@@ -456,13 +456,13 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
       const note = document.getElementById('cust-notes').value.trim();
 
       if (!areaId) {
-        errBox.textContent = 'Please select your delivery neighbourhood cluster in Gwalior.';
+        errBox.textContent = 'कृपया ग्वालियर या शिवपुरी में अपना डिलीवरी क्लस्टर चुनें। (Select delivery area)';
         errBox.classList.remove('hidden');
         return;
       }
 
       if (isCustomArea && !customCluster) {
-        errBox.textContent = 'Please enter your custom colony or neighbourhood name in Gwalior.';
+        errBox.textContent = 'कृपया अपनी कॉलोनी, गाँव या मोहल्ले का नाम दर्ज करें।';
         errBox.classList.remove('hidden');
         if (customInput) customInput.focus();
         return;
@@ -474,17 +474,17 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
       } catch (_) {}
 
       if (cart.length === 0) {
-        errBox.textContent = 'Your cart is empty.';
+        errBox.textContent = 'आपकी टोकरी ख़ाली है। (Cart is empty)';
         errBox.classList.remove('hidden');
         return;
       }
 
-      const fullAddress = `${house}, ${street}${landmark ? ` (Landmark: ${landmark})` : ''}, Gwalior`;
+      const fullAddress = `${house}, ${street}${landmark ? ` (लैंडमार्क: ${landmark})` : ''}, ग्वालियर/शिवपुरी`;
 
       submitBtn.disabled = true;
       submitBtn.innerHTML = `
         <span class="inline-block animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full mr-2"></span>
-        Securing Inventory & Batching Pre-Order...
+        स्टॉक आरक्षित हो रहा है और ऑर्डर दर्ज किया जा रहा है... (Processing...)
       `;
 
       try {
@@ -505,10 +505,10 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
 
         const data = await res.json();
         if (!data.success) {
-          errBox.textContent = data.error || 'Failed to place order. Please review.';
+          errBox.textContent = data.error || 'ऑर्डर दर्ज करने में समस्या आई। कृपया विवरण जाँचें।';
           errBox.classList.remove('hidden');
           submitBtn.disabled = false;
-          submitBtn.textContent = 'CONFIRM & PLACE PRE-ORDER →';
+          submitBtn.textContent = 'ऑर्डर कन्फ़र्म करें (CONFIRM & PLACE ORDER) →';
           return;
         }
 
@@ -519,10 +519,10 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
         sessionStorage.setItem('fd_latest_order', JSON.stringify(data.order));
         window.location.href = `/farm/order-confirmation?order_number=${data.order.orderNumber}`;
       } catch (err) {
-        errBox.textContent = 'Network or server error. Please try again.';
+        errBox.textContent = 'नेटवर्क या सर्वर त्रुटि। कृपया इंटरनेट जाँचें और पुनः प्रयास करें।';
         errBox.classList.remove('hidden');
         submitBtn.disabled = false;
-        submitBtn.textContent = 'CONFIRM & PLACE PRE-ORDER →';
+        submitBtn.textContent = 'ऑर्डर कन्फ़र्म करें (CONFIRM & PLACE ORDER) →';
       }
     };
 

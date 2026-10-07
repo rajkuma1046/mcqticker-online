@@ -5,8 +5,8 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
 ---
 
 <FarmLayout
-  title="Pre-Order Received | Farm Direct"
-  description="Your raw farm produce pre-order has been received and confirmed."
+  title="प्री-ऑर्डर स्वीकृत (Order Confirmed) | खेत से सीधे — Farm Direct"
+  description="आपका खेत उत्पाद प्री-ऑर्डर सफलतापूर्वक दर्ज हो चुका है। ग्वालियर व शिवपुरी में रविवार को घर तक डिलीवरी।"
   canonicalPath="/farm/order-confirmation"
   hideCartBar={true}
 >
@@ -15,50 +15,50 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
       <!-- Ambient Glow Behind Confirmation -->
       <div class="absolute -top-10 -left-10 w-72 h-72 bg-emerald-500/15 rounded-full blur-3xl pointer-events-none"></div>
 
-      <div class="relative bg-white/95 backdrop-blur-xl p-8 sm:p-12 rounded-3xl border border-[#e2ece0] shadow-xl text-center space-y-6">
+      <div class="relative bg-white/95 dark:bg-[#152317]/95 backdrop-blur-xl p-8 sm:p-12 rounded-3xl border border-[#e2ece0] dark:border-[#223d26] shadow-xl text-center space-y-6">
         <!-- Success Badge -->
         <div class="w-16 h-16 bg-gradient-to-br from-emerald-500 to-[#1b4522] text-white rounded-2xl flex items-center justify-center text-3xl mx-auto shadow-lg shadow-emerald-900/20 font-bold">
           ✓
         </div>
 
         <div>
-          <span class="text-[10px] font-extrabold uppercase tracking-widest text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
-            Pre-Order Confirmed
+          <span class="text-[10px] font-extrabold uppercase tracking-widest text-emerald-800 dark:text-emerald-200 bg-emerald-50 dark:bg-emerald-950/60 px-3 py-1 rounded-full border border-emerald-200 dark:border-emerald-800">
+            प्री-ऑर्डर कन्फ़र्म • Pre-Order Confirmed
           </span>
-          <h1 class="fd-display text-2xl sm:text-4xl font-extrabold text-[#122815] mt-2">
-            Order Reserved Successfully
+          <h1 class="fd-display text-2xl sm:text-4xl font-extrabold text-[#122815] dark:text-white mt-2">
+            ऑर्डर सफलतापूर्वक आरक्षित हुआ!
           </h1>
-          <p class="text-xs sm:text-sm text-[#5b6e5d] mt-2 max-w-sm mx-auto leading-relaxed">
-            Your produce has been reserved in our village farm database for scheduled Sunday morning delivery.
+          <p class="text-xs sm:text-sm text-[#5b6e5d] dark:text-gray-300 mt-2 max-w-sm mx-auto leading-relaxed">
+            आपका शुद्ध अनाज हमारे गाँव के खेत भंडार में रविवार की तय होम डिलीवरी हेतु आरक्षित कर लिया गया है।
           </p>
         </div>
 
         <!-- Order Summary Card -->
-        <div class="p-6 rounded-2xl bg-[#f8faf7] border border-[#e2ece0] text-left space-y-3.5 text-xs">
-          <div class="flex items-center justify-between pb-3 border-b border-[#edf3ec]">
-            <span class="text-[#5b6e5d] font-bold">Order Number:</span>
-            <strong id="conf-order-num" class="font-mono text-sm font-extrabold text-[#122815]">Loading...</strong>
+        <div class="p-6 rounded-2xl bg-[#f8faf7] dark:bg-[#1a2d1d] border border-[#e2ece0] dark:border-[#2d4d32] text-left space-y-3.5 text-xs">
+          <div class="flex items-center justify-between pb-3 border-b border-[#edf3ec] dark:border-[#244229]">
+            <span class="text-[#5b6e5d] dark:text-gray-400 font-bold">ऑर्डर नंबर (Order Number):</span>
+            <strong id="conf-order-num" class="font-mono text-sm font-extrabold text-[#122815] dark:text-white">लोड हो रहा है...</strong>
           </div>
 
           <div class="flex items-center justify-between">
-            <span class="text-[#5b6e5d]">Delivery Cluster:</span>
-            <strong id="conf-area" class="font-bold text-[#152317]">—</strong>
+            <span class="text-[#5b6e5d] dark:text-gray-400">डिलीवरी इलाक़ा (Cluster):</span>
+            <strong id="conf-area" class="font-bold text-[#152317] dark:text-gray-200">—</strong>
           </div>
 
           <div class="flex items-center justify-between">
-            <span class="text-[#5b6e5d]">Pay on Delivery (Cash/UPI):</span>
-            <strong id="conf-total" class="fd-display text-xl font-black text-[#1b4522]">₹0</strong>
+            <span class="text-[#5b6e5d] dark:text-gray-400">डिलीवरी पर देय राशि (Cash/UPI):</span>
+            <strong id="conf-total" class="fd-display text-xl font-black text-[#1b4522] dark:text-emerald-400">₹0</strong>
           </div>
 
-          <div id="conf-items-summary" class="pt-2 border-t border-[#edf3ec] space-y-1 text-[#526454]"></div>
+          <div id="conf-items-summary" class="pt-2 border-t border-[#edf3ec] dark:border-[#244229] space-y-1 text-[#526454] dark:text-gray-300"></div>
         </div>
 
         <!-- WhatsApp Dispatch Notice -->
-        <div class="p-4 rounded-2xl bg-[#edf5ee] border border-[#cbe4d0] text-left flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+        <div class="p-4 rounded-2xl bg-[#edf5ee] dark:bg-[#1b2f1e] border border-[#cbe4d0] dark:border-[#2d4d32] text-left flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
           <div>
-            <strong class="font-bold text-[#1b4522] block">Farmer WhatsApp Slip</strong>
-            <p class="text-[11px] text-[#335e3b] mt-0.5">
-              Send your order slip directly to our farm WhatsApp: <strong>8770767272</strong>
+            <strong class="font-bold text-[#1b4522] dark:text-emerald-300 block">किसान व्हाट्सएप पर्ची (WhatsApp Slip)</strong>
+            <p class="text-[11px] text-[#335e3b] dark:text-gray-300 mt-0.5">
+              अपनी ऑर्डर पर्ची सीधे हमारे किसान व्हाट्सएप पर भेजें: <strong>8770767272</strong>
             </p>
           </div>
           <a
@@ -66,28 +66,28 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
             href="#"
             target="_blank"
             rel="noopener noreferrer"
-            class="fd-btn bg-[#25D366] hover:bg-[#1fa851] text-white font-bold text-xs py-2 px-3.5 rounded-xl shadow-xs whitespace-nowrap"
+            class="fd-btn bg-[#25D366] hover:bg-[#1fa851] text-white font-bold text-xs py-2 px-3.5 rounded-xl shadow-xs whitespace-nowrap flex items-center justify-center gap-1.5"
           >
-            <span>Send to WhatsApp &rarr;</span>
+            <span>व्हाट्सएप पर भेजें &rarr;</span>
           </a>
         </div>
 
         <!-- Action Buttons -->
         <div class="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
           <a id="btn-track-order" href="/farm/track" class="fd-btn fd-btn-primary w-full sm:w-auto px-6 py-3 font-bold text-xs shadow-md">
-            Track Order Details &rarr;
+            ऑर्डर स्थिति ट्रैक करें &rarr;
           </a>
           <a href="/farm/products" class="fd-btn fd-btn-secondary w-full sm:w-auto px-6 py-3 font-bold text-xs">
-            Continue Shopping
+            फ़सल सूची देखें (Catalogue)
           </a>
         </div>
 
         <!-- Guest Account Conversion Card -->
-        <div id="guest-signup-box" class="pt-6 border-t border-[#edf4ec] text-xs text-[#5b6e5d]">
-          <p class="font-bold text-[#152317]">Want to save your address for faster pre-orders?</p>
-          <p class="text-[11px] text-[#718573] mt-0.5 mb-3">Create a customer account with your phone number.</p>
+        <div id="guest-signup-box" class="pt-6 border-t border-[#edf4ec] dark:border-[#244229] text-xs text-[#5b6e5d] dark:text-gray-400">
+          <p class="font-bold text-[#152317] dark:text-gray-200">भविष्य में तुरंत ऑर्डर करने हेतु अपना पता सहेजना चाहते हैं?</p>
+          <p class="text-[11px] text-[#718573] dark:text-gray-400 mt-0.5 mb-3">अपने मोबाइल नंबर से 10 सेकंड में ग्राहक खाता बनाएँ।</p>
           <a href="/farm/account/register" class="fd-btn fd-btn-secondary fd-btn-sm font-bold inline-flex">
-            Create Customer Account &rarr;
+            ग्राहक खाता बनाएँ &rarr;
           </a>
         </div>
       </div>
@@ -123,14 +123,14 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
 
       function populate(data) {
         document.getElementById('conf-order-num').textContent = data.orderNumber;
-        document.getElementById('conf-area').textContent = `${data.deliveryAreaName || data.deliveryArea}, Gwalior`;
+        document.getElementById('conf-area').textContent = `${data.deliveryAreaName || data.deliveryArea}, ग्वालियर/शिवपुरी`;
         document.getElementById('conf-total').textContent = `₹${data.grandTotalRupees}`;
 
         if (data.items && data.items.length > 0) {
           document.getElementById('conf-items-summary').innerHTML = data.items.map(it => `
             <div class="flex justify-between py-0.5">
               <span>• ${it.productName || it.name} (${it.quantity} ${it.unit || 'kg'})</span>
-              <strong class="text-[#1b4522]">₹${it.lineTotalRupees}</strong>
+              <strong class="text-[#1b4522] dark:text-emerald-400">₹${it.lineTotalRupees}</strong>
             </div>
           `).join('');
         }
@@ -139,7 +139,7 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
         if (data.whatsapp?.clickToChatUrl) {
           waBtn.href = data.whatsapp.clickToChatUrl;
         } else {
-          const msg = encodeURIComponent(`Namaste Farm Direct, here is my pre-order ${data.orderNumber} for ${data.deliveryAreaName || data.deliveryArea}, Gwalior (Grand Total: ₹${data.grandTotalRupees}).`);
+          const msg = encodeURIComponent(`नमस्ते Farm Direct! मेरा प्री-ऑर्डर ${data.orderNumber} (${data.deliveryAreaName || data.deliveryArea}) कन्फ़र्म हुआ है (कुल राशि: ₹${data.grandTotalRupees})।`);
           waBtn.href = `https://wa.me/918770767272?text=${msg}`;
         }
 

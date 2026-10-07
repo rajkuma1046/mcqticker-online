@@ -12,8 +12,8 @@ interface Props {
 }
 
 const {
-  title = 'Farm Direct | Raw Farm Produce by Pre-Order',
-  description = 'Order raw wheat, groundnut, chana, moong, urad and seasonal farm produce with scheduled delivery in Gwalior, Karera, and Shivpuri.',
+  title = 'फार्म डायरेक्ट | Farm Direct - सीधे खेत से शुद्ध देशी गेहूँ, दालें व मूँगफली (Gwalior, Shivpuri, Karera)',
+  description = 'सीधे गाँव के खेत से 100% शुद्ध बिना पॉलिश का देशी गेहूँ, कच्ची मूँगफली, देशी चना, मूँग व उड़द। ग्वालियर (Pawan Nagar, Chetakpuri), करैरा, सिरसौद और शिवपुरी में ताज़ा होम डिलीवरी। मुफ़्त 100g/200g सैंपल उपलब्ध।',
   canonicalPath = '/farm',
   hideCartBar = false,
 } = Astro.props;
@@ -21,24 +21,61 @@ const {
 const SITE_URL = 'https://mcqticker.online';
 const canonicalURL = `${SITE_URL}${canonicalPath}`;
 const WHATSAPP_NUMBER = '8770767272';
-const WHATSAPP_LINK = `https://wa.me/91${WHATSAPP_NUMBER}?text=${encodeURIComponent('Namaste Farm Direct, I have a question about raw farm produce.')}`;
+const WHATSAPP_LINK = `https://wa.me/91${WHATSAPP_NUMBER}?text=${encodeURIComponent('नमस्ते फार्म डायरेक्ट, मुझे खेत की शुद्ध उपज और डिलीवरी के बारे में जानकारी चाहिए।')}`;
 
 const isHome = canonicalPath === '/farm' || canonicalPath === '/farm/';
 const isProduce = canonicalPath.startsWith('/farm/products');
 const isSamples = canonicalPath.startsWith('/farm/samples') || canonicalPath.startsWith('/farm/sample-policy');
 const isAccount = canonicalPath.startsWith('/farm/account');
 const isCart = canonicalPath.startsWith('/farm/cart') || canonicalPath.startsWith('/farm/checkout');
+
+// BreadcrumbList data for Google Rich Results
+const breadcrumbsList = [
+  { '@type': 'ListItem', position: 1, name: 'होम (Home)', item: `${SITE_URL}/farm` }
+];
+if (canonicalPath.startsWith('/farm/products/') && canonicalPath !== '/farm/products') {
+  breadcrumbsList.push({ '@type': 'ListItem', position: 2, name: 'ताज़ा फसलें (Produce)', item: `${SITE_URL}/farm/products` });
+  breadcrumbsList.push({ '@type': 'ListItem', position: 3, name: title.split('|')[0].trim(), item: canonicalURL });
+} else if (canonicalPath.startsWith('/farm/products')) {
+  breadcrumbsList.push({ '@type': 'ListItem', position: 2, name: 'ताज़ा फसलें (Produce)', item: `${SITE_URL}/farm/products` });
+} else if (canonicalPath.startsWith('/farm/reviews')) {
+  breadcrumbsList.push({ '@type': 'ListItem', position: 2, name: 'ग्राहक समीक्षाएँ (Reviews)', item: `${SITE_URL}/farm/reviews` });
+} else if (canonicalPath.startsWith('/farm/samples')) {
+  breadcrumbsList.push({ '@type': 'ListItem', position: 2, name: 'मुफ़्त सैंपल (Free Samples)', item: `${SITE_URL}/farm/samples` });
+} else if (canonicalPath.startsWith('/farm/delivery-areas')) {
+  breadcrumbsList.push({ '@type': 'ListItem', position: 2, name: 'डिलीवरी क्षेत्र (Delivery Areas)', item: `${SITE_URL}/farm/delivery-areas` });
+} else if (canonicalPath.startsWith('/farm/how-it-works')) {
+  breadcrumbsList.push({ '@type': 'ListItem', position: 2, name: 'कार्यप्रणाली (How It Works)', item: `${SITE_URL}/farm/how-it-works` });
+} else if (canonicalPath.startsWith('/farm/track')) {
+  breadcrumbsList.push({ '@type': 'ListItem', position: 2, name: 'ऑर्डर ट्रैकिंग (Track Order)', item: `${SITE_URL}/farm/track` });
+} else if (canonicalPath.startsWith('/farm/cart')) {
+  breadcrumbsList.push({ '@type': 'ListItem', position: 2, name: 'टोकरी (Cart)', item: `${SITE_URL}/farm/cart` });
+} else if (canonicalPath.startsWith('/farm/checkout')) {
+  breadcrumbsList.push({ '@type': 'ListItem', position: 2, name: 'चेकआउट (Checkout)', item: `${SITE_URL}/farm/checkout` });
+}
 ---
 
 <!doctype html>
-<html lang="en" class="scroll-smooth">
+<html lang="hi" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta name="keywords" content="ग्वालियर देशी गेहूँ, शुद्ध बिना पॉलिश का गेहूँ ग्वालियर, देशी चना मूँगफली शिवपुरी, करैरा सिरसौद गेहूँ, Farm Direct Gwalior, Desi gehu delivery Gwalior, unpolished wheat MP, Sharbati gehu Gwalior, raw pulses Gwalior, Pawan Nagar Chetakpuri farm delivery, organic farm wheat MP" />
     <meta name="robots" content="index, follow, max-image-preview:large" />
     <link rel="canonical" href={canonicalURL} />
+
+    <!-- Google Local Search Geo-Targeting -->
+    <meta name="geo.region" content="IN-MP" />
+    <meta name="geo.placename" content="Gwalior, Shivpuri, Karera, Sirsod" />
+    <meta name="geo.position" content="25.5684;78.1384" />
+    <meta name="ICBM" content="25.5684, 78.1384" />
+
+    <!-- Multi-Language Alternates -->
+    <link rel="alternate" hreflang="hi" href={canonicalURL} />
+    <link rel="alternate" hreflang="en-IN" href={canonicalURL} />
+    <link rel="alternate" hreflang="x-default" href={canonicalURL} />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
@@ -46,8 +83,9 @@ const isCart = canonicalPath.startsWith('/farm/cart') || canonicalPath.startsWit
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={`${SITE_URL}/farm/images/hero-1280.jpg`} />
-    <meta property="og:site_name" content="Farm Direct" />
-    <meta property="og:locale" content="en_IN" />
+    <meta property="og:site_name" content="फार्म डायरेक्ट | Farm Direct" />
+    <meta property="og:locale" content="hi_IN" />
+    <meta property="og:locale:alternate" content="en_IN" />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -55,10 +93,82 @@ const isCart = canonicalPath.startsWith('/farm/cart') || canonicalPath.startsWit
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={`${SITE_URL}/farm/images/hero-1280.jpg`} />
 
-    <!-- Premium Google Fonts: Outfit + Plus Jakarta Sans + Playfair Display -->
+    <!-- Google LocalBusiness / Store / Agriculture & Breadcrumb Schema (schema.org) -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": ["LocalBusiness", "Store", "AgriculturalService"],
+          "@id": `${SITE_URL}/farm/#localbusiness`,
+          "name": "फार्म डायरेक्ट | Farm Direct - खेत से सीधे शुद्ध देशी गेहूँ, दालें व मूँगफली",
+          "alternateName": "Farm Direct Gwalior, Karera & Shivpuri",
+          "url": `${SITE_URL}/farm`,
+          "logo": `${SITE_URL}/farm/images/hero-1280.jpg`,
+          "image": `${SITE_URL}/farm/images/hero-1280.jpg`,
+          "description": "सीधे गाँव के खेत से 100% शुद्ध बिना पॉलिश का देशी गेहूँ (Farm Wheat), कच्ची मूँगफली, देशी चना, मूँग व उड़द। ग्वालियर (Pawan Nagar, Chetakpuri), करैरा, सिरसौद और शिवपुरी में सीधे होम डिलीवरी। मुफ़्त सैंपल उपलब्ध।",
+          "telephone": "+91-8770767272",
+          "email": "rajkuma1046@gmail.com",
+          "priceRange": "₹25 - ₹120 per kg",
+          "currenciesAccepted": "INR",
+          "paymentAccepted": "Cash on Delivery, UPI, Google Pay, PhonePe, Paytm",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Village Sirsod, Tehsil Karera",
+            "addressLocality": "Karera, Shivpuri District",
+            "addressRegion": "Madhya Pradesh",
+            "postalCode": "473660",
+            "addressCountry": "IN"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 25.5684,
+            "longitude": 78.1384
+          },
+          "hasMap": "https://share.google/WybqH9qjZj9aiYcoz",
+          "areaServed": [
+            { "@type": "City", "name": "Gwalior", "sameAs": "https://en.wikipedia.org/wiki/Gwalior" },
+            { "@type": "City", "name": "Shivpuri", "sameAs": "https://en.wikipedia.org/wiki/Shivpuri" },
+            { "@type": "City", "name": "Karera" },
+            { "@type": "AdministrativeArea", "name": "Sirsod" },
+            { "@type": "AdministrativeArea", "name": "Pawan Nagar, Gwalior" },
+            { "@type": "AdministrativeArea", "name": "Chetakpuri, Gwalior" }
+          ],
+          "openingHoursSpecification": [
+            {
+              "@type": "OpeningHoursSpecification",
+              "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+              "opens": "07:00",
+              "closes": "21:00"
+            }
+          ],
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.9",
+            "reviewCount": "28",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "WebSite",
+          "@id": `${SITE_URL}/farm/#website`,
+          "url": `${SITE_URL}/farm`,
+          "name": "फार्म डायरेक्ट | Farm Direct",
+          "inLanguage": ["hi-IN", "en-IN"],
+          "description": "सीधे गाँव के खेत से शुद्ध देशी गेहूँ, दालें व मूँगफली"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": `${canonicalURL}#breadcrumb`,
+          "itemListElement": breadcrumbsList
+        }
+      ]
+    })} />
+
+    <!-- Premium Google Fonts: Noto Sans Devanagari + Outfit + Plus Jakarta Sans + Playfair Display -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet" />
 
     <!-- Immediate Farm Direct Dark Mode Initialization (Zero Flash) -->
     <script is:inline>
@@ -175,7 +285,7 @@ const isCart = canonicalPath.startsWith('/farm/cart') || canonicalPath.startsWit
       html, body {
         background-color: var(--fd-bg);
         color: var(--fd-text);
-        font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        font-family: 'Noto Sans Devanagari', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         line-height: 1.5;
         -webkit-font-smoothing: antialiased;
         overflow-x: hidden;
@@ -490,48 +600,58 @@ const isCart = canonicalPath.startsWith('/farm/cart') || canonicalPath.startsWit
           </div>
           <div>
             <div class="fd-display text-xl sm:text-2xl font-bold tracking-tight text-[#132215] flex items-center gap-2">
-              Farm Direct
+              <span>फार्म डायरेक्ट</span>
+              <span class="text-xs font-semibold text-[#5b6e5d] hidden md:inline">Farm Direct</span>
             </div>
             <div class="text-[10px] sm:text-[11px] text-[#5b6e5d] font-semibold tracking-wide">
-              Direct from Village Farm • Zero Middlemen
+              सीधे गाँव के खेत से • 100% शुद्ध देशी उपज (Zero Middlemen)
             </div>
           </div>
         </a>
 
-        <!-- Desktop Navigation Links -->
+        <!-- Desktop Navigation Links (Hindi Primary / English Secondary) -->
         <nav class="hidden lg:flex items-center gap-1 text-xs font-bold text-[#2d3e30]">
-          <a href="/farm" class="px-3 py-2 rounded-xl hover:bg-emerald-50 hover:text-[#194622] transition-colors">
-            Home
+          <a href="/farm" class="px-3 py-2 rounded-xl hover:bg-emerald-50 hover:text-[#194622] transition-colors flex flex-col items-center leading-tight">
+            <span>होम</span>
+            <span class="text-[9px] text-[#748776] font-normal">Home</span>
           </a>
-          <a href="/farm/products" class="px-3 py-2 rounded-xl hover:bg-emerald-50 hover:text-[#194622] transition-colors">
-            Produce Catalogue
+          <a href="/farm/products" class="px-3 py-2 rounded-xl hover:bg-emerald-50 hover:text-[#194622] transition-colors flex flex-col items-center leading-tight">
+            <span>ताज़ा फसलें</span>
+            <span class="text-[9px] text-[#748776] font-normal">Produce</span>
           </a>
-          <a href="/farm/reviews" class="px-3 py-2 rounded-xl hover:bg-emerald-50 hover:text-[#194622] transition-colors flex items-center gap-1">
-            <span>⭐ Reviews</span>
+          <a href="/farm/reviews" class="px-3 py-2 rounded-xl hover:bg-emerald-50 hover:text-[#194622] transition-colors flex flex-col items-center leading-tight">
+            <span>⭐ समीक्षाएँ</span>
+            <span class="text-[9px] text-[#748776] font-normal">Reviews</span>
           </a>
-          <a href="/farm/how-it-works" class="px-3 py-2 rounded-xl hover:bg-emerald-50 hover:text-[#194622] transition-colors">
-            How It Works
+          <a href="/farm/how-it-works" class="px-3 py-2 rounded-xl hover:bg-emerald-50 hover:text-[#194622] transition-colors flex flex-col items-center leading-tight">
+            <span>प्रक्रिया</span>
+            <span class="text-[9px] text-[#748776] font-normal">How It Works</span>
           </a>
-          <a href="/farm/delivery-areas" class="px-3 py-2 rounded-xl hover:bg-emerald-50 hover:text-[#194622] transition-colors">
-            Delivery Areas
+          <a href="/farm/delivery-areas" class="px-3 py-2 rounded-xl hover:bg-emerald-50 hover:text-[#194622] transition-colors flex flex-col items-center leading-tight">
+            <span>डिलीवरी क्षेत्र</span>
+            <span class="text-[9px] text-[#748776] font-normal">Delivery Areas</span>
           </a>
-          <a href="/farm/samples" class="px-3 py-2 rounded-xl bg-[#fef7ec] text-[#b8751c] hover:bg-[#fdedd3] border border-[#f5dfb8] transition-colors flex items-center gap-1.5 shadow-xs">
-            <span>🎁 Free Samples</span>
-            <span class="text-[9px] uppercase px-1.5 py-0.5 bg-amber-500 text-white rounded-full font-extrabold">100g/200g</span>
+          <a href="/farm/samples" class="px-3 py-1.5 rounded-xl bg-[#fef7ec] text-[#b8751c] hover:bg-[#fdedd3] border border-[#f5dfb8] transition-colors flex flex-col items-center leading-tight shadow-xs">
+            <span class="flex items-center gap-1 font-extrabold text-[#965507]">
+              <span>🎁 मुफ़्त सैंपल</span>
+              <span class="text-[9px] uppercase px-1 py-0.2 bg-amber-500 text-white rounded-full font-extrabold">100g/200g</span>
+            </span>
+            <span class="text-[9px] text-amber-800 font-semibold">Free Tasting Sample</span>
           </a>
-          <a href="/farm/track" class="px-3 py-2 rounded-xl hover:bg-emerald-50 hover:text-[#194622] transition-colors">
-            Track Order
+          <a href="/farm/track" class="px-3 py-2 rounded-xl hover:bg-emerald-50 hover:text-[#194622] transition-colors flex flex-col items-center leading-tight">
+            <span>ऑर्डर ट्रैक</span>
+            <span class="text-[9px] text-[#748776] font-normal">Track</span>
           </a>
         </nav>
 
-        <!-- Header Actions: Account + Cart + Mobile Hamburger -->
+        <!-- Header Actions: Account + Cart + Theme Toggle + Mobile Hamburger -->
         <div class="flex items-center gap-2 sm:gap-3">
           <!-- Account Icon/Link -->
-          <a href="/farm/account" class="p-2 sm:px-3 sm:py-2 text-xs font-bold rounded-xl text-[#2d3e30] hover:bg-[#f0f4ee] flex items-center gap-1.5 transition-colors border border-transparent hover:border-[#d9e4d5]" title="Customer Account">
+          <a href="/farm/account" class="p-2 sm:px-3 sm:py-2 text-xs font-bold rounded-xl text-[#2d3e30] hover:bg-[#f0f4ee] flex items-center gap-1.5 transition-colors border border-transparent hover:border-[#d9e4d5]" title="ग्राहक खाता (Account)">
             <svg width="20" height="20" class="w-5 h-5 text-[#425544] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
             </svg>
-            <span class="hidden sm:inline" id="fd-account-label">Account</span>
+            <span class="hidden sm:inline" id="fd-account-label">खाता • Account</span>
           </a>
 
           <!-- Dark / Light Theme Toggle -->
@@ -540,19 +660,19 @@ const isCart = canonicalPath.startsWith('/farm/cart') || canonicalPath.startsWit
             type="button"
             onclick="toggleFarmTheme()"
             class="p-2 sm:px-2.5 sm:py-2 text-xs font-bold rounded-xl text-[#2d3e30] hover:bg-[#f0f4ee] flex items-center gap-1.5 transition-colors border border-transparent hover:border-[#d9e4d5] cursor-pointer"
-            title="Toggle Light / Dark Mode"
+            title="लाइट / डार्क मोड बदलें"
             aria-label="Toggle theme"
           >
             <span id="fd-theme-icon" class="text-base leading-none">🌙</span>
-            <span class="hidden xl:inline text-[11px]" id="fd-theme-label">Theme</span>
+            <span class="hidden xl:inline text-[11px]" id="fd-theme-label">थीम</span>
           </button>
 
           <!-- Cart Link (with dynamic badge) -->
-          <a href="/farm/cart" class="relative px-3.5 py-2 sm:px-4 sm:py-2.5 text-xs font-bold rounded-xl bg-gradient-to-r from-[#1b4522] to-[#296032] text-white hover:from-[#15371b] hover:to-[#204e28] flex items-center gap-2 shadow-sm shadow-emerald-950/20 transition-all hover:scale-[1.02] active:scale-[0.98]" title="View Cart">
+          <a href="/farm/cart" class="relative px-3.5 py-2 sm:px-4 sm:py-2.5 text-xs font-bold rounded-xl bg-gradient-to-r from-[#1b4522] to-[#296032] text-white hover:from-[#15371b] hover:to-[#204e28] flex items-center gap-2 shadow-sm shadow-emerald-950/20 transition-all hover:scale-[1.02] active:scale-[0.98]" title="टोकरी देखें (View Cart)">
             <svg width="20" height="20" class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
             </svg>
-            <span class="hidden sm:inline">Cart</span>
+            <span class="hidden sm:inline">टोकरी • Cart</span>
             <span id="fd-cart-badge" class="min-w-[20px] h-5 px-1.5 rounded-full bg-amber-500 text-white text-[11px] font-extrabold flex items-center justify-center shadow-xs">0</span>
           </a>
 
@@ -566,7 +686,7 @@ const isCart = canonicalPath.startsWith('/farm/cart') || canonicalPath.startsWit
       </div>
     </header>
 
-    <!-- Mobile Drawer Navigation -->
+    <!-- Mobile Drawer Navigation (Hindi Primary) -->
     <div id="fd-mobile-nav" class="fixed inset-0 z-50 lg:hidden pointer-events-none">
       <div id="fd-mobile-backdrop" class="absolute inset-0 bg-black/50 backdrop-blur-sm opacity-0 transition-opacity duration-300"></div>
       <div class="relative w-76 max-w-[85vw] h-full bg-white shadow-2xl flex flex-col p-6 pointer-events-auto overflow-y-auto">
@@ -574,11 +694,11 @@ const isCart = canonicalPath.startsWith('/farm/cart') || canonicalPath.startsWit
           <div class="flex items-center gap-2.5">
             <span class="text-2xl">🌾</span>
             <div>
-              <span class="fd-display font-bold text-lg text-[#132215] block leading-tight">Farm Direct</span>
-              <span class="text-[10px] text-[#748776] uppercase font-bold tracking-wider">Direct Harvest • Zero Middlemen</span>
+              <span class="fd-display font-bold text-lg text-[#132215] block leading-tight">फार्म डायरेक्ट</span>
+              <span class="text-[10px] text-[#748776] uppercase font-bold tracking-wider">सीधे खेत से • 100% शुद्ध (Direct Harvest)</span>
             </div>
           </div>
-          <button id="fd-mobile-close" type="button" class="p-2 rounded-xl text-gray-500 hover:bg-gray-100 transition-colors">
+          <button id="fd-mobile-close" type="button" class="p-2 rounded-xl text-gray-500 hover:bg-gray-100 transition-colors" aria-label="Close menu">
             <svg width="24" height="24" class="w-6 h-6 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
@@ -586,28 +706,28 @@ const isCart = canonicalPath.startsWith('/farm/cart') || canonicalPath.startsWit
         </div>
 
         <nav class="flex flex-col gap-2 py-6 text-sm font-bold text-[#2d3e30]">
-          <a href="/farm" class="px-3.5 py-2.5 rounded-xl hover:bg-emerald-50 hover:text-[#194622] transition-colors">
-            Home
+          <a href="/farm" class="px-3.5 py-2.5 rounded-xl hover:bg-emerald-50 hover:text-[#194622] transition-colors flex items-center justify-between">
+            <span>🏠 मुख्य पृष्ठ (Home)</span>
           </a>
-          <a href="/farm/products" class="px-3.5 py-2.5 rounded-xl hover:bg-emerald-50 hover:text-[#194622] transition-colors">
-            This Week's Produce
+          <a href="/farm/products" class="px-3.5 py-2.5 rounded-xl hover:bg-emerald-50 hover:text-[#194622] transition-colors flex items-center justify-between">
+            <span>🌾 इस हफ्ते की फसलें (Produce)</span>
           </a>
           <a href="/farm/reviews" class="px-3.5 py-2.5 rounded-xl hover:bg-emerald-50 hover:text-[#194622] transition-colors flex items-center justify-between">
-            <span>⭐ Customer Reviews & Photos</span>
-            <span class="text-[10px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full font-extrabold">New</span>
+            <span>⭐ ग्राहक समीक्षाएँ व तस्वीरें (Reviews)</span>
+            <span class="text-[10px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full font-extrabold">नई</span>
           </a>
-          <a href="/farm/how-it-works" class="px-3.5 py-2.5 rounded-xl hover:bg-emerald-50 hover:text-[#194622] transition-colors">
-            How It Works
+          <a href="/farm/how-it-works" class="px-3.5 py-2.5 rounded-xl hover:bg-emerald-50 hover:text-[#194622] transition-colors flex items-center justify-between">
+            <span>🚜 हमारी कार्यप्रणाली (How It Works)</span>
           </a>
-          <a href="/farm/delivery-areas" class="px-3.5 py-2.5 rounded-xl hover:bg-emerald-50 hover:text-[#194622] transition-colors">
-            Delivery Areas
+          <a href="/farm/delivery-areas" class="px-3.5 py-2.5 rounded-xl hover:bg-emerald-50 hover:text-[#194622] transition-colors flex items-center justify-between">
+            <span>📍 डिलीवरी क्षेत्र व गाँव (Delivery Areas)</span>
           </a>
           <a href="/farm/samples" class="px-3.5 py-2.5 rounded-xl bg-amber-50 text-amber-900 border border-amber-200/70 flex items-center justify-between">
-            <span>Request Free Sample</span>
+            <span>🎁 मुफ़्त सैंपल मँगवाएँ (Free Sample)</span>
             <span class="text-[10px] bg-amber-500 text-white px-2 py-0.5 rounded-full font-bold">100g/200g</span>
           </a>
-          <a href="/farm/track" class="px-3.5 py-2.5 rounded-xl hover:bg-emerald-50 hover:text-[#194622] transition-colors">
-            Track My Order
+          <a href="/farm/track" class="px-3.5 py-2.5 rounded-xl hover:bg-emerald-50 hover:text-[#194622] transition-colors flex items-center justify-between">
+            <span>📦 ऑर्डर ट्रैक करें (Track Order)</span>
           </a>
           <div class="border-t border-[#e2ece0] my-2"></div>
           <!-- Appearance Toggle in Drawer -->
@@ -618,25 +738,25 @@ const isCart = canonicalPath.startsWith('/farm/cart') || canonicalPath.startsWit
           >
             <span class="flex items-center gap-2">
               <span id="fd-drawer-theme-icon">🌙</span>
-              <span>Theme Appearance</span>
+              <span>थीम का रंग (Appearance)</span>
             </span>
-            <span id="fd-drawer-theme-text" class="text-xs px-2 py-0.5 rounded-full bg-emerald-100 text-[#194622] font-extrabold">Light</span>
+            <span id="fd-drawer-theme-text" class="text-xs px-2 py-0.5 rounded-full bg-emerald-100 text-[#194622] font-extrabold">लाइट (Light)</span>
           </button>
           <div class="border-t border-[#e2ece0] my-2"></div>
           <a href="/farm/account" class="px-3.5 py-2.5 rounded-xl hover:bg-emerald-50 flex items-center gap-2">
-            <span>👤 Customer Account</span>
+            <span>👤 ग्राहक खाता (Customer Account)</span>
           </a>
           <a href="/farm/admin" class="px-3.5 py-2 rounded-xl text-xs text-[#5b6e5d] hover:bg-gray-100">
-            🚜 Operations & Admin
+            🚜 संचालन व एडमिन (Operations)
           </a>
         </nav>
 
         <div class="mt-auto pt-6 border-t border-[#e2ece0]">
           <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" class="fd-btn w-full py-3 text-xs bg-[#25D366] hover:bg-[#1fa851] text-white font-bold shadow-md shadow-emerald-950/10">
-            <span>Chat with Farmer on WhatsApp</span>
+            <span>किसान से WhatsApp पर संपर्क करें ↗</span>
           </a>
           <p class="text-[11px] text-[#748776] text-center mt-3">
-            Delivering fresh to Gwalior, Karera, and Shivpuri
+            ग्वालियर, करैरा, सिरसौद और शिवपुरी में ताज़ा आपूर्ति
           </p>
         </div>
       </div>
@@ -654,7 +774,7 @@ const isCart = canonicalPath.startsWith('/farm/cart') || canonicalPath.startsWit
         target="_blank"
         rel="noopener noreferrer"
         class="flex items-center gap-2 p-2 sm:px-4 sm:py-2.5 bg-[#25D366] hover:bg-[#20ba59] text-white rounded-full shadow-[0_8px_24px_rgba(37,211,102,0.4)] hover:scale-105 active:scale-95 transition-all text-xs sm:text-sm font-bold group"
-        title="Chat with Farmer on WhatsApp"
+        title="किसान से WhatsApp पर बात करें"
       >
         <img
           src="https://img.icons8.com/?size=160&id=BkugfgmBwtEI&format=png"
@@ -663,11 +783,11 @@ const isCart = canonicalPath.startsWith('/farm/cart') || canonicalPath.startsWit
           class="w-7 h-7 sm:w-8 sm:h-8 flex-shrink-0 object-contain group-hover:scale-110 transition-transform drop-shadow-sm"
           loading="eager"
         />
-        <span class="hidden sm:inline font-bold">WhatsApp Direct</span>
+        <span class="hidden sm:inline font-bold">किसान से बात करें • WhatsApp</span>
       </a>
     </aside>
 
-    <!-- Luxury Dark Forest Footer -->
+    <!-- Luxury Dark Forest Footer (Hindi Primary / English Secondary) -->
     <footer class="bg-[#0e1c10] text-[#c0d4be] pt-16 pb-24 sm:pb-16 border-t border-[#1a341e] mt-20 text-xs">
       <div class="fd-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
         <!-- Brand Info -->
@@ -677,15 +797,15 @@ const isCart = canonicalPath.startsWith('/farm/cart') || canonicalPath.startsWit
               🌾
             </div>
             <div>
-              <span class="fd-display text-xl font-bold text-white tracking-tight block">Farm Direct</span>
-              <span class="text-[10px] text-emerald-400/80 font-bold uppercase tracking-wider">Village Farm serving Gwalior & Shivpuri Districts</span>
+              <span class="fd-display text-xl font-bold text-white tracking-tight block">फार्म डायरेक्ट</span>
+              <span class="text-[10px] text-emerald-400/80 font-bold uppercase tracking-wider">Village Farm • Gwalior & Shivpuri</span>
             </div>
           </div>
           <p class="text-[#96ab95] leading-relaxed">
-            Raw, minimally handled agricultural grains, pulses, and oilseeds supplied directly from fertile village farmland serving Gwalior & Shivpuri Districts.
+            गाँव के खेत से सीधे आपके घर तक 100% शुद्ध, बिना पॉलिश का देशी गेहूँ, कच्ची मूँगफली, देशी चना, मूँग और उड़द। शून्य मिलावट, शून्य बिचौलिया।
           </p>
           <div class="pt-2 text-[11px] text-[#778d76]">
-            WhatsApp Coordination: <a href={WHATSAPP_LINK} class="text-emerald-400 font-bold underline">+91 {WHATSAPP_NUMBER}</a>
+            किसान WhatsApp संपर्क: <a href={WHATSAPP_LINK} class="text-emerald-400 font-bold underline">+91 {WHATSAPP_NUMBER}</a>
           </div>
           <div class="pt-1 text-[11px]">
             <a
@@ -699,7 +819,7 @@ const isCart = canonicalPath.startsWith('/farm/cart') || canonicalPath.startsWit
                 alt="Google Maps"
                 class="w-4 h-4 object-contain inline-block shrink-0"
               />
-              <span>View Farm on Google Maps</span>
+              <span>खेत का स्थान गूगल मैप्स पर देखें (Google Maps)</span>
               <span>↗</span>
             </a>
           </div>
@@ -707,107 +827,112 @@ const isCart = canonicalPath.startsWith('/farm/cart') || canonicalPath.startsWit
 
         <!-- Serving Neighbourhoods -->
         <div>
-          <h4 class="text-white font-bold mb-4 uppercase tracking-wider text-[11px] text-emerald-400">Serving Neighbourhoods & Villages</h4>
+          <h4 class="text-white font-bold mb-4 uppercase tracking-wider text-[11px] text-emerald-400">डिलीवरी क्षेत्र व गाँव • Serving Areas</h4>
           <ul class="space-y-2.5 text-[#c0d4be]">
             <li class="flex items-center gap-2">
-              <span class="text-emerald-400 font-bold">✓</span> Village Sirsod & Naya Amola (Colony 1–4)
+              <span class="text-emerald-400 font-bold">✓</span> ग्राम सिरसौद व नया अमोला (कॉलोनी 1–4)
             </li>
             <li class="flex items-center gap-2">
-              <span class="text-emerald-400 font-bold">✓</span> Karera (Block) & Shivpuri District
+              <span class="text-emerald-400 font-bold">✓</span> करैरा (ब्लॉक मुख्यालय) व शिवपुरी ज़िला
             </li>
             <li class="flex items-center gap-2">
-              <span class="text-emerald-400 font-bold">✓</span> Pawan Nagar & Chetakpuri (Gwalior)
+              <span class="text-emerald-400 font-bold">✓</span> पवन नगर व चेतकपुरी (ग्वालियर शहर)
             </li>
           </ul>
           <p class="text-[11px] text-[#778d76] mt-4 leading-relaxed">
-            Consolidated weekend morning trips with zero intermediary markups.
+            प्रत्येक रविवार सुबह सुरक्षित व ताज़ा आपूर्ति। डिलीवरी के समय माल देखकर भुगतान करें।
           </p>
         </div>
 
         <!-- Quick Links -->
         <div>
-          <h4 class="text-white font-bold mb-4 uppercase tracking-wider text-[11px] text-emerald-400">Catalogue & Pre-Orders</h4>
+          <h4 class="text-white font-bold mb-4 uppercase tracking-wider text-[11px] text-emerald-400">फसलें व मुफ़्त सैंपल • Catalogue</h4>
           <ul class="space-y-2 text-[#96ab95]">
-            <li><a href="/farm/products" class="hover:text-white transition-colors">Raw Produce Catalogue</a></li>
-            <li><a href="/farm/reviews" class="hover:text-white transition-colors text-emerald-300 font-bold flex items-center gap-1"><span>⭐ Customer Reviews & Photos</span></a></li>
-            <li><a href="/farm/how-it-works" class="hover:text-white transition-colors">Consolidated Logistics Model</a></li>
-            <li><a href="/farm/samples" class="hover:text-white transition-colors">Request Free Sample (100g/200g)</a></li>
-            <li><a href="/farm/sample-policy" class="hover:text-white transition-colors">Free Sample Rules & Cooldown</a></li>
-            <li><a href="/farm/delivery-areas" class="hover:text-white transition-colors">Delivery Clusters & Fee Structure</a></li>
-            <li><a href="/farm/track" class="hover:text-white transition-colors">Public Order Tracking</a></li>
+            <li><a href="/farm/products" class="hover:text-white transition-colors">ताज़ा फसल सूची (Produce Catalogue)</a></li>
+            <li><a href="/farm/reviews" class="hover:text-white transition-colors text-emerald-300 font-bold flex items-center gap-1"><span>⭐ ग्राहक समीक्षाएँ व तस्वीरें (Reviews)</span></a></li>
+            <li><a href="/farm/how-it-works" class="hover:text-white transition-colors">खेत से सीधी आपूर्ति प्रक्रिया (How It Works)</a></li>
+            <li><a href="/farm/samples" class="hover:text-white transition-colors">मुफ़्त सैंपल मँगवाएँ (100g/200g Free Sample)</a></li>
+            <li><a href="/farm/sample-policy" class="hover:text-white transition-colors">सैंपल नियम व पॉलिसी (Sample Guidelines)</a></li>
+            <li><a href="/farm/delivery-areas" class="hover:text-white transition-colors">डिलीवरी क्षेत्र व शुल्क (Delivery Clusters)</a></li>
+            <li><a href="/farm/track" class="hover:text-white transition-colors">ऑर्डर ट्रैक करें (Public Order Tracking)</a></li>
           </ul>
         </div>
 
         <!-- Transparency & Legal -->
         <div>
-          <h4 class="text-white font-bold mb-4 uppercase tracking-wider text-[11px] text-emerald-400">Trust & Transparency</h4>
+          <h4 class="text-white font-bold mb-4 uppercase tracking-wider text-[11px] text-emerald-400">विश्वास व कानूनी जानकारी • Trust & Info</h4>
           <ul class="space-y-2 text-[#96ab95]">
-            <li><a href="https://share.google/WybqH9qjZj9aiYcoz" target="_blank" rel="noopener noreferrer" class="text-emerald-400 hover:text-white font-semibold transition-colors inline-flex items-center gap-1.5"><img src="/farm/images/google-maps-icon.svg" alt="Google Maps" class="w-4 h-4 object-contain inline-block shrink-0" /> Farm Location (Google Maps) ↗</a></li>
-            <li><a href="/farm/contact" class="hover:text-white transition-colors">Farmer Contact & Coordinates</a></li>
-            <li><a href="/farm/terms" class="hover:text-white transition-colors">Produce Terms & Conditions</a></li>
-            <li><a href="/farm/privacy" class="hover:text-white transition-colors">Privacy & Delivery Data</a></li>
-            <li><a href="/farm/account/login" class="hover:text-white transition-colors">Customer & Admin Login</a></li>
+            <li><a href="https://share.google/WybqH9qjZj9aiYcoz" target="_blank" rel="noopener noreferrer" class="text-emerald-400 hover:text-white font-semibold transition-colors inline-flex items-center gap-1.5"><img src="/farm/images/google-maps-icon.svg" alt="Google Maps" class="w-4 h-4 object-contain inline-block shrink-0" /> खेत का पता (Google Maps) ↗</a></li>
+            <li><a href="/farm/contact" class="hover:text-white transition-colors">किसान संपर्क व पता (Farmer Contact)</a></li>
+            <li><a href="/farm/terms" class="hover:text-white transition-colors">उपज नियम व शर्तें (Produce Terms)</a></li>
+            <li><a href="/farm/privacy" class="hover:text-white transition-colors">गोपनीयता नीति (Privacy Policy)</a></li>
+            <li><a href="/farm/account/login" class="hover:text-white transition-colors">ग्राहक व एडमिन लॉगिन (Account Login)</a></li>
           </ul>
           <div class="mt-6 p-3 rounded-xl bg-white/5 border border-white/10 text-[11px] text-[#96ab95]">
-            🌾 <strong>Farm Direct Promise:</strong> Raw, unpolished, zero synthetic coatings.
+            🌾 <strong>फार्म डायरेक्ट वादा:</strong> 100% शुद्ध, धूप में सुखाया, बिना किसी केमिकल पॉलिश के।
           </div>
         </div>
       </div>
 
       <div class="fd-container mt-12 pt-8 border-t border-[#1c3820] flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-[#6b826a]">
         <div>
-          © {new Date().getFullYear()} Farm Direct. Standalone direct-to-consumer agricultural platform.
+          © {new Date().getFullYear()} फार्म डायरेक्ट (Farm Direct) • सीधे खेत से उपभोक्ता तक।
         </div>
         <div>
-          Village Farm serving Gwalior & Shivpuri Districts • Delivering fresh to Gwalior, Karera, and Shivpuri
+          ग्राम सिरसौद, करैरा (शिवपुरी) • ग्वालियर, शिवपुरी, करैरा में ताज़ा डिलीवरी
         </div>
       </div>
     </footer>
 
-    <!-- Fixed Mobile Bottom Navigation Bar (Matching Native Mobile App UI) -->
+    <!-- Fixed Mobile Bottom Navigation Bar (Hindi Primary / English Secondary) -->
     <nav id="fd-bottom-nav" class="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-[#f4f7f2]/95 backdrop-blur-lg border-t border-[#d8e3d6] px-2 py-1.5 shadow-[0_-4px_16px_rgba(0,0,0,0.06)] pb-safe">
       <div class="grid grid-cols-5 items-center justify-around text-center max-w-lg mx-auto">
         <!-- Tab 1: Home -->
         <a href="/farm" class={`flex flex-col items-center justify-center py-1 transition-colors ${isHome ? 'text-[#194622] font-extrabold' : 'text-[#5b6e5d] font-semibold hover:text-[#194622]'}`}>
-          <svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" stroke-width={isHome ? "2.4" : "1.8"} viewBox="0 0 24 24">
+          <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" stroke-width={isHome ? "2.4" : "1.8"} viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
           </svg>
-          <span class="text-[11px] leading-tight">Home</span>
+          <span class="text-[11px] font-bold leading-tight">होम</span>
+          <span class="text-[8px] opacity-75 leading-none">Home</span>
         </a>
 
         <!-- Tab 2: Produce -->
         <a href="/farm/products" class={`flex flex-col items-center justify-center py-1 transition-colors ${isProduce ? 'text-[#194622] font-extrabold' : 'text-[#5b6e5d] font-semibold hover:text-[#194622]'}`}>
-          <svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" stroke-width={isProduce ? "2.4" : "1.8"} viewBox="0 0 24 24">
+          <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" stroke-width={isProduce ? "2.4" : "1.8"} viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
           </svg>
-          <span class="text-[11px] leading-tight">Produce</span>
+          <span class="text-[11px] font-bold leading-tight">फसलें</span>
+          <span class="text-[8px] opacity-75 leading-none">Produce</span>
         </a>
 
         <!-- Tab 3: Samples -->
         <a href="/farm/samples" class={`flex flex-col items-center justify-center py-1 transition-colors ${isSamples ? 'text-[#194622] font-extrabold' : 'text-[#5b6e5d] font-semibold hover:text-[#194622]'}`}>
-          <svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" stroke-width={isSamples ? "2.4" : "1.8"} viewBox="0 0 24 24">
+          <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" stroke-width={isSamples ? "2.4" : "1.8"} viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
           </svg>
-          <span class="text-[11px] leading-tight">Samples</span>
+          <span class="text-[11px] font-bold leading-tight">सैंपल</span>
+          <span class="text-[8px] opacity-75 leading-none">Samples</span>
         </a>
 
         <!-- Tab 4: Account -->
         <a href="/farm/account" class={`flex flex-col items-center justify-center py-1 transition-colors ${isAccount ? 'text-[#194622] font-extrabold' : 'text-[#5b6e5d] font-semibold hover:text-[#194622]'}`}>
-          <svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" stroke-width={isAccount ? "2.4" : "1.8"} viewBox="0 0 24 24">
+          <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" stroke-width={isAccount ? "2.4" : "1.8"} viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
           </svg>
-          <span class="text-[11px] leading-tight">Account</span>
+          <span class="text-[11px] font-bold leading-tight">खाता</span>
+          <span class="text-[8px] opacity-75 leading-none">Account</span>
         </a>
 
         <!-- Tab 5: Cart -->
         <a href="/farm/cart" class={`flex flex-col items-center justify-center py-1 transition-colors relative ${isCart ? 'text-[#194622] font-extrabold' : 'text-[#5b6e5d] font-semibold hover:text-[#194622]'}`}>
           <div class="relative">
-            <svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" stroke-width={isCart ? "2.4" : "1.8"} viewBox="0 0 24 24">
+            <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" stroke-width={isCart ? "2.4" : "1.8"} viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
             </svg>
             <span id="fd-mobile-nav-cart-badge" class="hidden absolute -top-1 -right-2.5 min-w-[18px] h-[18px] px-1 rounded-full bg-[#1b4522] text-white text-[10px] font-black flex items-center justify-center shadow-xs">0</span>
           </div>
-          <span class="text-[11px] leading-tight">Cart</span>
+          <span class="text-[11px] font-bold leading-tight">टोकरी</span>
+          <span class="text-[8px] opacity-75 leading-none">Cart</span>
         </a>
       </div>
     </nav>
@@ -890,7 +1015,7 @@ const isCart = canonicalPath.startsWith('/farm/cart') || canonicalPath.startsWit
           const data = await res.json();
           const label = document.getElementById('fd-account-label');
           if (label && data.success && data.user) {
-            label.textContent = data.user.name.split(' ')[0] || 'Account';
+            label.textContent = (data.user.name.split(' ')[0] || 'खाता') + ' (खाता)';
           }
         } catch (e) {}
       }

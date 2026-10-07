@@ -5,63 +5,64 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
 ---
 
 <FarmLayout
-  title="Raw Farm Produce Catalogue | Farm Direct"
-  description="Order 100% raw, unpolished wheat, raw groundnut, desi chana, whole moong, raw urad, and seasonal farm produce. Direct village harvest delivered to Pawan Nagar & Chetakpuri, Gwalior."
+  title="ताज़ा देशी फसलें व अनाज सूची | Produce Catalogue | Farm Direct"
+  description="100% शुद्ध, बिना पॉलिश का देशी गेहूँ, कच्ची मूँगफली, देशी चना, साबुत मूँग व उड़द। ग्वालियर (पवन नगर, चेतकपुरी), करैरा, सिरसौद और शिवपुरी में सीधे खेत से होम डिलीवरी।"
   canonicalPath="/farm/products"
 >
   <div class="fd-container py-8 sm:py-16">
-    <!-- Editorial Hero Banner -->
+    <!-- Editorial Hero Banner (Hindi Primary / English Secondary) -->
     <div class="relative rounded-3xl overflow-hidden bg-gradient-to-br from-[#122815] via-[#1a3f20] to-[#0d1f11] text-white p-6 sm:p-12 mb-10 shadow-xl border border-emerald-900/40">
       <div class="absolute -right-20 -bottom-20 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
       <div class="relative z-10 max-w-3xl">
         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-bold border border-emerald-400/30 mb-4 backdrop-blur-sm">
           <span>🌾</span>
-          <span>100% Raw • Naturally Sun-Dried • Zero Polishing</span>
+          <span>100% शुद्ध • धूप में सुखाया • शून्य केमिकल पॉलिश (Raw & Natural)</span>
         </div>
         <h1 class="fd-display text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight">
-          Field-Direct Farm Produce
+          खेत से सीधी ताज़ा फसलें
         </h1>
+        <span class="text-sm font-bold text-emerald-300 uppercase tracking-wider block mt-1">Field-Direct Farm Produce Catalogue</span>
         <p class="text-sm sm:text-base text-emerald-100/80 mt-3 max-w-2xl leading-relaxed">
-          Grown in fertile village soils surrounding Gwalior. Harvested, winnowed, and pre-ordered for scheduled consolidated Sunday delivery in <strong class="text-white underline decoration-emerald-400">Pawan Nagar</strong> and <strong class="text-white underline decoration-emerald-400">Chetakpuri</strong>.
+          गाँव के उपजाऊ खेतों में उगाई गई शुद्ध फसलें। कटाई और सफाई के बाद सीधे सुरक्षित बोरियों में पैक। <strong class="text-white underline decoration-emerald-400">ग्वालियर, करैरा, सिरसौद और शिवपुरी</strong> में प्रत्येक रविवार सुबह सुरक्षित डिलीवरी।
         </p>
 
         <!-- Fast Guarantees Pill Grid -->
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-8 pt-6 border-t border-emerald-800/60 text-xs font-semibold text-emerald-200">
           <div class="flex items-center gap-2">
-            <span class="text-emerald-400 font-bold">✓</span> Direct Village Farm
+            <span class="text-emerald-400 font-bold">✓</span> सीधे गाँव का खेत (Village Farm)
           </div>
           <div class="flex items-center gap-2">
-            <span class="text-emerald-400 font-bold">✓</span> Authoritative Live Prices
+            <span class="text-emerald-400 font-bold">✓</span> खेत की सीधी दरें (Farm Gate Rates)
           </div>
           <div class="flex items-center gap-2">
-            <span class="text-emerald-400 font-bold">✓</span> Free 100g/200g Samples
+            <span class="text-emerald-400 font-bold">✓</span> मुफ़्त 100g/200g सैंपल (Free Tasting)
           </div>
           <div class="flex items-center gap-2">
-            <span class="text-emerald-400 font-bold">✓</span> Pay on Delivery (UPI/Cash)
+            <span class="text-emerald-400 font-bold">✓</span> डिलीवरी पर भुगतान (UPI/Cash)
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Filter & Search Toolbar -->
+    <!-- Filter & Search Toolbar (Hindi Primary) -->
     <div class="bg-white/90 backdrop-blur-md p-4 sm:p-5 rounded-2xl border border-[#e2ece0] shadow-sm mb-8 space-y-4">
       <div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4">
         <!-- Modern Pill Filter Buttons -->
         <div class="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0 scrollbar-none" id="cat-filters">
           <button type="button" class="cat-pill active-pill whitespace-nowrap px-4 py-2 rounded-xl text-xs font-bold transition-all" onclick="filterCategory('all', this)">
-            All Harvest
+            सभी फसलें • All
           </button>
           <button type="button" class="cat-pill inactive-pill whitespace-nowrap px-4 py-2 rounded-xl text-xs font-bold transition-all" onclick="filterCategory('grain', this)">
-            🌾 Grains
+            🌾 अनाज (गेहूँ) • Grains
           </button>
           <button type="button" class="cat-pill inactive-pill whitespace-nowrap px-4 py-2 rounded-xl text-xs font-bold transition-all" onclick="filterCategory('pulse', this)">
-            🫘 Pulses & Chana
+            🫘 दालें व चना • Pulses
           </button>
           <button type="button" class="cat-pill inactive-pill whitespace-nowrap px-4 py-2 rounded-xl text-xs font-bold transition-all" onclick="filterCategory('oilseed', this)">
-            🥜 Oilseeds (Groundnut)
+            🥜 तिलहन (मूँगफली) • Oilseeds
           </button>
           <button type="button" class="cat-pill inactive-pill whitespace-nowrap px-4 py-2 rounded-xl text-xs font-bold transition-all" onclick="filterCategory('seasonal', this)">
-            🥬 Seasonal
+            🥬 मौसमी फसलें • Seasonal
           </button>
         </div>
 
@@ -70,7 +71,7 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
           <input
             id="search-input"
             type="text"
-            placeholder="Search wheat, chana, moong..."
+            placeholder="गेहूँ, चना, मूँग खोजें... (Search)"
             class="w-full pl-9 pr-8 py-2.5 rounded-xl border border-[#d6e3d4] bg-[#f8faf7] text-xs font-semibold text-[#152317] placeholder:text-[#8ba08c] focus:outline-none focus:bg-white focus:border-[#1b4522] focus:ring-2 focus:ring-[#1b4522]/10 transition-all"
             oninput="handleSearch()"
           />
@@ -81,10 +82,10 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
 
       <!-- Live Count Sub-bar -->
       <div class="flex items-center justify-between text-xs text-[#5b6e5d] pt-2 border-t border-[#edf3ec]">
-        <div id="results-count" class="font-semibold">Loading available harvest...</div>
+        <div id="results-count" class="font-semibold">उपलब्ध फसलें लोड हो रही हैं...</div>
         <div class="flex items-center gap-1.5 text-[11px] font-bold text-emerald-800">
           <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-          <span>Next Scheduled Dispatch: Sunday 8:00 AM</span>
+          <span>अगली नियमित डिलीवरी: रविवार सुबह 8:00 बजे (Next Dispatch)</span>
         </div>
       </div>
     </div>
@@ -107,12 +108,12 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
     <!-- Empty State -->
     <div id="catalog-empty" class="hidden text-center py-20 bg-white rounded-3xl border border-[#e2ece0] p-8 max-w-lg mx-auto shadow-sm">
       <div class="w-16 h-16 bg-emerald-50 text-[#1b4522] rounded-full flex items-center justify-center text-3xl mx-auto mb-4">🌾</div>
-      <h3 class="fd-display text-xl font-bold text-[#152317]">No Matching Produce Found</h3>
+      <h3 class="fd-display text-xl font-bold text-[#152317]">कोई फसल नहीं मिली (No Match Found)</h3>
       <p class="text-xs text-[#5b6e5d] mt-2 mb-6">
-        We could not find any produce matching your current filter. Clear your search or explore other harvest categories.
+        आपकी खोज से मेल खाती कोई फसल नहीं मिली। फ़िल्टर बदलें या सभी फसलें देखें।
       </p>
       <button type="button" class="fd-btn fd-btn-primary fd-btn-sm" onclick="clearFilters()">
-        Show All Produce
+        सभी फसलें देखें • Show All Produce
       </button>
     </div>
   </div>
@@ -248,16 +249,16 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
         return `
           <div class="bg-white rounded-2xl border border-[#d6e2d4] overflow-hidden shadow-xs hover:shadow-lg transition-all duration-300 flex flex-col justify-between ${isSoldOut ? 'opacity-85' : ''}">
             <div>
-              <!-- Top Image Area matching Screenshot -->
+              <!-- Top Image Area -->
               <div class="relative w-full h-48 sm:h-52 bg-[#d7e2d5] flex items-center justify-center overflow-hidden">
                 <!-- Top-left pill: Raw / Unprocessed -->
                 <span class="absolute top-3 left-3 bg-[#243527] text-white text-[11px] font-semibold px-2.5 py-1 rounded-md shadow-xs z-10">
-                  ${p.label || (p.isSeasonal ? 'Seasonal Harvest' : 'Raw / Unprocessed')}
+                  ${p.label || (p.isSeasonal ? 'मौसमी • Seasonal' : '100% शुद्ध देशी उपज')}
                 </span>
 
                 <!-- Bottom-right pill: Available: 85 kg -->
                 <span class="absolute bottom-3 right-3 bg-white/95 text-[#132215] text-[11px] font-bold px-2.5 py-1 rounded-md shadow-xs border border-black/5 z-10">
-                  ${isSoldOut ? 'Sold Out' : `Available: ${p.quantityAvailable !== null ? `${p.quantityAvailable} kg` : 'In Stock'}`}
+                  ${isSoldOut ? 'स्टॉक समाप्त • Sold Out' : `उपलब्ध: ${p.quantityAvailable !== null ? `${p.quantityAvailable} किलो` : 'In Stock'}`}
                 </span>
 
                 <a href="/farm/products/${p.slug}" class="block w-full h-full relative group">
@@ -267,10 +268,10 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
                     loading="lazy"
                   />
-                  <!-- Subtle centered name overlay matching mobile screenshot -->
+                  <!-- Subtle centered name overlay -->
                   <div class="absolute inset-0 bg-[#1c3820]/15 flex items-center justify-center p-4">
                     <span class="font-extrabold text-[#194622] text-lg sm:text-xl drop-shadow-sm text-center">
-                      ${p.name}
+                      ${p.localName || p.name}
                     </span>
                   </div>
                 </a>
@@ -278,7 +279,7 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
                 ${isSoldOut ? `
                   <div class="absolute inset-0 bg-black/60 backdrop-blur-xs flex items-center justify-center z-20">
                     <span class="px-4 py-1.5 rounded-lg bg-red-600 text-white font-black text-xs uppercase tracking-wider shadow-md">
-                      Sold Out
+                      स्टॉक समाप्त • Sold Out
                     </span>
                   </div>
                 ` : ''}
@@ -290,30 +291,28 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
                 <div class="flex items-center justify-between gap-2">
                   <h2 class="text-base sm:text-lg font-black text-[#132215] truncate">
                     <a href="/farm/products/${p.slug}" class="hover:text-[#194622] transition-colors">
-                      ${p.name}
+                      ${p.localName || p.name}
                     </a>
                   </h2>
-                  ${p.localName ? `
-                    <span class="text-xs sm:text-sm font-bold text-[#8c5324] whitespace-nowrap">
-                      ${p.localName}
-                    </span>
-                  ` : ''}
+                  <span class="text-xs sm:text-sm font-bold text-[#8c5324] whitespace-nowrap">
+                    ${p.name}
+                  </span>
                 </div>
 
-                <!-- Amazon-Style Rating Snippet -->
+                <!-- Rating Snippet -->
                 <div class="flex items-center gap-1.5 text-xs">
                   <a href="/farm/products/${p.slug}#reviews-section" class="inline-flex items-center gap-1 group hover:underline">
                     ${(p.reviewCount || 0) > 0 ? `
                       <span class="text-amber-400 text-xs tracking-tight">${'★'.repeat(Math.round(p.avgRating))}${'☆'.repeat(5 - Math.round(p.avgRating))}</span>
                       <span class="font-extrabold text-[#132215] text-[11px]">${Number(p.avgRating).toFixed(1)}</span>
-                      <span class="text-emerald-800 font-bold text-[11px] group-hover:text-emerald-950">(${p.reviewCount} review${p.reviewCount === 1 ? '' : 's'})</span>
+                      <span class="text-emerald-800 font-bold text-[11px] group-hover:text-emerald-950">(${p.reviewCount} समीक्षाएँ)</span>
                     ` : `
                       <span class="text-gray-300 text-xs tracking-tight">☆☆☆☆☆</span>
-                      <span class="text-emerald-800 font-bold text-[11px] group-hover:text-emerald-950">No reviews yet</span>
+                      <span class="text-emerald-800 font-bold text-[11px] group-hover:text-emerald-950">समीक्षा लिखें</span>
                     `}
                   </a>
                   <span class="text-[10px] text-[#8ea490]">•</span>
-                  <span class="text-[10px] font-bold text-emerald-800 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200/60">Verified</span>
+                  <span class="text-[10px] font-bold text-emerald-800 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200/60">प्रमाणित खेत</span>
                 </div>
 
                 <!-- Description -->
@@ -328,7 +327,7 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
                 <div class="flex items-center justify-between gap-2 pt-1">
                   <div class="flex items-baseline gap-1">
                     <span class="text-xl sm:text-2xl font-black text-[#132215]">₹${price}</span>
-                    <span class="text-xs font-semibold text-[#667a68]">/ kg</span>
+                    <span class="text-xs font-semibold text-[#667a68]">/ किलो (kg)</span>
                   </div>
 
                   ${!isSoldOut ? `
@@ -365,31 +364,33 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
                 <div class="grid grid-cols-2 gap-2.5">
                   <button
                     type="button"
-                    class="w-full py-2.5 px-3 rounded-xl border border-[#1b4522] bg-[#f7faf5] hover:bg-[#ebf4e9] text-[#1b4522] font-bold text-xs sm:text-sm transition-all text-center"
+                    class="w-full py-2.5 px-3 rounded-xl border border-[#1b4522] bg-[#f7faf5] hover:bg-[#ebf4e9] text-[#1b4522] font-bold text-xs sm:text-sm transition-all text-center flex flex-col items-center justify-center leading-tight"
                     onclick="addToBasket(${p.id}, '${p.name.replace(/'/g, "\\'")}', ${price})"
                   >
-                    Add to Cart
+                    <span>टोकरी में जोड़ें</span>
+                    <span class="text-[9px] opacity-75 font-normal">Add to Cart</span>
                   </button>
                   <button
                     type="button"
-                    class="w-full py-2.5 px-3 rounded-xl bg-[#6d4623] hover:bg-[#5a381a] text-white font-bold text-xs sm:text-sm shadow-xs transition-all text-center"
+                    class="w-full py-2.5 px-3 rounded-xl bg-[#6d4623] hover:bg-[#5a381a] text-white font-bold text-xs sm:text-sm shadow-xs transition-all text-center flex flex-col items-center justify-center leading-tight"
                     onclick="buyNowItem(${p.id}, '${p.name.replace(/'/g, "\\'")}', ${price})"
                   >
-                    Buy Now
+                    <span>तुरंत खरीदें</span>
+                    <span class="text-[9px] opacity-80 font-normal">Buy Now</span>
                   </button>
                 </div>
               ` : `
                 <button type="button" class="w-full py-2.5 rounded-xl bg-gray-100 text-gray-400 font-bold text-xs cursor-not-allowed" disabled>
-                  Currently Out of Stock
+                  वर्तमान में स्टॉक समाप्त (Sold Out)
                 </button>
               `}
 
-              <!-- Free Sample Tasting Callout matching screenshot -->
+              <!-- Free Sample Tasting Callout -->
               <a
                 href="/farm/samples?product_id=${p.id}"
                 class="block w-full py-2 px-3 rounded-xl border border-dashed border-[#b8751c] bg-[#fef8f0] hover:bg-[#faeedb] text-center text-[11px] sm:text-xs font-semibold text-[#8c5324] transition-colors"
               >
-                Not sure? Request Free Sample (100g/200g)
+                🎁 पहले परखें: मुफ़्त 100g/200g सैंपल मँगवाएँ
               </a>
             </div>
           </div>

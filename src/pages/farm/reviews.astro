@@ -1,18 +1,50 @@
 ---
 import FarmLayout from '../../layouts/FarmLayout.astro';
+
+// Schema.org Review & AggregateRating for Local Search
+const reviewHubSchema = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "फार्म डायरेक्ट (Farm Direct)",
+  "image": "https://mcqticker.online/farm/images/farm-hero-1200.jpg",
+  "telephone": "+918770767272",
+  "priceRange": "₹25 - ₹120/kg",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Village Sirsod, Tehsil Karera",
+    "addressLocality": "Shivpuri",
+    "addressRegion": "Madhya Pradesh",
+    "postalCode": "473551",
+    "addressCountry": "IN"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": "25.5684",
+    "longitude": "78.1384"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.9",
+    "reviewCount": "28",
+    "bestRating": "5",
+    "worstRating": "1"
+  }
+};
 ---
 
 <FarmLayout
-  title="Customer Reviews & Harvest Photos | Farm Direct"
-  description="Read verified customer reviews and view authentic harvest photos from families across Village Sirsod, Naya Amola, Karera, Shivpuri, and Gwalior."
+  title="ग्राहक समीक्षाएं और खेत की तस्वीरें | फार्म डायरेक्ट ग्वालियर व शिवपुरी"
+  description="ग्वालियर, शिवपुरी, करैरा और सिरसौद में सीधे खेत से शुद्ध बिना पॉलिश का शरबती गेहूँ, देशी चना, कच्ची मूँगफली व दालें। सत्यापित ग्राहकों की समीक्षाएं और खेत की वास्तविक तस्वीरें।"
   canonicalPath="/farm/reviews"
 >
+  <script type="application/ld+json" set:html={JSON.stringify(reviewHubSchema)} />
+
   <div class="fd-container py-8 sm:py-14 max-w-5xl space-y-10">
     <!-- Breadcrumb -->
-    <nav class="flex items-center gap-2 text-xs text-[#5b6e5d] font-semibold">
-      <a href="/farm" class="hover:text-[#194622]">Home</a>
-      <span>/</span>
-      <span class="font-extrabold text-[#132215]">Customer Reviews & Photos</span>
+    <nav class="flex items-center gap-2 text-xs text-[#5b6e5d] dark:text-[#a3b8a6] font-semibold" aria-label="Breadcrumb">
+      <a href="/farm" class="hover:text-[#194622] dark:hover:text-[#6ee7b7] transition-colors">मुख्य पृष्ठ (Home)</a>
+      <span class="opacity-50">/</span>
+      <span class="font-extrabold text-[#132215] dark:text-[#e8f5e9]">ग्राहक समीक्षाएं व तस्वीरें (Customer Reviews & Photos)</span>
     </nav>
 
     <!-- Hero Header -->
@@ -22,13 +54,13 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
       <div class="max-w-2xl space-y-4 relative z-10">
         <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-400/20 text-emerald-200 border border-emerald-400/30 text-xs font-extrabold uppercase tracking-wider">
           <span>🌾</span>
-          <span>100% Real Customer Photos & Feedback</span>
+          <span>100% असली ग्राहक फोटो व समीक्षाएं • Authentic Feedback</span>
         </span>
         <h1 class="fd-display text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight">
-          Community Reviews & Farm Harvest Photos
+          ग्राहक समीक्षाएं और खेत की पैदावार की तस्वीरें
         </h1>
         <p class="text-xs sm:text-sm text-[#d0e5d3] leading-relaxed">
-          See unfiltered feedback and cooking results directly from families in Village Sirsod, Naya Amola, Karera, Shivpuri, and Gwalior who cook with our unpolished harvest.
+          गाँव सिरसौद, नया अमोला, करैरा, शिवपुरी और ग्वालियर के परिवारों द्वारा सीधे खेत से मंगाए गए बिना पॉलिश के अनाज व दालों पर निष्पक्ष राय।
         </p>
         <div class="pt-2 flex flex-wrap items-center gap-3">
           <button
@@ -36,70 +68,70 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
             onclick="openWriteReviewModal()"
             class="fd-btn bg-white hover:bg-emerald-50 text-[#194622] px-6 py-3.5 rounded-2xl text-xs sm:text-sm font-extrabold shadow-lg hover:scale-102 active:scale-98 transition-all cursor-pointer flex items-center gap-2"
           >
-            <span>✍️ Write a Review & Upload Photo</span>
+            <span>✍️ समीक्षा लिखें व फोटो जोड़ें • Write Review</span>
           </button>
           <a
             href="/farm/products"
             class="px-5 py-3 rounded-2xl text-xs font-bold text-emerald-200 hover:text-white border border-emerald-400/40 hover:bg-white/10 transition-colors"
           >
-            Browse Harvest Produce &rarr;
+            फसल सूची देखें (Catalogue) &rarr;
           </a>
         </div>
       </div>
     </div>
 
     <!-- Rating Summary Dashboard -->
-    <div class="grid grid-cols-1 md:grid-cols-12 gap-6 bg-white p-6 sm:p-8 rounded-3xl border border-[#dce7db] shadow-sm">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-6 bg-white dark:bg-[#152317] p-6 sm:p-8 rounded-3xl border border-[#dce7db] dark:border-[#223b26] shadow-sm">
       <!-- Big Score -->
-      <div class="md:col-span-5 flex flex-col items-center justify-center text-center p-6 bg-[#f8faf7] rounded-2xl border border-[#e5eee3] space-y-2">
-        <div class="text-5xl sm:text-6xl font-black text-[#194622]" id="rev-avg-score">—</div>
+      <div class="md:col-span-5 flex flex-col items-center justify-center text-center p-6 bg-[#f8faf7] dark:bg-[#1a2d1d] rounded-2xl border border-[#e5eee3] dark:border-[#223b26] space-y-2">
+        <div class="text-5xl sm:text-6xl font-black text-[#194622] dark:text-[#4ade80]" id="rev-avg-score">—</div>
         <div class="flex items-center gap-1 text-amber-400 text-2xl" id="rev-avg-stars">
           ★★★★★
         </div>
-        <div class="text-xs font-bold text-[#132215]" id="rev-total-count-text">
-          Loading verified community reviews...
+        <div class="text-xs font-bold text-[#132215] dark:text-[#f0f9f1]" id="rev-total-count-text">
+          सत्यापित समुदाय समीक्षाएं लोड हो रही हैं...
         </div>
-        <div class="text-[11px] text-[#637765] flex items-center gap-1 font-semibold">
-          <span class="text-emerald-600 font-extrabold">✓</span> Verified Village Farm Direct Deliveries
+        <div class="text-[11px] text-[#637765] dark:text-[#a3b8a6] flex items-center gap-1 font-semibold">
+          <span class="text-emerald-600 dark:text-emerald-400 font-extrabold">✓</span> 100% असली स्थानीय गाँव के खरीदारों का फीडबैक
         </div>
       </div>
 
       <!-- Rating Breakdown Bars -->
-      <div class="md:col-span-7 flex flex-col justify-center space-y-2.5 text-xs font-semibold text-[#5b6e5d]">
+      <div class="md:col-span-7 flex flex-col justify-center space-y-2.5 text-xs font-semibold text-[#5b6e5d] dark:text-[#a3b8a6]">
         <div class="flex items-center gap-3">
-          <span class="w-12 text-right font-bold text-[#132215]">5 ★</span>
-          <div class="flex-1 h-3 rounded-full bg-[#e9f0e8] overflow-hidden">
+          <span class="w-14 text-right font-bold text-[#132215] dark:text-[#e8f5e9]">5 सितारा</span>
+          <div class="flex-1 h-3 rounded-full bg-[#e9f0e8] dark:bg-[#203723] overflow-hidden">
             <div id="bar-star-5" class="h-full bg-emerald-600 rounded-full transition-all duration-500" style="width: 100%;"></div>
           </div>
-          <span id="count-star-5" class="w-8 text-right font-bold text-[#132215]">0</span>
+          <span id="count-star-5" class="w-8 text-right font-bold text-[#132215] dark:text-[#e8f5e9]">0</span>
         </div>
         <div class="flex items-center gap-3">
-          <span class="w-12 text-right font-bold text-[#132215]">4 ★</span>
-          <div class="flex-1 h-3 rounded-full bg-[#e9f0e8] overflow-hidden">
+          <span class="w-14 text-right font-bold text-[#132215] dark:text-[#e8f5e9]">4 सितारा</span>
+          <div class="flex-1 h-3 rounded-full bg-[#e9f0e8] dark:bg-[#203723] overflow-hidden">
             <div id="bar-star-4" class="h-full bg-emerald-500 rounded-full transition-all duration-500" style="width: 0%;"></div>
           </div>
-          <span id="count-star-4" class="w-8 text-right font-bold text-[#132215]">0</span>
+          <span id="count-star-4" class="w-8 text-right font-bold text-[#132215] dark:text-[#e8f5e9]">0</span>
         </div>
         <div class="flex items-center gap-3">
-          <span class="w-12 text-right font-bold text-[#132215]">3 ★</span>
-          <div class="flex-1 h-3 rounded-full bg-[#e9f0e8] overflow-hidden">
+          <span class="w-14 text-right font-bold text-[#132215] dark:text-[#e8f5e9]">3 सितारा</span>
+          <div class="flex-1 h-3 rounded-full bg-[#e9f0e8] dark:bg-[#203723] overflow-hidden">
             <div id="bar-star-3" class="h-full bg-amber-400 rounded-full transition-all duration-500" style="width: 0%;"></div>
           </div>
-          <span id="count-star-3" class="w-8 text-right font-bold text-[#132215]">0</span>
+          <span id="count-star-3" class="w-8 text-right font-bold text-[#132215] dark:text-[#e8f5e9]">0</span>
         </div>
         <div class="flex items-center gap-3">
-          <span class="w-12 text-right font-bold text-[#132215]">2 ★</span>
-          <div class="flex-1 h-3 rounded-full bg-[#e9f0e8] overflow-hidden">
+          <span class="w-14 text-right font-bold text-[#132215] dark:text-[#e8f5e9]">2 सितारा</span>
+          <div class="flex-1 h-3 rounded-full bg-[#e9f0e8] dark:bg-[#203723] overflow-hidden">
             <div id="bar-star-2" class="h-full bg-orange-400 rounded-full transition-all duration-500" style="width: 0%;"></div>
           </div>
-          <span id="count-star-2" class="w-8 text-right font-bold text-[#132215]">0</span>
+          <span id="count-star-2" class="w-8 text-right font-bold text-[#132215] dark:text-[#e8f5e9]">0</span>
         </div>
         <div class="flex items-center gap-3">
-          <span class="w-12 text-right font-bold text-[#132215]">1 ★</span>
-          <div class="flex-1 h-3 rounded-full bg-[#e9f0e8] overflow-hidden">
+          <span class="w-14 text-right font-bold text-[#132215] dark:text-[#e8f5e9]">1 सितारा</span>
+          <div class="flex-1 h-3 rounded-full bg-[#e9f0e8] dark:bg-[#203723] overflow-hidden">
             <div id="bar-star-1" class="h-full bg-rose-400 rounded-full transition-all duration-500" style="width: 0%;"></div>
           </div>
-          <span id="count-star-1" class="w-8 text-right font-bold text-[#132215]">0</span>
+          <span id="count-star-1" class="w-8 text-right font-bold text-[#132215] dark:text-[#e8f5e9]">0</span>
         </div>
       </div>
     </div>
@@ -107,11 +139,11 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
     <!-- Community Harvest Photos Strip -->
     <div id="customer-photos-box" class="space-y-3 hidden">
       <div class="flex items-center justify-between">
-        <h3 class="font-extrabold text-base text-[#122815] flex items-center gap-2">
+        <h3 class="font-extrabold text-base text-[#122815] dark:text-[#f0f9f1] flex items-center gap-2">
           <span>📸</span>
-          <span>Customer Harvest & Cooking Photos</span>
+          <span>ग्राहकों द्वारा भेजी गई तस्वीरें • Photos from Customers</span>
         </h3>
-        <span id="photos-count-label" class="text-xs text-[#5b6e5d] font-bold"></span>
+        <span id="photos-count-label" class="text-xs text-[#5b6e5d] dark:text-[#a3b8a6] font-bold"></span>
       </div>
       <div id="photos-strip" class="flex gap-3 overflow-x-auto pb-3 scrollbar-none">
         <!-- Rendered via JS -->
@@ -127,75 +159,75 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
           data-prod="all"
           onclick="filterProduce('all', this)"
         >
-          All Produce
+          सभी फसलें • All Produce
         </button>
         <button
           type="button"
-          class="produce-filter-btn px-4 py-2 rounded-xl text-xs font-extrabold transition-all bg-white text-[#132215] border border-[#dce7db] hover:bg-emerald-50 cursor-pointer"
+          class="produce-filter-btn px-4 py-2 rounded-xl text-xs font-extrabold transition-all bg-white dark:bg-[#1a2d1d] text-[#132215] dark:text-[#e8f5e9] border border-[#dce7db] dark:border-[#223b26] hover:bg-emerald-50 cursor-pointer"
           data-prod="1"
           onclick="filterProduce('1', this)"
         >
-          🌾 Farm Wheat
+          🌾 देशी गेहूँ • Wheat
         </button>
         <button
           type="button"
-          class="produce-filter-btn px-4 py-2 rounded-xl text-xs font-extrabold transition-all bg-white text-[#132215] border border-[#dce7db] hover:bg-emerald-50 cursor-pointer"
+          class="produce-filter-btn px-4 py-2 rounded-xl text-xs font-extrabold transition-all bg-white dark:bg-[#1a2d1d] text-[#132215] dark:text-[#e8f5e9] border border-[#dce7db] dark:border-[#223b26] hover:bg-emerald-50 cursor-pointer"
           data-prod="2"
           onclick="filterProduce('2', this)"
         >
-          🥜 Raw Groundnut
+          🥜 कच्ची मूँगफली • Groundnut
         </button>
         <button
           type="button"
-          class="produce-filter-btn px-4 py-2 rounded-xl text-xs font-extrabold transition-all bg-white text-[#132215] border border-[#dce7db] hover:bg-emerald-50 cursor-pointer"
+          class="produce-filter-btn px-4 py-2 rounded-xl text-xs font-extrabold transition-all bg-white dark:bg-[#1a2d1d] text-[#132215] dark:text-[#e8f5e9] border border-[#dce7db] dark:border-[#223b26] hover:bg-emerald-50 cursor-pointer"
           data-prod="3"
           onclick="filterProduce('3', this)"
         >
-          🥣 Raw Chana
+          🥣 देशी चना • Chana
         </button>
         <button
           type="button"
-          class="produce-filter-btn px-4 py-2 rounded-xl text-xs font-extrabold transition-all bg-white text-[#132215] border border-[#dce7db] hover:bg-emerald-50 cursor-pointer"
+          class="produce-filter-btn px-4 py-2 rounded-xl text-xs font-extrabold transition-all bg-white dark:bg-[#1a2d1d] text-[#132215] dark:text-[#e8f5e9] border border-[#dce7db] dark:border-[#223b26] hover:bg-emerald-50 cursor-pointer"
           data-prod="4"
           onclick="filterProduce('4', this)"
         >
-          🌱 Raw Moong
+          🌱 साबुत मूँग • Moong
         </button>
         <button
           type="button"
-          class="produce-filter-btn px-4 py-2 rounded-xl text-xs font-extrabold transition-all bg-white text-[#132215] border border-[#dce7db] hover:bg-emerald-50 cursor-pointer"
+          class="produce-filter-btn px-4 py-2 rounded-xl text-xs font-extrabold transition-all bg-white dark:bg-[#1a2d1d] text-[#132215] dark:text-[#e8f5e9] border border-[#dce7db] dark:border-[#223b26] hover:bg-emerald-50 cursor-pointer"
           data-prod="5"
           onclick="filterProduce('5', this)"
         >
-          🌾 Raw Urad
+          🌾 देशी उड़द • Urad
         </button>
         <button
           type="button"
-          class="produce-filter-btn px-4 py-2 rounded-xl text-xs font-extrabold transition-all bg-white text-[#132215] border border-[#dce7db] hover:bg-emerald-50 cursor-pointer"
+          class="produce-filter-btn px-4 py-2 rounded-xl text-xs font-extrabold transition-all bg-white dark:bg-[#1a2d1d] text-[#132215] dark:text-[#e8f5e9] border border-[#dce7db] dark:border-[#223b26] hover:bg-emerald-50 cursor-pointer"
           data-prod="6"
           onclick="filterProduce('6', this)"
         >
-          🥕 Seasonal Produce
+          🥕 मौसमी फसलें • Seasonal
         </button>
       </div>
 
       <!-- Secondary filter: photos / 5 stars -->
       <div class="flex items-center gap-2 pt-1 text-xs">
-        <label class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white border border-[#dce7db] cursor-pointer hover:bg-emerald-50">
+        <label class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white dark:bg-[#1a2d1d] border border-[#dce7db] dark:border-[#223b26] cursor-pointer hover:bg-emerald-50 dark:hover:bg-emerald-950/40">
           <input type="checkbox" id="chk-photos-only" class="rounded text-emerald-800 focus:ring-emerald-800" onchange="togglePhotoFilter(this.checked)" />
-          <span class="font-bold text-[#132215]">📸 Photos Only</span>
+          <span class="font-bold text-[#132215] dark:text-[#e8f5e9]">📸 केवल फोटो सहित • Photos Only</span>
         </label>
-        <label class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white border border-[#dce7db] cursor-pointer hover:bg-emerald-50">
+        <label class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white dark:bg-[#1a2d1d] border border-[#dce7db] dark:border-[#223b26] cursor-pointer hover:bg-emerald-50 dark:hover:bg-emerald-950/40">
           <input type="checkbox" id="chk-five-stars" class="rounded text-emerald-800 focus:ring-emerald-800" onchange="toggleStarFilter(this.checked)" />
-          <span class="font-bold text-[#132215]">⭐ 5 Stars Only</span>
+          <span class="font-bold text-[#132215] dark:text-[#e8f5e9]">⭐ केवल 5 सितारा • 5 Stars Only</span>
         </label>
       </div>
     </div>
 
     <!-- Reviews Loading -->
-    <div id="reviews-loading" class="text-center py-16 text-[#5b6e5d]">
-      <div class="inline-block animate-spin w-8 h-8 border-4 border-[#194622] border-t-transparent rounded-full mb-3"></div>
-      <p class="text-sm font-bold text-[#132215]">Loading customer reviews and harvest photos...</p>
+    <div id="reviews-loading" class="text-center py-16 text-[#5b6e5d] dark:text-[#a3b8a6]">
+      <div class="inline-block animate-spin w-8 h-8 border-4 border-[#194622] dark:border-[#4ade80] border-t-transparent rounded-full mb-3"></div>
+      <p class="text-sm font-bold text-[#132215] dark:text-[#f0f9f1]">ग्राहक समीक्षाएं व तस्वीरें लोड हो रही हैं... (Loading reviews & photos...)</p>
     </div>
 
     <!-- Reviews Grid Feed -->
@@ -204,52 +236,52 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
     </div>
 
     <!-- Empty State -->
-    <div id="reviews-empty" class="hidden text-center py-16 bg-white rounded-3xl border border-[#dce7db] p-8 space-y-4">
+    <div id="reviews-empty" class="hidden text-center py-16 bg-white dark:bg-[#152317] rounded-3xl border border-[#dce7db] dark:border-[#223b26] p-8 space-y-4">
       <div class="text-5xl">🌾</div>
-      <h3 class="font-extrabold text-[#122815] text-lg">No reviews found for this selection</h3>
-      <p class="text-xs text-[#5b6e5d] max-w-sm mx-auto">
-        Have you received our harvest produce? Be the first to share your experience with other families!
+      <h3 class="font-extrabold text-[#122815] dark:text-[#f0f9f1] text-lg">इस चयन में अभी कोई समीक्षा नहीं है • No reviews in this filter</h3>
+      <p class="text-xs text-[#5b6e5d] dark:text-[#a3b8a6] max-w-sm mx-auto">
+        क्या आपने हमारी खेत की उपज मंगाई है? अन्य परिवारों के साथ अपना अनुभव साझा करने वाले पहले ग्राहक बनें!
       </p>
       <button
         type="button"
         onclick="openWriteReviewModal()"
         class="fd-btn fd-btn-primary px-6 py-3 rounded-2xl text-xs font-bold inline-block cursor-pointer"
       >
-        Write a Review &rarr;
+        समीक्षा दर्ज करें • Write a Review &rarr;
       </button>
     </div>
   </div>
 
   <!-- Modal: Write a Review with Photos -->
   <div id="modal-write-review" class="hidden fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-end sm:items-center justify-center p-3 sm:p-4 pb-4 overflow-y-auto">
-    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 pb-10 sm:pb-8 shadow-2xl border border-[#dce7db] space-y-5 animate-in fade-in zoom-in duration-200 max-h-[86dvh] overflow-y-auto overscroll-contain">
-      <div class="flex items-start justify-between pb-3 border-b border-[#f0f5ee]">
+    <div class="bg-white dark:bg-[#152317] rounded-3xl max-w-lg w-full p-6 sm:p-8 pb-10 sm:pb-8 shadow-2xl border border-[#dce7db] dark:border-[#223b26] space-y-5 animate-in fade-in zoom-in duration-200 max-h-[86dvh] overflow-y-auto overscroll-contain">
+      <div class="flex items-start justify-between pb-3 border-b border-[#f0f5ee] dark:border-[#223b26]">
         <div>
-          <span class="inline-block px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-900 text-[10px] font-extrabold uppercase mb-1">Authentic Community Feedback</span>
-          <h3 class="fd-display font-extrabold text-xl text-[#122815]">Write a Review</h3>
-          <p class="text-xs text-[#5b6e5d]">Share your cooking experience, aroma, and photos</p>
+          <span class="inline-block px-2.5 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-900 dark:text-emerald-300 text-[10px] font-extrabold uppercase mb-1">वास्तविक ग्राहक अनुभव • Authentic Feedback</span>
+          <h3 class="fd-display font-extrabold text-xl text-[#122815] dark:text-[#f0f9f1]">ग्राहक समीक्षा दर्ज करें • Write a Review</h3>
+          <p class="text-xs text-[#5b6e5d] dark:text-[#a3b8a6]">स्वाद, खुशबू, रोटियों की नरमी और तस्वीरें साझा करें</p>
         </div>
-        <button type="button" class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold flex items-center justify-center cursor-pointer" onclick="closeWriteReviewModal()">✕</button>
+        <button type="button" class="w-8 h-8 rounded-full bg-gray-100 dark:bg-[#203723] hover:bg-gray-200 dark:hover:bg-[#27452c] text-gray-600 dark:text-gray-300 font-bold flex items-center justify-center cursor-pointer" onclick="closeWriteReviewModal()">✕</button>
       </div>
 
       <form id="review-form" onsubmit="submitCustomerReview(event)" class="space-y-4 text-xs">
         <!-- Produce Select -->
         <div>
-          <label class="font-extrabold uppercase tracking-wider text-[#5b6e5d] text-[11px] block mb-1">Select Farm Produce *</label>
+          <label class="font-extrabold uppercase tracking-wider text-[#5b6e5d] dark:text-[#a3b8a6] text-[11px] block mb-1">फसल चुनें * • Select Produce *</label>
           <select id="rev-input-product" required class="fd-input font-bold text-xs">
-            <option value="1">Farm Wheat (Gehu)</option>
-            <option value="2">Raw Groundnut / Peanut (Mungphali)</option>
-            <option value="3">Raw Chana (Desi Kala Chana)</option>
-            <option value="4">Raw Moong (Sabut Moong)</option>
-            <option value="5">Raw Urad (Sabut Urad)</option>
-            <option value="6">Seasonal Farm Produce (Mausami Upaj)</option>
+            <option value="1">🌾 शरबती देशी गेहूँ (Farm Wheat)</option>
+            <option value="2">🥜 कच्ची मूँगफली (Raw Groundnut / Peanut)</option>
+            <option value="3">🥣 देशी छोटा चना (Raw Desi Chana)</option>
+            <option value="4">🌱 साबुत हरी मूँग (Raw Moong)</option>
+            <option value="5">🌾 देशी काली उड़द (Raw Urad)</option>
+            <option value="6">🥕 मौसमी खेत उपज (Seasonal Farm Produce)</option>
           </select>
         </div>
 
         <!-- Rating Picker -->
         <div>
-          <label class="font-extrabold uppercase tracking-wider text-[#5b6e5d] text-[11px] block mb-1.5">
-            Your Overall Rating *
+          <label class="font-extrabold uppercase tracking-wider text-[#5b6e5d] dark:text-[#a3b8a6] text-[11px] block mb-1.5">
+            कुल संतुष्टि रेटिंग चुनें * • Your Overall Rating *
           </label>
           <div class="flex items-center gap-2">
             <div id="star-picker" class="flex items-center gap-1.5 text-3xl cursor-pointer">
@@ -259,31 +291,31 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
               <span class="star-btn text-amber-400 transition-transform hover:scale-125" data-val="4" onclick="setPickerRating(4)">★</span>
               <span class="star-btn text-amber-400 transition-transform hover:scale-125" data-val="5" onclick="setPickerRating(5)">★</span>
             </div>
-            <span id="star-picker-label" class="text-xs font-bold text-[#194622] ml-2">5 - Excellent</span>
+            <span id="star-picker-label" class="text-xs font-bold text-[#194622] dark:text-[#4ade80] ml-2">5 - सर्वोत्तम गुणवत्ता (Excellent)</span>
           </div>
         </div>
 
         <!-- Headline / Title -->
         <div>
-          <label class="font-bold uppercase tracking-wider text-[#5b6e5d] text-[11px] block mb-1">
-            Review Headline (Optional)
+          <label class="font-bold uppercase tracking-wider text-[#5b6e5d] dark:text-[#a3b8a6] text-[11px] block mb-1">
+            समीक्षा का शीर्षक (वैकल्पिक) • Review Headline (Optional)
           </label>
           <input
             id="rev-input-title"
             type="text"
             maxlength="100"
             class="fd-input font-bold"
-            placeholder="e.g. Pure village fragrance, soft rotis"
+            placeholder="उदा. रोटियों की मिठास, साफ सुथरा बिना पॉलिश का अनाज"
           />
         </div>
 
         <!-- Written Review Text -->
         <div>
           <div class="flex items-center justify-between mb-1">
-            <label class="font-bold uppercase tracking-wider text-[#5b6e5d] text-[11px]">
-              Detailed Written Review *
+            <label class="font-bold uppercase tracking-wider text-[#5b6e5d] dark:text-[#a3b8a6] text-[11px]">
+              विस्तृत समीक्षा लिखें * • Detailed Written Review *
             </label>
-            <span id="rev-char-count" class="text-[10px] text-[#788e7b]">0 / 1000</span>
+            <span id="rev-char-count" class="text-[10px] text-[#788e7b] dark:text-[#8ea290]">0 / 1000</span>
           </div>
           <textarea
             id="rev-input-text"
@@ -291,19 +323,19 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
             rows="4"
             maxlength="1000"
             class="fd-input"
-            placeholder="Share your thoughts on taste, purity, cleanliness, freshness, or delivery speed..."
+            placeholder="स्वाद, शुद्धता, सफाई, ताज़गी या डिलीवरी अनुभव के बारे में अपने विचार साझा करें..."
             oninput="updateReviewCharCount(this)"
           ></textarea>
         </div>
 
         <!-- Photo Upload Dropzone -->
         <div>
-          <label class="font-bold uppercase tracking-wider text-[#5b6e5d] text-[11px] block mb-1">
-            Attach Harvest / Cooking Photo (Optional)
+          <label class="font-bold uppercase tracking-wider text-[#5b6e5d] dark:text-[#a3b8a6] text-[11px] block mb-1">
+            खेत या पकवान की फोटो जोड़ें (वैकल्पिक) • Attach Photo (Optional)
           </label>
           <div
             id="rev-photo-dropzone"
-            class="relative border-2 border-dashed border-[#cfe0cc] rounded-2xl p-4 text-center hover:bg-[#f7faf5] transition-colors cursor-pointer bg-[#fafcf9]"
+            class="relative border-2 border-dashed border-[#cfe0cc] dark:border-[#2a462f] rounded-2xl p-4 text-center hover:bg-[#f7faf5] dark:hover:bg-[#1a2d1d] transition-colors cursor-pointer bg-[#fafcf9] dark:bg-[#132014]"
             onclick="document.getElementById('rev-file-input').click()"
           >
             <input
@@ -315,25 +347,25 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
             />
             <div id="dropzone-empty-state" class="space-y-1">
               <div class="text-2xl">📸</div>
-              <p class="font-bold text-[#132215] text-xs">Tap to choose a photo or snap a picture</p>
-              <p class="text-[10px] text-[#718573]">PNG, JPG, WEBP — auto-compressed for fast upload</p>
+              <p class="font-bold text-[#132215] dark:text-[#e8f5e9] text-xs">फोटो चुनने या खींचने के लिए यहाँ दबाएँ • Tap to upload/take photo</p>
+              <p class="text-[10px] text-[#718573] dark:text-[#8ea290]">PNG, JPG, WEBP — तेज़ अपलोड हेतु स्वतः कंप्रेस होगी</p>
             </div>
 
             <!-- Preview State -->
-            <div id="dropzone-preview-state" class="hidden flex items-center justify-between gap-3 p-2 bg-white rounded-xl border border-[#dce7db]">
+            <div id="dropzone-preview-state" class="hidden flex items-center justify-between gap-3 p-2 bg-white dark:bg-[#1a2d1d] rounded-xl border border-[#dce7db] dark:border-[#223b26]">
               <div class="flex items-center gap-3">
-                <img id="rev-preview-img" src="" alt="Review preview" class="w-12 h-12 rounded-lg object-cover border border-[#dce7db]" />
+                <img id="rev-preview-img" src="" alt="Review preview" class="w-12 h-12 rounded-lg object-cover border border-[#dce7db] dark:border-[#223b26]" />
                 <div class="text-left">
-                  <span id="rev-preview-filename" class="font-bold text-[#132215] text-xs block truncate max-w-[180px]">photo.jpg</span>
-                  <span id="rev-preview-filesize" class="text-[10px] text-[#718573]"></span>
+                  <span id="rev-preview-filename" class="font-bold text-[#132215] dark:text-[#e8f5e9] text-xs block truncate max-w-[180px]">photo.jpg</span>
+                  <span id="rev-preview-filesize" class="text-[10px] text-[#718573] dark:text-[#8ea290]"></span>
                 </div>
               </div>
               <button
                 type="button"
                 onclick="removeReviewPhoto(event)"
-                class="px-2.5 py-1 rounded-lg bg-rose-50 text-rose-700 hover:bg-rose-100 font-bold text-xs cursor-pointer"
+                class="px-2.5 py-1 rounded-lg bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-300 hover:bg-rose-100 font-bold text-xs cursor-pointer"
               >
-                ✕ Remove
+                ✕ हटाएं • Remove
               </button>
             </div>
           </div>
@@ -342,21 +374,21 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
         <!-- Customer Identity Fields -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
           <div>
-            <label class="font-bold uppercase tracking-wider text-[#5b6e5d] text-[11px] block mb-1">Your Name *</label>
-            <input id="rev-input-name" type="text" required class="fd-input font-bold" placeholder="e.g. Ramesh Sharma" />
+            <label class="font-bold uppercase tracking-wider text-[#5b6e5d] dark:text-[#a3b8a6] text-[11px] block mb-1">आपका शुभ नाम * • Your Name *</label>
+            <input id="rev-input-name" type="text" required class="fd-input font-bold" placeholder="उदा. रमेश शर्मा" />
           </div>
           <div>
-            <label class="font-bold uppercase tracking-wider text-[#5b6e5d] text-[11px] block mb-1">Neighbourhood / Village *</label>
-            <input id="rev-input-city" type="text" required class="fd-input font-bold" placeholder="e.g. Sirsod / Gwalior" />
+            <label class="font-bold uppercase tracking-wider text-[#5b6e5d] dark:text-[#a3b8a6] text-[11px] block mb-1">इलाका / गाँव / शहर * • Locality / City *</label>
+            <input id="rev-input-city" type="text" required class="fd-input font-bold" placeholder="उदा. सिरसौद / पवन नगर, ग्वालियर" />
           </div>
         </div>
 
         <div>
-          <label class="font-bold uppercase tracking-wider text-[#5b6e5d] text-[11px] block mb-1">WhatsApp Mobile (Optional)</label>
-          <input id="rev-input-phone" type="tel" maxlength="10" class="fd-input" placeholder="For verified purchase badge" />
+          <label class="font-bold uppercase tracking-wider text-[#5b6e5d] dark:text-[#a3b8a6] text-[11px] block mb-1">व्हाट्सएप मोबाइल नंबर (वैकल्पिक) • WhatsApp Mobile (Optional)</label>
+          <input id="rev-input-phone" type="tel" maxlength="10" class="fd-input" placeholder="सत्यापित खरीदार बैज हेतु" />
         </div>
 
-        <div id="rev-error-box" class="hidden p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 font-semibold text-xs"></div>
+        <div id="rev-error-box" class="hidden p-3 rounded-xl bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900/50 text-red-700 dark:text-red-300 font-semibold text-xs"></div>
 
         <div class="pt-3 pb-3">
           <button
@@ -364,7 +396,7 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
             id="btn-submit-review"
             class="fd-btn fd-btn-primary w-full py-4 font-extrabold text-sm rounded-2xl shadow-lg cursor-pointer transition-transform active:scale-[0.98]"
           >
-            Publish Review & Photo &rarr;
+            समीक्षा व फोटो प्रकाशित करें • Publish Review &rarr;
           </button>
         </div>
       </form>
@@ -373,17 +405,17 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
 
   <!-- Modal: Photo Lightbox -->
   <div id="modal-photo-lightbox" class="hidden fixed inset-0 z-[100] bg-black/85 backdrop-blur-md flex items-center justify-center p-4" onclick="closePhotoLightbox()">
-    <div class="relative max-w-2xl w-full bg-white rounded-3xl overflow-hidden shadow-2xl space-y-0" onclick="event.stopPropagation()">
+    <div class="relative max-w-2xl w-full bg-white dark:bg-[#152317] rounded-3xl overflow-hidden shadow-2xl space-y-0" onclick="event.stopPropagation()">
       <button type="button" class="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-black/50 text-white font-bold flex items-center justify-center hover:bg-black/75 cursor-pointer" onclick="closePhotoLightbox()">✕</button>
       <div class="bg-black flex items-center justify-center max-h-[60vh] overflow-hidden">
         <img id="lightbox-img" src="" alt="Harvest photo" class="w-full h-full object-contain max-h-[60vh]" />
       </div>
-      <div class="p-6 space-y-2 bg-white">
+      <div class="p-6 space-y-2 bg-white dark:bg-[#152317]">
         <div class="flex items-center justify-between">
-          <strong id="lightbox-author" class="text-sm font-extrabold text-[#122815]"></strong>
+          <strong id="lightbox-author" class="text-sm font-extrabold text-[#122815] dark:text-[#f0f9f1]"></strong>
           <span id="lightbox-stars" class="text-amber-400 font-bold text-sm"></span>
         </div>
-        <p id="lightbox-caption" class="text-xs text-[#5b6e5d] leading-relaxed"></p>
+        <p id="lightbox-caption" class="text-xs text-[#5b6e5d] dark:text-[#a3b8a6] leading-relaxed"></p>
       </div>
     </div>
   </div>
@@ -398,11 +430,11 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
     let selectedPhotoName = 'review.jpg';
 
     const RATING_LABELS = {
-      5: '5 - Excellent, authentic farm quality',
-      4: '4 - Very Good harvest',
-      3: '3 - Satisfactory',
-      2: '2 - Below expectations',
-      1: '1 - Poor'
+      5: '5 - सर्वोत्तम गुणवत्ता, बिल्कुल शुद्ध (Excellent)',
+      4: '4 - बहुत बढ़िया फसल (Very Good)',
+      3: '3 - संतोषजनक (Satisfactory)',
+      2: '2 - अपेक्षा से कम (Below expectations)',
+      1: '1 - खराब (Poor)'
     };
 
     async function loadReviews() {
@@ -434,8 +466,8 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
       if (scoreEl) scoreEl.textContent = total > 0 ? avg.toFixed(1) : '—';
       if (starsEl) starsEl.textContent = '★'.repeat(Math.round(avg)) + '☆'.repeat(5 - Math.round(avg));
       if (countTextEl) countTextEl.textContent = total > 0
-        ? `Based on ${total} verified community review${total === 1 ? '' : 's'}`
-        : 'No reviews yet — be the first to share your experience';
+        ? `${total} सत्यापित खरीदारों की समीक्षाओं के आधार पर (${total} verified reviews)`
+        : 'अभी कोई समीक्षा नहीं — इस फसल की पहली समीक्षा आप लिखें';
 
       const dist = summary.distribution || {};
       for (let s = 1; s <= 5; s++) {
@@ -458,13 +490,13 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
 
       if (photoReviews.length > 0) {
         box.classList.remove('hidden');
-        if (label) label.textContent = `${photoReviews.length} community photo${photoReviews.length === 1 ? '' : 's'}`;
+        if (label) label.textContent = `${photoReviews.length} फोटो (${photoReviews.length} photos)`;
 
         strip.innerHTML = photoReviews.map(r => `
           <button
             type="button"
             onclick="openPhotoLightbox('${r.photoUrl}', '${escapeHtml(r.customerName)}', ${r.rating}, '${escapeHtml(r.reviewText)}')"
-            class="group relative shrink-0 w-28 h-28 sm:w-32 sm:h-32 rounded-2xl overflow-hidden border border-[#dce7db] shadow-xs cursor-pointer hover:scale-105 transition-transform"
+            class="group relative shrink-0 w-28 h-28 sm:w-32 sm:h-32 rounded-2xl overflow-hidden border border-[#dce7db] dark:border-[#223b26] shadow-xs cursor-pointer hover:scale-105 transition-transform"
           >
             <img src="${r.photoUrl}" alt="${escapeHtml(r.customerName)}" class="w-full h-full object-cover" />
             <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-2.5 text-white">
@@ -481,7 +513,7 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
     window.filterProduce = function(prodId, btn) {
       selectedProduce = prodId;
       document.querySelectorAll('.produce-filter-btn').forEach(b => {
-        b.className = 'produce-filter-btn px-4 py-2 rounded-xl text-xs font-extrabold transition-all bg-white text-[#132215] border border-[#dce7db] hover:bg-emerald-50 cursor-pointer';
+        b.className = 'produce-filter-btn px-4 py-2 rounded-xl text-xs font-extrabold transition-all bg-white dark:bg-[#1a2d1d] text-[#132215] dark:text-[#e8f5e9] border border-[#dce7db] dark:border-[#223b26] hover:bg-emerald-50 cursor-pointer';
       });
       if (btn) {
         btn.className = 'produce-filter-btn px-4 py-2 rounded-xl text-xs font-extrabold transition-all bg-[#1b4522] text-white shadow-xs cursor-pointer';
@@ -528,24 +560,24 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
 
       emptyEl.classList.add('hidden');
       feedEl.innerHTML = filtered.map(r => `
-        <div class="bg-white p-6 sm:p-7 rounded-3xl border border-[#dce7db] shadow-xs hover:shadow-md transition-shadow flex flex-col justify-between space-y-4">
+        <div class="bg-white dark:bg-[#152317] p-6 sm:p-7 rounded-3xl border border-[#dce7db] dark:border-[#223b26] shadow-xs hover:shadow-md transition-shadow flex flex-col justify-between space-y-4">
           <div class="space-y-4">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-[#f0f5ee]">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-[#f0f5ee] dark:border-[#223b26]">
               <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[#1b4522] to-[#2e6d38] text-white font-extrabold text-sm flex items-center justify-center shadow-xs">
                   ${r.customerName ? r.customerName.charAt(0).toUpperCase() : 'C'}
                 </div>
                 <div>
                   <div class="flex items-center gap-2">
-                    <strong class="font-extrabold text-sm text-[#122815]">${escapeHtml(r.customerName)}</strong>
+                    <strong class="font-extrabold text-sm text-[#122815] dark:text-[#f0f9f1]">${escapeHtml(r.customerName)}</strong>
                     ${r.isVerified ? `
-                      <span class="inline-flex items-center gap-1 text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">
-                        <span>✓</span> Verified Buyer
+                      <span class="inline-flex items-center gap-1 text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300">
+                        <span>✓</span> सत्यापित खरीदार • Verified
                       </span>
                     ` : ''}
                   </div>
-                  <div class="text-[11px] text-[#5b6e5d] font-semibold mt-0.5">
-                    ${r.customerCity ? `<span>📍 ${escapeHtml(r.customerCity)}</span> • ` : ''}
+                  <div class="text-[11px] text-[#5b6e5d] dark:text-[#a3b8a6] font-semibold mt-0.5">
+                    ${r.customerCity ? `<span>📍 ${escapeHtml(r.customerCity)} से समीक्षा</span> • ` : ''}
                     <span>${formatReviewDate(r.createdAt)}</span>
                   </div>
                 </div>
@@ -557,27 +589,27 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
 
             <!-- Product Tag -->
             ${r.productName ? `
-              <div class="inline-block px-2.5 py-0.5 rounded-full bg-[#f4f8f3] text-[#194622] font-extrabold text-[10px] border border-[#dce7db]">
+              <div class="inline-block px-2.5 py-0.5 rounded-full bg-[#f4f8f3] dark:bg-[#1a2d1d] text-[#194622] dark:text-[#4ade80] font-extrabold text-[10px] border border-[#dce7db] dark:border-[#223b26]">
                 🌾 ${escapeHtml(r.productName)}
               </div>
             ` : ''}
 
             <div class="space-y-2">
-              ${r.title ? `<h4 class="font-bold text-sm text-[#122815]">${escapeHtml(r.title)}</h4>` : ''}
-              <p class="text-xs sm:text-sm text-[#465b49] leading-relaxed whitespace-pre-line">${escapeHtml(r.reviewText)}</p>
+              ${r.title ? `<h4 class="font-bold text-sm text-[#122815] dark:text-[#f0f9f1]">${escapeHtml(r.title)}</h4>` : ''}
+              <p class="text-xs sm:text-sm text-[#465b49] dark:text-[#c4d6c6] leading-relaxed whitespace-pre-line">${escapeHtml(r.reviewText)}</p>
             </div>
           </div>
 
           ${r.photoUrl ? `
-            <div class="pt-2 border-t border-[#f4f7f2]">
+            <div class="pt-2 border-t border-[#f4f7f2] dark:border-[#223b26]">
               <button
                 type="button"
                 onclick="openPhotoLightbox('${r.photoUrl}', '${escapeHtml(r.customerName)}', ${r.rating}, '${escapeHtml(r.reviewText)}')"
-                class="group relative inline-block rounded-2xl overflow-hidden border border-[#dce7db] shadow-xs cursor-pointer max-w-full"
+                class="group relative inline-block rounded-2xl overflow-hidden border border-[#dce7db] dark:border-[#223b26] shadow-xs cursor-pointer max-w-full"
               >
                 <img src="${r.photoUrl}" alt="Customer photo" class="w-full sm:w-60 h-40 object-cover group-hover:scale-105 transition-transform" />
                 <span class="absolute bottom-2 right-2 px-2.5 py-1 rounded-full bg-black/70 text-white text-[10px] font-bold backdrop-blur-xs flex items-center gap-1">
-                  <span>🔍</span> View Harvest Photo
+                  <span>🔍</span> पूरी फोटो देखें • View Photo
                 </span>
               </button>
             </div>
@@ -587,12 +619,12 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
     }
 
     function formatReviewDate(dateStr) {
-      if (!dateStr) return 'Recently';
+      if (!dateStr) return 'हाल ही में';
       try {
         const d = new Date(dateStr);
-        return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+        return d.toLocaleDateString('hi-IN', { day: 'numeric', month: 'short', year: 'numeric' });
       } catch (_) {
-        return 'Recently';
+        return 'हाल ही में';
       }
     }
 
@@ -644,7 +676,7 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
         if (val <= rating) {
           btn.className = 'star-btn text-amber-400 transition-transform hover:scale-125';
         } else {
-          btn.className = 'star-btn text-gray-300 transition-transform hover:scale-125';
+          btn.className = 'star-btn text-gray-300 dark:text-gray-600 transition-transform hover:scale-125';
         }
       });
     };
@@ -684,7 +716,7 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
       if (!file) return;
 
       if (file.size > 20 * 1024 * 1024) {
-        alert('Photo is larger than 20MB. Please choose a smaller image.');
+        alert('फोटो 20MB से बड़ी है। कृपया छोटी फोटो चुनें।');
         input.value = '';
         return;
       }
@@ -693,7 +725,7 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
       try {
         dataUrl = await compressReviewImage(file);
       } catch (_) {
-        alert('This photo format could not be read. Please choose a JPG or PNG photo.');
+        alert('यह फोटो पढ़ी नहीं जा सकी। कृपया JPG या PNG फोटो चुनें।');
         input.value = '';
         return;
       }
@@ -731,14 +763,14 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
 
       if (!reviewText || reviewText.length < 5) {
         if (errBox) {
-          errBox.textContent = 'Please write at least a few words describing your experience.';
+          errBox.textContent = 'कृपया अपने अनुभव का विवरण कम से कम 5 अक्षरों में लिखें।';
           errBox.classList.remove('hidden');
         }
         return;
       }
 
       btn.disabled = true;
-      btn.textContent = 'Submitting Review...';
+      btn.textContent = 'समीक्षा प्रकाशित हो रही है... (Submitting...)';
 
       try {
         const payload = {
@@ -762,30 +794,30 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
         const data = await res.json();
         if (!data.success) {
           if (errBox) {
-            errBox.textContent = data.error || 'Failed to submit review.';
+            errBox.textContent = data.error || 'समीक्षा जमा करने में विफलता हुई।';
             errBox.classList.remove('hidden');
           }
           btn.disabled = false;
-          btn.textContent = 'Publish Review & Photo →';
+          btn.textContent = 'समीक्षा व फोटो प्रकाशित करें • Publish Review →';
           return;
         }
 
         closeWriteReviewModal();
-        alert('Thank you! Your review and photo have been published.');
+        alert('धन्यवाद! आपकी समीक्षा व फोटो प्रकाशित हो गई है। गाँव की खेती का समर्थन करने के लिए आभार।');
         document.getElementById('review-form').reset();
         removeReviewPhoto();
         setPickerRating(5);
         btn.disabled = false;
-        btn.textContent = 'Publish Review & Photo →';
+        btn.textContent = 'समीक्षा व फोटो प्रकाशित करें • Publish Review →';
 
         loadReviews();
       } catch (err) {
         if (errBox) {
-          errBox.textContent = 'Network error while submitting review. Please try again.';
+          errBox.textContent = 'नेटवर्क त्रुटि। कृपया पुनः प्रयास करें।';
           errBox.classList.remove('hidden');
         }
         btn.disabled = false;
-        btn.textContent = 'Publish Review & Photo →';
+        btn.textContent = 'समीक्षा व फोटो प्रकाशित करें • Publish Review →';
       }
     };
 

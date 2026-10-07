@@ -5,70 +5,100 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
 ---
 
 <FarmLayout
-  title="Contact the Farm & Delivery Coordinator | Farm Direct"
-  description="Connect directly with our village farm coordinator on WhatsApp at +91 8770767272. Weekly raw farm produce delivery in Sirsod, Naya Amola, Karera, Shivpuri, and Gwalior."
+  title="सीधे किसान से संपर्क करें (Contact Farmer) | Farm Direct"
+  description="खेत से सीधे संपर्क करें। व्हाट्सएप (+91 8770767272) पर बात करें। सिरसौद, नया अमोला, करैरा, शिवपुरी और ग्वालियर में साप्ताहिक शुद्ध अनाज डिलीवरी।"
   canonicalPath="/farm/contact"
 >
+  <!-- Schema.org ContactPage & LocalBusiness Structured Data -->
+  <script type="application/ld+json" is:inline set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    "name": "किसान व खेत डिलीवरी संपर्क (Farm Direct Contact)",
+    "description": "खेत से सीधे बिना पॉलिश अनाज, दालों और तिलहन की आपूर्ति हेतु किसान व डिलीवरी समन्वयक से सीधा संपर्क।",
+    "mainEntity": {
+      "@type": "LocalBusiness",
+      "name": "Farm Direct (फार्म डायरेक्ट)",
+      "telephone": "+918770767272",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Village Farmland, Sirsod / Karera Road",
+        "addressLocality": "Sirsod",
+        "addressRegion": "Madhya Pradesh",
+        "postalCode": "473660",
+        "addressCountry": "IN"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 25.5684,
+        "longitude": 78.1384
+      },
+      "areaServed": [
+        "Sirsod", "Naya Amola", "Karera", "Shivpuri", 
+        "Pawan Nagar Gwalior", "Chetakpuri Gwalior", "City Center Gwalior", "Lashkar Gwalior", "Thatipur Gwalior"
+      ]
+    }
+  })}></script>
+
   <div class="fd-container py-8 sm:py-16 max-w-5xl">
     <div class="mb-10 text-center max-w-2xl mx-auto space-y-3">
-      <span class="inline-flex items-center gap-1.5 text-xs uppercase tracking-wider text-emerald-800 font-extrabold bg-emerald-50 border border-emerald-200 px-3.5 py-1 rounded-full">
+      <span class="inline-flex items-center gap-1.5 text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-300 font-extrabold bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 px-3.5 py-1 rounded-full">
         <span>💬</span>
-        <span>Zero Intermediaries</span>
+        <span>शून्य बिचौलिया • Direct Farm Contact</span>
       </span>
-      <h1 class="fd-display text-3xl sm:text-5xl font-extrabold text-[#122815] leading-tight">
-        Connect Directly with the Farm
+      <h1 class="fd-display text-3xl sm:text-5xl font-extrabold text-[#122815] dark:text-white leading-tight">
+        सीधे किसान से संपर्क करें
       </h1>
-      <p class="text-xs sm:text-sm text-[#5b6e5d] leading-relaxed">
-        Questions about this season's wheat crop, booking 25kg/50kg family grain bags, or requesting scheduled delivery in your colony or village?
+      <p class="text-xs sm:text-sm text-[#5b6e5d] dark:text-gray-300 leading-relaxed">
+        इस मौसम के शुद्ध गेहूँ, दालों व मूँगफली की गुणवत्ता जानने, 25kg/50kg की पारिवारिक बोरियों की प्री-बुकिंग या अपनी कॉलोनी में नई डिलीवरी शुरू कराने हेतु बात करें।
       </p>
     </div>
 
     <!-- 3 Action Cards -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
       <!-- Card 1: WhatsApp -->
-      <div class="bg-white p-6 sm:p-8 rounded-3xl border border-[#e2ece0] shadow-sm flex flex-col justify-between space-y-6">
+      <div class="bg-white dark:bg-[#152317] p-6 sm:p-8 rounded-3xl border border-[#e2ece0] dark:border-[#223d26] shadow-sm flex flex-col justify-between space-y-6">
         <div>
           <div class="w-12 h-12 rounded-2xl bg-[#25D366]/10 text-[#25D366] flex items-center justify-center text-2xl mb-4 font-bold">
             💬
           </div>
-          <h3 class="fd-display text-lg font-extrabold text-[#122815]">WhatsApp Operations</h3>
-          <p class="text-xs text-[#5b6e5d] mt-1.5 leading-relaxed">
-            Fastest response for pre-order confirmations, sample inquiries, or Sunday vehicle ETA in your colony.
+          <h3 class="fd-display text-lg font-extrabold text-[#122815] dark:text-white">व्हाट्सएप संपर्क (WhatsApp)</h3>
+          <p class="text-xs text-[#5b6e5d] dark:text-gray-300 mt-1.5 leading-relaxed">
+            प्री-ऑर्डर पुष्टि, मुफ़्त सैंपल पूछताछ या रविवार वाहन आगमन समय (ETA) की त्वरित जानकारी हेतु।
           </p>
-          <div class="fd-display text-xl font-black text-[#1b4522] mt-3">
+          <div class="fd-display text-xl font-black text-[#1b4522] dark:text-emerald-400 mt-3">
             +91 8770767272
           </div>
         </div>
 
-        <div class="pt-4 border-t border-[#f0f5ee]">
+        <div class="pt-4 border-t border-[#f0f5ee] dark:border-[#223d26]">
           <a
             href="https://wa.me/918770767272?text=Namaste%20Farm%20Direct,%20I%20have%20an%20inquiry%20about%20farm%20produce%20in%20Gwalior."
             target="_blank"
             rel="noopener noreferrer"
-            class="fd-btn bg-[#25D366] hover:bg-[#1fa851] text-white w-full text-center font-bold text-xs py-3 rounded-xl shadow-sm"
+            class="fd-btn bg-[#25D366] hover:bg-[#1fa851] text-white w-full text-center font-bold text-xs py-3 rounded-xl shadow-sm flex items-center justify-center gap-2"
           >
-            Chat on WhatsApp &rarr;
+            <span>व्हाट्सएप पर बात करें &rarr;</span>
           </a>
         </div>
       </div>
 
       <!-- Card 2: Farmland Origin -->
-      <div class="bg-white p-6 sm:p-8 rounded-3xl border border-[#e2ece0] shadow-sm flex flex-col justify-between space-y-6">
+      <div class="bg-white dark:bg-[#152317] p-6 sm:p-8 rounded-3xl border border-[#e2ece0] dark:border-[#223d26] shadow-sm flex flex-col justify-between space-y-6">
         <div>
-          <div class="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-700 flex items-center justify-center text-2xl mb-4 font-bold">
+          <div class="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-700 dark:text-amber-400 flex items-center justify-center text-2xl mb-4 font-bold">
             🌾
           </div>
-          <h3 class="fd-display text-lg font-extrabold text-[#122815]">Farm Origin & Land</h3>
-          <p class="text-xs text-[#5b6e5d] mt-1.5 leading-relaxed">
-            All produce is cultivated on village agricultural land serving Gwalior & Shivpuri Districts, Madhya Pradesh.
+          <h3 class="fd-display text-lg font-extrabold text-[#122815] dark:text-white">खेत की भौगोलिक स्थिति (Farm Land)</h3>
+          <p class="text-xs text-[#5b6e5d] dark:text-gray-300 mt-1.5 leading-relaxed">
+            सभी फ़सलें ग्वालियर व शिवपुरी ज़िले की उपजाऊ ग्रामीण मिट्टी में पारंपरिक रूप से उगाई जाती हैं।
           </p>
-          <div class="text-xs font-bold text-[#152317] mt-3 flex items-center gap-2">
+          <div class="text-xs font-bold text-[#152317] dark:text-gray-200 mt-3 flex items-center gap-2">
             <img src="/farm/images/google-maps-icon.svg" alt="Google Maps" class="w-4 h-4 object-contain shrink-0" />
-            <span>Village Farmland, Sirsod / Gwalior & Shivpuri Belt, MP</span>
+            <span>गाँव सिरसौद, करैरा / शिवपुरी व ग्वालियर बेल्ट, म.प्र.</span>
           </div>
         </div>
 
-        <div class="pt-4 border-t border-[#f0f5ee]">
+        <div class="pt-4 border-t border-[#f0f5ee] dark:border-[#223d26]">
           <a
             href="https://share.google/WybqH9qjZj9aiYcoz"
             target="_blank"
@@ -76,80 +106,80 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
             class="fd-btn fd-btn-primary w-full text-center font-bold text-xs py-3 rounded-xl flex items-center justify-center gap-2 shadow-sm"
           >
             <img src="/farm/images/google-maps-icon.svg" alt="Google Maps" class="w-4 h-4 object-contain shrink-0" />
-            <span>View Farm Location (Google Maps) &rarr;</span>
+            <span>गूगल मैप्स पर खेत देखें &rarr;</span>
           </a>
         </div>
       </div>
 
       <!-- Card 3: Active Delivery Clusters -->
-      <div class="bg-white p-6 sm:p-8 rounded-3xl border border-[#e2ece0] shadow-sm flex flex-col justify-between space-y-6">
+      <div class="bg-white dark:bg-[#152317] p-6 sm:p-8 rounded-3xl border border-[#e2ece0] dark:border-[#223d26] shadow-sm flex flex-col justify-between space-y-6">
         <div>
-          <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-800 flex items-center justify-center text-2xl mb-4 font-bold">
+          <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-800 dark:text-emerald-400 flex items-center justify-center text-2xl mb-4 font-bold">
             📍
           </div>
-          <h3 class="fd-display text-lg font-extrabold text-[#122815]">Active Clusters</h3>
-          <p class="text-xs text-[#5b6e5d] mt-1.5 leading-relaxed">
-            Scheduled consolidated deliveries with zero middleman markups:
+          <h3 class="fd-display text-lg font-extrabold text-[#122815] dark:text-white">सक्रिय डिलीवरी क्लस्टर</h3>
+          <p class="text-xs text-[#5b6e5d] dark:text-gray-300 mt-1.5 leading-relaxed">
+            तय शेड्यूल्ड रूट, बिना किसी दलाल व बिचौलिये के:
           </p>
-          <ul class="text-xs text-[#152317] font-bold mt-2 space-y-1">
+          <ul class="text-xs text-[#152317] dark:text-gray-200 font-bold mt-2 space-y-1">
             <li class="flex items-center gap-1.5">
-              <span class="text-emerald-600 font-extrabold">✓</span> Village Sirsod & Naya Amola (Colony 1–4)
+              <span class="text-emerald-600 font-extrabold">✓</span> गाँव सिरसौद व नया अमोला (कॉलोनी 1–4)
             </li>
             <li class="flex items-center gap-1.5">
-              <span class="text-emerald-600 font-extrabold">✓</span> Karera (Block) & Shivpuri District
+              <span class="text-emerald-600 font-extrabold">✓</span> करैरा (ब्लॉक) व शिवपुरी ज़िला
             </li>
             <li class="flex items-center gap-1.5">
-              <span class="text-emerald-600 font-extrabold">✓</span> Pawan Nagar & Chetakpuri (Gwalior)
+              <span class="text-emerald-600 font-extrabold">✓</span> पवन नगर, चेतकपुरी, लश्कर, थाटीपुर (ग्वालियर)
             </li>
           </ul>
         </div>
 
-        <div class="pt-4 border-t border-[#f0f5ee]">
+        <div class="pt-4 border-t border-[#f0f5ee] dark:border-[#223d26]">
           <a
             href="/farm/delivery-areas"
             class="fd-btn fd-btn-secondary w-full text-center font-bold text-xs py-3 rounded-xl"
           >
-            Delivery Clusters & Rates &rarr;
+            डिलीवरी इलाक़े व शुल्क &rarr;
           </a>
         </div>
       </div>
     </div>
 
     <!-- Quick WhatsApp Inquiry Form -->
-    <div class="bg-white p-6 sm:p-10 rounded-3xl border border-[#e2ece0] shadow-sm">
+    <div class="bg-white dark:bg-[#152317] p-6 sm:p-10 rounded-3xl border border-[#e2ece0] dark:border-[#223d26] shadow-sm">
       <div class="max-w-xl mx-auto space-y-6">
         <div class="text-center space-y-1">
-          <h2 class="fd-display text-2xl font-extrabold text-[#122815]">Send a Message to the Farmer</h2>
-          <p class="text-xs text-[#5b6e5d]">
-            Bulk grain orders, society group supply, or questions about unpolished harvest.
+          <h2 class="fd-display text-2xl font-extrabold text-[#122815] dark:text-white">किसान को सीधा संदेश भेजें</h2>
+          <p class="text-xs text-[#5b6e5d] dark:text-gray-300">
+            थोक अनाज ऑर्डर, हाउसिंग सोसाइटी सामूहिक आपूर्ति या बिना पॉलिश अनाज के बारे में कोई प्रश्न।
           </p>
         </div>
 
         <form id="contact-form" class="space-y-4 text-xs">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label class="block font-bold text-[#3d503f] mb-1.5">Your Name *</label>
-              <input type="text" id="c-name" class="fd-input font-bold" placeholder="e.g. Ramesh Sharma" required />
+              <label class="block font-bold text-[#3d503f] dark:text-gray-200 mb-1.5">आपका नाम (Your Name) *</label>
+              <input type="text" id="c-name" class="fd-input font-bold" placeholder="उदा. रमेश शर्मा" required />
             </div>
 
             <div>
-              <label class="block font-bold text-[#3d503f] mb-1.5">Mobile / WhatsApp *</label>
-              <input type="tel" id="c-phone" maxlength="10" class="fd-input font-bold" placeholder="10-digit mobile" required />
+              <label class="block font-bold text-[#3d503f] dark:text-gray-200 mb-1.5">मोबाइल / व्हाट्सएप नंबर *</label>
+              <input type="tel" id="c-phone" maxlength="10" class="fd-input font-bold" placeholder="10 अंकों का मोबाइल" required />
             </div>
           </div>
 
           <div>
-            <label class="block font-bold text-[#3d503f] mb-1.5">Your Locality / Society in Gwalior *</label>
-            <input type="text" id="c-locality" class="fd-input font-bold" placeholder="e.g. Pawan Nagar, Chetakpuri, City Center, Thatipur..." required />
+            <label class="block font-bold text-[#3d503f] dark:text-gray-200 mb-1.5">आपकी कॉलोनी, गाँव या इलाक़ा *</label>
+            <input type="text" id="c-locality" class="fd-input font-bold" placeholder="उदा. पवन नगर, चेतकपुरी, सिटी सेंटर, सिरसौद, करैरा..." required />
           </div>
 
           <div>
-            <label class="block font-bold text-[#3d503f] mb-1.5">Message or Produce Requirements *</label>
-            <textarea id="c-message" rows="4" class="fd-input font-semibold" placeholder="Specify produce items (wheat, chana, groundnut), approximate kilograms, or questions..." required></textarea>
+            <label class="block font-bold text-[#3d503f] dark:text-gray-200 mb-1.5">संदेश या फ़सल आवश्यकता (Message / Requirement) *</label>
+            <textarea id="c-message" rows="4" class="fd-input font-semibold" placeholder="फ़सल का नाम (गेहूँ, चना, मूँगफली), अनुमानित वज़न (किलोग्राम में) या अपना प्रश्न लिखें..." required></textarea>
           </div>
 
           <button type="submit" class="fd-btn fd-btn-primary w-full font-bold text-sm py-3.5 shadow-md flex items-center justify-center gap-2">
-            <span>Send Direct to Farmer WhatsApp &rarr;</span>
+            <span>किसान के व्हाट्सएप पर संदेश भेजें &rarr;</span>
           </button>
         </form>
       </div>
@@ -165,7 +195,7 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
       const msg = document.getElementById('c-message').value.trim();
 
       const text = encodeURIComponent(
-        `Namaste Farm Direct! Inquiry from Website:\n*Name:* ${name}\n*Phone:* ${phone}\n*Colony/Locality:* ${locality}\n*Requirements:* ${msg}`
+        `नमस्ते Farm Direct! वेबसाइट से नया संदेश:\n*नाम:* ${name}\n*फ़ोन:* ${phone}\n*कॉलोनी/इलाक़ा:* ${locality}\n*आवश्यकता/प्रश्न:* ${msg}`
       );
 
       window.open(`https://wa.me/918770767272?text=${text}`, '_blank');

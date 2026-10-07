@@ -5,23 +5,23 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
 ---
 
 <FarmLayout
-  title="My Farm Direct Account | Gwalior"
-  description="Manage your Farm Direct raw produce pre-orders, free tasting samples, and saved delivery addresses in Gwalior."
+  title="मेरा फार्म डायरेक्ट खाता (My Account) | ग्वालियर"
+  description="ग्वालियर में अपने शुद्ध कृषि प्री-ऑर्डर, मुफ़्त सैंपल और पते प्रबंधित करें।"
   canonicalPath="/farm/account"
 >
   <div class="fd-container py-8 sm:py-16">
     <div class="max-w-4xl mx-auto space-y-8">
       <!-- Loading State -->
-      <div id="account-loading" class="text-center py-24 text-[#5b6e5d]">
-        <div class="inline-block animate-spin w-10 h-10 border-4 border-[#1b4522] border-t-transparent rounded-full mb-4"></div>
-        <p class="text-sm font-bold text-[#152317]">Loading your farm account dashboard...</p>
-        <p class="text-xs text-[#718573] mt-1">Connecting to authoritative Cloudflare database</p>
+      <div id="account-loading" class="text-center py-24 text-[#5b6e5d] dark:text-stone-400">
+        <div class="inline-block animate-spin w-10 h-10 border-4 border-[#1b4522] dark:border-emerald-500 border-t-transparent rounded-full mb-4"></div>
+        <p class="text-sm font-bold text-[#152317] dark:text-stone-100">खाता लोड हो रहा है... (Loading farm account...)</p>
+        <p class="text-xs text-[#718573] dark:text-stone-400 mt-1">क्लाउडफ्लेयर सुरक्षित डेटाबेस से कनेक्ट हो रहा है</p>
       </div>
 
       <!-- Account Dashboard Content Container -->
       <div id="account-content" class="hidden space-y-8">
         <!-- Top Profile Card -->
-        <div class="relative bg-white rounded-3xl border border-[#e2ece0] p-6 sm:p-8 shadow-sm overflow-hidden">
+        <div class="relative bg-white dark:bg-stone-900 rounded-3xl border border-[#e2ece0] dark:border-stone-800 p-6 sm:p-8 shadow-sm overflow-hidden">
           <div class="absolute -right-16 -top-16 w-56 h-56 bg-emerald-500/10 rounded-full blur-2xl pointer-events-none"></div>
 
           <div class="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
@@ -31,15 +31,15 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
               </div>
               <div>
                 <div class="flex items-center gap-2">
-                  <h1 id="user-name" class="fd-display text-2xl sm:text-3xl font-extrabold text-[#122815]"></h1>
-                  <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300">
-                    Verified
+                  <h1 id="user-name" class="fd-display text-2xl sm:text-3xl font-extrabold text-[#122815] dark:text-stone-100"></h1>
+                  <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950/50 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800/60">
+                    सत्यापित • Verified
                   </span>
                 </div>
-                <div class="text-xs text-[#5b6e5d] font-semibold mt-1 flex flex-wrap gap-x-3 gap-y-1">
-                  <span class="flex items-center gap-1">📱 <strong id="user-phone" class="text-[#152317]"></strong></span>
+                <div class="text-xs text-[#5b6e5d] dark:text-stone-400 font-semibold mt-1 flex flex-wrap gap-x-3 gap-y-1">
+                  <span class="flex items-center gap-1">📱 <strong id="user-phone" class="text-[#152317] dark:text-stone-200"></strong></span>
                   <span>•</span>
-                  <span class="flex items-center gap-1">✉️ <strong id="user-email" class="text-[#152317]"></strong></span>
+                  <span class="flex items-center gap-1">✉️ <strong id="user-email" class="text-[#152317] dark:text-stone-200"></strong></span>
                 </div>
               </div>
             </div>
@@ -50,45 +50,45 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
                 href="/farm/admin"
                 class="hidden px-4 py-2.5 rounded-xl bg-[#1b4522] text-white hover:bg-[#14371b] font-bold text-xs shadow-xs transition-colors flex items-center gap-1.5"
               >
-                <span>🛠️ Admin Operations &rarr;</span>
+                <span>🛠️ एडमिन पोर्टल (Admin) &rarr;</span>
               </a>
               <button
                 type="button"
-                class="px-4 py-2.5 rounded-xl border border-red-200 text-red-600 hover:bg-red-50 font-bold text-xs transition-colors flex items-center gap-1.5"
+                class="px-4 py-2.5 rounded-xl border border-red-200 dark:border-rose-900/60 text-red-600 dark:text-rose-400 hover:bg-red-50 dark:hover:bg-rose-950/30 font-bold text-xs transition-colors flex items-center gap-1.5"
                 onclick="handleLogout()"
               >
-                <span>Log Out</span>
+                <span>लॉग आउट (Log Out)</span>
               </button>
             </div>
           </div>
         </div>
 
         <!-- Modern Sliding Tab Navigation -->
-        <div class="flex items-center gap-2 border-b border-[#e2ece0] pb-2 text-xs sm:text-sm font-bold overflow-x-auto scrollbar-none">
+        <div class="flex items-center gap-2 border-b border-[#e2ece0] dark:border-stone-800 pb-2 text-xs sm:text-sm font-bold overflow-x-auto scrollbar-none">
           <button id="tab-orders-btn" type="button" class="px-5 py-2.5 rounded-xl bg-[#1b4522] text-white shadow-xs transition-all flex items-center gap-2" onclick="switchTab('orders')">
-            <span>📦 My Pre-Orders</span>
+            <span>📦 मेरे प्री-ऑर्डर (Orders)</span>
             <span id="orders-count-badge" class="hidden px-2 py-0.5 rounded-full bg-white/20 text-[10px] font-extrabold">0</span>
           </button>
-          <button id="tab-samples-btn" type="button" class="px-5 py-2.5 rounded-xl bg-[#f2f6f1] text-[#2d3e30] hover:bg-[#e4ede3] transition-all flex items-center gap-2" onclick="switchTab('samples')">
-            <span>🎁 Free Sample Rounds</span>
+          <button id="tab-samples-btn" type="button" class="px-5 py-2.5 rounded-xl bg-[#f2f6f1] dark:bg-stone-800 text-[#2d3e30] dark:text-stone-300 hover:bg-[#e4ede3] dark:hover:bg-stone-700 transition-all flex items-center gap-2" onclick="switchTab('samples')">
+            <span>🎁 मुफ़्त सैंपल (Free Samples)</span>
           </button>
-          <button id="tab-addresses-btn" type="button" class="px-5 py-2.5 rounded-xl bg-[#f2f6f1] text-[#2d3e30] hover:bg-[#e4ede3] transition-all flex items-center gap-2" onclick="switchTab('addresses')">
-            <span>📍 Saved Addresses</span>
+          <button id="tab-addresses-btn" type="button" class="px-5 py-2.5 rounded-xl bg-[#f2f6f1] dark:bg-stone-800 text-[#2d3e30] dark:text-stone-300 hover:bg-[#e4ede3] dark:hover:bg-stone-700 transition-all flex items-center gap-2" onclick="switchTab('addresses')">
+            <span>📍 सहेजे गए पते (Saved Addresses)</span>
           </button>
         </div>
 
         <!-- TAB 1: MY PRE-ORDERS -->
         <div id="tab-orders" class="space-y-4">
           <div id="orders-list" class="space-y-4"></div>
-          <div id="orders-empty" class="hidden text-center py-16 bg-white rounded-3xl border border-[#e2ece0] p-8 space-y-3">
+          <div id="orders-empty" class="hidden text-center py-16 bg-white dark:bg-stone-900 rounded-3xl border border-[#e2ece0] dark:border-stone-800 p-8 space-y-3">
             <div class="text-4xl">🌾</div>
-            <h3 class="fd-display text-xl font-bold text-[#152317]">No Pre-Orders Placed Yet</h3>
-            <p class="text-xs text-[#5b6e5d] max-w-sm mx-auto">
-              You have not placed any raw farm produce orders yet. Explore this week's harvest for Pawan Nagar & Chetakpuri.
+            <h3 class="fd-display text-xl font-bold text-[#152317] dark:text-stone-100">अभी तक कोई प्री-ऑर्डर नहीं दिया गया</h3>
+            <p class="text-xs text-[#5b6e5d] dark:text-stone-400 max-w-sm mx-auto">
+              आपने अभी तक किसी शुद्ध अनाज या दाल का ऑर्डर नहीं दिया है। इस सप्ताह की ताज़ा उपज देखें।
             </p>
             <div class="pt-2">
               <a href="/farm/products" class="fd-btn fd-btn-primary fd-btn-sm font-bold">
-                Browse Field Produce &rarr;
+                फसल और दालें देखें (Browse Produce) &rarr;
               </a>
             </div>
           </div>
@@ -97,15 +97,15 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
         <!-- TAB 2: MY SAMPLE REQUESTS -->
         <div id="tab-samples" class="hidden space-y-4">
           <div id="samples-list" class="space-y-3"></div>
-          <div id="samples-empty" class="hidden text-center py-16 bg-white rounded-3xl border border-[#e2ece0] p-8 space-y-3">
+          <div id="samples-empty" class="hidden text-center py-16 bg-white dark:bg-stone-900 rounded-3xl border border-[#e2ece0] dark:border-stone-800 p-8 space-y-3">
             <div class="text-4xl">🎁</div>
-            <h3 class="fd-display text-xl font-bold text-[#152317]">No Tasting Samples Requested</h3>
-            <p class="text-xs text-[#5b6e5d] max-w-sm mx-auto">
-              Taste test our raw wheat, pulses, and groundnut free of cost before ordering bulk bags.
+            <h3 class="fd-display text-xl font-bold text-[#152317] dark:text-stone-100">कोई मुफ़्त चखने का सैंपल बुक नहीं है</h3>
+            <p class="text-xs text-[#5b6e5d] dark:text-stone-400 max-w-sm mx-auto">
+              बड़ी बोरी खरीदने से पहले हमारे गेहूं, दालों या मूंगफली का मुफ़्त १०० ग्राम/२०० ग्राम सैंपल मंगाकर देखें।
             </p>
             <div class="pt-2">
               <a href="/farm/samples" class="fd-btn fd-btn-accent fd-btn-sm font-bold">
-                Request Free 100g/200g Sample &rarr;
+                मुफ़्त सैंपल मंगाएं (Request Free Sample) &rarr;
               </a>
             </div>
           </div>
@@ -113,19 +113,19 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
 
         <!-- TAB 3: SAVED ADDRESSES -->
         <div id="tab-addresses" class="hidden space-y-6">
-          <div class="flex justify-between items-center bg-white p-5 rounded-2xl border border-[#e2ece0]">
+          <div class="flex justify-between items-center bg-white dark:bg-stone-900 p-5 rounded-2xl border border-[#e2ece0] dark:border-stone-800">
             <div>
-              <h3 class="fd-display text-lg font-bold text-[#122815]">Saved Gwalior Addresses</h3>
-              <p class="text-xs text-[#5b6e5d]">Addresses used for scheduled cluster delivery</p>
+              <h3 class="fd-display text-lg font-bold text-[#122815] dark:text-stone-100">सहेजे गए ग्वालियर पते (Saved Addresses)</h3>
+              <p class="text-xs text-[#5b6e5d] dark:text-stone-400">रविवार क्लस्टर डिलीवरी हेतु सुरक्षित पते</p>
             </div>
             <button type="button" class="fd-btn fd-btn-primary fd-btn-sm font-bold shadow-sm" onclick="toggleAddAddressModal(true)">
-              + Add New Address
+              + नया पता जोड़ें (Add Address)
             </button>
           </div>
 
           <div id="addresses-list" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
-          <div id="addresses-empty" class="hidden text-center py-12 bg-white rounded-3xl border border-[#e2ece0] p-8 text-xs text-[#5b6e5d]">
-            No saved addresses found. Add an address for rapid one-click checkout.
+          <div id="addresses-empty" class="hidden text-center py-12 bg-white dark:bg-stone-900 rounded-3xl border border-[#e2ece0] dark:border-stone-800 p-8 text-xs text-[#5b6e5d] dark:text-stone-400">
+            कोई सहेजा गया पता नहीं मिला। तीव्र चेकआउट हेतु अपना पता जोड़ें।
           </div>
         </div>
       </div>
@@ -134,52 +134,52 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
 
   <!-- ADD ADDRESS MODAL -->
   <div id="address-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 space-y-5 shadow-2xl border border-[#e2ece0] max-h-[90vh] overflow-y-auto">
-      <div class="flex justify-between items-center pb-3 border-b border-[#e2ece0]">
+    <div class="bg-white dark:bg-stone-900 rounded-3xl max-w-lg w-full p-6 sm:p-8 space-y-5 shadow-2xl border border-[#e2ece0] dark:border-stone-800 max-h-[90vh] overflow-y-auto">
+      <div class="flex justify-between items-center pb-3 border-b border-[#e2ece0] dark:border-stone-800">
         <div>
-          <h3 class="fd-display font-extrabold text-xl text-[#122815]">Add Delivery Address</h3>
-          <p class="text-[11px] text-[#5b6e5d]">Gwalior Delivery Clusters (Pawan Nagar & Chetakpuri)</p>
+          <h3 class="fd-display font-extrabold text-xl text-[#122815] dark:text-stone-100">डिलीवरी का पता जोड़ें (Add Address)</h3>
+          <p class="text-[11px] text-[#5b6e5d] dark:text-stone-400">ग्वालियर क्लस्टर (पवन नगर, चेतकपुरी, सिटी सेंटर, आदि)</p>
         </div>
-        <button type="button" class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold flex items-center justify-center" onclick="toggleAddAddressModal(false)">✕</button>
+        <button type="button" class="w-8 h-8 rounded-full bg-gray-100 dark:bg-stone-800 hover:bg-gray-200 dark:hover:bg-stone-700 text-gray-600 dark:text-stone-300 font-bold flex items-center justify-center" onclick="toggleAddAddressModal(false)">✕</button>
       </div>
 
       <form onsubmit="handleSaveAddress(event)" class="space-y-4 text-xs">
         <div>
-          <label class="font-bold uppercase tracking-wider text-[#5b6e5d] block mb-1">Recipient Name *</label>
-          <input id="addr-name" type="text" required class="fd-input font-bold" placeholder="e.g. Anand Sharma" />
+          <label class="font-bold uppercase tracking-wider text-[#5b6e5d] dark:text-stone-300 block mb-1">प्राप्तकर्ता का नाम (Recipient Name) *</label>
+          <input id="addr-name" type="text" required class="fd-input font-bold" placeholder="जैसे: आनंद शर्मा" />
         </div>
         <div>
-          <label class="font-bold uppercase tracking-wider text-[#5b6e5d] block mb-1">Mobile Number (WhatsApp) *</label>
-          <input id="addr-phone" type="tel" required maxlength="10" class="fd-input font-bold" placeholder="10-digit mobile number" />
+          <label class="font-bold uppercase tracking-wider text-[#5b6e5d] dark:text-stone-300 block mb-1">मोबाइल नंबर (WhatsApp Mobile) *</label>
+          <input id="addr-phone" type="tel" required maxlength="10" class="fd-input font-bold" placeholder="10 अंकों का मोबाइल नंबर" />
         </div>
         <div>
-          <label class="font-bold uppercase tracking-wider text-[#5b6e5d] block mb-1">Neighbourhood Cluster in Gwalior *</label>
+          <label class="font-bold uppercase tracking-wider text-[#5b6e5d] dark:text-stone-300 block mb-1">ग्वालियर कॉलोनी / क्लस्टर (Delivery Cluster) *</label>
           <select id="addr-area" required class="fd-input font-bold text-xs">
-            <option value="">Select delivery area cluster...</option>
+            <option value="">डिलीवरी क्षेत्र चुनें (Select Area)...</option>
           </select>
         </div>
         <div>
-          <label class="font-bold uppercase tracking-wider text-[#5b6e5d] block mb-1">House / Flat / Plot No. & Building *</label>
-          <input id="addr-house" type="text" required class="fd-input" placeholder="e.g. Flat 302, Green Enclave" />
+          <label class="font-bold uppercase tracking-wider text-[#5b6e5d] dark:text-stone-300 block mb-1">मकान / फ्लैट नंबर व भवन (House / Flat No.) *</label>
+          <input id="addr-house" type="text" required class="fd-input" placeholder="जैसे: फ्लैट 302, ग्रीन एन्क्लेव" />
         </div>
         <div>
-          <label class="font-bold uppercase tracking-wider text-[#5b6e5d] block mb-1">Street / Colony Lane *</label>
-          <input id="addr-street" type="text" required class="fd-input" placeholder="e.g. Near Water Tank, Lane 4" />
+          <label class="font-bold uppercase tracking-wider text-[#5b6e5d] dark:text-stone-300 block mb-1">सड़क / गली / कॉलोनी मार्ग (Street / Lane) *</label>
+          <input id="addr-street" type="text" required class="fd-input" placeholder="जैसे: पानी की टंकी के पास, गली 4" />
         </div>
         <div>
-          <label class="font-bold uppercase tracking-wider text-[#5b6e5d] block mb-1">Landmark (Optional)</label>
-          <input id="addr-landmark" type="text" class="fd-input" placeholder="e.g. Opposite Shiv Mandir" />
+          <label class="font-bold uppercase tracking-wider text-[#5b6e5d] dark:text-stone-300 block mb-1">पहचान चिह्न (Landmark - वैकल्पिक)</label>
+          <input id="addr-landmark" type="text" class="fd-input" placeholder="जैसे: शिव मंदिर के सामने" />
         </div>
 
         <div class="flex items-center gap-2 pt-2">
           <input id="addr-default" type="checkbox" class="w-4 h-4 rounded text-[#1b4522] focus:ring-[#1b4522]" />
-          <label for="addr-default" class="font-bold text-[#122815]">Set as default delivery address</label>
+          <label for="addr-default" class="font-bold text-[#122815] dark:text-stone-200">डिफ़ॉल्ट पता बनाएं (Set as default address)</label>
         </div>
 
-        <div id="addr-error" class="hidden p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 font-semibold text-xs"></div>
+        <div id="addr-error" class="hidden p-3 rounded-xl bg-red-50 dark:bg-rose-950/40 border border-red-200 dark:border-rose-900/60 text-red-700 dark:text-rose-300 font-semibold text-xs"></div>
 
         <button type="submit" id="btn-save-addr" class="fd-btn fd-btn-primary w-full py-3.5 font-bold text-sm shadow-md">
-          Save Address &rarr;
+          पता सुरक्षित करें (Save Address) &rarr;
         </button>
       </form>
     </div>
@@ -187,43 +187,43 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
 
   <!-- Modal: Cancel Order -->
   <div id="modal-cancel-order" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-end sm:items-center justify-center p-3 sm:p-4">
-    <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-7 shadow-2xl border border-rose-100 space-y-5 animate-in fade-in zoom-in duration-200">
-      <div class="flex items-start justify-between pb-3 border-b border-[#f0f5ee]">
+    <div class="bg-white dark:bg-stone-900 rounded-3xl max-w-md w-full p-6 sm:p-7 shadow-2xl border border-rose-100 dark:border-rose-950/60 space-y-5 animate-in fade-in zoom-in duration-200">
+      <div class="flex items-start justify-between pb-3 border-b border-[#f0f5ee] dark:border-stone-800">
         <div>
-          <span class="inline-block px-2.5 py-0.5 rounded-full bg-rose-100 text-rose-800 text-[10px] font-extrabold uppercase mb-1">Self-Service Cancellation</span>
-          <h3 class="fd-display font-extrabold text-lg text-[#122815]">Cancel Order <span id="cancel-modal-order-number" class="font-mono text-rose-700"></span></h3>
+          <span class="inline-block px-2.5 py-0.5 rounded-full bg-rose-100 dark:bg-rose-950/50 text-rose-800 dark:text-rose-300 text-[10px] font-extrabold uppercase mb-1">स्वयं ऑर्डर रद्द करें • Cancellation</span>
+          <h3 class="fd-display font-extrabold text-lg text-[#122815] dark:text-stone-100">ऑर्डर रद्द करें <span id="cancel-modal-order-number" class="font-mono text-rose-700 dark:text-rose-400"></span></h3>
         </div>
-        <button type="button" class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold flex items-center justify-center" onclick="closeCancelOrderModal()">✕</button>
+        <button type="button" class="w-8 h-8 rounded-full bg-gray-100 dark:bg-stone-800 hover:bg-gray-200 dark:hover:bg-stone-700 text-gray-600 dark:text-stone-300 font-bold flex items-center justify-center" onclick="closeCancelOrderModal()">✕</button>
       </div>
 
-      <p class="text-xs text-[#5b6e5d] leading-relaxed">
-        Are you sure you want to cancel this order? Once cancelled, reserved harvest inventory will immediately be released back to the farm stock.
+      <p class="text-xs text-[#5b6e5d] dark:text-stone-400 leading-relaxed">
+        क्या आप वाकई यह ऑर्डर रद्द करना चाहते हैं? रद्द करने पर आरक्षित फसल स्टॉक तुरंत खेत सूची में वापस लौट जाएगा।
       </p>
 
       <div class="space-y-3">
         <div>
-          <label class="font-bold uppercase tracking-wider text-[#5b6e5d] text-[11px] block mb-1">Reason for Cancellation</label>
+          <label class="font-bold uppercase tracking-wider text-[#5b6e5d] dark:text-stone-300 text-[11px] block mb-1">रद्द करने का कारण (Reason)</label>
           <select id="cancel-reason-select" class="fd-input font-bold text-xs" onchange="toggleCustomCancelReason(this.value)">
-            <option value="Changed delivery date / out of town">Changed delivery date / out of town</option>
-            <option value="Ordered wrong produce / quantity">Ordered wrong produce / quantity</option>
-            <option value="Want to place a new combined order">Want to place a new combined order</option>
-            <option value="Other reason">Other reason (specify below)</option>
+            <option value="तारीख बदल गई / शहर से बाहर हूँ">तारीख बदल गई / शहर से बाहर हूँ (Out of town)</option>
+            <option value="गलत उपज या मात्रा चुनी गई">गलत उपज या मात्रा चुनी गई (Wrong produce/qty)</option>
+            <option value="नया संयुक्त ऑर्डर देना चाहता हूँ">नया संयुक्त ऑर्डर देना चाहता हूँ (Re-order)</option>
+            <option value="अन्य कारण">अन्य कारण (Other reason)</option>
           </select>
         </div>
 
         <div id="cancel-custom-reason-group" class="hidden">
-          <textarea id="cancel-custom-reason" rows="2" class="fd-input text-xs" placeholder="Please tell us the reason..."></textarea>
+          <textarea id="cancel-custom-reason" rows="2" class="fd-input text-xs" placeholder="कृपया कारण लिखें (Specify reason)..."></textarea>
         </div>
 
-        <div id="cancel-order-error" class="hidden p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 font-semibold text-xs"></div>
+        <div id="cancel-order-error" class="hidden p-3 rounded-xl bg-red-50 dark:bg-rose-950/40 border border-red-200 dark:border-rose-900/60 text-red-700 dark:text-rose-300 font-semibold text-xs"></div>
       </div>
 
       <div class="flex items-center gap-3 pt-2">
-        <button type="button" class="fd-btn fd-btn-secondary w-1/2 py-3 text-xs font-bold" onclick="closeCancelOrderModal()">
-          Keep Order
+        <button type="button" class="fd-btn fd-btn-secondary w-1/2 py-3 text-xs font-bold border border-[#d6e3d4] dark:border-stone-700" onclick="closeCancelOrderModal()">
+          ऑर्डर रखें (Keep Order)
         </button>
         <button type="button" id="btn-confirm-cancel" class="fd-btn bg-rose-600 hover:bg-rose-700 text-white w-1/2 py-3 text-xs font-bold shadow-md shadow-rose-950/20" onclick="submitCancelOrder()">
-          Confirm Cancel
+          रद्द करें (Confirm Cancel)
         </button>
       </div>
     </div>
@@ -280,72 +280,81 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
           badge.textContent = data.orders.length;
           badge.classList.remove('hidden');
 
-          list.innerHTML = data.orders.map(o => `
-            <div class="bg-white p-6 rounded-3xl border border-[#e2ece0] shadow-sm hover:shadow-md transition-shadow space-y-4">
-              <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-3 border-b border-[#f0f5ee]">
+          list.innerHTML = data.orders.map(o => {
+            const statusLabel =
+              o.status === 'DELIVERED' ? 'वितरित (Delivered)' :
+              o.status === 'CANCELLED' ? 'रद्द (Cancelled)' :
+              o.status === 'CONFIRMED' ? 'स्वीकृत (Confirmed)' :
+              o.status === 'PACKING' ? 'पैकिंग जारी (Packing)' :
+              o.status === 'ON_ROUTE' ? 'रास्ते में (On Route)' : 'प्रतीक्षारत (Pending)';
+
+            return `
+            <div class="bg-white dark:bg-stone-900 p-6 rounded-3xl border border-[#e2ece0] dark:border-stone-800 shadow-sm hover:shadow-md transition-shadow space-y-4">
+              <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-3 border-b border-[#f0f5ee] dark:border-stone-800">
                 <div class="flex items-center gap-3">
-                  <span class="font-mono text-sm font-extrabold text-[#122815] bg-[#edf4ec] px-3 py-1 rounded-xl border border-[#d6e3d4]">
+                  <span class="font-mono text-sm font-extrabold text-[#122815] dark:text-stone-100 bg-[#edf4ec] dark:bg-stone-800 px-3 py-1 rounded-xl border border-[#d6e3d4] dark:border-stone-700">
                     ${o.orderNumber}
                   </span>
                   <span class="text-xs px-3 py-1 rounded-full font-bold uppercase tracking-wider ${
-                    o.status === 'DELIVERED' ? 'bg-emerald-100 text-emerald-800' :
-                    o.status === 'CANCELLED' ? 'bg-red-100 text-red-800' :
-                    'bg-amber-100 text-amber-800'
+                    o.status === 'DELIVERED' ? 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300' :
+                    o.status === 'CANCELLED' ? 'bg-red-100 dark:bg-rose-950/60 text-red-800 dark:text-rose-300' :
+                    'bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300'
                   }">
-                    ${o.status}
+                    ${statusLabel}
                   </span>
                 </div>
-                <div class="text-xs text-[#5b6e5d]">
-                  Placed on <strong>${new Date(o.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</strong>
+                <div class="text-xs text-[#5b6e5d] dark:text-stone-400">
+                  ऑर्डर दिनांक: <strong>${new Date(o.createdAt).toLocaleDateString('hi-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</strong>
                 </div>
               </div>
 
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-[#5b6e5d]">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-[#5b6e5d] dark:text-stone-400">
                 <div>
-                  <span class="text-[11px] font-bold uppercase text-[#718573] block">Delivery Cluster</span>
-                  <strong class="text-sm font-bold text-[#122815]">${o.deliveryArea}, Gwalior</strong>
-                  <p class="text-[11px] text-[#718573] mt-0.5">${o.deliveryAddress}</p>
+                  <span class="text-[11px] font-bold uppercase text-[#718573] dark:text-stone-500 block">डिलीवरी क्लस्टर (Delivery Cluster)</span>
+                  <strong class="text-sm font-bold text-[#122815] dark:text-stone-100">${o.deliveryArea}, ग्वालियर</strong>
+                  <p class="text-[11px] text-[#718573] dark:text-stone-400 mt-0.5">${o.deliveryAddress}</p>
                 </div>
                 <div class="text-left sm:text-right">
-                  <span class="text-[11px] font-bold uppercase text-[#718573] block">Order Amount (Pay on Delivery)</span>
-                  <strong class="fd-display text-2xl font-black text-[#1b4522]">₹${o.grandTotalRupees}</strong>
+                  <span class="text-[11px] font-bold uppercase text-[#718573] dark:text-stone-500 block">कुल देय राशि (डिलीवरी पर भुगतान)</span>
+                  <strong class="fd-display text-2xl font-black text-[#1b4522] dark:text-emerald-400">₹${o.grandTotalRupees}</strong>
                 </div>
               </div>
 
-              <div class="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-[#f0f5ee]">
+              <div class="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-[#f0f5ee] dark:border-stone-800">
                 <div class="flex flex-wrap items-center gap-2">
                   <a
-                    href="https://wa.me/918770767272?text=${encodeURIComponent(`Namaste Farm Direct, enquiry regarding my pre-order ${o.orderNumber}`)}"
+                    href="https://wa.me/918770767272?text=${encodeURIComponent(`नमस्ते फार्म डायरेक्ट, मेरे ऑर्डर ${o.orderNumber} के संबंध में पूछताछ`)}"
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="text-xs font-bold text-emerald-800 hover:text-emerald-950 flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl hover:bg-emerald-50 transition-colors"
+                    class="text-xs font-bold text-emerald-800 dark:text-emerald-400 hover:text-emerald-950 flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl hover:bg-emerald-50 dark:hover:bg-emerald-950/30 transition-colors"
                   >
-                    <span>💬 WhatsApp</span>
+                    <span>💬 व्हाट्सएप पूछताछ</span>
                   </a>
                   ${(o.status === 'PENDING' || o.status === 'CONFIRMED') ? `
                     <button
                       type="button"
                       onclick="openCancelOrderModal(${o.id}, '${o.orderNumber}')"
-                      class="text-xs font-bold text-rose-700 hover:text-rose-900 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3 py-1.5 rounded-xl transition-colors flex items-center gap-1 cursor-pointer"
+                      class="text-xs font-bold text-rose-700 dark:text-rose-400 hover:text-rose-900 bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/60 px-3 py-1.5 rounded-xl transition-colors flex items-center gap-1 cursor-pointer"
                     >
-                      <span>✕ Cancel Order</span>
+                      <span>✕ ऑर्डर रद्द करें</span>
                     </button>
                   ` : ''}
                   ${o.status === 'DELIVERED' ? `
                     <a
                       href="/farm/reviews?write=1"
-                      class="text-xs font-bold text-amber-900 bg-amber-50 hover:bg-amber-100 border border-amber-200 px-3 py-1.5 rounded-xl transition-colors flex items-center gap-1 cursor-pointer"
+                      class="text-xs font-bold text-amber-900 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 px-3 py-1.5 rounded-xl transition-colors flex items-center gap-1 cursor-pointer"
                     >
-                      <span>⭐ Review Produce</span>
+                      <span>⭐ रेटिंग व समीक्षा दें</span>
                     </a>
                   ` : ''}
                 </div>
-                <a href="/farm/track?order_number=${o.orderNumber}" class="fd-btn fd-btn-secondary fd-btn-sm font-bold">
-                  Track Delivery Status &rarr;
+                <a href="/farm/track?order_number=${o.orderNumber}" class="fd-btn fd-btn-secondary fd-btn-sm font-bold border border-[#d6e3d4] dark:border-stone-700">
+                  डिलीवरी ट्रैक करें (Track) &rarr;
                 </a>
               </div>
             </div>
-          `).join('');
+          `;
+          }).join('');
         } else {
           list.innerHTML = '';
           empty.classList.remove('hidden');
@@ -361,36 +370,39 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
         const data = await res.json();
         if (data.success && data.sampleRequests && data.sampleRequests.length > 0) {
           empty.classList.add('hidden');
-          list.innerHTML = data.sampleRequests.map(s => `
-            <div class="bg-white p-5 rounded-2xl border border-[#e2ece0] shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          list.innerHTML = data.sampleRequests.map(s => {
+            const statusLabel = s.status === 'DELIVERED' ? 'वितरित (Delivered)' : 'प्रतीक्षारत (Pending)';
+            return `
+            <div class="bg-white dark:bg-stone-900 p-5 rounded-2xl border border-[#e2ece0] dark:border-stone-800 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div>
                 <div class="flex items-center gap-2">
-                  <strong class="font-extrabold text-base text-[#122815]">${s.productName}</strong>
-                  <span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 font-extrabold text-xs">
-                    ${s.quantityGrams}g pouch
+                  <strong class="font-extrabold text-base text-[#122815] dark:text-stone-100">${s.productName}</strong>
+                  <span class="px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950/60 text-amber-900 dark:text-amber-300 font-extrabold text-xs">
+                    ${s.quantityGrams} ग्राम पाउच (Sample)
                   </span>
                 </div>
-                <div class="text-xs text-[#5b6e5d] mt-1">
-                  <span>${s.deliveryArea}, Gwalior</span> • <span>${s.roundName || 'Scheduled Weekend Round'}</span>
+                <div class="text-xs text-[#5b6e5d] dark:text-stone-400 mt-1">
+                  <span>${s.deliveryArea}, ग्वालियर</span> • <span>${s.roundName || 'आगामी वीकेंड राउंड'}</span>
                 </div>
               </div>
               <div class="flex items-center gap-3">
                 <span class="px-3 py-1 rounded-full text-xs font-bold ${
-                  s.status === 'DELIVERED' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'
+                  s.status === 'DELIVERED' ? 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300' : 'bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300'
                 }">
-                  ${s.status}
+                  ${statusLabel}
                 </span>
                 <a
-                  href="https://wa.me/918770767272?text=${encodeURIComponent(`Namaste, checking on my free sample for ${s.productName} (${s.quantityGrams}g)`)}"
+                  href="https://wa.me/918770767272?text=${encodeURIComponent(`नमस्ते, मेरे मुफ़्त सैंपल ${s.productName} (${s.quantityGrams}g) की जानकारी चाहिए`)}"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="fd-btn fd-btn-secondary fd-btn-sm text-xs font-bold"
+                  class="fd-btn fd-btn-secondary fd-btn-sm text-xs font-bold border border-[#d6e3d4] dark:border-stone-700"
                 >
-                  WhatsApp Slip
+                  व्हाट्सएप पर्ची (Slip)
                 </a>
               </div>
             </div>
-          `).join('');
+          `;
+          }).join('');
         } else {
           list.innerHTML = '';
           empty.classList.remove('hidden');
@@ -408,24 +420,24 @@ import FarmLayout from '../../../layouts/FarmLayout.astro';
       }
       empty.classList.add('hidden');
       list.innerHTML = addresses.map(a => `
-        <div class="bg-white p-6 rounded-3xl border border-[#e2ece0] shadow-sm relative text-xs text-[#5b6e5d] space-y-2 flex flex-col justify-between">
+        <div class="bg-white dark:bg-stone-900 p-6 rounded-3xl border border-[#e2ece0] dark:border-stone-800 shadow-sm relative text-xs text-[#5b6e5d] dark:text-stone-300 space-y-2 flex flex-col justify-between">
           <div>
             <div class="flex items-center justify-between mb-2">
-              <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase bg-emerald-50 text-emerald-800 border border-emerald-200">
-                ${a.deliveryAreaName || 'Gwalior Cluster'}
+              <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase bg-emerald-50 dark:bg-emerald-950/50 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/60">
+                ${a.deliveryAreaName || 'ग्वालियर क्लस्टर'}
               </span>
-              ${a.isDefault ? '<span class="text-[10px] font-extrabold uppercase text-[#1b4522] bg-[#eaf4ec] px-2 py-0.5 rounded-full">Default Address</span>' : ''}
+              ${a.isDefault ? '<span class="text-[10px] font-extrabold uppercase text-[#1b4522] dark:text-emerald-400 bg-[#eaf4ec] dark:bg-stone-800 px-2 py-0.5 rounded-full">मुख्य पता (Default)</span>' : ''}
             </div>
-            <strong class="font-extrabold text-base text-[#122815] block">${a.fullName}</strong>
-            <p class="font-semibold text-emerald-800">📱 +91 ${a.phone}</p>
-            <p class="mt-2 text-[#334435] leading-relaxed">${a.houseNumber}, ${a.street}</p>
-            ${a.landmark ? `<p class="text-[11px] text-[#718573]">Landmark: ${a.landmark}</p>` : ''}
+            <strong class="font-extrabold text-base text-[#122815] dark:text-stone-100 block">${a.fullName}</strong>
+            <p class="font-semibold text-emerald-800 dark:text-emerald-400">📱 +91 ${a.phone}</p>
+            <p class="mt-2 text-[#334435] dark:text-stone-300 leading-relaxed">${a.houseNumber}, ${a.street}</p>
+            ${a.landmark ? `<p class="text-[11px] text-[#718573] dark:text-stone-400">पहचान: ${a.landmark}</p>` : ''}
           </div>
 
-          <div class="pt-3 border-t border-[#f0f5ee] flex items-center justify-between">
-            <span class="text-[11px] text-[#718573]">Gwalior, MP</span>
-            <button type="button" class="text-red-600 hover:text-red-800 font-bold text-xs" onclick="deleteAddress(${a.id})">
-              Delete
+          <div class="pt-3 border-t border-[#f0f5ee] dark:border-stone-800 flex items-center justify-between">
+            <span class="text-[11px] text-[#718573] dark:text-stone-400">ग्वालियर, मध्य प्रदेश</span>
+            <button type="button" class="text-red-600 dark:text-rose-400 hover:text-red-800 font-bold text-xs" onclick="deleteAddress(${a.id})">
+              हटाएं (Delete)
             </button>
           </div>
         </div>

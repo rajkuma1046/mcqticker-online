@@ -1,46 +1,112 @@
 ---
 import FarmLayout from '../../layouts/FarmLayout.astro';
 
-// Delivery Areas — Modern Clustered Route Explorer
+// Local SEO Schema for Delivery Areas & Google Local Searches
+const deliverySchema = {
+  "@context": "https://schema.org",
+  "@type": "DeliveryService",
+  "name": "फार्म डायरेक्ट क्षेत्रीय होम डिलीवरी (Farm Direct Regional Delivery)",
+  "provider": {
+    "@type": "LocalBusiness",
+    "name": "फार्म डायरेक्ट (Farm Direct)",
+    "image": "https://mcqticker.online/farm/images/farm-hero-1200.jpg",
+    "telephone": "+918770767272",
+    "priceRange": "₹25 - ₹120/kg",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Farm Direct, Village Sirsod, Tehsil Karera",
+      "addressLocality": "Shivpuri",
+      "addressRegion": "Madhya Pradesh",
+      "postalCode": "473551",
+      "addressCountry": "IN"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "25.5684",
+      "longitude": "78.1384"
+    }
+  },
+  "areaServed": [
+    {
+      "@type": "AdministrativeArea",
+      "name": "Gwalior",
+      "description": "Pawan Nagar, Chetakpuri, City Center, Lashkar, Morar, Thatipur, Thatipur Colony"
+    },
+    {
+      "@type": "AdministrativeArea",
+      "name": "Shivpuri",
+      "description": "Karera, Sirsod, Naya Amola, Fatehpur, Madhav Chowk, Physical Ground"
+    }
+  ],
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "खेत की ताज़ा बिना पॉलिश की उपज (Raw Unpolished Farm Produce)",
+    "itemListElement": [
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Product",
+          "name": "शुद्ध देशी शरबती गेहूँ (Desi Sharbati Wheat)"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Product",
+          "name": "कच्ची साबुत मूँगफली (Raw Farm Groundnut)"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Product",
+          "name": "देशी छोटा चना व दालें (Desi Brown Chana & Pulses)"
+        }
+      }
+    ]
+  }
+};
 ---
 
 <FarmLayout
-  title="Delivery Areas & Schedule | Farm Direct"
-  description="Consolidated neighbourhood delivery areas in Gwalior & Shivpuri Districts including Sirsod, Naya Amola, Karera, Shivpuri, Pawan Nagar, and Chetakpuri."
+  title="डिलीवरी क्षेत्र व समय-सारणी | फार्म डायरेक्ट ग्वालियर व शिवपुरी"
+  description="ग्वालियर, शिवपुरी, करैरा और सिरसौद में सीधे खेत से शुद्ध बिना पॉलिश का अनाज व दालें। क्लस्टर डिलीवरी समय-सारणी, न्यूनतम ऑर्डर व मुफ़्त होम डिलीवरी।"
   canonicalPath="/farm/delivery-areas"
 >
+  <script type="application/ld+json" set:html={JSON.stringify(deliverySchema)} />
+
   <div class="fd-container py-8 sm:py-16">
     <div class="max-w-4xl mx-auto space-y-10">
       <!-- Title & Header -->
       <div class="text-center max-w-2xl mx-auto space-y-3">
-        <span class="inline-flex items-center gap-1.5 text-xs uppercase tracking-wider text-emerald-800 font-extrabold bg-emerald-50 border border-emerald-200 px-3.5 py-1 rounded-full">
+        <span class="inline-flex items-center gap-1.5 text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-300 font-extrabold bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800/40 px-3.5 py-1 rounded-full">
           <span>📍</span>
-          <span>Gwalior & Shivpuri Delivery Clusters</span>
+          <span>ग्वालियर व शिवपुरी डिलीवरी क्लस्टर • Regional Route Clusters</span>
         </span>
-        <h1 class="fd-display text-3xl sm:text-5xl font-extrabold text-[#122815] leading-tight">
-          Delivery Areas & Schedule
+        <h1 class="fd-display text-3xl sm:text-5xl font-extrabold text-[#122815] dark:text-[#f0f9f1] leading-tight">
+          डिलीवरी क्षेत्र व समय-सारणी
         </h1>
-        <p class="text-xs sm:text-sm text-[#5b6e5d] leading-relaxed">
-          To maintain direct-from-field prices with zero middleman markups, we deliver in consolidated neighbourhood clusters across Gwalior, Karera, and Shivpuri on scheduled trips.
+        <p class="text-xs sm:text-sm text-[#5b6e5d] dark:text-[#a3b8a6] leading-relaxed">
+          बिना किसी बिचौलिये या मंडी कमीशन के सीधे खेत से ताज़ा अनाज, दालें व मौसमी फसलें आपके घर तक पहुँचाने के लिए हम निर्धारित दिनों पर क्लस्टर डिलीवरी करते हैं। (Direct farm harvest delivered to your colony gate.)
         </p>
         <div class="pt-2 flex justify-center">
           <a
             href="https://share.google/WybqH9qjZj9aiYcoz"
             target="_blank"
             rel="noopener noreferrer"
-            class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-[#d6e3d5] text-xs font-bold text-[#194622] hover:bg-emerald-50 transition-colors shadow-xs"
+            class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white dark:bg-[#1a2d1d] border border-[#d6e3d5] dark:border-[#2a462f] text-xs font-bold text-[#194622] dark:text-[#6ee7b7] hover:bg-emerald-50 dark:hover:bg-emerald-950/40 transition-colors shadow-xs"
           >
             <img src="/farm/images/google-maps-icon.svg" alt="Google Maps" class="w-4 h-4 object-contain shrink-0" />
-            <span>View Farm Origin on Google Maps</span>
+            <span>गूगल मैप्स पर हमारा खेत देखें • Farm Origin</span>
             <span>↗</span>
           </a>
         </div>
       </div>
 
       <!-- Live Delivery Areas Container -->
-      <div id="areas-loading" class="text-center py-16 text-[#5b6e5d]">
-        <div class="inline-block animate-spin w-8 h-8 border-4 border-[#1b4522] border-t-transparent rounded-full mb-3"></div>
-        <p class="text-sm font-bold text-[#152317]">Loading live delivery routes from farm database...</p>
+      <div id="areas-loading" class="text-center py-16 text-[#5b6e5d] dark:text-[#a3b8a6]">
+        <div class="inline-block animate-spin w-8 h-8 border-4 border-[#1b4522] dark:border-[#4ade80] border-t-transparent rounded-full mb-3"></div>
+        <p class="text-sm font-bold text-[#152317] dark:text-[#f0f9f1]">खेत के डेटाबेस से लाइव डिलीवरी रूट लोड हो रहे हैं... (Loading delivery routes...)</p>
       </div>
 
       <div id="areas-container" class="hidden space-y-4">
@@ -48,37 +114,37 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
       </div>
 
       <!-- Why Selected Neighbourhoods? Infographic Card -->
-      <div class="relative bg-white rounded-3xl border border-[#e2ece0] p-6 sm:p-8 shadow-sm overflow-hidden space-y-4">
+      <div class="relative bg-white dark:bg-[#152317] rounded-3xl border border-[#e2ece0] dark:border-[#223b26] p-6 sm:p-8 shadow-sm overflow-hidden space-y-4">
         <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-emerald-500/10 rounded-full blur-2xl pointer-events-none"></div>
 
         <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-xl bg-[#edf4ec] text-[#1b4522] flex items-center justify-center text-xl font-bold">
+          <div class="w-10 h-10 rounded-xl bg-[#edf4ec] dark:bg-[#203723] text-[#1b4522] dark:text-[#6ee7b7] flex items-center justify-center text-xl font-bold">
             💡
           </div>
           <div>
-            <h3 class="fd-display text-lg sm:text-xl font-bold text-[#122815]">
-              Why Clustered Delivery Instead of Instant City-Wide Delivery?
+            <h3 class="fd-display text-lg sm:text-xl font-bold text-[#122815] dark:text-[#f0f9f1]">
+              रोज़ाना शहर में बाइक दौड़ाने के बजाय क्लस्टर डिलीवरी क्यों?
             </h3>
-            <span class="text-xs text-[#5b6e5d]">Sustainable Farm-to-Kitchen Logistics</span>
+            <span class="text-xs text-[#5b6e5d] dark:text-[#a3b8a6]">टिकाऊ और किफ़ायती खेत-से-रसोई मॉडल (Sustainable Farm-to-Kitchen Logistics)</span>
           </div>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 text-xs text-[#526454] leading-relaxed">
-          <div class="p-4 rounded-2xl bg-[#f8faf7] border border-[#e8f0e6] space-y-1.5">
-            <strong class="font-extrabold text-[#152317] block flex items-center gap-1.5">
-              <span>🌾</span> Direct Farm Economics
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 text-xs text-[#526454] dark:text-[#a3b8a6] leading-relaxed">
+          <div class="p-4 rounded-2xl bg-[#f8faf7] dark:bg-[#1a2d1d] border border-[#e8f0e6] dark:border-[#2a462f] space-y-1.5">
+            <strong class="font-extrabold text-[#152317] dark:text-[#f0f9f1] block flex items-center gap-1.5">
+              <span>🌾</span> सीधी खेत की बचत (Direct Farm Economics)
             </strong>
             <p>
-              Sending individual motorcycles across distant corners of Gwalior burns fuel and adds 40% intermediary costs. We pass all logistics savings straight to you in lower produce prices.
+              अलग-अलग बाइक से डिलीवरी करने पर पेट्रोल और 40% मध्यस्थ खर्च बढ़ जाता है। हम क्लस्टर ट्रिप कर पूरी बचत ग्राहकों को न्यूनतम दाम में लौटाते हैं।
             </p>
           </div>
 
-          <div class="p-4 rounded-2xl bg-[#f8faf7] border border-[#e8f0e6] space-y-1.5">
-            <strong class="font-extrabold text-[#152317] block flex items-center gap-1.5">
-              <span>🚚</span> Fresh Weekend Morning Dispatch
+          <div class="p-4 rounded-2xl bg-[#f8faf7] dark:bg-[#1a2d1d] border border-[#e8f0e6] dark:border-[#2a462f] space-y-1.5">
+            <strong class="font-extrabold text-[#152317] dark:text-[#f0f9f1] block flex items-center gap-1.5">
+              <span>🚚</span> सप्ताहांत की सुबह ताज़ा रवानगी (Weekend Morning Dispatch)
             </strong>
             <p>
-              All grains and pulses are bagged directly at the farm on Friday/Saturday, loaded into our transport vehicle, and brought directly to your society gate on Sunday morning (8 AM – 1 PM).
+              अनाज और दालें शुक्रवार/शनिवार को खेत पर सीधे बोरियों में भरी जाती हैं और रविवार सुबह (8:00 AM – 1:00 PM) सीधे आपकी कॉलोनी के गेट पर पहुँचती हैं।
             </p>
           </div>
         </div>
@@ -88,22 +154,22 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
       <div class="bg-gradient-to-r from-[#122815] to-[#1e4624] text-white p-6 sm:p-8 rounded-3xl shadow-xl border border-emerald-900/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
         <div class="space-y-1.5 max-w-lg">
           <div class="text-[10px] font-extrabold uppercase tracking-widest text-emerald-300">
-            Expand Our Regional Network
+            क्षेत्रीय नेटवर्क विस्तार • Expand Regional Network
           </div>
           <h4 class="fd-display text-xl font-extrabold text-white">
-            Live in another colony, village, or town?
+            क्या आप किसी अन्य कॉलोनी, मोहल्ले या गाँव में रहते हैं?
           </h4>
           <p class="text-xs text-emerald-100/80 leading-relaxed">
-            If your colony, society, or village (in Gwalior or Shivpuri districts) has 5+ households interested in pure raw harvest, message us to launch a new scheduled delivery round!
+            यदि आपकी कॉलोनी या गाँव (ग्वालियर या शिवपुरी जिले) में 5+ परिवार शुद्ध देशी उपज चाहते हैं, तो हमें व्हाट्सएप करें — हम तुरंत नया क्लस्टर शुरू करेंगे!
           </p>
         </div>
         <a
-          href="https://wa.me/918770767272?text=Namaste%20Farm%20Direct,%20we%20have%20multiple%20households%20interested%20in%20raw%20farm%20produce%20in%20our%20colony/village:"
+          href="https://wa.me/918770767272?text=%E0%A4%A8%E0%A4%AE%E0%A4%B8%E0%A5%8D%E0%A4%A4%E0%A5%87%20%E0%A4%AB%E0%A4%BE%E0%A4%B0%E0%A5%8D%E0%A4%AE%20%E0%A4%A1%E0%A4%BE%E0%A4%AF%E0%A4%B0%E0%A5%87%E0%A4%95%E0%A5%8D%E0%A4%9F%2C%20%E0%A4%B9%E0%A4%AE%E0%A4%BE%E0%A4%B0%E0%A5%80%20%E0%A4%95%E0%A5%89%E0%A4%B2%E0%A5%8B%E0%A4%A8%E0%A5%80/%E0%A4%97%E0%A4%BE%E0%A4%81%E0%A4%B5%20%E0%A4%AE%E0%A5%87%E0%A4%82%20%E0%A4%AD%E0%A5%80%20%E0%A4%A6%E0%A5%87%E0%A4%B6%E0%A5%80%20%E0%A4%AB%E0%A4%B8%E0%A4%B2%20%E0%A4%95%E0%A5%80%20%E0%A4%A1%E0%A4%BF%E0%A4%B2%E0%A5%80%E0%A4%B5%E0%A4%B0%E0%A5%80%20%E0%A4%9A%E0%A4%BE%E0%A4%B9%E0%A4%BF%E0%A4%8F:"
           target="_blank"
           rel="noopener noreferrer"
           class="fd-btn bg-[#25D366] hover:bg-[#1fa851] text-white font-extrabold text-xs px-5 py-3 rounded-xl shadow-lg shadow-black/20 whitespace-nowrap transition-transform hover:scale-105 active:scale-95"
         >
-          <span>Request Locality on WhatsApp &rarr;</span>
+          <span>व्हाट्सएप पर इलाका जोड़ें &rarr;</span>
         </a>
       </div>
     </div>
@@ -122,44 +188,57 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
           loader.classList.add('hidden');
           container.classList.remove('hidden');
 
-          container.innerHTML = data.deliveryAreas.map((a, idx) => `
-            <div class="bg-white p-6 sm:p-7 rounded-3xl border border-[#e2ece0] shadow-sm hover:shadow-md transition-shadow flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+          const dayTranslations = {
+            'Sunday': 'रविवार',
+            'Monday': 'सोमवार',
+            'Tuesday': 'मंगलवार',
+            'Wednesday': 'बुधवार',
+            'Thursday': 'गुरुवार',
+            'Friday': 'शुक्रवार',
+            'Saturday': 'शनिवार'
+          };
+
+          container.innerHTML = data.deliveryAreas.map((a, idx) => {
+            const hindiDay = dayTranslations[a.deliveryDay] || a.deliveryDay;
+            return `
+            <div class="bg-white dark:bg-[#152317] p-6 sm:p-7 rounded-3xl border border-[#e2ece0] dark:border-[#223b26] shadow-sm hover:shadow-md transition-shadow flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
               <div class="space-y-2">
                 <div class="flex items-center gap-2">
-                  <span class="text-[10px] font-black uppercase text-emerald-800 bg-emerald-50 border border-emerald-200 px-3 py-0.5 rounded-full">
-                    Active Cluster 0${idx + 1}
+                  <span class="text-[10px] font-black uppercase text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800/40 px-3 py-0.5 rounded-full">
+                    सक्रिय क्लस्टर 0${idx + 1} • Cluster
                   </span>
-                  <span class="text-xs font-bold text-[#6a806c]">
-                    ${a.city || 'MP'}, MP
+                  <span class="text-xs font-bold text-[#6a806c] dark:text-[#8ea290]">
+                    ${a.city || 'MP'}, म.प्र.
                   </span>
                 </div>
-                <h3 class="fd-display text-2xl font-extrabold text-[#122815]">${a.name}</h3>
-                <div class="text-xs text-[#526454] flex flex-wrap gap-x-4 gap-y-1">
-                  <span>📅 Scheduled Dispatch: <strong class="text-[#152317] font-bold">Every ${a.deliveryDay} morning</strong></span>
+                <h3 class="fd-display text-2xl font-extrabold text-[#122815] dark:text-[#f0f9f1]">${a.name}</h3>
+                <div class="text-xs text-[#526454] dark:text-[#a3b8a6] flex flex-wrap gap-x-4 gap-y-1">
+                  <span>📅 निर्धारित ट्रिप: <strong class="text-[#152317] dark:text-[#e8f5e9] font-bold">प्रत्येक ${hindiDay} सुबह (${a.deliveryDay})</strong></span>
                   <span>•</span>
-                  <span>⏰ Window: <strong class="text-[#152317]">8:00 AM – 1:00 PM</strong></span>
+                  <span>⏰ समय: <strong class="text-[#152317] dark:text-[#e8f5e9]">8:00 AM – 1:00 PM</strong></span>
                 </div>
               </div>
 
-              <div class="flex items-center gap-6 w-full sm:w-auto justify-between sm:justify-end pt-4 sm:pt-0 border-t sm:border-t-0 border-[#f0f5ee]">
+              <div class="flex items-center gap-6 w-full sm:w-auto justify-between sm:justify-end pt-4 sm:pt-0 border-t sm:border-t-0 border-[#f0f5ee] dark:border-[#223b26]">
                 <div>
-                  <div class="text-[11px] font-bold uppercase text-[#718573]">Delivery Fee</div>
-                  <strong class="fd-display text-lg font-extrabold text-[#152317]">₹${a.deliveryChargeRupees}</strong>
-                  <span class="text-[10px] text-emerald-700 block font-semibold">(Free over ₹500)</span>
+                  <div class="text-[11px] font-bold uppercase text-[#718573] dark:text-[#8ea290]">डिलीवरी शुल्क</div>
+                  <strong class="fd-display text-lg font-extrabold text-[#152317] dark:text-[#f0f9f1]">₹${a.deliveryChargeRupees}</strong>
+                  <span class="text-[10px] text-emerald-700 dark:text-emerald-400 block font-semibold">(₹500+ पर मुफ़्त)</span>
                 </div>
                 <div>
-                  <div class="text-[11px] font-bold uppercase text-[#718573]">Min. Order</div>
-                  <strong class="fd-display text-lg font-extrabold text-[#1b4522]">₹${a.minimumOrderRupees}</strong>
+                  <div class="text-[11px] font-bold uppercase text-[#718573] dark:text-[#8ea290]">न्यूनतम ऑर्डर</div>
+                  <strong class="fd-display text-lg font-extrabold text-[#1b4522] dark:text-[#4ade80]">₹${a.minimumOrderRupees}</strong>
                 </div>
                 <a href="/farm/products" class="fd-btn fd-btn-primary fd-btn-sm font-bold shadow-sm whitespace-nowrap">
-                  Pre-Order &rarr;
+                  ऑर्डर करें &rarr;
                 </a>
               </div>
             </div>
-          `).join('');
+          `;
+          }).join('');
         }
       } catch (_) {
-        loader.innerHTML = '<p class="text-sm font-bold text-red-600">Failed to load delivery areas. Please refresh.</p>';
+        loader.innerHTML = '<p class="text-sm font-bold text-red-600">डिलीवरी क्षेत्र लोड करने में समस्या। कृपया रीफ्रेश करें।</p>';
       }
     }
 

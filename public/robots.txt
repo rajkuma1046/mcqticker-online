@@ -1,14 +1,23 @@
-# robots.txt for mcqticker.online
-# Generated: June 2026
+# robots.txt for mcqticker.online & Farm Direct
+# Generated: October 2026
 
 # Allow all search engine bots
 User-agent: *
 Allow: /
+Allow: /farm
+Allow: /farm/products
+Allow: /farm/delivery-areas
+Allow: /farm/reviews
+Allow: /farm/samples
+Allow: /farm/how-it-works
+Allow: /farm/contact
 
-# Disallow dynamic app-shell pages that have no indexable content
+# Disallow internal apps, carts, checkouts, and admin paths
 Disallow: /active-test
-
-# Disallow any potential admin or internal paths
+Disallow: /farm/admin
+Disallow: /farm/cart
+Disallow: /farm/checkout
+Disallow: /farm/account
 Disallow: /scratch/
 Disallow: /_astro/
 Disallow: /node_modules/
@@ -22,9 +31,15 @@ Sitemap: https://mcqticker.online/sitemap.xml
 # --- Googlebot specific ---
 User-agent: Googlebot
 Allow: /
+Allow: /farm
 Disallow: /active-test
+Disallow: /farm/admin
+Disallow: /farm/cart
+Disallow: /farm/checkout
 
 # --- Bingbot specific ---
 User-agent: Bingbot
 Allow: /
+Allow: /farm
 Disallow: /active-test
+Disallow: /farm/admin

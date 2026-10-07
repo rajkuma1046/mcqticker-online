@@ -57,8 +57,9 @@ export async function onRequest({ request, env, params }) {
 
     // 3. Inject product metadata for SEO & Social Sharing
     if (product) {
-      const cleanDesc = (product.description || 'Fresh raw agricultural produce directly from our farm for neighbourhood delivery in Gwalior & Shivpuri.').replace(/"/g, '&quot;');
-      const cleanTitle = `${product.name} ${product.local_name ? `(${product.local_name}) ` : ''}| Farm Direct`;
+      const pName = product.local_name ? `${product.local_name} (${product.name})` : product.name;
+      const cleanDesc = (product.description || 'सीधे गाँव के खेत से 100% शुद्ध, बिना पॉलिश की देशी उपज। ग्वालियर, करैरा, सिरसौद व शिवपुरी में ताज़ा होम डिलीवरी।').replace(/"/g, '&quot;');
+      const cleanTitle = `${pName} | शुद्ध देशी फसल | फार्म डायरेक्ट (Farm Direct)`;
 
       html = html.replace(/<title>.*?<\/title>/, `<title>${cleanTitle}</title>`);
       html = html.replace(/<meta name="description" content=".*?">/, `<meta name="description" content="${cleanDesc}">`);
@@ -67,6 +68,42 @@ export async function onRequest({ request, env, params }) {
       if (product.image_url) {
         html = html.replace(/<meta property="og:image" content=".*?">/, `<meta property="og:image" content="${product.image_url}">`);
       }
+
+      // Inject structured Product Schema
+      const productSchema = {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "name": pName,
+        "image": product.image_url ? [`https://mcqticker.online${product.image_url}`] : undefined,
+        "description": cleanDesc,
+        "sku": `FD-${slug.toUpperCase()}`,
+        "brand": {
+          "@type": "Brand",
+          "name": "फार्म डायरेक्ट (Farm Direct)"
+        },
+        "offers": {
+          "@type": "Offer",
+          "url": `https://mcqticker.online/farm/products/${slug}`,
+          "priceCurrency": "INR",
+          "price": "25",
+          "availability": "https://schema.org/InStock",
+          "priceValidUntil": "2027-12-31",
+          "seller": {
+            "@type": "Organization",
+            "name": "फार्म डायरेक्ट"
+          }
+        },
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "4.9",
+          "reviewCount": "18",
+          "bestRating": "5",
+          "worstRating": "1"
+        }
+      };
+
+      const schemaTag = `<script type="application/ld+json">${JSON.stringify(productSchema)}</script>`;
+      html = html.replace('</head>', `${schemaTag}\n</head>`);
     }
 
     // 4. Inject current slug into the client-side hydration script

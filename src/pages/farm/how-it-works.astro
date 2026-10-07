@@ -5,77 +5,152 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
 ---
 
 <FarmLayout
-  title="How Pre-Order Farm Delivery Works | Farm Direct"
-  description="Learn about our consolidated agricultural transport model bringing raw seasonal produce directly from village farms to Gwalior, Karera, and Shivpuri."
+  title="खेत से घर तक कैसे पहुँचता है अनाज (How It Works) | Farm Direct"
+  description="जानिए कैसे सिरसौद और शिवपुरी के खेतों से ताज़ा, बिना पॉलिश अनाज व दालें सीधे ग्वालियर, करैरा और शिवपुरी में आपके घर तक पहुँचती हैं। बिचौलिया-मुक्त मॉडल।"
   canonicalPath="/farm/how-it-works"
 >
+  <!-- Schema.org FAQPage & HowTo Structured Data for Google Local Search -->
+  <script type="application/ld+json" is:inline set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "HowTo",
+        "name": "खेत से सीधे घर तक शुद्ध अनाज मँगवाने की प्रक्रिया (How Farm Direct Works)",
+        "description": "खेत से बिना पॉलिश का शुद्ध गेहूँ, चना, मूँगफली और दालें सीधे अपने घर मँगवाने के 4 आसान चरण।",
+        "step": [
+          {
+            "@type": "HowToStep",
+            "position": 1,
+            "name": "ऑनलाइन प्री-ऑर्डर करें (Pre-Order Online)",
+            "text": "सोमवार से शुक्रवार के बीच वेबसाइट पर अपनी आवश्यकतानुसार 1kg, 5kg, 10kg या 25kg की बोरी चुनें। कोई अग्रिम भुगतान नहीं।"
+          },
+          {
+            "@type": "HowToStep",
+            "position": 2,
+            "name": "खेत पर ताज़ा पैकिंग (Farm Packing)",
+            "text": "शनिवार को गाँव के खेत भंडार से अनाज की ताज़ा गहाई व सफ़ाई करके इको-फ्रेंडली बोरियों में तौलकर पैक किया जाता है।"
+          },
+          {
+            "@type": "HowToStep",
+            "position": 3,
+            "name": "तय वाहन रवानगी (Scheduled Dispatch)",
+            "text": "रविवार सुबह खेत का वाहन सिरसौद, करैरा, शिवपुरी, पवन नगर, चेतकपुरी, लश्कर व थाटीपुर के लिए तय रूट पर रवाना होता है।"
+          },
+          {
+            "@type": "HowToStep",
+            "position": 4,
+            "name": "परखें और भुगतान करें (Inspect & Pay on Delivery)",
+            "text": "अपने दरवाजे पर अनाज का दाना, शुद्धता और ताज़गी खुद परखें। संतुष्ट होने पर ही कैश या यूपीआई (UPI) स्कैन से भुगतान करें।"
+          }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "क्या बड़ी बोरी (10kg/25kg) लेने से पहले दाना व स्वाद परखने के लिए सैंपल मिल सकता है?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "हाँ! हम 100 ग्राम या 200 ग्राम के मुफ़्त टेस्टिंग पैकेट बिना किसी उत्पाद शुल्क के उपलब्ध कराते हैं। आप वेबसाइट पर मुफ़्त सैंपल फ़ॉर्म भरकर अपने इलाक़े के लिए बुक कर सकते हैं।"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "यदि मेरी कॉलोनी या गाँव लिस्टेड इलाक़ों में नहीं है, तो क्या डिलीवरी मिलेगी?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "जब भी किसी नई कॉलोनी या गाँव से 2-3 परिवार मिलकर ऑर्डर या सैंपल का अनुरोध करते हैं, हम वहाँ के लिए नया डिलीवरी रूट तय कर देते हैं। आप व्हाट्सएप (+91 8770767272) पर अपने क्षेत्र का नाम भेज सकते हैं।"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "दुकानों और सुपरमार्केट की तुलना में आपके भाव कम और उत्पाद ताज़ा कैसे हैं?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "सुपरमार्केट और ब्रांड्स में 4-5 बिचौलिये (दलाल, मंडी शुल्क, थोक व्यापारी, रिटेल मार्जिन) और रासायनिक पॉलिश का 40%-60% अतिरिक्त ख़र्च जुड़ता है। हम सीधे अपने गाँव के खेत से सीधे आपके घर तक माल लाते हैं, जिससे बिचौलियों का ख़र्च शून्य हो जाता है।"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "क्या डिलीवरी के समय भुगतान (Pay on Delivery) की सुविधा उपलब्ध है?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "हाँ, 100% पे ऑन डिलीवरी सुविधा उपलब्ध है। जब सामान आपके घर सुरक्षित पहुँच जाए, तब आप नक़द (Cash) या किसी भी यूपीआई ऐप (Google Pay, PhonePe, Paytm) से क्यूआर कोड स्कैन करके भुगतान कर सकते हैं।"
+            }
+          }
+        ]
+      }
+    ]
+  })}></script>
+
   <div class="fd-container py-8 sm:py-16">
     <div class="max-w-4xl mx-auto space-y-12">
       <!-- Title & Header -->
       <div class="text-center max-w-2xl mx-auto space-y-3">
-        <span class="inline-flex items-center gap-1.5 text-xs uppercase tracking-wider text-emerald-800 font-extrabold bg-emerald-50 border border-emerald-200 px-3.5 py-1 rounded-full">
+        <span class="inline-flex items-center gap-1.5 text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-300 font-extrabold bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 px-3.5 py-1 rounded-full">
           <span>🚜</span>
-          <span>Field-to-Home Supply Chain</span>
+          <span>खेत से सीधा रसोई तक • Field to Home</span>
         </span>
-        <h1 class="fd-display text-3xl sm:text-5xl font-extrabold text-[#122815] leading-tight">
-          How Farm Direct Works
+        <h1 class="fd-display text-3xl sm:text-5xl font-extrabold text-[#122815] dark:text-white leading-tight">
+          फार्म डायरेक्ट कैसे काम करता है?
         </h1>
-        <p class="text-xs sm:text-sm text-[#5b6e5d] leading-relaxed">
-          Why we operate on a planned pre-order and consolidated neighbourhood delivery model instead of instant warehouse delivery.
+        <p class="text-xs sm:text-sm text-[#5b6e5d] dark:text-gray-300 leading-relaxed">
+          हम गोदामों में महीनों पुराना रखा माल बेचने के बजाय पूर्व-ऑर्डर (Pre-Order) और तय मोहल्ला डिलीवरी मॉडल पर क्यों काम करते हैं? जानिए पूरी सच्चाई।
         </p>
       </div>
 
       <!-- Modern Comparison Card: Traditional Supermarket vs Farm Direct -->
-      <div class="bg-white rounded-3xl border border-[#e2ece0] p-6 sm:p-8 shadow-sm overflow-hidden space-y-6">
-        <h2 class="fd-display text-2xl font-extrabold text-[#122815] text-center">
-          The Two Different Ways to Buy Food Grains
+      <div class="bg-white dark:bg-[#152317] rounded-3xl border border-[#e2ece0] dark:border-[#223d26] p-6 sm:p-8 shadow-sm overflow-hidden space-y-6">
+        <h2 class="fd-display text-2xl font-extrabold text-[#122815] dark:text-white text-center">
+          अनाज ख़रीदने के दो तरीक़े: बाज़ार बनाम सीधा खेत
         </h2>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
           <!-- Traditional Way -->
-          <div class="p-6 rounded-2xl bg-[#faf5f5] border border-red-100 space-y-3">
-            <div class="flex items-center gap-2 text-red-700 font-extrabold text-sm">
-              <span class="w-6 h-6 rounded-full bg-red-100 flex items-center justify-center text-xs">✕</span>
-              <span>Traditional Supermarket & Quick Commerce</span>
+          <div class="p-6 rounded-2xl bg-[#faf5f5] dark:bg-rose-950/20 border border-red-100 dark:border-rose-900/40 space-y-3">
+            <div class="flex items-center gap-2 text-red-700 dark:text-rose-400 font-extrabold text-sm">
+              <span class="w-6 h-6 rounded-full bg-red-100 dark:bg-rose-900/50 flex items-center justify-center text-xs">✕</span>
+              <span>पारंपरिक सुपरमार्केट व क्विक कॉमर्स (Market)</span>
             </div>
-            <ul class="space-y-2.5 text-xs text-[#6e4444] leading-relaxed">
+            <ul class="space-y-2.5 text-xs text-[#6e4444] dark:text-rose-200 leading-relaxed">
               <li class="flex items-start gap-2">
                 <span class="text-red-400 font-bold">•</span>
-                <span><strong>Heavy chemical coatings:</strong> Polished with talc, oil, or preservatives to sit on store shelves for 6–12 months.</span>
+                <span><strong>हानिकारक रासायनिक पॉलिश:</strong> 6-12 महीने शेल्फ़ पर चमकाने हेतु टैल्क, मिनरल ऑयल व प्रिजर्वेटिव की कोटिंग।</span>
               </li>
               <li class="flex items-start gap-2">
                 <span class="text-red-400 font-bold">•</span>
-                <span><strong>4–5 Middlemen:</strong> Village commission agents, district mandis, wholesalers, and retail markups add 40%–60% costs.</span>
+                <span><strong>4–5 बिचौलिये:</strong> गाँव का दलाल, ज़िला मंडी, आढ़ती, होलसेलर और रिटेलर मार्जिन मिलाकर 40%–60% अतिरिक्त दाम।</span>
               </li>
               <li class="flex items-start gap-2">
                 <span class="text-red-400 font-bold">•</span>
-                <span><strong>No origin trace:</strong> Mixed batches from multiple undisclosed sources.</span>
+                <span><strong>फ़सल के स्रोत का कोई अता-पता नहीं:</strong> कई अलग-अलग मंडियों का मिला-जुला पुराना स्टॉक।</span>
               </li>
             </ul>
           </div>
 
           <!-- Farm Direct Way -->
-          <div class="p-6 rounded-2xl bg-[#f2f7f1] border border-emerald-200/80 space-y-3">
-            <div class="flex items-center gap-2 text-emerald-800 font-extrabold text-sm">
-              <span class="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center text-xs">✓</span>
-              <span>Farm Direct (Our Model)</span>
+          <div class="p-6 rounded-2xl bg-[#f2f7f1] dark:bg-emerald-950/20 border border-emerald-200/80 dark:border-emerald-800/60 space-y-3">
+            <div class="flex items-center gap-2 text-emerald-800 dark:text-emerald-300 font-extrabold text-sm">
+              <span class="w-6 h-6 rounded-full bg-emerald-100 dark:bg-emerald-900/60 flex items-center justify-center text-xs">✓</span>
+              <span>फार्म डायरेक्ट मॉडल (खेत से सीधे आपके घर)</span>
             </div>
-            <ul class="space-y-2.5 text-xs text-[#2e5232] leading-relaxed">
+            <ul class="space-y-2.5 text-xs text-[#2e5232] dark:text-emerald-200 leading-relaxed">
               <li class="flex items-start gap-2">
                 <span class="text-emerald-600 font-bold">•</span>
-                <span><strong>100% Raw & Sun-Dried:</strong> Harvested, threshed, winnowed, and sun-dried naturally. Zero synthetic polishing.</span>
+                <span><strong>100% प्राकृतिक व धूप में सूखा:</strong> ताज़ा गहाई, पछोरना और धूप में सुखाई गई बिना पॉलिश की शुद्ध फ़सल।</span>
               </li>
               <li class="flex items-start gap-2">
                 <span class="text-emerald-600 font-bold">•</span>
-                <span><strong>Zero Middlemen:</strong> Grains travel directly from village farm silos into our transport vehicle to your doorstep.</span>
+                <span><strong>शून्य बिचौलिया (Zero Middlemen):</strong> गाँव के खेत भंडार से सीधे हमारे वाहन द्वारा आपके दरवाज़े तक।</span>
               </li>
               <li class="flex items-start gap-2">
                 <span class="text-emerald-600 font-bold">•</span>
-                <span><strong>Inspect Before Payment:</strong> Smell the freshness and check grains with zero risk before paying via UPI/Cash.</span>
+                <span><strong>पहले परखें, फिर भुगतान करें:</strong> ताज़गी और दाना खुद देखें, संतुष्ट होने पर ही कैश या यूपीआई से भुगतान।</span>
               </li>
               <li class="flex items-start gap-2">
                 <span class="text-emerald-600 font-bold">•</span>
-                <span><strong>100% Traceable Farm:</strong> Cultivated on fertile village farmland serving Gwalior & Shivpuri Districts (<a href="https://share.google/WybqH9qjZj9aiYcoz" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 underline font-bold text-emerald-900 hover:text-black"><img src="/farm/images/google-maps-icon.svg" alt="Google Maps" class="w-3.5 h-3.5 object-contain inline-block shrink-0" />view farm on Google Maps ↗</a>).</span>
+                <span><strong>100% प्रामाणिक खेत:</strong> सिरसौद व नया अमोला (शिवपुरी/ग्वालियर बेल्ट) की उपजाऊ मिट्टी की फ़सल (<a href="https://share.google/WybqH9qjZj9aiYcoz" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 underline font-bold text-emerald-900 dark:text-emerald-300 hover:text-black"><img src="/farm/images/google-maps-icon.svg" alt="Google Maps" class="w-3.5 h-3.5 object-contain inline-block shrink-0" />गूगल मैप्स पर खेत देखें ↗</a>)।</span>
               </li>
             </ul>
           </div>
@@ -85,98 +160,98 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
       <!-- 4-Step Interactive Timeline -->
       <div class="space-y-6">
         <div class="text-center max-w-xl mx-auto">
-          <h3 class="fd-display text-2xl font-extrabold text-[#122815]">
-            Our 4-Step Sunday Delivery Cycle
+          <h3 class="fd-display text-2xl font-extrabold text-[#122815] dark:text-white">
+            हमारा 4-चरणीय डिलीवरी चक्र (Delivery Cycle)
           </h3>
-          <p class="text-xs text-[#5b6e5d] mt-1">
-            Weekly rhythm ensuring peak freshness across Gwalior, Karera, and Shivpuri
+          <p class="text-xs text-[#5b6e5d] dark:text-gray-300 mt-1">
+            ग्वालियर, करैरा और शिवपुरी में ताज़गी बनाए रखने के लिए साप्ताहिक शेड्यूल्ड रूट
           </p>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <!-- Step 1 -->
-          <div class="bg-white p-6 rounded-3xl border border-[#e2ece0] shadow-sm flex flex-col justify-between space-y-4">
+          <div class="bg-white dark:bg-[#152317] p-6 rounded-3xl border border-[#e2ece0] dark:border-[#223d26] shadow-sm flex flex-col justify-between space-y-4">
             <div>
-              <div class="w-12 h-12 rounded-2xl bg-[#edf4ec] text-[#1b4522] font-black text-lg flex items-center justify-center mb-3">
+              <div class="w-12 h-12 rounded-2xl bg-[#edf4ec] dark:bg-[#1b2f1e] text-[#1b4522] dark:text-emerald-400 font-black text-lg flex items-center justify-center mb-3">
                 01
               </div>
-              <h4 class="fd-display font-extrabold text-base text-[#122815]">Pre-Order Online</h4>
-              <p class="text-xs text-[#526454] mt-2 leading-relaxed">
-                Place your order Monday through Friday. Pick your bag sizes (1kg, 5kg, 10kg, 25kg) with live authoritative prices. No payment upfront.
+              <h4 class="fd-display font-extrabold text-base text-[#122815] dark:text-white">ऑनलाइन प्री-ऑर्डर करें</h4>
+              <p class="text-xs text-[#526454] dark:text-gray-300 mt-2 leading-relaxed">
+                सोमवार से शुक्रवार के बीच अपनी आवश्यकता चुनें (1kg, 5kg, 10kg, 25kg)। कोई अग्रिम शुल्क नहीं।
               </p>
             </div>
-            <span class="text-[10px] font-black uppercase text-emerald-800 tracking-wider">Mon – Fri Window</span>
+            <span class="text-[10px] font-black uppercase text-emerald-800 dark:text-emerald-400 tracking-wider">सोम – शुक्र बुकिंग</span>
           </div>
 
           <!-- Step 2 -->
-          <div class="bg-white p-6 rounded-3xl border border-[#e2ece0] shadow-sm flex flex-col justify-between space-y-4">
+          <div class="bg-white dark:bg-[#152317] p-6 rounded-3xl border border-[#e2ece0] dark:border-[#223d26] shadow-sm flex flex-col justify-between space-y-4">
             <div>
-              <div class="w-12 h-12 rounded-2xl bg-[#edf4ec] text-[#1b4522] font-black text-lg flex items-center justify-center mb-3">
+              <div class="w-12 h-12 rounded-2xl bg-[#edf4ec] dark:bg-[#1b2f1e] text-[#1b4522] dark:text-emerald-400 font-black text-lg flex items-center justify-center mb-3">
                 02
               </div>
-              <h4 class="fd-display font-extrabold text-base text-[#122815]">Farm Packing</h4>
-              <p class="text-xs text-[#526454] mt-2 leading-relaxed">
-                On Saturday, our farm team measures and bags grains into eco-friendly bags directly from our village storage bins near Gwalior.
+              <h4 class="fd-display font-extrabold text-base text-[#122815] dark:text-white">खेत पर ताज़ा पैकिंग</h4>
+              <p class="text-xs text-[#526454] dark:text-gray-300 mt-2 leading-relaxed">
+                शनिवार को गाँव के भंडार से दाना छानकर, पछोरकर साफ़ बोरियों में आपके ऑर्डर अनुसार तौला जाता है।
               </p>
             </div>
-            <span class="text-[10px] font-black uppercase text-emerald-800 tracking-wider">Saturday Preparation</span>
+            <span class="text-[10px] font-black uppercase text-emerald-800 dark:text-emerald-400 tracking-wider">शनिवार तैयारी</span>
           </div>
 
           <!-- Step 3 -->
-          <div class="bg-white p-6 rounded-3xl border border-[#e2ece0] shadow-sm flex flex-col justify-between space-y-4">
+          <div class="bg-white dark:bg-[#152317] p-6 rounded-3xl border border-[#e2ece0] dark:border-[#223d26] shadow-sm flex flex-col justify-between space-y-4">
             <div>
-              <div class="w-12 h-12 rounded-2xl bg-[#edf4ec] text-[#1b4522] font-black text-lg flex items-center justify-center mb-3">
+              <div class="w-12 h-12 rounded-2xl bg-[#edf4ec] dark:bg-[#1b2f1e] text-[#1b4522] dark:text-emerald-400 font-black text-lg flex items-center justify-center mb-3">
                 03
               </div>
-              <h4 class="fd-display font-extrabold text-base text-[#122815]">Scheduled Farm Dispatch</h4>
-              <p class="text-xs text-[#526454] mt-2 leading-relaxed">
-                Our farm utility vehicle leaves the village and arrives in Sirsod, Karera, Shivpuri, Pawan Nagar & Chetakpuri for planned doorstep drops.
+              <h4 class="fd-display font-extrabold text-base text-[#122815] dark:text-white">सीधी वाहन रवानगी</h4>
+              <p class="text-xs text-[#526454] dark:text-gray-300 mt-2 leading-relaxed">
+                रविवार सुबह खेत का वाहन सिरसौद, करैरा, शिवपुरी, पवन नगर व चेतकपुरी आदि कॉलोनियों में प्रस्थान करता है।
               </p>
             </div>
-            <span class="text-[10px] font-black uppercase text-emerald-800 tracking-wider">Sunday Morning</span>
+            <span class="text-[10px] font-black uppercase text-emerald-800 dark:text-emerald-400 tracking-wider">रविवार सुबह रूट</span>
           </div>
 
           <!-- Step 4 -->
-          <div class="bg-white p-6 rounded-3xl border border-[#e2ece0] shadow-sm flex flex-col justify-between space-y-4">
+          <div class="bg-white dark:bg-[#152317] p-6 rounded-3xl border border-[#e2ece0] dark:border-[#223d26] shadow-sm flex flex-col justify-between space-y-4">
             <div>
-              <div class="w-12 h-12 rounded-2xl bg-[#edf4ec] text-[#1b4522] font-black text-lg flex items-center justify-center mb-3">
+              <div class="w-12 h-12 rounded-2xl bg-[#edf4ec] dark:bg-[#1b2f1e] text-[#1b4522] dark:text-emerald-400 font-black text-lg flex items-center justify-center mb-3">
                 04
               </div>
-              <h4 class="fd-display font-extrabold text-base text-[#122815]">Inspect & Pay</h4>
-              <p class="text-xs text-[#526454] mt-2 leading-relaxed">
-                Check the grains, feel the quality, and pay our delivery driver via UPI QR code or cash at your door.
+              <h4 class="fd-display font-extrabold text-base text-[#122815] dark:text-white">परखें और भुगतान करें</h4>
+              <p class="text-xs text-[#526454] dark:text-gray-300 mt-2 leading-relaxed">
+                दाने की शुद्धता, प्राकृतिक महक और वज़न खुद जाँचें। संतुष्ट होने पर ही कैश या यूपीआई क्यूआर से भुगतान करें।
               </p>
             </div>
-            <span class="text-[10px] font-black uppercase text-emerald-800 tracking-wider">Zero Upfront Risk</span>
+            <span class="text-[10px] font-black uppercase text-emerald-800 dark:text-emerald-400 tracking-wider">शून्य जोखिम (Zero Risk)</span>
           </div>
         </div>
       </div>
 
       <!-- FAQ Section -->
-      <div class="bg-white rounded-3xl border border-[#e2ece0] p-6 sm:p-10 shadow-sm space-y-6">
-        <h3 class="fd-display text-2xl font-extrabold text-[#122815] text-center">
-          Frequently Asked Questions
+      <div class="bg-white dark:bg-[#152317] rounded-3xl border border-[#e2ece0] dark:border-[#223d26] p-6 sm:p-10 shadow-sm space-y-6">
+        <h3 class="fd-display text-2xl font-extrabold text-[#122815] dark:text-white text-center">
+          अक्सर पूछे जाने वाले सवाल (FAQ)
         </h3>
 
         <div class="space-y-4 max-w-2xl mx-auto text-xs sm:text-sm">
-          <div class="p-4 rounded-2xl bg-[#f8faf7] border border-[#e8f0e6] space-y-1">
-            <strong class="font-extrabold text-[#152317] block">Can I test quality before ordering 10kg or 25kg bags?</strong>
-            <p class="text-[#526454] leading-relaxed">
-              Yes! We provide free 100g or 200g tasting pouches with zero product charges. Simply submit a sample request for your neighbourhood round.
+          <div class="p-4 rounded-2xl bg-[#f8faf7] dark:bg-[#1a2d1d] border border-[#e8f0e6] dark:border-[#2d4d32] space-y-1">
+            <strong class="font-extrabold text-[#152317] dark:text-white block">क्या बड़ी बोरी (10kg/25kg) लेने से पहले दाना व स्वाद परखने हेतु सैंपल मिल सकता है?</strong>
+            <p class="text-[#526454] dark:text-gray-300 leading-relaxed">
+              हाँ! हम 100 ग्राम या 200 ग्राम के मुफ़्त टेस्टिंग पैकेट बिना किसी उत्पाद शुल्क के उपलब्ध कराते हैं। आप हमारी वेबसाइट पर मुफ़्त सैंपल फ़ॉर्म भरकर अपने इलाक़े के लिए बुक कर सकते हैं।
             </p>
           </div>
 
-          <div class="p-4 rounded-2xl bg-[#f8faf7] border border-[#e8f0e6] space-y-1">
-            <strong class="font-extrabold text-[#152317] block">What if I live outside currently listed clusters?</strong>
-            <p class="text-[#526454] leading-relaxed">
-              We add new delivery clusters whenever households in a colony or village request grouped delivery. Message us on WhatsApp to set up a route.
+          <div class="p-4 rounded-2xl bg-[#f8faf7] dark:bg-[#1a2d1d] border border-[#e8f0e6] dark:border-[#2d4d32] space-y-1">
+            <strong class="font-extrabold text-[#152317] dark:text-white block">यदि मेरी कॉलोनी या गाँव लिस्टेड इलाक़ों में नहीं है, तो क्या डिलीवरी मिलेगी?</strong>
+            <p class="text-[#526454] dark:text-gray-300 leading-relaxed">
+              जब भी किसी नई कॉलोनी या गाँव से 2-3 परिवार मिलकर ऑर्डर या सैंपल का अनुरोध करते हैं, हम वहाँ के लिए नियमित डिलीवरी राउंड तय कर देते हैं। आप व्हाट्सएप (+91 8770767272) पर अपने क्षेत्र का नाम भेज सकते हैं।
             </p>
           </div>
 
-          <div class="p-4 rounded-2xl bg-[#f8faf7] border border-[#e8f0e6] space-y-1">
-            <strong class="font-extrabold text-[#152317] block">How is pricing so affordable compared to retail stores?</strong>
-            <p class="text-[#526454] leading-relaxed">
-              Retail stores pay warehouse holding rents, distributor commissions, packaging design royalties, and retail shelf fees. We eliminate all of that by transporting directly from the village harvest.
+          <div class="p-4 rounded-2xl bg-[#f8faf7] dark:bg-[#1a2d1d] border border-[#e8f0e6] dark:border-[#2d4d32] space-y-1">
+            <strong class="font-extrabold text-[#152317] dark:text-white block">दुकानों और सुपरमार्केट की तुलना में आपके भाव इतने किफ़ायती कैसे हैं?</strong>
+            <p class="text-[#526454] dark:text-gray-300 leading-relaxed">
+              सुपरमार्केट और ब्रांड्स में 4-5 बिचौलियों (दलाल, मंडी शुल्क, थोक व्यापारी, रिटेल मार्जिन) और रासायनिक पॉलिश का 40%-60% अतिरिक्त ख़र्च जुड़ता है। हम सीधे अपने गाँव के खेत से माल लाते हैं, जिससे बिचौलियों का ख़र्च शून्य हो जाता है।
             </p>
           </div>
         </div>
@@ -185,17 +260,17 @@ import FarmLayout from '../../layouts/FarmLayout.astro';
       <!-- Action Footer -->
       <div class="bg-gradient-to-r from-[#122815] to-[#1e4624] text-white p-8 sm:p-12 rounded-3xl shadow-xl border border-emerald-900/50 text-center space-y-4">
         <h3 class="fd-display text-2xl sm:text-3xl font-extrabold text-white">
-          Taste Real Farm Produce This Sunday
+          इस रविवार चखें असली खेत का शुद्ध अनाज
         </h3>
         <p class="text-xs sm:text-sm text-emerald-100/80 max-w-md mx-auto leading-relaxed">
-          Order for this week's scheduled dispatch in your cluster, or request a free 100g tasting sample.
+          ग्वालियर व शिवपुरी में इस सप्ताह के शेड्यूल्ड डिस्पैच के लिए अभी प्री-ऑर्डर करें या मुफ़्त 100g सैंपल मँगवाएँ।
         </p>
         <div class="flex flex-wrap justify-center gap-3 pt-3">
           <a href="/farm/products" class="fd-btn bg-white hover:bg-emerald-50 text-[#122815] font-extrabold text-xs px-6 py-3 rounded-xl shadow-md">
-            View This Week's Harvest &rarr;
+            इस हफ़्ते की फ़सलें देखें (Catalogue) &rarr;
           </a>
           <a href="/farm/samples" class="fd-btn bg-[#c48a3f] hover:bg-[#b07830] text-white font-extrabold text-xs px-6 py-3 rounded-xl shadow-md">
-            Request Free Sample (100g/200g)
+            मुफ़्त सैंपल मँगवाएँ (100g/200g)
           </a>
         </div>
       </div>
