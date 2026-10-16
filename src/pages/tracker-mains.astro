@@ -114,12 +114,30 @@ export const prerender = true;
         </div>
 
         <!-- Quick Status & Controls -->
-        <div class="flex items-center space-x-2 sm:space-x-4">
+        <div class="flex items-center space-x-2 sm:space-x-3">
           <!-- Cloudflare D1 Sync Indicator Badge -->
-          <button id="syncStatusBtn" class="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-slate-800 hover:bg-slate-700 border border-slate-700 transition" title="Click to view Cloudflare database connection details">
+          <button id="syncStatusBtn" class="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-slate-800 hover:bg-slate-700 border border-slate-700 transition" title="Click to view Cloudflare database connection & sync details">
             <span id="syncDot" class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
-            <span id="syncStatusText" class="text-slate-300">Checking Cloudflare DB...</span>
+            <span id="syncStatusText" class="text-slate-300">Checking DB...</span>
           </button>
+
+          <!-- User Account State / Sign In button (Uses To-Do Credentials) -->
+          <div id="authHeaderContainer" class="flex items-center">
+            <div id="headerUserBox" class="hidden items-center gap-1.5">
+              <div class="hidden md:flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-indigo-950/70 border border-indigo-500/40 text-indigo-200" title="Signed in with To-Do credentials">
+                <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                <span id="headerUserEmail" class="max-w-[130px] truncate font-medium">user@example.com</span>
+              </div>
+              <button id="logoutBtn" class="px-2.5 py-1 text-xs font-semibold rounded-lg bg-slate-800 hover:bg-rose-900/50 text-slate-300 hover:text-rose-200 border border-slate-700 transition" title="Sign Out">
+                Logout
+              </button>
+            </div>
+            <button id="openAuthModalBtn" class="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-bold bg-amber-500 hover:bg-amber-400 text-slate-950 transition shadow-sm">
+              <span>🔑</span>
+              <span class="hidden sm:inline">Sign In</span>
+              <span class="sm:hidden">Login</span>
+            </button>
+          </div>
 
           <!-- Study Timer Widget Button -->
           <button id="toggleTimerBtn" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 hover:bg-slate-700 text-indigo-300 border border-indigo-500/30 transition shadow-sm">
@@ -514,21 +532,21 @@ e.g.
     </div>
   </div>
 
-  <!-- Modal 3: Settings & Cloudflare D1 Database Configuration -->
+  <!-- Modal 3: Settings & Cloudflare D1 Account Configuration -->
   <div id="settingsModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm hidden">
     <div class="bg-white rounded-3xl max-w-xl w-full max-h-[90vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden">
       
       <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between">
         <div class="flex items-center gap-2">
           <span>⚙️</span>
-          <h3 class="text-base font-bold text-white">Cloudflare Database & Sync Settings</h3>
+          <h3 class="text-base font-bold text-white">Cloudflare Database & Account Sync</h3>
         </div>
         <button id="closeSettingsModalBtn" class="text-slate-400 hover:text-white p-1 rounded-lg">✕</button>
       </div>
 
       <div class="p-6 overflow-y-auto space-y-5 custom-scrollbar flex-1 text-xs sm:text-sm">
         
-        <!-- Live Connection Status -->
+        <!-- Live Connection & Sync Status -->
         <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
           <div class="flex items-center justify-between">
             <span class="font-bold text-slate-700">Cloudflare D1 Status:</span>
@@ -537,89 +555,57 @@ e.g.
             </span>
           </div>
           <p id="settingsStatusDesc" class="text-xs text-slate-500">
-            Automatically synchronizing with Cloudflare D1 edge database and local offline cache.
+            Real-time cloud-first sync active. Target changes automatically sync every 10 seconds across all your connected devices.
           </p>
         </div>
 
-        <!-- Sync Key / Device Pairing Identifier -->
-        <div class="space-y-3">
+        <!-- Account Profile Details -->
+        <div class="p-4 rounded-2xl border border-indigo-100 bg-indigo-50/40 space-y-3">
           <div class="flex items-center justify-between">
-            <label for="syncUserIdInput" class="block font-bold text-slate-700">
-              Your Active Sync Key:
-            </label>
-            <span class="text-[11px] text-emerald-600 font-semibold bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
-              Live Cloudflare Sync
+            <h4 class="font-bold text-slate-800 flex items-center gap-1.5">
+              <span>👤</span> Study Cloud Account
+            </h4>
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-700">
+              Shared To-Do Credentials
             </span>
           </div>
 
-          <div class="flex items-center space-x-2">
-            <input type="text" id="syncUserIdInput" readonly class="flex-1 font-mono text-xs p-2.5 bg-slate-100 border border-slate-300 rounded-xl font-bold text-indigo-700 select-all">
-            <button id="copySyncKeyBtn" class="px-3 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-xl text-xs font-semibold transition" title="Copy key only">
-              📋 Copy Key
-            </button>
-            <button id="copySyncLinkBtn" class="px-3 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-bold transition flex items-center gap-1" title="Copy direct sync link for WhatsApp / Telegram / Browser">
-              <span>🔗</span> Copy Link
-            </button>
-          </div>
-
-          <!-- Instant QR Code Toggle for Mobile -->
-          <div class="flex items-center justify-between pt-1">
-            <button id="toggleQrBtn" class="text-xs text-indigo-600 hover:text-indigo-800 font-bold flex items-center gap-1.5 underline">
-              <span>📱</span> <span id="toggleQrLabel">Show Mobile QR Code (Instant Scan)</span>
-            </button>
-            <span class="text-[10px] text-slate-400">Scan with phone camera</span>
-          </div>
-
-          <!-- Hidden QR Code Preview Container -->
-          <div id="qrCodeContainer" class="hidden p-4 rounded-2xl bg-indigo-50/50 border border-indigo-100 flex flex-col items-center justify-center space-y-2">
-            <img id="qrCodeImg" alt="Scan QR Code to Sync" class="w-40 h-40 bg-white p-2 rounded-xl border border-slate-200 shadow-sm" src="">
-            <p class="text-[11px] text-slate-600 text-center max-w-xs font-medium">
-              Point your phone camera at this QR code to instantly open and sync this tracker on your mobile.
-            </p>
-          </div>
-
-          <!-- Option A: Pair with Existing Device -->
-          <div class="pt-3 border-t border-slate-200 space-y-1.5">
-            <label for="pairKeyInput" class="block font-semibold text-slate-700">
-              Connect to Another Device's Sync Key:
-            </label>
-            <div class="flex items-center space-x-2">
-              <input type="text" id="pairKeyInput" placeholder="Enter key from other phone or PC..." class="flex-1 font-mono text-xs p-2.5 bg-white border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-              <button id="applyPairKeyBtn" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold transition shadow-sm">
-                Pair & Load
+          <!-- Logged In View -->
+          <div id="settingsUserSection" class="hidden space-y-2.5">
+            <div class="flex items-center justify-between bg-white p-3 rounded-xl border border-slate-200">
+              <div>
+                <p class="text-[11px] text-slate-400 font-semibold uppercase">Signed in as:</p>
+                <p id="settingsUserEmail" class="font-bold text-slate-800 text-sm">user@example.com</p>
+              </div>
+              <button id="settingsLogoutBtn" class="px-3 py-1.5 text-xs font-semibold text-rose-600 hover:bg-rose-50 border border-rose-200 rounded-lg transition">
+                Sign Out
               </button>
             </div>
             <p class="text-[11px] text-slate-500">
-              Enter the Sync Key from your other device to link them. Both devices will share the exact same Cloudflare D1 database record in real-time.
+              ✨ Any changes made on this device automatically sync to your phone or other browsers within 10 seconds.
             </p>
           </div>
 
-          <!-- Option B: Custom Memorable Name -->
-          <div class="pt-2 border-t border-slate-200 space-y-1.5">
-            <label for="customKeyInput" class="block font-semibold text-slate-700">
-              Or Choose a Custom Easy Name:
-            </label>
-            <div class="flex items-center space-x-2">
-              <input type="text" id="customKeyInput" placeholder="e.g. rahul-cgl26 or ssc-targets" class="flex-1 font-mono text-xs p-2 bg-white border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-              <button id="applyCustomKeyBtn" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-semibold transition">
-                Set Name
-              </button>
-            </div>
-            <p class="text-[11px] text-slate-400">
-              Set an easy name you can easily remember and type across all your devices.
+          <!-- Logged Out View -->
+          <div id="settingsLoginPrompt" class="space-y-2">
+            <p class="text-xs text-slate-600">
+              You are currently not signed in. Log in with your To-Do account to enable instant cross-device synchronization.
             </p>
+            <button id="settingsLoginBtn" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-bold transition shadow-sm">
+              🔑 Sign In with To-Do Account
+            </button>
           </div>
         </div>
 
-        <div class="flex items-center space-x-2 pt-2 border-t border-slate-200">
-          <button id="manualSyncBtn" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5">
-            <span>🔄</span> Sync Now
+        <!-- Realtime Controls -->
+        <div class="flex items-center space-x-2 pt-1 border-t border-slate-200">
+          <button id="manualSyncBtn" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-sm">
+            <span>🔄</span> Force Sync Now
           </button>
-          <button id="resetSyncIdBtn" class="px-3 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-xl text-xs font-medium transition">
-            Generate Random Key
-          </button>
+          <span class="text-xs text-slate-400">Auto-sync runs continuously every 10s</span>
         </div>
 
+        <!-- Backup & Restore -->
         <div class="border-t border-slate-200 pt-4 space-y-3">
           <h4 class="font-bold text-slate-700">Backup & Restore:</h4>
           <div class="flex flex-wrap items-center gap-2">
@@ -641,6 +627,80 @@ e.g.
         </button>
       </div>
 
+    </div>
+  </div>
+
+  <!-- Modal 6: Study Cloud Account Login & Register (Shared with To-Do) -->
+  <div id="authModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm hidden">
+    <div class="bg-white rounded-3xl max-w-md w-full shadow-2xl border border-slate-200 overflow-hidden flex flex-col">
+      <!-- Header -->
+      <div class="px-6 py-5 bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl bg-indigo-600 flex items-center justify-center text-lg">
+            🔐
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-white">Study Cloud Account</h3>
+            <p class="text-xs text-indigo-200">Shared with your To-Do credentials</p>
+          </div>
+        </div>
+        <button id="closeAuthModalBtn" class="text-slate-400 hover:text-white p-1 rounded-lg">✕</button>
+      </div>
+
+      <!-- Tabs: Sign In / Create Account -->
+      <div class="flex border-b border-slate-200 bg-slate-50">
+        <button id="authTabLogin" class="flex-1 py-3 text-xs sm:text-sm font-bold text-indigo-600 border-b-2 border-indigo-600 bg-white transition">
+          Sign In
+        </button>
+        <button id="authTabRegister" class="flex-1 py-3 text-xs sm:text-sm font-bold text-slate-500 border-b-2 border-transparent hover:text-slate-800 transition">
+          Create Account
+        </button>
+      </div>
+
+      <!-- Form Body -->
+      <form id="authForm" class="p-6 space-y-4">
+        <div id="authErrorBanner" class="hidden p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-semibold leading-relaxed"></div>
+
+        <div class="space-y-1.5">
+          <label for="authEmailInput" class="block font-bold text-xs text-slate-700">Email Address</label>
+          <input type="email" id="authEmailInput" placeholder="name@example.com" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none text-xs sm:text-sm" required autocomplete="email">
+        </div>
+
+        <div class="space-y-1.5">
+          <label for="authPasswordInput" class="block font-bold text-xs text-slate-700">Password</label>
+          <input type="password" id="authPasswordInput" placeholder="••••••••" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none text-xs sm:text-sm" required autocomplete="current-password">
+          <p id="authPasswordHelp" class="text-[11px] text-slate-400 hidden">Must be at least 6 characters</p>
+        </div>
+
+        <div class="p-3 rounded-2xl bg-indigo-50/70 border border-indigo-100 text-[11px] text-indigo-900 leading-relaxed">
+          💡 <strong>Cross-Device Sync:</strong> Uses the exact same credentials as your <em>To-Do List</em>. Sign in once to keep your daily targets and scores automatically synced across mobile and PC in real time.
+        </div>
+
+        <button type="submit" id="authSubmitBtn" class="w-full py-3 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs sm:text-sm font-bold transition shadow-md shadow-indigo-600/30 flex items-center justify-center gap-2">
+          <span id="authSubmitSpinner" class="hidden w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+          <span id="authSubmitText">Sign In</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Internet-Only Offline Barrier Overlay -->
+  <div id="offlineOverlay" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md hidden">
+    <div class="bg-white rounded-3xl max-w-md w-full shadow-2xl border border-rose-200 overflow-hidden text-center p-6 space-y-4">
+      <div class="w-16 h-16 mx-auto rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center text-3xl shadow-inner border border-rose-200">
+        📡
+      </div>
+      <h3 class="text-lg font-bold text-slate-900">Active Internet Required</h3>
+      <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+        SSC CGL Target Tracker operates <strong class="text-indigo-600 font-semibold">cloud-first</strong> with real-time multi-device synchronization. An active internet connection is required to track and save targets.
+      </p>
+      <div class="p-3 bg-amber-50 rounded-2xl border border-amber-200 text-xs text-amber-800 flex items-center justify-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-amber-500 animate-ping"></span>
+        <span>Waiting for internet reconnection...</span>
+      </div>
+      <button id="retryConnectionBtn" class="w-full py-2.5 px-4 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-bold transition shadow-md">
+        Retry Connection Now
+      </button>
     </div>
   </div>
 
@@ -695,7 +755,6 @@ e.g.
   <script is:inline>
     // Storage & Sync Configuration
     const STORAGE_KEY = 'ssc_cgl_tracker_data_v1';
-    const SYNC_KEY_STORAGE = 'ssc_tracker_user_sync_id';
     const API_ENDPOINT = '/api/tracker-mains';
 
     // Default Seed Data: Day 2 from User Request
@@ -807,7 +866,8 @@ e.g.
       currentDay: 2,
       activeFilter: 'all',
       streak: 2,
-      userId: null,
+      currentUser: null,
+      authMode: 'login', // 'login' | 'register'
       dbStatus: 'connecting', // 'connected', 'local', 'syncing', 'error'
       timer: {
         totalSeconds: 1800,
@@ -819,9 +879,15 @@ e.g.
 
     // DOM Elements Mapping
     const elements = {
+      // Header Auth & Status
       syncStatusBtn: document.getElementById('syncStatusBtn'),
       syncDot: document.getElementById('syncDot'),
       syncStatusText: document.getElementById('syncStatusText'),
+      authHeaderContainer: document.getElementById('authHeaderContainer'),
+      headerUserBox: document.getElementById('headerUserBox'),
+      headerUserEmail: document.getElementById('headerUserEmail'),
+      logoutBtn: document.getElementById('logoutBtn'),
+      openAuthModalBtn: document.getElementById('openAuthModalBtn'),
       toggleTimerBtn: document.getElementById('toggleTimerBtn'),
       timerDisplay: document.getElementById('timerDisplay'),
       studyTimerBar: document.getElementById('studyTimerBar'),
@@ -882,29 +948,40 @@ e.g.
       taskSubtasksInput: document.getElementById('taskSubtasksInput'),
       taskLinkUrlInput: document.getElementById('taskLinkUrlInput'),
 
-      // Settings Modal (Cloudflare D1)
+      // Settings Modal (Cloudflare D1 & Auth)
       settingsModal: document.getElementById('settingsModal'),
       openSettingsModalBtn: document.getElementById('openSettingsModalBtn'),
       closeSettingsModalBtn: document.getElementById('closeSettingsModalBtn'),
       closeSettingsModalFooterBtn: document.getElementById('closeSettingsModalFooterBtn'),
       settingsStatusPill: document.getElementById('settingsStatusPill'),
       settingsStatusDesc: document.getElementById('settingsStatusDesc'),
-      syncUserIdInput: document.getElementById('syncUserIdInput'),
-      copySyncKeyBtn: document.getElementById('copySyncKeyBtn'),
-      copySyncLinkBtn: document.getElementById('copySyncLinkBtn'),
-      toggleQrBtn: document.getElementById('toggleQrBtn'),
-      toggleQrLabel: document.getElementById('toggleQrLabel'),
-      qrCodeContainer: document.getElementById('qrCodeContainer'),
-      qrCodeImg: document.getElementById('qrCodeImg'),
-      pairKeyInput: document.getElementById('pairKeyInput'),
-      applyPairKeyBtn: document.getElementById('applyPairKeyBtn'),
-      customKeyInput: document.getElementById('customKeyInput'),
-      applyCustomKeyBtn: document.getElementById('applyCustomKeyBtn'),
+      settingsUserSection: document.getElementById('settingsUserSection'),
+      settingsUserEmail: document.getElementById('settingsUserEmail'),
+      settingsLogoutBtn: document.getElementById('settingsLogoutBtn'),
+      settingsLoginPrompt: document.getElementById('settingsLoginPrompt'),
+      settingsLoginBtn: document.getElementById('settingsLoginBtn'),
       manualSyncBtn: document.getElementById('manualSyncBtn'),
-      resetSyncIdBtn: document.getElementById('resetSyncIdBtn'),
       exportDataBtn: document.getElementById('exportDataBtn'),
       importDataBtn: document.getElementById('importDataBtn'),
       importFileInput: document.getElementById('importFileInput'),
+
+      // Study Cloud Account Modal
+      authModal: document.getElementById('authModal'),
+      closeAuthModalBtn: document.getElementById('closeAuthModalBtn'),
+      authTabLogin: document.getElementById('authTabLogin'),
+      authTabRegister: document.getElementById('authTabRegister'),
+      authForm: document.getElementById('authForm'),
+      authErrorBanner: document.getElementById('authErrorBanner'),
+      authEmailInput: document.getElementById('authEmailInput'),
+      authPasswordInput: document.getElementById('authPasswordInput'),
+      authPasswordHelp: document.getElementById('authPasswordHelp'),
+      authSubmitBtn: document.getElementById('authSubmitBtn'),
+      authSubmitSpinner: document.getElementById('authSubmitSpinner'),
+      authSubmitText: document.getElementById('authSubmitText'),
+
+      // Offline Barrier Overlay
+      offlineOverlay: document.getElementById('offlineOverlay'),
+      retryConnectionBtn: document.getElementById('retryConnectionBtn'),
 
       // Score Modal
       scoreModal: document.getElementById('scoreModal'),
@@ -1146,76 +1223,274 @@ e.g.
       }
     }
 
-    // Cloudflare D1 Database Sync Engine
-    function initUserSyncKey() {
-      // 1. Check if URL has ?sync=... parameter (e.g. from sharing or QR code)
-      try {
-        const urlParams = new URLSearchParams(window.location.search);
-        const urlSyncKey = urlParams.get('sync');
-        if (urlSyncKey && urlSyncKey.trim().length > 0) {
-          const cleanParamKey = urlSyncKey.trim();
-          localStorage.setItem(SYNC_KEY_STORAGE, cleanParamKey);
-          state.userId = cleanParamKey;
-          // Clean URL without reloading page
-          const cleanUrl = window.location.origin + window.location.pathname;
-          window.history.replaceState({}, document.title, cleanUrl);
-          if (elements.syncUserIdInput) elements.syncUserIdInput.value = cleanParamKey;
-          return;
-        }
-      } catch (e) {}
+    // Auth Token & API Helpers (Shared with To-Do)
+    const AUTH_TOKEN_KEY = 'todo_auth_token';
 
-      // 2. Check localStorage
-      let key = localStorage.getItem(SYNC_KEY_STORAGE);
-      if (!key) {
-        // Generate a friendly, clean short key: CGL-XXXX
-        const randChars = Math.random().toString(36).substring(2, 6).toUpperCase();
-        key = `CGL-${randChars}`;
-        localStorage.setItem(SYNC_KEY_STORAGE, key);
-      }
-      state.userId = key;
-      if (elements.syncUserIdInput) {
-        elements.syncUserIdInput.value = key;
+    function getAuthToken() {
+      try {
+        return localStorage.getItem(AUTH_TOKEN_KEY);
+      } catch {
+        return null;
       }
     }
 
+    async function apiFetch(url, options = {}) {
+      const token = getAuthToken();
+      const headers = new Headers(options.headers || {});
+      if (token && !headers.has('Authorization')) {
+        headers.set('Authorization', `Bearer ${token}`);
+      }
+      return fetch(url, {
+        ...options,
+        headers,
+        credentials: 'include'
+      });
+    }
+
+    function checkNetworkStatus() {
+      if (!navigator.onLine) {
+        if (elements.offlineOverlay) elements.offlineOverlay.classList.remove('hidden');
+      } else {
+        if (elements.offlineOverlay) elements.offlineOverlay.classList.add('hidden');
+      }
+    }
+
+    function updateUserUI() {
+      const user = state.currentUser;
+      if (user && user.email) {
+        // Header
+        if (elements.headerUserBox) {
+          elements.headerUserBox.classList.remove('hidden');
+          elements.headerUserBox.classList.add('flex');
+        }
+        if (elements.openAuthModalBtn) elements.openAuthModalBtn.classList.add('hidden');
+        if (elements.headerUserEmail) elements.headerUserEmail.textContent = user.email;
+
+        // Settings Modal
+        if (elements.settingsUserSection) elements.settingsUserSection.classList.remove('hidden');
+        if (elements.settingsLoginPrompt) elements.settingsLoginPrompt.classList.add('hidden');
+        if (elements.settingsUserEmail) elements.settingsUserEmail.textContent = user.email;
+
+        updateSyncStatusUI('connected', 'Cloud Synced');
+      } else {
+        // Header
+        if (elements.headerUserBox) {
+          elements.headerUserBox.classList.add('hidden');
+          elements.headerUserBox.classList.remove('flex');
+        }
+        if (elements.openAuthModalBtn) elements.openAuthModalBtn.classList.remove('hidden');
+
+        // Settings Modal
+        if (elements.settingsUserSection) elements.settingsUserSection.classList.add('hidden');
+        if (elements.settingsLoginPrompt) elements.settingsLoginPrompt.classList.remove('hidden');
+
+        updateSyncStatusUI('local', 'Local Cache (Sign in)');
+      }
+    }
+
+    async function checkAuthUser() {
+      try {
+        const res = await apiFetch('/api/auth/me');
+        if (res.ok) {
+          const data = await res.json();
+          if (data.authenticated && data.user) {
+            state.currentUser = data.user;
+            updateUserUI();
+            return data.user;
+          }
+        }
+      } catch (e) {
+        console.warn('Auth check error:', e);
+      }
+      state.currentUser = null;
+      updateUserUI();
+      return null;
+    }
+
+    function openAuthModal(defaultMode = 'login') {
+      setAuthMode(defaultMode);
+      if (elements.authErrorBanner) {
+        elements.authErrorBanner.classList.add('hidden');
+        elements.authErrorBanner.textContent = '';
+      }
+      if (elements.authEmailInput) elements.authEmailInput.value = '';
+      if (elements.authPasswordInput) elements.authPasswordInput.value = '';
+      if (elements.authModal) elements.authModal.classList.remove('hidden');
+      setTimeout(() => elements.authEmailInput?.focus(), 100);
+    }
+
+    function closeAuthModal() {
+      if (elements.authModal) elements.authModal.classList.add('hidden');
+    }
+
+    function setAuthMode(mode) {
+      state.authMode = mode;
+      if (mode === 'login') {
+        if (elements.authTabLogin) elements.authTabLogin.className = 'flex-1 py-3 text-xs sm:text-sm font-bold text-indigo-600 border-b-2 border-indigo-600 bg-white transition';
+        if (elements.authTabRegister) elements.authTabRegister.className = 'flex-1 py-3 text-xs sm:text-sm font-bold text-slate-500 border-b-2 border-transparent hover:text-slate-800 transition';
+        if (elements.authSubmitText) elements.authSubmitText.textContent = 'Sign In';
+        if (elements.authPasswordHelp) elements.authPasswordHelp.classList.add('hidden');
+      } else {
+        if (elements.authTabRegister) elements.authTabRegister.className = 'flex-1 py-3 text-xs sm:text-sm font-bold text-indigo-600 border-b-2 border-indigo-600 bg-white transition';
+        if (elements.authTabLogin) elements.authTabLogin.className = 'flex-1 py-3 text-xs sm:text-sm font-bold text-slate-500 border-b-2 border-transparent hover:text-slate-800 transition';
+        if (elements.authSubmitText) elements.authSubmitText.textContent = 'Create Study Account';
+        if (elements.authPasswordHelp) elements.authPasswordHelp.classList.remove('hidden');
+      }
+      if (elements.authErrorBanner) {
+        elements.authErrorBanner.classList.add('hidden');
+        elements.authErrorBanner.textContent = '';
+      }
+    }
+
+    function showAuthError(msg) {
+      if (elements.authErrorBanner) {
+        elements.authErrorBanner.textContent = msg;
+        elements.authErrorBanner.classList.remove('hidden');
+      }
+    }
+
+    function setAuthLoading(loading) {
+      if (elements.authSubmitBtn) elements.authSubmitBtn.disabled = loading;
+      if (elements.authSubmitSpinner) {
+        elements.authSubmitSpinner.classList.toggle('hidden', !loading);
+      }
+      if (elements.authSubmitText) {
+        elements.authSubmitText.textContent = loading 
+          ? (state.authMode === 'login' ? 'Signing in...' : 'Creating account...')
+          : (state.authMode === 'login' ? 'Sign In' : 'Create Study Account');
+      }
+    }
+
+    async function handleAuthSubmit(e) {
+      e.preventDefault();
+      const email = elements.authEmailInput?.value.trim() || '';
+      const password = elements.authPasswordInput?.value || '';
+
+      if (!email || !password) {
+        showAuthError('Please fill in both email and password.');
+        return;
+      }
+
+      if (state.authMode === 'register' && password.length < 6) {
+        showAuthError('Password must be at least 6 characters.');
+        return;
+      }
+
+      setAuthLoading(true);
+      const endpoint = state.authMode === 'login' ? '/api/auth/login' : '/api/auth/register';
+
+      try {
+        const res = await apiFetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+        const data = await res.json();
+
+        if (!res.ok) {
+          showAuthError(data.error || 'Authentication failed. Please check your credentials.');
+          return;
+        }
+
+        if (data.token) {
+          localStorage.setItem(AUTH_TOKEN_KEY, data.token);
+        }
+        if (data.user) {
+          state.currentUser = data.user;
+          updateUserUI();
+        }
+
+        closeAuthModal();
+        showToast(`Welcome! Signed in as ${data.user.email}`, 'success');
+
+        // Trigger immediate sync
+        await syncWithCloudflare(false);
+      } catch (err) {
+        console.error('Auth submit error:', err);
+        showAuthError('Network error connecting to auth server. Please try again.');
+      } finally {
+        setAuthLoading(false);
+      }
+    }
+
+    async function handleLogout() {
+      try {
+        await apiFetch('/api/auth/logout', { method: 'POST' });
+      } catch (err) {
+        console.error('Logout error:', err);
+      } finally {
+        localStorage.removeItem(AUTH_TOKEN_KEY);
+        state.currentUser = null;
+        updateUserUI();
+        showToast('Signed out from Study Cloud Account. Working locally.', 'info');
+      }
+    }
+
+    // Cloudflare D1 Database Sync Engine
     function updateSyncStatusUI(status, label) {
       state.dbStatus = status;
-      elements.syncStatusText.textContent = label;
+      if (elements.syncStatusText) elements.syncStatusText.textContent = label;
 
       if (status === 'connected') {
-        elements.syncDot.className = 'w-2 h-2 rounded-full bg-emerald-400';
-        elements.settingsStatusPill.className = 'px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800';
-        elements.settingsStatusPill.textContent = '🟢 Cloudflare D1 Synced';
-        elements.settingsStatusDesc.textContent = `Sync Active for "${state.userId}". Real-time multi-device cloud synchronization enabled.`;
+        if (elements.syncDot) elements.syncDot.className = 'w-2 h-2 rounded-full bg-emerald-400';
+        if (elements.settingsStatusPill) {
+          elements.settingsStatusPill.className = 'px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800';
+          elements.settingsStatusPill.textContent = '🟢 Cloud Synced';
+        }
+        if (elements.settingsStatusDesc) {
+          elements.settingsStatusDesc.textContent = state.currentUser
+            ? `Sync Active for "${state.currentUser.email}". Real-time multi-device cloud synchronization enabled.`
+            : 'Cloud synchronization active.';
+        }
       } else if (status === 'syncing') {
-        elements.syncDot.className = 'w-2 h-2 rounded-full bg-amber-400 animate-pulse';
-        elements.settingsStatusPill.className = 'px-2.5 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800';
-        elements.settingsStatusPill.textContent = '🟡 Syncing to Cloudflare D1...';
+        if (elements.syncDot) elements.syncDot.className = 'w-2 h-2 rounded-full bg-amber-400 animate-pulse';
+        if (elements.settingsStatusPill) {
+          elements.settingsStatusPill.className = 'px-2.5 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800';
+          elements.settingsStatusPill.textContent = '🟡 Syncing to Cloudflare D1...';
+        }
       } else if (status === 'local') {
-        elements.syncDot.className = 'w-2 h-2 rounded-full bg-blue-400';
-        elements.settingsStatusPill.className = 'px-2.5 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-800';
-        elements.settingsStatusPill.textContent = '🔵 Local Cache Mode';
-        elements.settingsStatusDesc.textContent = 'Operating locally. All targets are securely cached in your browser storage.';
+        if (elements.syncDot) elements.syncDot.className = 'w-2 h-2 rounded-full bg-blue-400';
+        if (elements.settingsStatusPill) {
+          elements.settingsStatusPill.className = 'px-2.5 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-800';
+          elements.settingsStatusPill.textContent = '🔵 Local Cache Mode';
+        }
+        if (elements.settingsStatusDesc) {
+          elements.settingsStatusDesc.textContent = state.currentUser
+            ? 'Operating locally. All changes saved in local cache.'
+            : 'Operating locally. Sign in with your To-Do account to enable multi-device sync.';
+        }
       } else {
-        elements.syncDot.className = 'w-2 h-2 rounded-full bg-rose-400';
-        elements.settingsStatusPill.className = 'px-2.5 py-1 rounded-full text-xs font-bold bg-rose-100 text-rose-800';
-        elements.settingsStatusPill.textContent = '⚠️ Offline Cache Active';
-        elements.settingsStatusDesc.textContent = 'Operating in offline cache mode. Changes will automatically sync to Cloudflare D1 when connected.';
+        if (elements.syncDot) elements.syncDot.className = 'w-2 h-2 rounded-full bg-rose-400';
+        if (elements.settingsStatusPill) {
+          elements.settingsStatusPill.className = 'px-2.5 py-1 rounded-full text-xs font-bold bg-rose-100 text-rose-800';
+          elements.settingsStatusPill.textContent = '⚠️ Offline / Disconnected';
+        }
+        if (elements.settingsStatusDesc) {
+          elements.settingsStatusDesc.textContent = 'Network offline. Targets are securely cached and will sync automatically upon reconnection.';
+        }
       }
     }
 
     async function syncWithCloudflare(isInitial = false, isSilent = false) {
-      if (!state.userId) initUserSyncKey();
-      if (!isSilent) updateSyncStatusUI('syncing', 'Connecting to Cloudflare D1...');
+      if (!state.currentUser) {
+        updateSyncStatusUI('local', 'Local Cache (Sign in)');
+        return;
+      }
+
+      if (!isSilent) updateSyncStatusUI('syncing', 'Connecting to Cloud...');
 
       try {
-        const res = await fetch(`${API_ENDPOINT}?userId=${encodeURIComponent(state.userId)}`, {
+        const res = await apiFetch(API_ENDPOINT, {
           method: 'GET',
-          headers: {
-            'X-Tracker-User-Id': state.userId,
-            'Content-Type': 'application/json'
-          }
+          headers: { 'Content-Type': 'application/json' }
         });
+
+        if (res.status === 401) {
+          state.currentUser = null;
+          localStorage.removeItem(AUTH_TOKEN_KEY);
+          updateUserUI();
+          return;
+        }
 
         if (!res.ok) {
           throw new Error(`HTTP ${res.status}`);
@@ -1224,7 +1499,6 @@ e.g.
         const json = await res.json();
 
         if (json.data && json.data.days && Object.keys(json.data.days).length > 0) {
-          // Cloud has existing data
           const cloudDaysStr = JSON.stringify(json.data.days);
           const localDaysStr = JSON.stringify(state.days);
 
@@ -1236,22 +1510,22 @@ e.g.
             renderUI();
             if (!isSilent) showToast('Cloud data loaded & synchronized!', 'success');
           }
-          updateSyncStatusUI('connected', 'Cloudflare D1 Synced');
+          updateSyncStatusUI('connected', 'Cloud Synced');
         } else {
-          // No cloud data yet for this user: push current data
+          // No cloud data yet for this account: push local data up to initialize
           await pushToCloudflare(true);
         }
-
       } catch (err) {
         console.warn('[Cloudflare D1 sync error]', err);
         updateSyncStatusUI('local', 'Offline / Local Cache');
-        if (!isInitial && !isSilent) showToast('Using local cache (Cloudflare offline)', 'info');
+        if (!isInitial && !isSilent) showToast('Using local cache (Server unreachable)', 'info');
       }
     }
 
     let saveDebounceTimer = null;
     function queueCloudflarePush() {
       saveLocalData();
+      if (!state.currentUser) return;
       if (saveDebounceTimer) clearTimeout(saveDebounceTimer);
       saveDebounceTimer = setTimeout(() => {
         pushToCloudflare();
@@ -1259,11 +1533,10 @@ e.g.
     }
 
     async function pushToCloudflare(isInitial = false) {
-      if (!state.userId) initUserSyncKey();
+      if (!state.currentUser) return;
 
       try {
         const payload = {
-          userId: state.userId,
           data: {
             days: state.days,
             currentDay: state.currentDay,
@@ -1272,23 +1545,24 @@ e.g.
           }
         };
 
-        const res = await fetch(API_ENDPOINT, {
+        const res = await apiFetch(API_ENDPOINT, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-Tracker-User-Id': state.userId
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
+
+        if (res.status === 401) {
+          state.currentUser = null;
+          localStorage.removeItem(AUTH_TOKEN_KEY);
+          updateUserUI();
+          return;
+        }
 
         if (!res.ok) {
           throw new Error(`HTTP ${res.status}`);
         }
 
-        updateSyncStatusUI('connected', 'Cloudflare D1 Synced');
-        if (!isInitial) {
-          // subtle sync indication
-        }
+        updateSyncStatusUI('connected', 'Cloud Synced');
       } catch (err) {
         console.warn('[Cloudflare D1 push error]', err);
         updateSyncStatusUI('local', 'Saved to Local Cache');
@@ -1719,10 +1993,8 @@ e.g.
     }
 
     function openSettingsModal() {
+      updateUserUI();
       elements.settingsModal.classList.remove('hidden');
-      if (elements.syncUserIdInput) {
-        elements.syncUserIdInput.value = state.userId || '';
-      }
     }
 
     function closeSettingsModal() {
@@ -2058,123 +2330,91 @@ Complete:
         }
       });
 
-      // Settings Modal (Cloudflare Sync)
-      elements.openSettingsModalBtn.addEventListener('click', openSettingsModal);
-      elements.syncStatusBtn.addEventListener('click', openSettingsModal);
-      elements.closeSettingsModalBtn.addEventListener('click', closeSettingsModal);
-      elements.closeSettingsModalFooterBtn.addEventListener('click', closeSettingsModal);
-
-      // Copy Sync Key Only
-      elements.copySyncKeyBtn.addEventListener('click', () => {
-        if (!state.userId) return;
-        navigator.clipboard.writeText(state.userId).then(() => {
-          showToast(`Copied Sync Key: ${state.userId}`, 'success');
-        }).catch(() => {
-          elements.syncUserIdInput.select();
-          document.execCommand('copy');
-          showToast(`Copied Sync Key: ${state.userId}`, 'success');
-        });
-      });
-
-      // Copy Direct Sync Link (1-click pairing across devices)
-      if (elements.copySyncLinkBtn) {
-        elements.copySyncLinkBtn.addEventListener('click', () => {
-          if (!state.userId) return;
-          const syncUrl = `${window.location.origin}/tracker-mains?sync=${encodeURIComponent(state.userId)}`;
-          navigator.clipboard.writeText(syncUrl).then(() => {
-            showToast('Copied direct sync link! Open on any device to pair.', 'success');
-          }).catch(() => {
-            prompt('Copy this sync link to open on another device:', syncUrl);
-          });
-        });
+      // Auth Modal Open/Close
+      if (elements.openAuthModalBtn) {
+        elements.openAuthModalBtn.addEventListener('click', () => openAuthModal('login'));
       }
-
-      // Toggle QR Code for Mobile Scanning
-      if (elements.toggleQrBtn) {
-        elements.toggleQrBtn.addEventListener('click', () => {
-          const isHidden = elements.qrCodeContainer.classList.contains('hidden');
-          if (isHidden) {
-            const syncUrl = `${window.location.origin}/tracker-mains?sync=${encodeURIComponent(state.userId)}`;
-            elements.qrCodeImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(syncUrl)}`;
-            elements.qrCodeContainer.classList.remove('hidden');
-            elements.toggleQrLabel.textContent = 'Hide Mobile QR Code';
-          } else {
-            elements.qrCodeContainer.classList.add('hidden');
-            elements.toggleQrLabel.textContent = 'Show Mobile QR Code (Instant Scan)';
-          }
-        });
-      }
-
-      // Pair Device with another key
-      elements.applyPairKeyBtn.addEventListener('click', async () => {
-        const inputKey = elements.pairKeyInput.value.trim();
-        if (!inputKey) {
-          showToast('Please enter a valid Sync Key', 'warning');
-          return;
-        }
-
-        state.userId = inputKey;
-        localStorage.setItem(SYNC_KEY_STORAGE, inputKey);
-        elements.syncUserIdInput.value = inputKey;
-        elements.pairKeyInput.value = '';
-        showToast(`Connecting to Cloudflare D1 key: "${inputKey}"...`, 'info');
-        await syncWithCloudflare(false);
-        closeSettingsModal();
-      });
-
-      // Custom Name / Handle
-      if (elements.applyCustomKeyBtn) {
-        elements.applyCustomKeyBtn.addEventListener('click', async () => {
-          const custom = elements.customKeyInput.value.trim();
-          if (!custom) {
-            showToast('Please enter a custom key name', 'warning');
-            return;
-          }
-          const cleanKey = custom.replace(/[^a-zA-Z0-9_\-\.]/g, '');
-          if (cleanKey.length < 3) {
-            showToast('Key must be at least 3 characters', 'warning');
-            return;
-          }
-          state.userId = cleanKey;
-          localStorage.setItem(SYNC_KEY_STORAGE, cleanKey);
-          elements.syncUserIdInput.value = cleanKey;
-          elements.customKeyInput.value = '';
-          showToast(`Set active Sync Key to "${cleanKey}". Syncing to Cloudflare...`, 'info');
-          await pushToCloudflare(false);
+      if (elements.settingsLoginBtn) {
+        elements.settingsLoginBtn.addEventListener('click', () => {
           closeSettingsModal();
+          openAuthModal('login');
         });
       }
+      if (elements.closeAuthModalBtn) {
+        elements.closeAuthModalBtn.addEventListener('click', closeAuthModal);
+      }
+      if (elements.authModal) {
+        elements.authModal.addEventListener('click', (e) => {
+          if (e.target === elements.authModal) closeAuthModal();
+        });
+      }
+      if (elements.authTabLogin) {
+        elements.authTabLogin.addEventListener('click', () => setAuthMode('login'));
+      }
+      if (elements.authTabRegister) {
+        elements.authTabRegister.addEventListener('click', () => setAuthMode('register'));
+      }
+      if (elements.authForm) {
+        elements.authForm.addEventListener('submit', handleAuthSubmit);
+      }
+
+      // Logout buttons
+      if (elements.logoutBtn) {
+        elements.logoutBtn.addEventListener('click', handleLogout);
+      }
+      if (elements.settingsLogoutBtn) {
+        elements.settingsLogoutBtn.addEventListener('click', handleLogout);
+      }
+
+      // Settings Modal (Cloudflare D1)
+      if (elements.openSettingsModalBtn) elements.openSettingsModalBtn.addEventListener('click', openSettingsModal);
+      if (elements.syncStatusBtn) elements.syncStatusBtn.addEventListener('click', openSettingsModal);
+      if (elements.closeSettingsModalBtn) elements.closeSettingsModalBtn.addEventListener('click', closeSettingsModal);
+      if (elements.closeSettingsModalFooterBtn) elements.closeSettingsModalFooterBtn.addEventListener('click', closeSettingsModal);
 
       // Manual Sync Now Button
-      elements.manualSyncBtn.addEventListener('click', async () => {
-        showToast('Syncing with Cloudflare D1...', 'info');
-        await syncWithCloudflare(false);
-      });
+      if (elements.manualSyncBtn) {
+        elements.manualSyncBtn.addEventListener('click', async () => {
+          if (!state.currentUser) {
+            showToast('Please sign in with your To-Do account to sync.', 'info');
+            openAuthModal('login');
+            return;
+          }
+          showToast('Syncing with Cloudflare D1...', 'info');
+          await syncWithCloudflare(false);
+        });
+      }
 
-      // Generate New Random Sync Key
-      elements.resetSyncIdBtn.addEventListener('click', () => {
-        const randChars = Math.random().toString(36).substring(2, 6).toUpperCase();
-        const newKey = `CGL-${randChars}`;
-        state.userId = newKey;
-        localStorage.setItem(SYNC_KEY_STORAGE, newKey);
-        elements.syncUserIdInput.value = newKey;
-        showToast(`Generated new Sync Key: "${newKey}"! Pushing targets...`, 'info');
-        pushToCloudflare(true);
-      });
+      // Offline Barrier Overlay
+      window.addEventListener('online', checkNetworkStatus);
+      window.addEventListener('offline', checkNetworkStatus);
+      if (elements.retryConnectionBtn) {
+        elements.retryConnectionBtn.addEventListener('click', () => {
+          if (navigator.onLine) {
+            checkNetworkStatus();
+            showToast('Reconnected to internet!', 'success');
+            if (state.currentUser) syncWithCloudflare(false);
+          } else {
+            showToast('Still offline. Please check your network connection.', 'error');
+          }
+        });
+      }
 
       // Auto-sync on window focus / tab visibility change
       document.addEventListener('visibilitychange', () => {
-        if (document.visibilityState === 'visible') {
+        if (document.visibilityState === 'visible' && state.currentUser) {
           syncWithCloudflare(false, true);
         }
       });
       window.addEventListener('focus', () => {
-        syncWithCloudflare(false, true);
+        if (state.currentUser) {
+          syncWithCloudflare(false, true);
+        }
       });
 
       // Periodic background silent sync every 12 seconds
       setInterval(() => {
-        if (document.visibilityState === 'visible') {
+        if (document.visibilityState === 'visible' && state.currentUser) {
           syncWithCloudflare(false, true);
         }
       }, 12000);
@@ -2222,12 +2462,15 @@ Complete:
 
     // App Initialization
     async function initApp() {
-      initUserSyncKey();
+      checkNetworkStatus();
       loadLocalData();
       updateTimerDisplay();
       setupEventListeners();
       renderUI();
-      await syncWithCloudflare(true);
+      await checkAuthUser();
+      if (state.currentUser) {
+        await syncWithCloudflare(true);
+      }
     }
 
     if (document.readyState === 'loading') {

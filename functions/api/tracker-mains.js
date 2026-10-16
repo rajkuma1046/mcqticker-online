@@ -1,9 +1,8 @@
 /**
  * Cloudflare Pages Function: /api/tracker-mains
  *
- * GET  → Fetch user's SSC CGL Target Tracker state from Cloudflare D1
- * POST / PUT → Save/upsert user's target tracker state to Cloudflare D1
- *
+ * Cloud-First Target Tracker Endpoint for authenticated users.
+ * Uses existing To-Do user credentials & auth system.
  * Storage: Cloudflare D1 database (binding: DB)
  * Table: tracker_mains
  */
@@ -13,7 +12,7 @@ import { json, getAuthUser } from './auth/_utils.js';
 const CORS = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'GET, POST, PUT, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type, X-Tracker-User-Id, Authorization',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Tracker-User-Id',
 };
 
 async function ensureTrackerTable(db) {
@@ -31,51 +30,15 @@ async function ensureTrackerTable(db) {
   }
 }
 
-function resolveUserId(request, user, bodyUserId = null) {
-  // 1. Explicit query parameter (highest priority for URLs / links)
-  try {
-    const url = new URL(request.url);
-    const queryUserId = url.searchParams.get('userId');
-    if (queryUserId && queryUserId.trim().length > 0) {
-      return queryUserId.trim();
-    }
-  } catch {}
-
-  // 2. Explicit header passed by client
-  const headerUserId = request.headers.get('X-Tracker-User-Id');
-  if (headerUserId && headerUserId.trim().length > 0) {
-    return headerUserId.trim();
-  }
-
-  // 3. Explicit body userId passed in POST/PUT
-  if (bodyUserId && String(bodyUserId).trim().length > 0) {
-    return String(bodyUserId).trim();
-  }
-
-  // 4. Fallback to authenticated account if no specific sync key was passed
-  if (user && user.id) {
-    return `account_${user.id}`;
-  }
-
-  return null;
-}
-
-/* ── GET — fetch user tracker data from Cloudflare D1 ── */
+/* ── GET — fetch authenticated user's tracker data from Cloudflare D1 ── */
 export async function onRequestGet({ request, env }) {
   const user = await getAuthUser(request, env);
-  const userId = resolveUserId(request, user);
-
-  if (!userId) {
-    return json({ error: 'User ID is required for sync.' }, 400, CORS);
+  if (!user) {
+    return json({ authenticated: false, error: 'Authentication required. Please sign in with your To-Do credentials.' }, 401, CORS);
   }
 
   if (!env?.DB) {
-    return json({ 
-      data: null, 
-      userId,
-      isLocalMode: true,
-      note: 'Cloudflare D1 DB not bound — operating in offline/local cache mode.' 
-    }, 200, CORS);
+    return json({ error: 'Database not bound.' }, 500, CORS);
   }
 
   try {
@@ -83,14 +46,15 @@ export async function onRequestGet({ request, env }) {
 
     const row = await env.DB.prepare(
       'SELECT tracker_data, updated_at FROM tracker_mains WHERE user_id = ?'
-    ).bind(userId).first();
+    ).bind(String(user.id)).first();
 
     if (!row) {
       return json({ 
         success: true, 
+        authenticated: true,
         data: null, 
-        userId,
-        message: 'No cloud record found for this user ID.' 
+        user: { id: user.id, email: user.email },
+        message: 'No cloud record found yet for this account.' 
       }, 200, CORS);
     }
 
@@ -103,8 +67,9 @@ export async function onRequestGet({ request, env }) {
 
     return json({ 
       success: true, 
+      authenticated: true,
       data: parsedData, 
-      userId, 
+      user: { id: user.id, email: user.email }, 
       updatedAt: row.updated_at 
     }, 200, CORS);
 
@@ -124,18 +89,16 @@ export async function onRequestPut({ request, env }) {
 }
 
 async function handleSave({ request, env }) {
+  const user = await getAuthUser(request, env);
+  if (!user) {
+    return json({ authenticated: false, error: 'Authentication required. Please sign in with your To-Do credentials.' }, 401, CORS);
+  }
+
   let body;
   try {
     body = await request.json();
   } catch {
     return json({ error: 'Invalid JSON payload.' }, 400, CORS);
-  }
-
-  const user = await getAuthUser(request, env);
-  const userId = resolveUserId(request, user, body?.userId);
-
-  if (!userId) {
-    return json({ error: 'User ID is required for sync.' }, 400, CORS);
   }
 
   const trackerData = body?.data !== undefined ? body.data : body;
@@ -144,12 +107,7 @@ async function handleSave({ request, env }) {
   }
 
   if (!env?.DB) {
-    return json({ 
-      success: true, 
-      userId,
-      isLocalMode: true,
-      note: 'Cloudflare D1 DB not bound — local caching active.' 
-    }, 200, CORS);
+    return json({ error: 'Database not bound.' }, 500, CORS);
   }
 
   try {
@@ -162,11 +120,12 @@ async function handleSave({ request, env }) {
       INSERT INTO tracker_mains (user_id, tracker_data, updated_at)
       VALUES (?, ?, ?)
       ON CONFLICT(user_id) DO UPDATE SET tracker_data = ?, updated_at = ?
-    `).bind(userId, dataString, now, dataString, now).run();
+    `).bind(String(user.id), dataString, now, dataString, now).run();
 
     return json({ 
       success: true, 
-      userId, 
+      authenticated: true,
+      user: { id: user.id, email: user.email }, 
       updatedAt: now 
     }, 200, CORS);
 
