@@ -1,0 +1,2094 @@
+---
+export const prerender = true;
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#0f172a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>SSC CGL 2026 Target Tracker | RBE Daily Study Planner</title>
+  <meta name="description" content="SSC CGL 2026 Tier-2 daily target tracker & RBE study planner. Parse Telegram target posts, track daily progress, practice typing with built-in timer, and sync with Cloudflare database.">
+  <link rel="canonical" href="https://mcqticker.online/tracker-mains">
+
+  <!-- Tailwind CSS CDN -->
+  <script is:inline src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <!-- Google Fonts Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <script is:inline>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            primary: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+            }
+          }
+        }
+      }
+    };
+  </script>
+  
+  <style is:inline>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+    /* Mobile-first enhancements */
+    * {
+      -webkit-tap-highlight-color: transparent;
+    }
+    input, textarea, select {
+      font-size: 16px !important; /* Prevents auto-zoom on iOS */
+    }
+    @media (min-width: 640px) {
+      input, textarea, select {
+        font-size: 13px !important;
+      }
+    }
+    .touch-target {
+      min-height: 44px;
+      min-width: 44px;
+    }
+    .safe-bottom {
+      padding-bottom: env(safe-area-inset-bottom, 16px);
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col antialiased">
+
+  <!-- Toast Notification Container -->
+  <div id="toastContainer" class="fixed top-4 right-4 z-50 flex flex-col space-y-2 pointer-events-none"></div>
+
+  <!-- Header & Navbar -->
+  <header class="bg-slate-900 text-white sticky top-0 z-40 shadow-md border-b border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        
+        <!-- Logo & Title -->
+        <div class="flex items-center space-x-4">
+          <a href="/tracker-mains" class="flex items-center space-x-3 text-left">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 to-indigo-600 flex items-center justify-center text-xl shadow-lg shadow-indigo-500/20 shrink-0">
+              🎯
+            </div>
+            <div>
+              <h1 class="text-base sm:text-lg font-bold tracking-tight text-white flex items-center gap-2">
+                SSC CGL 2026 Tracker
+                <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-indigo-500/30 text-indigo-300 border border-indigo-400/30">Tier-2</span>
+              </h1>
+              <p class="text-xs text-slate-400 hidden sm:block">RBE Daily Study Planner & Target Tracker</p>
+            </div>
+          </a>
+          <nav class="hidden lg:flex items-center space-x-1 border-l border-slate-800 pl-3 text-xs font-medium text-slate-300">
+            <a href="/" class="hover:text-white px-2.5 py-1 rounded-lg hover:bg-slate-800 transition">MCQ Ticker</a>
+            <a href="/todo" class="hover:text-white px-2.5 py-1 rounded-lg hover:bg-slate-800 transition">To-Do List</a>
+            <a href="/practice-mcq-from-book-with-timer" class="hover:text-white px-2.5 py-1 rounded-lg hover:bg-slate-800 transition">Book Practice</a>
+            <a href="/pomodoro-timer" class="hover:text-white px-2.5 py-1 rounded-lg hover:bg-slate-800 transition">Pomodoro</a>
+          </nav>
+        </div>
+
+        <!-- Quick Status & Controls -->
+        <div class="flex items-center space-x-2 sm:space-x-4">
+          <!-- Cloudflare D1 Sync Indicator Badge -->
+          <button id="syncStatusBtn" class="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-slate-800 hover:bg-slate-700 border border-slate-700 transition" title="Click to view Cloudflare database connection details">
+            <span id="syncDot" class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+            <span id="syncStatusText" class="text-slate-300">Checking Cloudflare DB...</span>
+          </button>
+
+          <!-- Study Timer Widget Button -->
+          <button id="toggleTimerBtn" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 hover:bg-slate-700 text-indigo-300 border border-indigo-500/30 transition shadow-sm">
+            <span>⏱️</span>
+            <span id="timerDisplay">30:00</span>
+          </button>
+
+          <!-- Paste Telegram Post Button -->
+          <button id="openPasteModalBtn" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold bg-indigo-600 hover:bg-indigo-500 text-white transition shadow-sm shadow-indigo-600/30">
+            <span>📋</span>
+            <span class="hidden sm:inline">Paste Schedule</span>
+            <span class="sm:hidden">Paste</span>
+          </button>
+
+          <!-- Settings Button -->
+          <button id="openSettingsModalBtn" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition" title="Cloudflare Database & Sync Settings">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+            </svg>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- Sticky Study Timer Floating Bar (expandable) -->
+  <div id="studyTimerBar" class="hidden bg-slate-800 text-slate-100 border-b border-slate-700 px-4 py-2.5 shadow-md">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center space-x-3">
+        <span class="text-sm font-semibold text-indigo-300">⏱️ Study Focus Timer</span>
+        <span id="activeTimerText" class="text-xl font-mono font-bold text-white tracking-widest">30:00</span>
+        <span id="timerStatusLabel" class="text-xs px-2 py-0.5 rounded bg-slate-700 text-slate-300">Ready</span>
+      </div>
+      <div class="flex items-center space-x-2">
+        <button id="timerPreset15" class="px-2 py-1 text-xs rounded bg-slate-700 hover:bg-slate-600 text-slate-200">15m</button>
+        <button id="timerPreset30" class="px-2 py-1 text-xs rounded bg-indigo-600 text-white font-medium">30m (Typing)</button>
+        <button id="timerPreset60" class="px-2 py-1 text-xs rounded bg-slate-700 hover:bg-slate-600 text-slate-200">60m (Maths)</button>
+        <div class="h-4 w-px bg-slate-600 mx-1"></div>
+        <button id="startTimerBtn" class="px-3 py-1 text-xs rounded font-semibold bg-emerald-600 hover:bg-emerald-500 text-white transition">Start</button>
+        <button id="pauseTimerBtn" class="px-3 py-1 text-xs rounded font-semibold bg-amber-600 hover:bg-amber-500 text-white transition hidden">Pause</button>
+        <button id="resetTimerBtn" class="px-3 py-1 text-xs rounded font-semibold bg-slate-600 hover:bg-slate-500 text-slate-200 transition">Reset</button>
+        <button id="closeTimerBarBtn" class="p-1 text-slate-400 hover:text-white" title="Hide Timer Bar">✕</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content Layout -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
+    <!-- Day Navigation Bar -->
+    <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-200/80">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        
+        <!-- Day Tabs Scrollable -->
+        <div class="flex items-center space-x-2 overflow-x-auto pb-1 sm:pb-0 custom-scrollbar" id="dayTabsContainer">
+          <!-- Dynamic Day Tabs Inserted Here -->
+        </div>
+
+        <!-- Right Action Controls -->
+        <div class="flex items-center space-x-2 shrink-0">
+          <button id="addNewDayBtn" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 transition">
+            <span>➕</span> Add Day
+          </button>
+          <button id="shareDayBtn" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 transition" title="Copy progress report for Telegram/WhatsApp group">
+            <span>📤</span> Copy Update
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Active Day Banner & Progress Card -->
+    <div class="bg-gradient-to-br from-indigo-900 via-indigo-800 to-slate-900 rounded-3xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden">
+      <!-- Decorative Background Circles -->
+      <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute right-1/3 -top-12 w-48 h-48 bg-amber-500/10 rounded-full blur-2xl pointer-events-none"></div>
+
+      <div class="relative z-10 space-y-5">
+        
+        <!-- Top Row: Title, Date & Streak -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span id="bannerDayBadge" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-400 text-slate-950 uppercase tracking-wider">Day 2</span>
+              <span id="bannerDate" class="text-xs text-indigo-200 font-medium">Daily Target Schedule</span>
+            </div>
+            <h2 id="bannerTitle" class="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
+              SSC CGL 2026 T-2 | RBE Targets
+            </h2>
+          </div>
+
+          <!-- Quick Stats Pills -->
+          <div class="flex items-center gap-3">
+            <div class="bg-white/10 backdrop-blur-md px-4 py-2 rounded-2xl border border-white/10 flex items-center gap-3">
+              <div class="text-2xl">🔥</div>
+              <div>
+                <p class="text-[10px] text-indigo-200 uppercase font-semibold">Consistency</p>
+                <p id="streakDisplay" class="text-sm font-bold text-white">2 Days Streak</p>
+              </div>
+            </div>
+
+            <div class="bg-white/10 backdrop-blur-md px-4 py-2 rounded-2xl border border-white/10 flex items-center gap-3">
+              <div class="text-2xl">⚡</div>
+              <div>
+                <p class="text-[10px] text-indigo-200 uppercase font-semibold">Completed</p>
+                <p id="statRatioDisplay" class="text-sm font-bold text-white">0 / 5 Tasks</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Motivational Quote Banner -->
+        <div id="quoteCard" class="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/10 flex items-start gap-3">
+          <span class="text-xl shrink-0">🔥</span>
+          <p id="quoteText" class="text-sm italic text-indigo-100 font-medium leading-relaxed">
+            “Don’t just count the days—make each day count. Today’s revision is tomorrow’s strength.”
+          </p>
+        </div>
+
+        <!-- Progress Bar & Actions -->
+        <div class="space-y-2 pt-1">
+          <div class="flex items-center justify-between text-xs sm:text-sm font-semibold">
+            <span class="text-indigo-200">Daily Target Completion</span>
+            <span id="progressPercentText" class="text-amber-300 font-bold">0%</span>
+          </div>
+          <div class="w-full bg-slate-950/50 rounded-full h-3.5 p-0.5 overflow-hidden border border-white/10">
+            <div id="progressBarFill" class="bg-gradient-to-r from-amber-400 via-emerald-400 to-indigo-400 h-full rounded-full transition-all duration-500 ease-out" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <!-- Filter & Control Buttons -->
+        <div class="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-white/10 text-xs">
+          <!-- Filter Tabs -->
+          <div class="flex items-center space-x-1.5 bg-slate-950/40 p-1 rounded-xl">
+            <button class="filter-btn active px-3 py-1 rounded-lg font-medium transition bg-indigo-600 text-white" data-filter="all">All (<span id="filterAllCount">0</span>)</button>
+            <button class="filter-btn px-3 py-1 rounded-lg font-medium transition text-indigo-200 hover:text-white" data-filter="pending">Pending (<span id="filterPendingCount">0</span>)</button>
+            <button class="filter-btn px-3 py-1 rounded-lg font-medium transition text-indigo-200 hover:text-white" data-filter="completed">Done (<span id="filterDoneCount">0</span>)</button>
+          </div>
+
+          <!-- Batch Action Buttons -->
+          <div class="flex items-center space-x-2">
+            <button id="addNewTaskBtn" class="px-3 py-1.5 rounded-xl bg-white/15 hover:bg-white/25 text-white font-semibold transition flex items-center gap-1">
+              <span>➕</span> Add Task
+            </button>
+            <button id="markAllDoneBtn" class="px-3 py-1.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-400/30 font-medium transition">
+              Check All
+            </button>
+            <button id="resetDayTasksBtn" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium transition">
+              Reset Day
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Task List Container -->
+    <div class="space-y-4">
+      <div class="flex items-center justify-between px-1">
+        <h3 class="text-sm font-bold uppercase tracking-wider text-slate-500 flex items-center gap-2">
+          <span>🎯</span> Daily Target Tasks
+          <span id="taskListCountBadge" class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded-full font-semibold">5 items</span>
+        </h3>
+        <span class="text-xs text-slate-400">Click checkboxes to tick off completed items</span>
+      </div>
+
+      <!-- Dynamic Tasks Cards List -->
+      <div id="taskList" class="space-y-4">
+        <!-- Rendered by JavaScript -->
+      </div>
+
+      <!-- Empty State -->
+      <div id="emptyTasksState" class="hidden bg-white rounded-3xl p-12 text-center border border-slate-200 shadow-sm">
+        <div class="w-16 h-16 mx-auto mb-4 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center text-3xl">
+          📝
+        </div>
+        <h4 class="text-lg font-bold text-slate-800 mb-1">No tasks found</h4>
+        <p class="text-sm text-slate-500 max-w-md mx-auto mb-6">
+          Paste your Telegram target schedule or click below to add targets for today.
+        </p>
+        <button id="emptyPasteBtn" class="px-4 py-2 bg-indigo-600 text-white rounded-xl text-sm font-semibold hover:bg-indigo-500 transition shadow-sm">
+          📋 Paste Schedule from Telegram
+        </button>
+      </div>
+    </div>
+
+    <!-- Extra Study Resources / Books Section (from Telegram post) -->
+    <div id="extraResourcesCard" class="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm space-y-4">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <span class="text-xl">📘</span>
+          <div>
+            <h4 class="text-sm font-bold text-slate-800">Recommended Reference & Books</h4>
+            <p class="text-xs text-slate-500">Official RBE Preparation Resources & Test Portals</p>
+          </div>
+        </div>
+        <span class="text-xs bg-indigo-50 text-indigo-700 font-semibold px-2.5 py-1 rounded-lg">Quick Links</span>
+      </div>
+      
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 pt-2">
+        <a href="https://rbelearning.com" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/40 transition group">
+          <div class="flex items-center gap-2.5">
+            <span class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-xs">RBE</span>
+            <div>
+              <p class="text-xs font-semibold text-slate-800 group-hover:text-indigo-600">RBE Learning Portal</p>
+              <p class="text-[11px] text-slate-400">Mock Tests & Video Courses</p>
+            </div>
+          </div>
+          <span class="text-xs text-slate-400 group-hover:text-indigo-600">↗</span>
+        </a>
+
+        <a href="https://realmocks.com/typing" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/40 transition group">
+          <div class="flex items-center gap-2.5">
+            <span class="w-8 h-8 rounded-lg bg-purple-100 text-purple-700 flex items-center justify-center text-sm">⌨️</span>
+            <div>
+              <p class="text-xs font-semibold text-slate-800 group-hover:text-indigo-600">RealMocks Typing</p>
+              <p class="text-[11px] text-slate-400">SSC Pattern Typing Practice</p>
+            </div>
+          </div>
+          <span class="text-xs text-slate-400 group-hover:text-indigo-600">↗</span>
+        </a>
+
+        <a href="https://www.youtube.com/@RBERevolutionByEducation" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/40 transition group">
+          <div class="flex items-center gap-2.5">
+            <span class="w-8 h-8 rounded-lg bg-rose-100 text-rose-700 flex items-center justify-center text-sm">🎥</span>
+            <div>
+              <p class="text-xs font-semibold text-slate-800 group-hover:text-indigo-600">RBE YouTube Channel</p>
+              <p class="text-[11px] text-slate-400">Analysis & Solutions</p>
+            </div>
+          </div>
+          <span class="text-xs text-slate-400 group-hover:text-indigo-600">↗</span>
+        </a>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t border-slate-200 py-6 mb-16 sm:mb-0 text-center text-xs text-slate-500">
+    <p class="font-medium text-slate-700 mb-1">🎯 SSC CGL 2026 Tier-2 Daily Target & Study Tracker</p>
+    <p>Crafted for continuous revision and high score consistency. Supports Telegram post parsing & Cloudflare D1 Database sync.</p>
+  </footer>
+
+  <!-- Mobile Sticky Bottom Action Bar (Thumb-friendly on phones) -->
+  <nav class="sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-slate-900/95 backdrop-blur-md border-t border-slate-800 safe-bottom shadow-2xl">
+    <div class="grid grid-cols-4 gap-1 px-2 py-2">
+      <button id="mobilePasteBtn" class="flex flex-col items-center justify-center py-1.5 px-1 rounded-xl text-indigo-300 hover:text-white hover:bg-slate-800 transition">
+        <span class="text-lg">📋</span>
+        <span class="text-[10px] font-semibold mt-0.5">Paste</span>
+      </button>
+      <button id="mobileTimerBtn" class="flex flex-col items-center justify-center py-1.5 px-1 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800 transition">
+        <span class="text-lg">⏱️</span>
+        <span class="text-[10px] font-semibold mt-0.5" id="mobileTimerLabel">30m</span>
+      </button>
+      <button id="mobileAddTaskBtn" class="flex flex-col items-center justify-center py-1.5 px-1 rounded-xl text-emerald-400 hover:text-emerald-300 hover:bg-slate-800 transition">
+        <span class="text-lg">➕</span>
+        <span class="text-[10px] font-semibold mt-0.5">Add</span>
+      </button>
+      <button id="mobileShareBtn" class="flex flex-col items-center justify-center py-1.5 px-1 rounded-xl text-amber-400 hover:text-amber-300 hover:bg-slate-800 transition">
+        <span class="text-lg">📤</span>
+        <span class="text-[10px] font-semibold mt-0.5">Share</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ==================== MODALS ==================== -->
+
+  <!-- Modal 1: Smart Paste & Importer Modal -->
+  <div id="pasteModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm hidden">
+    <div class="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden">
+      
+      <!-- Modal Header -->
+      <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-base">📋</div>
+          <div>
+            <h3 class="text-base font-bold text-white">Import Telegram Target Schedule</h3>
+            <p class="text-xs text-slate-300">Paste your daily target post from Telegram</p>
+          </div>
+        </div>
+        <button id="closePasteModalBtn" class="text-slate-400 hover:text-white p-1 rounded-lg">✕</button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="p-6 overflow-y-auto space-y-4 custom-scrollbar flex-1">
+        <div class="flex items-center justify-between">
+          <label for="pasteScheduleInput" class="text-xs font-bold text-slate-700 uppercase tracking-wider">Paste Post Content:</label>
+          <button id="loadSampleScheduleBtn" class="text-xs text-indigo-600 hover:text-indigo-700 font-semibold underline">
+            Load Sample (Day 2)
+          </button>
+        </div>
+
+        <textarea id="pasteScheduleInput" rows="10" class="w-full text-xs sm:text-sm font-mono p-3 bg-slate-50 border border-slate-300 rounded-2xl focus:ring-2 focus:ring-indigo-500 focus:outline-none transition leading-relaxed" placeholder="Paste your Telegram post here...
+e.g.
+🎯 SSC CGL 2026 T-2 | RBE Targets
+📅 Day 2
+
+💻 1. Computer — PYQ Sectional Tests
+...
+⌨️ 2. Typing — 30 Minutes
+..."></textarea>
+
+        <!-- Target Destination Option -->
+        <div class="bg-slate-50 p-3 rounded-2xl border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+          <div class="font-medium text-slate-700">Target Day Number:</div>
+          <div class="flex items-center space-x-2">
+            <span class="text-slate-500">Day:</span>
+            <input type="number" id="targetDayNumInput" min="1" max="365" value="2" class="w-16 px-2 py-1 text-center font-bold bg-white border border-slate-300 rounded-lg">
+            <label class="flex items-center gap-1.5 ml-2 cursor-pointer">
+              <input type="checkbox" id="overwriteDayCheckbox" checked class="rounded text-indigo-600">
+              <span>Set as active day</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Live Parsed Preview Container -->
+        <div id="parsePreviewBox" class="hidden p-4 rounded-2xl bg-indigo-50/50 border border-indigo-100 space-y-2">
+          <p class="text-xs font-bold text-indigo-800 flex items-center justify-between">
+            <span>✨ Parser Detection Preview:</span>
+            <span id="previewTaskCountBadge" class="bg-indigo-200 text-indigo-800 px-2 py-0.5 rounded-full font-bold">0 tasks</span>
+          </p>
+          <div id="previewTaskList" class="text-xs text-slate-600 space-y-1 max-h-36 overflow-y-auto custom-scrollbar"></div>
+        </div>
+
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="px-6 py-4 bg-slate-50 border-t border-slate-200 flex items-center justify-end space-x-3">
+        <button id="cancelPasteModalBtn" class="px-4 py-2 text-xs font-semibold text-slate-600 hover:text-slate-800 rounded-xl">
+          Cancel
+        </button>
+        <button id="confirmImportBtn" class="px-5 py-2 text-xs font-bold bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl shadow-md shadow-indigo-500/20 transition">
+          🚀 Import & Update Tracker
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Modal 2: Add / Edit Custom Task Modal -->
+  <div id="taskModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm hidden">
+    <div class="bg-white rounded-3xl max-w-lg w-full max-h-[90vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden">
+      
+      <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between">
+        <h3 id="taskModalTitle" class="text-base font-bold text-white">Add New Target Task</h3>
+        <button id="closeTaskModalBtn" class="text-slate-400 hover:text-white p-1 rounded-lg">✕</button>
+      </div>
+
+      <div class="p-6 overflow-y-auto space-y-4 custom-scrollbar flex-1 text-xs sm:text-sm">
+        <input type="hidden" id="editTaskId">
+
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Subject / Category</label>
+          <div class="grid grid-cols-3 gap-2">
+            <button type="button" class="subj-tag-btn p-2 rounded-xl border border-slate-200 text-center font-medium hover:border-indigo-500 transition" data-subj="Maths" data-emoji="📐">📐 Maths</button>
+            <button type="button" class="subj-tag-btn p-2 rounded-xl border border-slate-200 text-center font-medium hover:border-indigo-500 transition" data-subj="English" data-emoji="📚">📚 English</button>
+            <button type="button" class="subj-tag-btn p-2 rounded-xl border border-slate-200 text-center font-medium hover:border-indigo-500 transition" data-subj="Reasoning" data-emoji="🧠">🧠 Reasoning</button>
+            <button type="button" class="subj-tag-btn p-2 rounded-xl border border-slate-200 text-center font-medium hover:border-indigo-500 transition" data-subj="Computer" data-emoji="💻">💻 Computer</button>
+            <button type="button" class="subj-tag-btn p-2 rounded-xl border border-slate-200 text-center font-medium hover:border-indigo-500 transition" data-subj="Typing" data-emoji="⌨️">⌨️ Typing</button>
+            <button type="button" class="subj-tag-btn p-2 rounded-xl border border-slate-200 text-center font-medium hover:border-indigo-500 transition" data-subj="Revision" data-emoji="🔄">🔄 Revision</button>
+          </div>
+        </div>
+
+        <div>
+          <label for="taskTitleInput" class="block font-semibold text-slate-700 mb-1">Task Title</label>
+          <input type="text" id="taskTitleInput" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="e.g. Maths — Top 50 Questions (Part 2)">
+        </div>
+
+        <div>
+          <label for="taskDescInput" class="block font-semibold text-slate-700 mb-1">Instructions / Target Details</label>
+          <textarea id="taskDescInput" rows="3" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="Description or guidance for this test/target..."></textarea>
+        </div>
+
+        <div>
+          <label for="taskSubtasksInput" class="block font-semibold text-slate-700 mb-1">Subtopics / Checklist (one per line)</label>
+          <textarea id="taskSubtasksInput" rows="3" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="Adverb&#10;Preposition&#10;Fill in the Blanks"></textarea>
+        </div>
+
+        <div>
+          <label for="taskLinkUrlInput" class="block font-semibold text-slate-700 mb-1">Primary Link (Test Series / YouTube)</label>
+          <input type="url" id="taskLinkUrlInput" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="https://rbelearning.com/...">
+        </div>
+      </div>
+
+      <div class="px-6 py-4 bg-slate-50 border-t border-slate-200 flex items-center justify-end space-x-3">
+        <button id="cancelTaskModalBtn" class="px-4 py-2 text-xs font-semibold text-slate-600 hover:text-slate-800 rounded-xl">Cancel</button>
+        <button id="saveTaskBtn" class="px-5 py-2 text-xs font-bold bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl shadow-md transition">Save Task</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Modal 3: Settings & Cloudflare D1 Database Configuration -->
+  <div id="settingsModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm hidden">
+    <div class="bg-white rounded-3xl max-w-xl w-full max-h-[90vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden">
+      
+      <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span>⚙️</span>
+          <h3 class="text-base font-bold text-white">Cloudflare Database & Sync Settings</h3>
+        </div>
+        <button id="closeSettingsModalBtn" class="text-slate-400 hover:text-white p-1 rounded-lg">✕</button>
+      </div>
+
+      <div class="p-6 overflow-y-auto space-y-5 custom-scrollbar flex-1 text-xs sm:text-sm">
+        
+        <!-- Live Connection Status -->
+        <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-slate-700">Cloudflare D1 Status:</span>
+            <span id="settingsStatusPill" class="px-2.5 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800">
+              Checking...
+            </span>
+          </div>
+          <p id="settingsStatusDesc" class="text-xs text-slate-500">
+            Automatically synchronizing with Cloudflare D1 edge database and local offline cache.
+          </p>
+        </div>
+
+        <!-- Sync Key / Device Pairing Identifier -->
+        <div class="space-y-2">
+          <label for="syncUserIdInput" class="block font-semibold text-slate-700">
+            Cloudflare Sync Key / Device ID:
+          </label>
+          <div class="flex items-center space-x-2">
+            <input type="text" id="syncUserIdInput" readonly class="flex-1 font-mono text-xs p-2.5 bg-slate-100 border border-slate-300 rounded-xl focus:outline-none text-slate-800">
+            <button id="copySyncKeyBtn" class="px-3 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-xl text-xs font-semibold transition" title="Copy sync key">
+              📋 Copy
+            </button>
+          </div>
+          <p class="text-[11px] text-slate-500">
+            Want to sync with another phone, tablet or laptop? Enter that device's Sync Key below:
+          </p>
+          <div class="flex items-center space-x-2 pt-1">
+            <input type="text" id="pairKeyInput" placeholder="Paste another device's Sync Key here..." class="flex-1 font-mono text-xs p-2 bg-white border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+            <button id="applyPairKeyBtn" class="px-3 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-bold transition">
+              Pair Device
+            </button>
+          </div>
+        </div>
+
+        <div class="flex items-center space-x-2 pt-1">
+          <button id="manualSyncBtn" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5">
+            <span>🔄</span> Sync Now (Cloudflare D1)
+          </button>
+          <button id="resetSyncIdBtn" class="px-3 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-xl text-xs font-medium transition">
+            Generate New Key
+          </button>
+        </div>
+
+        <div class="border-t border-slate-200 pt-4 space-y-3">
+          <h4 class="font-bold text-slate-700">Backup & Restore:</h4>
+          <div class="flex flex-wrap items-center gap-2">
+            <button id="exportDataBtn" class="px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold flex items-center gap-1.5 transition">
+              <span>📥</span> Export JSON Backup
+            </button>
+            <button id="importDataBtn" class="px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold flex items-center gap-1.5 transition">
+              <span>📤</span> Restore from JSON
+            </button>
+            <input type="file" id="importFileInput" accept=".json" class="hidden">
+          </div>
+        </div>
+
+      </div>
+
+      <div class="px-6 py-4 bg-slate-50 border-t border-slate-200 flex justify-end">
+        <button id="closeSettingsModalFooterBtn" class="px-5 py-2 text-xs font-bold bg-slate-800 hover:bg-slate-700 text-white rounded-xl">
+          Done
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Modal 4: Record Score & Notes Modal -->
+  <div id="scoreModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm hidden">
+    <div class="bg-white rounded-3xl max-w-md w-full shadow-2xl border border-slate-200 overflow-hidden">
+      <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between">
+        <h3 class="text-base font-bold text-white">Record Score & Notes</h3>
+        <button id="closeScoreModalBtn" class="text-slate-400 hover:text-white p-1 rounded-lg">✕</button>
+      </div>
+      <div class="p-6 space-y-4 text-xs sm:text-sm">
+        <input type="hidden" id="scoreTaskId">
+        <div>
+          <label for="taskScoreInput" class="block font-semibold text-slate-700 mb-1">Score / Accuracy / Speed</label>
+          <input type="text" id="taskScoreInput" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="e.g. 44/50 or 38 WPM (97% acc)">
+        </div>
+        <div>
+          <label for="taskNotesInput" class="block font-semibold text-slate-700 mb-1">Personal Notes / Weak Areas</label>
+          <textarea id="taskNotesInput" rows="3" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="e.g. Need to revise adverbs rules, skipped Q14 in Maths..."></textarea>
+        </div>
+      </div>
+      <div class="px-6 py-4 bg-slate-50 border-t border-slate-200 flex justify-end space-x-2">
+        <button id="cancelScoreModalBtn" class="px-4 py-2 text-xs font-semibold text-slate-600 hover:text-slate-800 rounded-xl">Cancel</button>
+        <button id="saveScoreBtn" class="px-5 py-2 text-xs font-bold bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl shadow-md">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 5: Share Progress Text Modal -->
+  <div id="shareModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm hidden">
+    <div class="bg-white rounded-3xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden">
+      <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span>📤</span>
+          <h3 class="text-base font-bold text-white">Daily Progress Update</h3>
+        </div>
+        <button id="closeShareModalBtn" class="text-slate-400 hover:text-white p-1 rounded-lg">✕</button>
+      </div>
+      <div class="p-6 space-y-3">
+        <p class="text-xs text-slate-500">Copy this formatted text to share in your Telegram / WhatsApp study group:</p>
+        <textarea id="shareTextarea" rows="10" readonly class="w-full text-xs font-mono p-3 bg-slate-50 border border-slate-300 rounded-2xl focus:outline-none"></textarea>
+      </div>
+      <div class="px-6 py-4 bg-slate-50 border-t border-slate-200 flex justify-end space-x-2">
+        <button id="copyShareTextBtn" class="px-5 py-2 text-xs font-bold bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl shadow-md flex items-center gap-1.5">
+          <span>📋</span> Copy to Clipboard
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Application Logic (Vanilla JS with Cloudflare D1 Backend Sync) -->
+  <script is:inline>
+    // Storage & Sync Configuration
+    const STORAGE_KEY = 'ssc_cgl_tracker_data_v1';
+    const SYNC_KEY_STORAGE = 'ssc_tracker_user_sync_id';
+    const API_ENDPOINT = '/api/tracker-mains';
+
+    // Default Seed Data: Day 2 from User Request
+    const DEFAULT_DAY_2_DATA = {
+      title: "SSC CGL 2026 T-2 | RBE Targets",
+      day: 2,
+      quote: "Don’t just count the days—make each day count. Today’s revision is tomorrow’s strength.",
+      tasks: [
+        {
+          id: "task-1",
+          number: 1,
+          subject: "Computer",
+          emoji: "💻",
+          title: "Computer — PYQ Sectional Tests",
+          description: `Attempt SSC CGL 2025 T-2 & SSC CHSL 2025 T-2 to understand what was asked in the exams. (Beginner)\nIf you have already take computer classes in the past, just solve all the cgl and chsl pyqs again.\n(2022 to 2025 T-2) -> total 220 Questions as a practice session.\n\nOpen: SSC CGL 2026 & CHSL 2026 Tier-2 Mock Tests → Computer Sectional Test → Computer PYQ CGL/CHSL T-2.`, 
+          subtasks: [
+            { id: "sub-1-1", text: "Solve SSC CGL 2025 T-2 Sectional Test", completed: false },
+            { id: "sub-1-2", text: "Solve SSC CHSL 2025 T-2 Sectional Test", completed: false },
+            { id: "sub-1-3", text: "220 PYQs Revision (2022-2025 T-2)", completed: false }
+          ],
+          links: [
+            { url: "https://rbelearning.com/test-series/116/tests?subjectId=39", label: "📝 Computer Mock Test" }
+          ],
+          completed: false,
+          score: "",
+          notes: ""
+        },
+        {
+          id: "task-2",
+          number: 2,
+          subject: "Typing",
+          emoji: "⌨️",
+          title: "Typing — 30 Minutes",
+          description: "Practise with accuracy and consistency on exam-oriented paragraphs.",
+          subtasks: [
+            { id: "sub-2-1", text: "30 Minutes continuous typing practice", completed: false }
+          ],
+          links: [
+            { url: "https://realmocks.com/typing", label: "⌨️ RealMocks Typing Test" }
+          ],
+          completed: false,
+          score: "",
+          notes: ""
+        },
+        {
+          id: "task-3",
+          number: 3,
+          subject: "Revision",
+          emoji: "🔄",
+          title: "Revision — Yesterday’s Maths & Reasoning",
+          description: "Reattempt every question you couldn’t solve in the Selection Post Best 50 sets. Try independently before checking the solutions.",
+          subtasks: [
+            { id: "sub-3-1", text: "Reattempt unsolved Maths questions independently", completed: false },
+            { id: "sub-3-2", text: "Reattempt Reasoning doubts from Selection Post sets", completed: false }
+          ],
+          links: [],
+          completed: false,
+          score: "",
+          notes: ""
+        },
+        {
+          id: "task-4",
+          number: 4,
+          subject: "Maths",
+          emoji: "📐",
+          title: "Maths — Top 50 Questions (Part 2)",
+          description: "Open: SSC Maths Chapter-wise & Topic-wise Mock Tests 2026–27 → Latest Exam Best Questions → SSC SP Phase 14 2026 T-1 Maths Top 50 (Part 2).",
+          subtasks: [
+            { id: "sub-4-1", text: "Attempt Top 50 Maths Mock Test (Part 2)", completed: false },
+            { id: "sub-4-2", text: "Watch Video Discussion for tricky solutions", completed: false }
+          ],
+          links: [
+            { url: "https://rbelearning.com/test-series/112/tests?subjectId=245", label: "📝 Maths Top 50 Test" },
+            { url: "https://youtu.be/r_m-vq5sSdA", label: "🎥 Video Discussion" }
+          ],
+          completed: false,
+          score: "",
+          notes: ""
+        },
+        {
+          id: "task-5",
+          number: 5,
+          subject: "English",
+          emoji: "📚",
+          title: "English — Topic-wise PYQ Tests",
+          description: "Open: SSC English Topic-Wise Mock Tests 2026 | All PYQs + Latest Eduquity Pattern Tests → SSC Selection Post XIV (PYQs) → English Topic-wise.",
+          subtasks: [
+            { id: "sub-5-1", text: "Adverb", completed: false },
+            { id: "sub-5-2", text: "Preposition", completed: false },
+            { id: "sub-5-3", text: "Fill in the Blanks", completed: false },
+            { id: "sub-5-4", text: "Error Detection — Parts 1 & 2", completed: false },
+            { id: "sub-5-5", text: "Sentence Improvement", completed: false }
+          ],
+          links: [
+            { url: "https://rbelearning.com/test-series/230/tests?subjectId=455", label: "📝 English Topic-wise Tests" }
+          ],
+          completed: false,
+          score: "",
+          notes: ""
+        }
+      ]
+    };
+
+    // Global State Store
+    const state = {
+      days: {
+        2: DEFAULT_DAY_2_DATA
+      },
+      currentDay: 2,
+      activeFilter: 'all',
+      streak: 2,
+      userId: null,
+      dbStatus: 'connecting', // 'connected', 'local', 'syncing', 'error'
+      timer: {
+        totalSeconds: 1800,
+        remainingSeconds: 1800,
+        interval: null,
+        isRunning: false
+      }
+    };
+
+    // DOM Elements Mapping
+    const elements = {
+      syncStatusBtn: document.getElementById('syncStatusBtn'),
+      syncDot: document.getElementById('syncDot'),
+      syncStatusText: document.getElementById('syncStatusText'),
+      toggleTimerBtn: document.getElementById('toggleTimerBtn'),
+      timerDisplay: document.getElementById('timerDisplay'),
+      studyTimerBar: document.getElementById('studyTimerBar'),
+      activeTimerText: document.getElementById('activeTimerText'),
+      timerStatusLabel: document.getElementById('timerStatusLabel'),
+      startTimerBtn: document.getElementById('startTimerBtn'),
+      pauseTimerBtn: document.getElementById('pauseTimerBtn'),
+      resetTimerBtn: document.getElementById('resetTimerBtn'),
+      closeTimerBarBtn: document.getElementById('closeTimerBarBtn'),
+      timerPreset15: document.getElementById('timerPreset15'),
+      timerPreset30: document.getElementById('timerPreset30'),
+      timerPreset60: document.getElementById('timerPreset60'),
+      dayTabsContainer: document.getElementById('dayTabsContainer'),
+      addNewDayBtn: document.getElementById('addNewDayBtn'),
+      shareDayBtn: document.getElementById('shareDayBtn'),
+      bannerDayBadge: document.getElementById('bannerDayBadge'),
+      bannerDate: document.getElementById('bannerDate'),
+      bannerTitle: document.getElementById('bannerTitle'),
+      quoteText: document.getElementById('quoteText'),
+      streakDisplay: document.getElementById('streakDisplay'),
+      statRatioDisplay: document.getElementById('statRatioDisplay'),
+      progressPercentText: document.getElementById('progressPercentText'),
+      progressBarFill: document.getElementById('progressBarFill'),
+      filterAllCount: document.getElementById('filterAllCount'),
+      filterPendingCount: document.getElementById('filterPendingCount'),
+      filterDoneCount: document.getElementById('filterDoneCount'),
+      taskList: document.getElementById('taskList'),
+      taskListCountBadge: document.getElementById('taskListCountBadge'),
+      emptyTasksState: document.getElementById('emptyTasksState'),
+      addNewTaskBtn: document.getElementById('addNewTaskBtn'),
+      markAllDoneBtn: document.getElementById('markAllDoneBtn'),
+      resetDayTasksBtn: document.getElementById('resetDayTasksBtn'),
+      
+      // Paste Modal
+      pasteModal: document.getElementById('pasteModal'),
+      openPasteModalBtn: document.getElementById('openPasteModalBtn'),
+      closePasteModalBtn: document.getElementById('closePasteModalBtn'),
+      cancelPasteModalBtn: document.getElementById('cancelPasteModalBtn'),
+      pasteScheduleInput: document.getElementById('pasteScheduleInput'),
+      loadSampleScheduleBtn: document.getElementById('loadSampleScheduleBtn'),
+      targetDayNumInput: document.getElementById('targetDayNumInput'),
+      overwriteDayCheckbox: document.getElementById('overwriteDayCheckbox'),
+      parsePreviewBox: document.getElementById('parsePreviewBox'),
+      previewTaskCountBadge: document.getElementById('previewTaskCountBadge'),
+      previewTaskList: document.getElementById('previewTaskList'),
+      confirmImportBtn: document.getElementById('confirmImportBtn'),
+      emptyPasteBtn: document.getElementById('emptyPasteBtn'),
+
+      // Task Edit/Add Modal
+      taskModal: document.getElementById('taskModal'),
+      taskModalTitle: document.getElementById('taskModalTitle'),
+      closeTaskModalBtn: document.getElementById('closeTaskModalBtn'),
+      cancelTaskModalBtn: document.getElementById('cancelTaskModalBtn'),
+      saveTaskBtn: document.getElementById('saveTaskBtn'),
+      editTaskId: document.getElementById('editTaskId'),
+      taskTitleInput: document.getElementById('taskTitleInput'),
+      taskDescInput: document.getElementById('taskDescInput'),
+      taskSubtasksInput: document.getElementById('taskSubtasksInput'),
+      taskLinkUrlInput: document.getElementById('taskLinkUrlInput'),
+
+      // Settings Modal (Cloudflare D1)
+      settingsModal: document.getElementById('settingsModal'),
+      openSettingsModalBtn: document.getElementById('openSettingsModalBtn'),
+      closeSettingsModalBtn: document.getElementById('closeSettingsModalBtn'),
+      closeSettingsModalFooterBtn: document.getElementById('closeSettingsModalFooterBtn'),
+      settingsStatusPill: document.getElementById('settingsStatusPill'),
+      settingsStatusDesc: document.getElementById('settingsStatusDesc'),
+      syncUserIdInput: document.getElementById('syncUserIdInput'),
+      copySyncKeyBtn: document.getElementById('copySyncKeyBtn'),
+      pairKeyInput: document.getElementById('pairKeyInput'),
+      applyPairKeyBtn: document.getElementById('applyPairKeyBtn'),
+      manualSyncBtn: document.getElementById('manualSyncBtn'),
+      resetSyncIdBtn: document.getElementById('resetSyncIdBtn'),
+      exportDataBtn: document.getElementById('exportDataBtn'),
+      importDataBtn: document.getElementById('importDataBtn'),
+      importFileInput: document.getElementById('importFileInput'),
+
+      // Score Modal
+      scoreModal: document.getElementById('scoreModal'),
+      closeScoreModalBtn: document.getElementById('closeScoreModalBtn'),
+      cancelScoreModalBtn: document.getElementById('cancelScoreModalBtn'),
+      saveScoreBtn: document.getElementById('saveScoreBtn'),
+      scoreTaskId: document.getElementById('scoreTaskId'),
+      taskScoreInput: document.getElementById('taskScoreInput'),
+      taskNotesInput: document.getElementById('taskNotesInput'),
+
+      // Share Modal
+      shareModal: document.getElementById('shareModal'),
+      closeShareModalBtn: document.getElementById('closeShareModalBtn'),
+      shareTextarea: document.getElementById('shareTextarea'),
+      copyShareTextBtn: document.getElementById('copyShareTextBtn'),
+
+      // Toast Container
+      toastContainer: document.getElementById('toastContainer')
+    };
+
+    // Helper: Toast Notifications
+    function showToast(message, type = 'info') {
+      const toast = document.createElement('div');
+      const bgColors = {
+        success: 'bg-emerald-600 text-white',
+        error: 'bg-rose-600 text-white',
+        info: 'bg-slate-800 text-white',
+        warning: 'bg-amber-600 text-white'
+      };
+      const icons = {
+        success: '✅',
+        error: '⚠️',
+        info: 'ℹ️',
+        warning: '⚡'
+      };
+
+      toast.className = `flex items-center gap-2.5 px-4 py-2.5 rounded-xl shadow-lg text-xs font-semibold ${bgColors[type] || bgColors.info} transition-all duration-300 transform translate-y-2 opacity-0 pointer-events-auto`;
+      toast.innerHTML = `<span>${icons[type] || '•'}</span><span>${message}</span>`;
+      
+      elements.toastContainer.appendChild(toast);
+      requestAnimationFrame(() => {
+        toast.classList.remove('translate-y-2', 'opacity-0');
+      });
+
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-y-2');
+        setTimeout(() => toast.remove(), 300);
+      }, 3200);
+    }
+
+    // Unicode Mathematical Font Normalization to Plain Text
+    function normalizeUnicode(text) {
+      if (!text) return '';
+      return text.normalize('NFKD');
+    }
+
+    // Schedule Text Parser (Handles Telegram bold/math symbols and bullet points)
+    function parseScheduleText(rawText) {
+      const clean = normalizeUnicode(rawText);
+      const lines = clean.split('\n').map(l => l.trim());
+
+      let dayNum = 2;
+      let title = "SSC CGL 2026 T-2 | RBE Targets";
+      let quote = "";
+
+      // 1. Detect Day Number
+      for (const line of lines) {
+        const match = line.match(/(?:Day|दिन)\s*(\d+)/i);
+        if (match) {
+          dayNum = parseInt(match[1], 10);
+          break;
+        }
+      }
+
+      // 2. Detect Title
+      for (const line of lines) {
+        if ((line.includes('SSC') || line.includes('Target') || line.includes('CGL')) && !/(?:Day|दिन)\s*\d+/i.test(line)) {
+          title = line.replace(/^[🎯\s]+/, '').trim();
+          break;
+        }
+      }
+
+      // 3. Detect Quote
+      for (const line of lines) {
+        if ((line.includes('“') || line.includes('"') || line.includes('🔥')) &&
+            !/(?:test|pyq|mock|open:|attempt|total)/i.test(line)) {
+          quote = line.replace(/^[🔥\s“"]+|[”"\s]+$/g, '').trim();
+          break;
+        }
+      }
+
+      // 4. Extract Tasks
+      const taskHeaderRegex = /^([^\w\d\s\(\[\{]*)\s*(\b\d{1,2}\b)[\.\)\:\s]+([^\r\n]+)$/;
+      const tasks = [];
+      let currentTask = null;
+
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i];
+        if (!line) continue;
+
+        if (quote && line.includes(quote.substring(0, 15))) continue;
+
+        const headerMatch = line.match(taskHeaderRegex);
+        if (headerMatch && !line.startsWith('(')) {
+          if (currentTask) {
+            tasks.push(finalizeTask(currentTask));
+          }
+          const rawEmoji = headerMatch[1].trim();
+          const num = parseInt(headerMatch[2], 10);
+          const fullTitle = headerMatch[3].trim();
+          
+          let subj = "Other";
+          let emoji = rawEmoji || "📌";
+          const titleLower = fullTitle.toLowerCase();
+          if (titleLower.includes('computer')) { subj = 'Computer'; emoji = emoji || '💻'; }
+          else if (titleLower.includes('typing')) { subj = 'Typing'; emoji = emoji || '⌨️'; }
+          else if (titleLower.includes('maths') || titleLower.includes('math')) { subj = 'Maths'; emoji = emoji || '📐'; }
+          else if (titleLower.includes('english')) { subj = 'English'; emoji = emoji || '📚'; }
+          else if (titleLower.includes('reasoning')) { subj = 'Reasoning'; emoji = emoji || '🧠'; }
+          else if (titleLower.includes('revision')) { subj = 'Revision'; emoji = emoji || '🔄'; }
+          else if (titleLower.includes('gk') || titleLower.includes('gs') || titleLower.includes('general')) { subj = 'GK/GS'; emoji = emoji || '🏛️'; }
+
+          currentTask = {
+            id: `task-${tasks.length + 1}-${Date.now()}`,
+            number: num,
+            subject: subj,
+            emoji: emoji,
+            title: fullTitle,
+            descLines: [],
+            subtasks: [],
+            links: [],
+            completed: false,
+            score: "",
+            notes: ""
+          };
+          continue;
+        }
+
+        if (currentTask) {
+          const urlMatch = line.match(/(https?:\/\/[^\s]+)/);
+          if (urlMatch) {
+            const url = urlMatch[1];
+            let label = "🔗 Open Link";
+            const lineLower = line.toLowerCase();
+            if (url.includes('youtube') || url.includes('youtu.be') || lineLower.includes('discussion')) {
+              label = "🎥 Video Discussion";
+            } else if (url.includes('test-series') || lineLower.includes('test')) {
+              label = "📝 Mock Test";
+            } else if (url.includes('typing') || url.includes('realmocks')) {
+              label = "⌨️ Typing Practice";
+            } else if (lineLower.includes('flipkart')) {
+              label = "📘 Flipkart";
+            } else if (lineLower.includes('amazon')) {
+              label = "📘 Amazon";
+            }
+            currentTask.links.push({ url, label });
+
+            const preText = line.replace(url, '').replace(/^[🔗📝🎥\s\:\-]+/, '').trim();
+            if (preText) {
+              currentTask.descLines.push(preText);
+            }
+            continue;
+          }
+
+          if (/^[•\-\*]\s+/.test(line)) {
+            const bulletText = line.replace(/^[•\-\*]\s+/, '').trim();
+            if (bulletText) {
+              currentTask.subtasks.push({
+                id: `sub-${currentTask.id}-${currentTask.subtasks.length + 1}`,
+                text: bulletText,
+                completed: false
+              });
+            }
+            continue;
+          }
+
+          currentTask.descLines.push(line);
+        }
+      }
+
+      if (currentTask) {
+        tasks.push(finalizeTask(currentTask));
+      }
+
+      return {
+        title,
+        day: dayNum,
+        quote: quote || "Don’t just count the days—make each day count. Today’s revision is tomorrow’s strength.",
+        tasks
+      };
+    }
+
+    function finalizeTask(t) {
+      return {
+        id: t.id,
+        number: t.number,
+        subject: t.subject,
+        emoji: t.emoji,
+        title: t.title,
+        description: t.descLines.join('\n').trim(),
+        subtasks: t.subtasks,
+        links: t.links,
+        completed: t.completed,
+        score: t.score,
+        notes: t.notes
+      };
+    }
+
+    // Local Storage Operations
+    function loadLocalData() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (parsed && parsed.days) {
+            state.days = parsed.days;
+            state.currentDay = parsed.currentDay || 2;
+            state.streak = parsed.streak || 2;
+            return true;
+          }
+        }
+      } catch (err) {
+        console.warn("Error reading localStorage:", err);
+      }
+      return false;
+    }
+
+    function saveLocalData() {
+      try {
+        const payload = {
+          days: state.days,
+          currentDay: state.currentDay,
+          streak: state.streak,
+          updatedAt: new Date().toISOString()
+        };
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+      } catch (err) {
+        console.warn("Error saving to localStorage:", err);
+      }
+    }
+
+    // Cloudflare D1 Database Sync Engine
+    function initUserSyncKey() {
+      let key = localStorage.getItem(SYNC_KEY_STORAGE);
+      if (!key) {
+        // Generate friendly unique sync key
+        const randomPart = Math.random().toString(36).substring(2, 10);
+        key = `cf_sync_${Date.now().toString(36)}_${randomPart}`;
+        localStorage.setItem(SYNC_KEY_STORAGE, key);
+      }
+      state.userId = key;
+      if (elements.syncUserIdInput) {
+        elements.syncUserIdInput.value = key;
+      }
+    }
+
+    function updateSyncStatusUI(status, label) {
+      state.dbStatus = status;
+      elements.syncStatusText.textContent = label;
+
+      if (status === 'connected') {
+        elements.syncDot.className = 'w-2 h-2 rounded-full bg-emerald-400';
+        elements.settingsStatusPill.className = 'px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800';
+        elements.settingsStatusPill.textContent = '🟢 Cloudflare D1 Synced';
+        elements.settingsStatusDesc.textContent = 'Real-time synchronization active with Cloudflare D1 Database.';
+      } else if (status === 'syncing') {
+        elements.syncDot.className = 'w-2 h-2 rounded-full bg-amber-400 animate-pulse';
+        elements.settingsStatusPill.className = 'px-2.5 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800';
+        elements.settingsStatusPill.textContent = '🟡 Syncing to Cloudflare D1...';
+      } else if (status === 'local') {
+        elements.syncDot.className = 'w-2 h-2 rounded-full bg-blue-400';
+        elements.settingsStatusPill.className = 'px-2.5 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-800';
+        elements.settingsStatusPill.textContent = '🔵 Local Cache Mode';
+        elements.settingsStatusDesc.textContent = 'Operating locally. All targets are securely cached in your browser storage.';
+      } else {
+        elements.syncDot.className = 'w-2 h-2 rounded-full bg-rose-400';
+        elements.settingsStatusPill.className = 'px-2.5 py-1 rounded-full text-xs font-bold bg-rose-100 text-rose-800';
+        elements.settingsStatusPill.textContent = '⚠️ Offline Cache Active';
+        elements.settingsStatusDesc.textContent = 'Operating in offline cache mode. Changes will automatically sync to Cloudflare D1 when connected.';
+      }
+    }
+
+    async function syncWithCloudflare(isInitial = false) {
+      if (!state.userId) initUserSyncKey();
+      updateSyncStatusUI('syncing', 'Connecting to Cloudflare D1...');
+
+      try {
+        const res = await fetch(`${API_ENDPOINT}?userId=${encodeURIComponent(state.userId)}`, {
+          method: 'GET',
+          headers: {
+            'X-Tracker-User-Id': state.userId,
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (!res.ok) {
+          throw new Error(`HTTP ${res.status}`);
+        }
+
+        const json = await res.json();
+
+        if (json.data && json.data.days && Object.keys(json.data.days).length > 0) {
+          // Cloud has existing data
+          state.days = json.data.days;
+          if (json.data.currentDay) state.currentDay = json.data.currentDay;
+          if (json.data.streak) state.streak = json.data.streak;
+          saveLocalData();
+          renderUI();
+          updateSyncStatusUI('connected', 'Cloudflare D1 Synced');
+          if (!isInitial) showToast('Synchronized with Cloudflare D1', 'success');
+        } else {
+          // No cloud data yet for this user: push local/seed data
+          await pushToCloudflare(true);
+        }
+
+      } catch (err) {
+        console.warn('[Cloudflare D1 sync error]', err);
+        updateSyncStatusUI('local', 'Offline / Local Cache');
+        if (!isInitial) showToast('Using local cache (Cloudflare offline)', 'info');
+      }
+    }
+
+    let saveDebounceTimer = null;
+    function queueCloudflarePush() {
+      saveLocalData();
+      if (saveDebounceTimer) clearTimeout(saveDebounceTimer);
+      saveDebounceTimer = setTimeout(() => {
+        pushToCloudflare();
+      }, 700);
+    }
+
+    async function pushToCloudflare(isInitial = false) {
+      if (!state.userId) initUserSyncKey();
+
+      try {
+        const payload = {
+          userId: state.userId,
+          data: {
+            days: state.days,
+            currentDay: state.currentDay,
+            streak: state.streak,
+            lastUpdated: new Date().toISOString()
+          }
+        };
+
+        const res = await fetch(API_ENDPOINT, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Tracker-User-Id': state.userId
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (!res.ok) {
+          throw new Error(`HTTP ${res.status}`);
+        }
+
+        updateSyncStatusUI('connected', 'Cloudflare D1 Synced');
+        if (!isInitial) {
+          // subtle sync indication
+        }
+      } catch (err) {
+        console.warn('[Cloudflare D1 push error]', err);
+        updateSyncStatusUI('local', 'Saved to Local Cache');
+      }
+    }
+
+    // UI Rendering Functions
+    function getActiveDayData() {
+      if (!state.days[state.currentDay]) {
+        state.days[state.currentDay] = {
+          title: `SSC CGL 2026 T-2 Targets — Day ${state.currentDay}`,
+          day: state.currentDay,
+          quote: "Consistency is what transforms average into excellence.",
+          tasks: []
+        };
+      }
+      return state.days[state.currentDay];
+    }
+
+    function renderUI() {
+      renderDayTabs();
+      renderBannerAndProgress();
+      renderTasksList();
+    }
+
+    function renderDayTabs() {
+      elements.dayTabsContainer.innerHTML = '';
+      const dayNumbers = Object.keys(state.days).map(Number).sort((a, b) => a - b);
+
+      dayNumbers.forEach(dayNum => {
+        const dayData = state.days[dayNum];
+        const total = dayData.tasks ? dayData.tasks.length : 0;
+        const done = dayData.tasks ? dayData.tasks.filter(t => t.completed).length : 0;
+        const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+
+        const tabBtn = document.createElement('button');
+        const isActive = dayNum === state.currentDay;
+
+        tabBtn.className = `flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-semibold shrink-0 transition ${
+          isActive 
+            ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-600/30' 
+            : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+        }`;
+
+        tabBtn.innerHTML = `
+          <span>Day ${dayNum}</span>
+          <span class="px-1.5 py-0.5 rounded-md text-[10px] font-bold ${
+            isActive ? 'bg-indigo-700 text-indigo-100' : 'bg-slate-200 text-slate-600'
+          }">${pct}%</span>
+        `;
+
+        tabBtn.addEventListener('click', () => {
+          state.currentDay = dayNum;
+          renderUI();
+          queueCloudflarePush();
+        });
+
+        elements.dayTabsContainer.appendChild(tabBtn);
+      });
+    }
+
+    function renderBannerAndProgress() {
+      const dayData = getActiveDayData();
+      elements.bannerDayBadge.textContent = `Day ${dayData.day}`;
+      elements.bannerTitle.textContent = dayData.title || `SSC CGL 2026 T-2 Targets — Day ${dayData.day}`;
+      elements.quoteText.textContent = dayData.quote ? `“${dayData.quote}”` : "“Don’t just count the days—make each day count.”";
+
+      const total = dayData.tasks.length;
+      const done = dayData.tasks.filter(t => t.completed).length;
+      const pending = total - done;
+      const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+
+      elements.statRatioDisplay.textContent = `${done} / ${total} Tasks`;
+      elements.progressPercentText.textContent = `${pct}%`;
+      elements.progressBarFill.style.width = `${pct}%`;
+      elements.streakDisplay.textContent = `${state.streak} Days Streak`;
+
+      elements.filterAllCount.textContent = total;
+      elements.filterPendingCount.textContent = pending;
+      elements.filterDoneCount.textContent = done;
+      elements.taskListCountBadge.textContent = `${total} items`;
+    }
+
+    function renderTasksList() {
+      elements.taskList.innerHTML = '';
+      const dayData = getActiveDayData();
+
+      let tasks = dayData.tasks || [];
+
+      // Apply filter
+      if (state.activeFilter === 'pending') {
+        tasks = tasks.filter(t => !t.completed);
+      } else if (state.activeFilter === 'completed') {
+        tasks = tasks.filter(t => t.completed);
+      }
+
+      if (tasks.length === 0) {
+        elements.emptyTasksState.classList.remove('hidden');
+        return;
+      }
+      elements.emptyTasksState.classList.add('hidden');
+
+      tasks.forEach((task, index) => {
+        const card = createTaskCardElement(task, index);
+        elements.taskList.appendChild(card);
+      });
+    }
+
+    function createTaskCardElement(task, index) {
+      const card = document.createElement('div');
+      const isCompleted = task.completed;
+
+      // Subject badge color scheme
+      const subjColors = {
+        'Maths': 'bg-emerald-100 text-emerald-800 border-emerald-200',
+        'English': 'bg-rose-100 text-rose-800 border-rose-200',
+        'Reasoning': 'bg-violet-100 text-violet-800 border-violet-200',
+        'Computer': 'bg-sky-100 text-sky-800 border-sky-200',
+        'Typing': 'bg-purple-100 text-purple-800 border-purple-200',
+        'Revision': 'bg-amber-100 text-amber-800 border-amber-200',
+        'GK/GS': 'bg-teal-100 text-teal-800 border-teal-200',
+        'Other': 'bg-slate-100 text-slate-800 border-slate-200'
+      };
+      const badgeClass = subjColors[task.subject] || subjColors['Other'];
+
+      card.className = `group bg-white rounded-2xl p-5 border transition-all duration-200 shadow-sm hover:shadow-md ${
+        isCompleted 
+          ? 'border-emerald-200/80 bg-emerald-50/20' 
+          : 'border-slate-200/90'
+      }`;
+
+      // Build Subtasks HTML
+      let subtasksHTML = '';
+      if (task.subtasks && task.subtasks.length > 0) {
+        subtasksHTML = `
+          <div class="mt-3 pt-3 border-t border-slate-100 space-y-1.5">
+            <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Subtopics / Checklist:</p>
+            <div class="space-y-1">
+              ${task.subtasks.map(sub => `
+                <label class="flex items-start gap-2 p-1.5 rounded-lg hover:bg-slate-50 cursor-pointer text-xs">
+                  <input type="checkbox" data-task-id="${task.id}" data-sub-id="${sub.id}" class="subtask-checkbox mt-0.5 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300 w-3.5 h-3.5" ${sub.completed ? 'checked' : ''}>
+                  <span class="${sub.completed ? 'line-through text-slate-400' : 'text-slate-700 font-medium'}">${sub.text}</span>
+                </label>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }
+
+      // Build Links HTML
+      let linksHTML = '';
+      if (task.links && task.links.length > 0) {
+        linksHTML = `
+          <div class="flex flex-wrap items-center gap-2 mt-3 pt-2">
+            ${task.links.map(l => `
+              <a href="${l.url}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-indigo-50 hover:text-indigo-700 text-slate-700 border border-slate-200 text-xs font-semibold transition group/link">
+                <span>${l.label || '🔗 Open Link'}</span>
+                <span class="text-[10px] text-slate-400 group-hover/link:text-indigo-600">↗</span>
+              </a>
+            `).join('')}
+          </div>
+        `;
+      }
+
+      // Build Score & Notes HTML
+      let scoreNotesHTML = '';
+      if (task.score || task.notes) {
+        scoreNotesHTML = `
+          <div class="mt-3 p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs space-y-1">
+            ${task.score ? `<div class="font-semibold text-indigo-700">🎯 Score / Stats: <span class="font-normal text-slate-700">${task.score}</span></div>` : ''}
+            ${task.notes ? `<div class="font-semibold text-slate-600">📝 Notes: <span class="font-normal text-slate-700">${task.notes}</span></div>` : ''}
+          </div>
+        `;
+      }
+
+      card.innerHTML = `
+        <div class="flex items-start gap-3 sm:gap-4">
+          <!-- Big Checkbox -->
+          <div class="pt-0.5">
+            <input type="checkbox" data-task-id="${task.id}" class="main-task-checkbox w-6 h-6 rounded-lg text-emerald-600 focus:ring-emerald-500 border-slate-300 cursor-pointer transition shadow-sm" ${isCompleted ? 'checked' : ''}>
+          </div>
+
+          <!-- Content Area -->
+          <div class="flex-1 min-w-0">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div class="flex items-center gap-2">
+                <span class="px-2.5 py-0.5 rounded-full text-xs font-bold border ${badgeClass}">
+                  ${task.emoji || '📌'} ${task.subject || 'Task'}
+                </span>
+                <span class="text-xs font-semibold text-slate-400">#${task.number || (index + 1)}</span>
+              </div>
+
+              <!-- Action Menu Buttons -->
+              <div class="flex items-center space-x-1 opacity-80 group-hover:opacity-100 transition">
+                <button data-action="score" data-task-id="${task.id}" class="p-1.5 text-slate-400 hover:text-indigo-600 rounded-lg hover:bg-slate-100 text-xs" title="Add Score or Note">
+                  ✏️ Score
+                </button>
+                <button data-action="edit" data-task-id="${task.id}" class="p-1.5 text-slate-400 hover:text-slate-700 rounded-lg hover:bg-slate-100 text-xs" title="Edit Task">
+                  ⚙️
+                </button>
+                <button data-action="delete" data-task-id="${task.id}" class="p-1.5 text-slate-400 hover:text-rose-600 rounded-lg hover:bg-slate-100 text-xs" title="Delete Task">
+                  🗑️
+                </button>
+              </div>
+            </div>
+
+            <!-- Title -->
+            <h4 class="text-sm sm:text-base font-bold text-slate-800 mt-1.5 ${isCompleted ? 'line-through text-slate-400' : ''}">
+              ${task.title}
+            </h4>
+
+            <!-- Description -->
+            ${task.description ? `
+              <p class="text-xs sm:text-sm text-slate-600 mt-1.5 whitespace-pre-line leading-relaxed ${isCompleted ? 'text-slate-400' : ''}">
+                ${task.description}
+              </p>
+            ` : ''}
+
+            <!-- Subtasks -->
+            ${subtasksHTML}
+
+            <!-- Links -->
+            ${linksHTML}
+
+            <!-- Score & Notes -->
+            ${scoreNotesHTML}
+          </div>
+        </div>
+      `;
+
+      // Attach Event Listeners
+      const mainCheckbox = card.querySelector('.main-task-checkbox');
+      mainCheckbox.addEventListener('change', (e) => {
+        toggleTaskCompletion(task.id, e.target.checked);
+      });
+
+      card.querySelectorAll('.subtask-checkbox').forEach(cb => {
+        cb.addEventListener('change', (e) => {
+          const subId = e.target.getAttribute('data-sub-id');
+          toggleSubtaskCompletion(task.id, subId, e.target.checked);
+        });
+      });
+
+      card.querySelector('[data-action="score"]').addEventListener('click', () => {
+        openScoreModal(task.id);
+      });
+
+      card.querySelector('[data-action="edit"]').addEventListener('click', () => {
+        openEditTaskModal(task.id);
+      });
+
+      card.querySelector('[data-action="delete"]').addEventListener('click', () => {
+        deleteTask(task.id);
+      });
+
+      return card;
+    }
+
+    // Task Actions
+    function toggleTaskCompletion(taskId, isCompleted) {
+      const dayData = getActiveDayData();
+      const task = dayData.tasks.find(t => t.id === taskId);
+      if (!task) return;
+
+      task.completed = isCompleted;
+      if (task.subtasks) {
+        task.subtasks.forEach(s => s.completed = isCompleted);
+      }
+
+      if (isCompleted) {
+        showToast(`Target Completed: ${task.title.substring(0, 28)}...`, 'success');
+      }
+
+      queueCloudflarePush();
+      renderUI();
+    }
+
+    function toggleSubtaskCompletion(taskId, subId, isCompleted) {
+      const dayData = getActiveDayData();
+      const task = dayData.tasks.find(t => t.id === taskId);
+      if (!task || !task.subtasks) return;
+
+      const sub = task.subtasks.find(s => s.id === subId);
+      if (sub) {
+        sub.completed = isCompleted;
+      }
+
+      const allDone = task.subtasks.every(s => s.completed);
+      task.completed = allDone;
+
+      queueCloudflarePush();
+      renderUI();
+    }
+
+    function deleteTask(taskId) {
+      const dayData = getActiveDayData();
+      const idx = dayData.tasks.findIndex(t => t.id === taskId);
+      if (idx !== -1) {
+        dayData.tasks.splice(idx, 1);
+        showToast('Task removed', 'info');
+        queueCloudflarePush();
+        renderUI();
+      }
+    }
+
+    // Study Timer / Pomodoro Logic
+    function updateTimerDisplay() {
+      const mins = Math.floor(state.timer.remainingSeconds / 60);
+      const secs = state.timer.remainingSeconds % 60;
+      const fmt = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+      elements.timerDisplay.textContent = fmt;
+      elements.activeTimerText.textContent = fmt;
+      const mobileLabel = document.getElementById('mobileTimerLabel');
+      if (mobileLabel) mobileLabel.textContent = fmt;
+    }
+
+    function startTimer() {
+      if (state.timer.isRunning) return;
+      state.timer.isRunning = true;
+      elements.timerStatusLabel.textContent = 'Running';
+      elements.timerStatusLabel.className = 'text-xs px-2 py-0.5 rounded bg-emerald-600 text-white animate-pulse';
+      elements.startTimerBtn.classList.add('hidden');
+      elements.pauseTimerBtn.classList.remove('hidden');
+
+      state.timer.interval = setInterval(() => {
+        if (state.timer.remainingSeconds > 0) {
+          state.timer.remainingSeconds--;
+          updateTimerDisplay();
+        } else {
+          pauseTimer();
+          showToast('⏰ Time is up! Target session completed.', 'success');
+          playChime();
+        }
+      }, 1000);
+    }
+
+    function pauseTimer() {
+      state.timer.isRunning = false;
+      clearInterval(state.timer.interval);
+      elements.timerStatusLabel.textContent = 'Paused';
+      elements.timerStatusLabel.className = 'text-xs px-2 py-0.5 rounded bg-amber-600 text-white';
+      elements.startTimerBtn.classList.remove('hidden');
+      elements.pauseTimerBtn.classList.add('hidden');
+    }
+
+    function resetTimer(seconds = 1800) {
+      pauseTimer();
+      state.timer.totalSeconds = seconds;
+      state.timer.remainingSeconds = seconds;
+      elements.timerStatusLabel.textContent = 'Ready';
+      elements.timerStatusLabel.className = 'text-xs px-2 py-0.5 rounded bg-slate-700 text-slate-300';
+      updateTimerDisplay();
+    }
+
+    function playChime() {
+      try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(587.33, audioCtx.currentTime); // D5
+        osc.frequency.setValueAtTime(880, audioCtx.currentTime + 0.15); // A5
+        gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.6);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.6);
+      } catch (e) {
+        console.log("Audio not supported or blocked");
+      }
+    }
+
+    // Modal Operations
+    function openPasteModal() {
+      elements.pasteModal.classList.remove('hidden');
+      elements.targetDayNumInput.value = state.currentDay;
+      elements.pasteScheduleInput.focus();
+    }
+
+    function closePasteModal() {
+      elements.pasteModal.classList.add('hidden');
+    }
+
+    function openEditTaskModal(taskId = null) {
+      elements.taskModal.classList.remove('hidden');
+      const dayData = getActiveDayData();
+
+      if (taskId) {
+        const task = dayData.tasks.find(t => t.id === taskId);
+        if (task) {
+          elements.taskModalTitle.textContent = "Edit Target Task";
+          elements.editTaskId.value = task.id;
+          elements.taskTitleInput.value = task.title;
+          elements.taskDescInput.value = task.description || '';
+          elements.taskSubtasksInput.value = (task.subtasks || []).map(s => s.text).join('\n');
+          elements.taskLinkUrlInput.value = (task.links && task.links[0]) ? task.links[0].url : '';
+          return;
+        }
+      }
+
+      elements.taskModalTitle.textContent = "Add New Target Task";
+      elements.editTaskId.value = '';
+      elements.taskTitleInput.value = '';
+      elements.taskDescInput.value = '';
+      elements.taskSubtasksInput.value = '';
+      elements.taskLinkUrlInput.value = '';
+    }
+
+    function closeTaskModal() {
+      elements.taskModal.classList.add('hidden');
+    }
+
+    function openScoreModal(taskId) {
+      const dayData = getActiveDayData();
+      const task = dayData.tasks.find(t => t.id === taskId);
+      if (!task) return;
+
+      elements.scoreTaskId.value = taskId;
+      elements.taskScoreInput.value = task.score || '';
+      elements.taskNotesInput.value = task.notes || '';
+      elements.scoreModal.classList.remove('hidden');
+      elements.taskScoreInput.focus();
+    }
+
+    function closeScoreModal() {
+      elements.scoreModal.classList.add('hidden');
+    }
+
+    function openSettingsModal() {
+      elements.settingsModal.classList.remove('hidden');
+      if (elements.syncUserIdInput) {
+        elements.syncUserIdInput.value = state.userId || '';
+      }
+    }
+
+    function closeSettingsModal() {
+      elements.settingsModal.classList.add('hidden');
+    }
+
+    function openShareModal() {
+      const dayData = getActiveDayData();
+      const total = dayData.tasks.length;
+      const done = dayData.tasks.filter(t => t.completed).length;
+      const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+
+      let msg = `🎯 ${dayData.title || `SSC CGL 2026 T-2 Targets — Day ${dayData.day}`}\n`;
+      msg += `📅 Day ${dayData.day} Progress Update\n`;
+      msg += `✅ Status: ${done}/${total} Completed (${pct}%)\n`;
+      msg += `━━━━━━━━━━━━━━━━━━━━━\n`;
+
+      dayData.tasks.forEach((t) => {
+        const icon = t.completed ? '✅' : '⏳';
+        msg += `${icon} ${t.emoji || '📌'} ${t.title}: ${t.completed ? 'Done' : 'Pending'}`;
+        if (t.score) msg += ` [Score: ${t.score}]`;
+        msg += `\n`;
+      });
+
+      msg += `━━━━━━━━━━━━━━━━━━━━━\n`;
+      msg += `🔥 Current Streak: ${state.streak} Days\n`;
+      msg += `#SSCCGL2026 #RBETargets #StudyDaily`;
+
+      elements.shareTextarea.value = msg;
+      elements.shareModal.classList.remove('hidden');
+    }
+
+    function closeShareModal() {
+      elements.shareModal.classList.add('hidden');
+    }
+
+    // Event Listeners Binding
+    function setupEventListeners() {
+      // Mobile Bottom Bar Controls
+      const mobilePasteBtn = document.getElementById('mobilePasteBtn');
+      if (mobilePasteBtn) mobilePasteBtn.addEventListener('click', openPasteModal);
+
+      const mobileTimerBtn = document.getElementById('mobileTimerBtn');
+      if (mobileTimerBtn) mobileTimerBtn.addEventListener('click', () => {
+        elements.studyTimerBar.classList.toggle('hidden');
+        if (!elements.studyTimerBar.classList.contains('hidden')) {
+          elements.studyTimerBar.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+
+      const mobileAddTaskBtn = document.getElementById('mobileAddTaskBtn');
+      if (mobileAddTaskBtn) mobileAddTaskBtn.addEventListener('click', () => openEditTaskModal(null));
+
+      const mobileShareBtn = document.getElementById('mobileShareBtn');
+      if (mobileShareBtn) mobileShareBtn.addEventListener('click', openShareModal);
+
+      // Timer Bar Toggles
+      elements.toggleTimerBtn.addEventListener('click', () => {
+        elements.studyTimerBar.classList.toggle('hidden');
+      });
+      elements.closeTimerBarBtn.addEventListener('click', () => {
+        elements.studyTimerBar.classList.add('hidden');
+      });
+      elements.startTimerBtn.addEventListener('click', startTimer);
+      elements.pauseTimerBtn.addEventListener('click', pauseTimer);
+      elements.resetTimerBtn.addEventListener('click', () => resetTimer(state.timer.totalSeconds));
+
+      elements.timerPreset15.addEventListener('click', () => resetTimer(900));
+      elements.timerPreset30.addEventListener('click', () => resetTimer(1800));
+      elements.timerPreset60.addEventListener('click', () => resetTimer(3600));
+
+      // Paste Modal
+      elements.openPasteModalBtn.addEventListener('click', openPasteModal);
+      elements.emptyPasteBtn.addEventListener('click', openPasteModal);
+      elements.closePasteModalBtn.addEventListener('click', closePasteModal);
+      elements.cancelPasteModalBtn.addEventListener('click', closePasteModal);
+
+      // Load Sample Target
+      elements.loadSampleScheduleBtn.addEventListener('click', () => {
+        const sampleText = `🎯 𝗦𝗦𝗖 𝗖𝗚𝗟 𝟮𝟬𝟮𝟲 𝗧-𝟮 | 𝗥𝗕𝗘 𝗧𝗮𝗿𝗴𝗲𝘁𝘀
+📅 𝗗𝗮𝘆 𝟮
+
+💻 𝟭. 𝗖𝗼𝗺𝗽𝘂𝘁𝗲𝗿 — 𝗣𝗬𝗤 𝗦𝗲𝗰𝘁𝗶𝗼𝗻𝗮𝗹 𝗧𝗲𝘀𝘁𝘀
+Attempt 𝗦𝗦𝗖 𝗖𝗚𝗟 𝟮𝟬𝟮𝟱 𝗧-𝟮 & 𝗦𝗦𝗖 𝗖𝗛𝗦𝗟 𝟮𝟬𝟮𝟱 𝗧-𝟮 to understand what was asked in the exams. (Beginner)
+If you have already take computer classes in the past, just solve all the cgl and chsl pyqs again. 
+(2022 to 2025 T-2) -> total 220 Questions as a practice session. 
+
+Open: SSC CGL 2026 & CHSL 2026 Tier-2 Mock Tests → Computer Sectional Test → Computer PYQ CGL/CHSL T-2.
+
+🔗 https://rbelearning.com/test-series/116/tests?subjectId=39
+
+⌨️ 𝟮. 𝗧𝘆𝗽𝗶𝗻𝗴 — 𝟯𝟬 𝗠𝗶𝗻𝘂𝘁𝗲𝘀
+Practise with accuracy and consistency.
+🔗 https://realmocks.com/typing
+
+🔄 𝟯. 𝗥𝗲𝘃𝗶𝘀𝗶𝗼𝗻 — 𝗬𝗲𝘀𝘁𝗲𝗿𝗱𝗮𝘆’𝘀 𝗠𝗮𝘁𝗵𝘀 & 𝗥𝗲𝗮𝘀𝗼𝗻𝗶𝗻𝗴
+Reattempt every question you couldn’t solve in the 𝗦𝗲𝗹𝗲𝗰𝘁𝗶𝗼𝗻 𝗣𝗼𝘀𝘁 𝗕𝗲𝘀𝘁 𝟱𝟬 sets. Try independently before checking the solutions.
+
+📐 𝟰. 𝗠𝗮𝘁𝗵𝘀 — 𝗧𝗼𝗽 𝟱𝟬 𝗤𝘂𝗲𝘀𝘁𝗶𝗼𝗻𝘀 (𝗣𝗮𝗿𝘁 𝟮)
+Open: SSC Maths Chapter-wise & Topic-wise Mock Tests 2026–27 → Latest Exam Best Questions → SSC SP Phase 14 2026 T-1 Maths Top 50 (Part 2).
+
+📝 Test: https://rbelearning.com/test-series/112/tests?subjectId=245
+🎥 Discussion: https://youtu.be/r_m-vq5sSdA
+
+📚 𝟱. 𝗘𝗻𝗴𝗹𝗶𝘀𝗵 — 𝗧𝗼𝗽-𝘄𝗶𝘀𝗲 𝗣𝗬𝗤 𝗧𝗲𝘀𝘁𝘀
+Open: SSC English Topic-Wise Mock Tests 2026 | All PYQs + Latest Eduquity Pattern Tests → SSC Selection Post XIV (PYQs) → English Topic-wise.
+
+Complete:
+• Adverb
+• Preposition
+• Fill in the Blanks
+• Error Detection — Parts 1 & 2
+• Sentence Improvement
+
+🔗 https://rbelearning.com/test-series/230/tests?subjectId=455
+
+📘 𝗥𝗕𝗘 𝗖𝗼𝗺𝗽𝘂𝘁𝗲𝗿 𝗕𝗼𝗼𝗸
+📘𝗙𝗹𝗶𝗽𝗸𝗮𝗿𝘁: English Hindi 
+📘𝗔𝗺𝗮𝘇𝗼𝗻: English  Hindi
+
+🔥 “𝗗𝗼𝗻’𝘁 𝗷𝘂𝘀𝘁 𝗰𝗼𝘂𝗻𝘁 𝘁𝗵𝗲 𝗱𝗮𝘆𝘀—𝗺𝗮𝗸𝗲 𝗲𝗮𝗰𝗵 𝗱𝗮𝘆 𝗰𝗼𝘂𝗻𝘁. 𝗧𝗼𝗱𝗮𝘆’𝘀 𝗿𝗲𝘃𝗶𝘀𝗶𝗼𝗻 𝗶𝘀 𝘁𝗼𝗺𝗼𝗿𝗿𝗼𝘄’𝘀 𝘀𝘁𝗿𝗲𝗻𝗴𝘁𝗵.”`;
+        elements.pasteScheduleInput.value = sampleText;
+        updatePastePreview();
+      });
+
+      // Live parsing preview
+      elements.pasteScheduleInput.addEventListener('input', updatePastePreview);
+
+      function updatePastePreview() {
+        const val = elements.pasteScheduleInput.value.trim();
+        if (!val) {
+          elements.parsePreviewBox.classList.add('hidden');
+          return;
+        }
+        const parsed = parseScheduleText(val);
+        elements.targetDayNumInput.value = parsed.day;
+        elements.parsePreviewBox.classList.remove('hidden');
+        elements.previewTaskCountBadge.textContent = `${parsed.tasks.length} tasks detected`;
+
+        elements.previewTaskList.innerHTML = parsed.tasks.map(t => `
+          <div class="flex items-center gap-1.5 py-0.5">
+            <span>${t.emoji}</span>
+            <span class="font-semibold text-slate-800">${t.title}</span>
+            ${t.subtasks && t.subtasks.length > 0 ? `<span class="text-[10px] bg-indigo-100 text-indigo-700 px-1.5 py-0.2 rounded font-bold">${t.subtasks.length} subtasks</span>` : ''}
+          </div>
+        `).join('');
+      }
+
+      // Confirm Import
+      elements.confirmImportBtn.addEventListener('click', () => {
+        const text = elements.pasteScheduleInput.value.trim();
+        if (!text) {
+          showToast('Please paste a schedule first', 'warning');
+          return;
+        }
+
+        const parsed = parseScheduleText(text);
+        const dayNum = parseInt(elements.targetDayNumInput.value, 10) || parsed.day;
+        
+        parsed.day = dayNum;
+        state.days[dayNum] = parsed;
+
+        if (elements.overwriteDayCheckbox.checked) {
+          state.currentDay = dayNum;
+        }
+
+        closePasteModal();
+        showToast(`Successfully imported Day ${dayNum} targets!`, 'success');
+        queueCloudflarePush();
+        renderUI();
+      });
+
+      // Add New Day Button
+      elements.addNewDayBtn.addEventListener('click', () => {
+        const dayNumbers = Object.keys(state.days).map(Number);
+        const nextDay = (Math.max(0, ...dayNumbers) || 0) + 1;
+        state.days[nextDay] = {
+          title: `SSC CGL 2026 T-2 Targets — Day ${nextDay}`,
+          day: nextDay,
+          quote: "Consistency is what transforms average into excellence.",
+          tasks: []
+        };
+        state.currentDay = nextDay;
+        showToast(`Added Day ${nextDay}`, 'info');
+        queueCloudflarePush();
+        renderUI();
+      });
+
+      // Filters
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.filter-btn').forEach(b => {
+            b.classList.remove('active', 'bg-indigo-600', 'text-white');
+            b.classList.add('text-indigo-200');
+          });
+          btn.classList.add('active', 'bg-indigo-600', 'text-white');
+          btn.classList.remove('text-indigo-200');
+
+          state.activeFilter = btn.getAttribute('data-filter');
+          renderTasksList();
+        });
+      });
+
+      // Mark All Done
+      elements.markAllDoneBtn.addEventListener('click', () => {
+        const dayData = getActiveDayData();
+        dayData.tasks.forEach(t => {
+          t.completed = true;
+          if (t.subtasks) t.subtasks.forEach(s => s.completed = true);
+        });
+        showToast('All targets marked completed! Outstanding work.', 'success');
+        queueCloudflarePush();
+        renderUI();
+      });
+
+      // Reset Day Tasks
+      elements.resetDayTasksBtn.addEventListener('click', () => {
+        const dayData = getActiveDayData();
+        dayData.tasks.forEach(t => {
+          t.completed = false;
+          if (t.subtasks) t.subtasks.forEach(s => s.completed = false);
+        });
+        showToast('Reset all targets for today.', 'info');
+        queueCloudflarePush();
+        renderUI();
+      });
+
+      // Add Task Modal
+      elements.addNewTaskBtn.addEventListener('click', () => openEditTaskModal(null));
+      elements.closeTaskModalBtn.addEventListener('click', closeTaskModal);
+      elements.cancelTaskModalBtn.addEventListener('click', closeTaskModal);
+
+      // Subject tags picker inside task modal
+      document.querySelectorAll('.subj-tag-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.subj-tag-btn').forEach(b => b.classList.remove('border-indigo-600', 'bg-indigo-50', 'text-indigo-700'));
+          btn.classList.add('border-indigo-600', 'bg-indigo-50', 'text-indigo-700');
+          const subj = btn.getAttribute('data-subj');
+          if (!elements.taskTitleInput.value) {
+            elements.taskTitleInput.value = `${subj} — Practice`;
+          }
+        });
+      });
+
+      // Save Task
+      elements.saveTaskBtn.addEventListener('click', () => {
+        const title = elements.taskTitleInput.value.trim();
+        if (!title) {
+          showToast('Please enter a task title', 'warning');
+          return;
+        }
+
+        const dayData = getActiveDayData();
+        const editId = elements.editTaskId.value;
+        const subtasksText = elements.taskSubtasksInput.value.trim();
+        const subtasks = subtasksText ? subtasksText.split('\n').filter(Boolean).map((s, idx) => ({
+          id: `sub-${Date.now()}-${idx}`,
+          text: s.trim(),
+          completed: false
+        })) : [];
+
+        const linkUrl = elements.taskLinkUrlInput.value.trim();
+        const links = linkUrl ? [{ url: linkUrl, label: '📝 Mock / Video Link' }] : [];
+
+        const activeSubjBtn = document.querySelector('.subj-tag-btn.border-indigo-600');
+        const subject = activeSubjBtn ? activeSubjBtn.getAttribute('data-subj') : 'Other';
+        const emoji = activeSubjBtn ? activeSubjBtn.getAttribute('data-emoji') : '📌';
+
+        if (editId) {
+          const t = dayData.tasks.find(x => x.id === editId);
+          if (t) {
+            t.title = title;
+            t.description = elements.taskDescInput.value.trim();
+            if (subtasks.length > 0) t.subtasks = subtasks;
+            if (links.length > 0) t.links = links;
+            showToast('Task updated', 'success');
+          }
+        } else {
+          const newTask = {
+            id: `task-${Date.now()}`,
+            number: dayData.tasks.length + 1,
+            subject: subject,
+            emoji: emoji,
+            title: title,
+            description: elements.taskDescInput.value.trim(),
+            subtasks: subtasks,
+            links: links,
+            completed: false,
+            score: '',
+            notes: ''
+          };
+          dayData.tasks.push(newTask);
+          showToast('Added new target task', 'success');
+        }
+
+        closeTaskModal();
+        queueCloudflarePush();
+        renderUI();
+      });
+
+      // Score Modal
+      elements.closeScoreModalBtn.addEventListener('click', closeScoreModal);
+      elements.cancelScoreModalBtn.addEventListener('click', closeScoreModal);
+      elements.saveScoreBtn.addEventListener('click', () => {
+        const taskId = elements.scoreTaskId.value;
+        const dayData = getActiveDayData();
+        const task = dayData.tasks.find(t => t.id === taskId);
+        if (task) {
+          task.score = elements.taskScoreInput.value.trim();
+          task.notes = elements.taskNotesInput.value.trim();
+          showToast('Score and notes saved', 'success');
+          queueCloudflarePush();
+          renderUI();
+        }
+        closeScoreModal();
+      });
+
+      // Share Modal
+      elements.shareDayBtn.addEventListener('click', openShareModal);
+      elements.closeShareModalBtn.addEventListener('click', closeShareModal);
+      elements.copyShareTextBtn.addEventListener('click', () => {
+        elements.shareTextarea.select();
+        try {
+          navigator.clipboard.writeText(elements.shareTextarea.value).then(() => {
+            showToast('Copied progress update to clipboard!', 'success');
+          }).catch(() => {
+            document.execCommand('copy');
+            showToast('Copied progress update!', 'success');
+          });
+        } catch (e) {
+          document.execCommand('copy');
+          showToast('Copied progress update!', 'success');
+        }
+      });
+
+      // Settings Modal (Cloudflare Sync)
+      elements.openSettingsModalBtn.addEventListener('click', openSettingsModal);
+      elements.syncStatusBtn.addEventListener('click', openSettingsModal);
+      elements.closeSettingsModalBtn.addEventListener('click', closeSettingsModal);
+      elements.closeSettingsModalFooterBtn.addEventListener('click', closeSettingsModal);
+
+      // Copy Sync Key
+      elements.copySyncKeyBtn.addEventListener('click', () => {
+        if (!state.userId) return;
+        navigator.clipboard.writeText(state.userId).then(() => {
+          showToast('Copied Cloudflare Sync Key!', 'success');
+        }).catch(() => {
+          elements.syncUserIdInput.select();
+          document.execCommand('copy');
+          showToast('Copied Sync Key!', 'success');
+        });
+      });
+
+      // Pair Device with another key
+      elements.applyPairKeyBtn.addEventListener('click', async () => {
+        const inputKey = elements.pairKeyInput.value.trim();
+        if (!inputKey) {
+          showToast('Please enter a valid Sync Key', 'warning');
+          return;
+        }
+
+        state.userId = inputKey;
+        localStorage.setItem(SYNC_KEY_STORAGE, inputKey);
+        elements.syncUserIdInput.value = inputKey;
+        elements.pairKeyInput.value = '';
+        showToast('Pairing with Cloudflare D1 key...', 'info');
+        await syncWithCloudflare(false);
+        closeSettingsModal();
+      });
+
+      // Manual Sync Now Button
+      elements.manualSyncBtn.addEventListener('click', async () => {
+        showToast('Syncing with Cloudflare D1...', 'info');
+        await syncWithCloudflare(false);
+      });
+
+      // Generate New Sync Key
+      elements.resetSyncIdBtn.addEventListener('click', () => {
+        const randomPart = Math.random().toString(36).substring(2, 10);
+        const newKey = `cf_sync_${Date.now().toString(36)}_${randomPart}`;
+        state.userId = newKey;
+        localStorage.setItem(SYNC_KEY_STORAGE, newKey);
+        elements.syncUserIdInput.value = newKey;
+        showToast('Generated new Sync Key! Push local data...', 'info');
+        pushToCloudflare(true);
+      });
+
+      // Export JSON Backup
+      elements.exportDataBtn.addEventListener('click', () => {
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state.days, null, 2));
+        const dlAnchor = document.createElement('a');
+        dlAnchor.setAttribute("href", dataStr);
+        dlAnchor.setAttribute("download", `ssc_cgl_tracker_backup_${new Date().toISOString().slice(0, 10)}.json`);
+        document.body.appendChild(dlAnchor);
+        dlAnchor.click();
+        dlAnchor.remove();
+        showToast('Backup JSON downloaded successfully!', 'success');
+      });
+
+      // Import JSON Backup
+      elements.importDataBtn.addEventListener('click', () => {
+        elements.importFileInput.click();
+      });
+
+      elements.importFileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          try {
+            const imported = JSON.parse(event.target.result);
+            if (imported && typeof imported === 'object') {
+              state.days = imported;
+              showToast('Data restored successfully!', 'success');
+              queueCloudflarePush();
+              renderUI();
+            } else {
+              showToast('Invalid backup file structure', 'error');
+            }
+          } catch (err) {
+            showToast('Failed to parse backup JSON', 'error');
+          }
+        };
+        reader.readAsText(file);
+      });
+    }
+
+    // App Initialization
+    async function initApp() {
+      initUserSyncKey();
+      loadLocalData();
+      updateTimerDisplay();
+      setupEventListeners();
+      renderUI();
+      await syncWithCloudflare(true);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initApp);
+    } else {
+      initApp();
+    }
+  </script>
+</body>
+</html>
