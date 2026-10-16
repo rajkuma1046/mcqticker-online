@@ -32,21 +32,29 @@ async function ensureTrackerTable(db) {
 }
 
 function resolveUserId(request, user, bodyUserId = null) {
-  if (user && user.id) return user.id;
+  // 1. Explicit query parameter (highest priority for URLs / links)
+  try {
+    const url = new URL(request.url);
+    const queryUserId = url.searchParams.get('userId');
+    if (queryUserId && queryUserId.trim().length > 0) {
+      return queryUserId.trim();
+    }
+  } catch {}
 
-  const url = new URL(request.url);
-  const queryUserId = url.searchParams.get('userId');
-  if (queryUserId && queryUserId.trim().length > 0) {
-    return queryUserId.trim();
-  }
-
+  // 2. Explicit header passed by client
   const headerUserId = request.headers.get('X-Tracker-User-Id');
   if (headerUserId && headerUserId.trim().length > 0) {
     return headerUserId.trim();
   }
 
+  // 3. Explicit body userId passed in POST/PUT
   if (bodyUserId && String(bodyUserId).trim().length > 0) {
     return String(bodyUserId).trim();
+  }
+
+  // 4. Fallback to authenticated account if no specific sync key was passed
+  if (user && user.id) {
+    return `account_${user.id}`;
   }
 
   return null;

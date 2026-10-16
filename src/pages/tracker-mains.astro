@@ -542,33 +542,81 @@ e.g.
         </div>
 
         <!-- Sync Key / Device Pairing Identifier -->
-        <div class="space-y-2">
-          <label for="syncUserIdInput" class="block font-semibold text-slate-700">
-            Cloudflare Sync Key / Device ID:
-          </label>
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <label for="syncUserIdInput" class="block font-bold text-slate-700">
+              Your Active Sync Key:
+            </label>
+            <span class="text-[11px] text-emerald-600 font-semibold bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+              Live Cloudflare Sync
+            </span>
+          </div>
+
           <div class="flex items-center space-x-2">
-            <input type="text" id="syncUserIdInput" readonly class="flex-1 font-mono text-xs p-2.5 bg-slate-100 border border-slate-300 rounded-xl focus:outline-none text-slate-800">
-            <button id="copySyncKeyBtn" class="px-3 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-xl text-xs font-semibold transition" title="Copy sync key">
-              📋 Copy
+            <input type="text" id="syncUserIdInput" readonly class="flex-1 font-mono text-xs p-2.5 bg-slate-100 border border-slate-300 rounded-xl font-bold text-indigo-700 select-all">
+            <button id="copySyncKeyBtn" class="px-3 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-xl text-xs font-semibold transition" title="Copy key only">
+              📋 Copy Key
+            </button>
+            <button id="copySyncLinkBtn" class="px-3 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-bold transition flex items-center gap-1" title="Copy direct sync link for WhatsApp / Telegram / Browser">
+              <span>🔗</span> Copy Link
             </button>
           </div>
-          <p class="text-[11px] text-slate-500">
-            Want to sync with another phone, tablet or laptop? Enter that device's Sync Key below:
-          </p>
-          <div class="flex items-center space-x-2 pt-1">
-            <input type="text" id="pairKeyInput" placeholder="Paste another device's Sync Key here..." class="flex-1 font-mono text-xs p-2 bg-white border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-            <button id="applyPairKeyBtn" class="px-3 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-bold transition">
-              Pair Device
+
+          <!-- Instant QR Code Toggle for Mobile -->
+          <div class="flex items-center justify-between pt-1">
+            <button id="toggleQrBtn" class="text-xs text-indigo-600 hover:text-indigo-800 font-bold flex items-center gap-1.5 underline">
+              <span>📱</span> <span id="toggleQrLabel">Show Mobile QR Code (Instant Scan)</span>
             </button>
+            <span class="text-[10px] text-slate-400">Scan with phone camera</span>
+          </div>
+
+          <!-- Hidden QR Code Preview Container -->
+          <div id="qrCodeContainer" class="hidden p-4 rounded-2xl bg-indigo-50/50 border border-indigo-100 flex flex-col items-center justify-center space-y-2">
+            <img id="qrCodeImg" alt="Scan QR Code to Sync" class="w-40 h-40 bg-white p-2 rounded-xl border border-slate-200 shadow-sm" src="">
+            <p class="text-[11px] text-slate-600 text-center max-w-xs font-medium">
+              Point your phone camera at this QR code to instantly open and sync this tracker on your mobile.
+            </p>
+          </div>
+
+          <!-- Option A: Pair with Existing Device -->
+          <div class="pt-3 border-t border-slate-200 space-y-1.5">
+            <label for="pairKeyInput" class="block font-semibold text-slate-700">
+              Connect to Another Device's Sync Key:
+            </label>
+            <div class="flex items-center space-x-2">
+              <input type="text" id="pairKeyInput" placeholder="Enter key from other phone or PC..." class="flex-1 font-mono text-xs p-2.5 bg-white border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+              <button id="applyPairKeyBtn" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold transition shadow-sm">
+                Pair & Load
+              </button>
+            </div>
+            <p class="text-[11px] text-slate-500">
+              Enter the Sync Key from your other device to link them. Both devices will share the exact same Cloudflare D1 database record in real-time.
+            </p>
+          </div>
+
+          <!-- Option B: Custom Memorable Name -->
+          <div class="pt-2 border-t border-slate-200 space-y-1.5">
+            <label for="customKeyInput" class="block font-semibold text-slate-700">
+              Or Choose a Custom Easy Name:
+            </label>
+            <div class="flex items-center space-x-2">
+              <input type="text" id="customKeyInput" placeholder="e.g. rahul-cgl26 or ssc-targets" class="flex-1 font-mono text-xs p-2 bg-white border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+              <button id="applyCustomKeyBtn" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-semibold transition">
+                Set Name
+              </button>
+            </div>
+            <p class="text-[11px] text-slate-400">
+              Set an easy name you can easily remember and type across all your devices.
+            </p>
           </div>
         </div>
 
-        <div class="flex items-center space-x-2 pt-1">
+        <div class="flex items-center space-x-2 pt-2 border-t border-slate-200">
           <button id="manualSyncBtn" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5">
-            <span>🔄</span> Sync Now (Cloudflare D1)
+            <span>🔄</span> Sync Now
           </button>
           <button id="resetSyncIdBtn" class="px-3 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-xl text-xs font-medium transition">
-            Generate New Key
+            Generate Random Key
           </button>
         </div>
 
@@ -843,8 +891,15 @@ e.g.
       settingsStatusDesc: document.getElementById('settingsStatusDesc'),
       syncUserIdInput: document.getElementById('syncUserIdInput'),
       copySyncKeyBtn: document.getElementById('copySyncKeyBtn'),
+      copySyncLinkBtn: document.getElementById('copySyncLinkBtn'),
+      toggleQrBtn: document.getElementById('toggleQrBtn'),
+      toggleQrLabel: document.getElementById('toggleQrLabel'),
+      qrCodeContainer: document.getElementById('qrCodeContainer'),
+      qrCodeImg: document.getElementById('qrCodeImg'),
       pairKeyInput: document.getElementById('pairKeyInput'),
       applyPairKeyBtn: document.getElementById('applyPairKeyBtn'),
+      customKeyInput: document.getElementById('customKeyInput'),
+      applyCustomKeyBtn: document.getElementById('applyCustomKeyBtn'),
       manualSyncBtn: document.getElementById('manualSyncBtn'),
       resetSyncIdBtn: document.getElementById('resetSyncIdBtn'),
       exportDataBtn: document.getElementById('exportDataBtn'),
@@ -1093,11 +1148,28 @@ e.g.
 
     // Cloudflare D1 Database Sync Engine
     function initUserSyncKey() {
+      // 1. Check if URL has ?sync=... parameter (e.g. from sharing or QR code)
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlSyncKey = urlParams.get('sync');
+        if (urlSyncKey && urlSyncKey.trim().length > 0) {
+          const cleanParamKey = urlSyncKey.trim();
+          localStorage.setItem(SYNC_KEY_STORAGE, cleanParamKey);
+          state.userId = cleanParamKey;
+          // Clean URL without reloading page
+          const cleanUrl = window.location.origin + window.location.pathname;
+          window.history.replaceState({}, document.title, cleanUrl);
+          if (elements.syncUserIdInput) elements.syncUserIdInput.value = cleanParamKey;
+          return;
+        }
+      } catch (e) {}
+
+      // 2. Check localStorage
       let key = localStorage.getItem(SYNC_KEY_STORAGE);
       if (!key) {
-        // Generate friendly unique sync key
-        const randomPart = Math.random().toString(36).substring(2, 10);
-        key = `cf_sync_${Date.now().toString(36)}_${randomPart}`;
+        // Generate a friendly, clean short key: CGL-XXXX
+        const randChars = Math.random().toString(36).substring(2, 6).toUpperCase();
+        key = `CGL-${randChars}`;
         localStorage.setItem(SYNC_KEY_STORAGE, key);
       }
       state.userId = key;
@@ -1114,7 +1186,7 @@ e.g.
         elements.syncDot.className = 'w-2 h-2 rounded-full bg-emerald-400';
         elements.settingsStatusPill.className = 'px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800';
         elements.settingsStatusPill.textContent = '🟢 Cloudflare D1 Synced';
-        elements.settingsStatusDesc.textContent = 'Real-time synchronization active with Cloudflare D1 Database.';
+        elements.settingsStatusDesc.textContent = `Sync Active for "${state.userId}". Real-time multi-device cloud synchronization enabled.`;
       } else if (status === 'syncing') {
         elements.syncDot.className = 'w-2 h-2 rounded-full bg-amber-400 animate-pulse';
         elements.settingsStatusPill.className = 'px-2.5 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800';
@@ -1132,9 +1204,9 @@ e.g.
       }
     }
 
-    async function syncWithCloudflare(isInitial = false) {
+    async function syncWithCloudflare(isInitial = false, isSilent = false) {
       if (!state.userId) initUserSyncKey();
-      updateSyncStatusUI('syncing', 'Connecting to Cloudflare D1...');
+      if (!isSilent) updateSyncStatusUI('syncing', 'Connecting to Cloudflare D1...');
 
       try {
         const res = await fetch(`${API_ENDPOINT}?userId=${encodeURIComponent(state.userId)}`, {
@@ -1153,22 +1225,27 @@ e.g.
 
         if (json.data && json.data.days && Object.keys(json.data.days).length > 0) {
           // Cloud has existing data
-          state.days = json.data.days;
-          if (json.data.currentDay) state.currentDay = json.data.currentDay;
-          if (json.data.streak) state.streak = json.data.streak;
-          saveLocalData();
-          renderUI();
+          const cloudDaysStr = JSON.stringify(json.data.days);
+          const localDaysStr = JSON.stringify(state.days);
+
+          if (cloudDaysStr !== localDaysStr || state.currentDay !== json.data.currentDay) {
+            state.days = json.data.days;
+            if (json.data.currentDay) state.currentDay = json.data.currentDay;
+            if (json.data.streak) state.streak = json.data.streak;
+            saveLocalData();
+            renderUI();
+            if (!isSilent) showToast('Cloud data loaded & synchronized!', 'success');
+          }
           updateSyncStatusUI('connected', 'Cloudflare D1 Synced');
-          if (!isInitial) showToast('Synchronized with Cloudflare D1', 'success');
         } else {
-          // No cloud data yet for this user: push local/seed data
+          // No cloud data yet for this user: push current data
           await pushToCloudflare(true);
         }
 
       } catch (err) {
         console.warn('[Cloudflare D1 sync error]', err);
         updateSyncStatusUI('local', 'Offline / Local Cache');
-        if (!isInitial) showToast('Using local cache (Cloudflare offline)', 'info');
+        if (!isInitial && !isSilent) showToast('Using local cache (Cloudflare offline)', 'info');
       }
     }
 
@@ -1987,17 +2064,46 @@ Complete:
       elements.closeSettingsModalBtn.addEventListener('click', closeSettingsModal);
       elements.closeSettingsModalFooterBtn.addEventListener('click', closeSettingsModal);
 
-      // Copy Sync Key
+      // Copy Sync Key Only
       elements.copySyncKeyBtn.addEventListener('click', () => {
         if (!state.userId) return;
         navigator.clipboard.writeText(state.userId).then(() => {
-          showToast('Copied Cloudflare Sync Key!', 'success');
+          showToast(`Copied Sync Key: ${state.userId}`, 'success');
         }).catch(() => {
           elements.syncUserIdInput.select();
           document.execCommand('copy');
-          showToast('Copied Sync Key!', 'success');
+          showToast(`Copied Sync Key: ${state.userId}`, 'success');
         });
       });
+
+      // Copy Direct Sync Link (1-click pairing across devices)
+      if (elements.copySyncLinkBtn) {
+        elements.copySyncLinkBtn.addEventListener('click', () => {
+          if (!state.userId) return;
+          const syncUrl = `${window.location.origin}/tracker-mains?sync=${encodeURIComponent(state.userId)}`;
+          navigator.clipboard.writeText(syncUrl).then(() => {
+            showToast('Copied direct sync link! Open on any device to pair.', 'success');
+          }).catch(() => {
+            prompt('Copy this sync link to open on another device:', syncUrl);
+          });
+        });
+      }
+
+      // Toggle QR Code for Mobile Scanning
+      if (elements.toggleQrBtn) {
+        elements.toggleQrBtn.addEventListener('click', () => {
+          const isHidden = elements.qrCodeContainer.classList.contains('hidden');
+          if (isHidden) {
+            const syncUrl = `${window.location.origin}/tracker-mains?sync=${encodeURIComponent(state.userId)}`;
+            elements.qrCodeImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(syncUrl)}`;
+            elements.qrCodeContainer.classList.remove('hidden');
+            elements.toggleQrLabel.textContent = 'Hide Mobile QR Code';
+          } else {
+            elements.qrCodeContainer.classList.add('hidden');
+            elements.toggleQrLabel.textContent = 'Show Mobile QR Code (Instant Scan)';
+          }
+        });
+      }
 
       // Pair Device with another key
       elements.applyPairKeyBtn.addEventListener('click', async () => {
@@ -2011,10 +2117,33 @@ Complete:
         localStorage.setItem(SYNC_KEY_STORAGE, inputKey);
         elements.syncUserIdInput.value = inputKey;
         elements.pairKeyInput.value = '';
-        showToast('Pairing with Cloudflare D1 key...', 'info');
+        showToast(`Connecting to Cloudflare D1 key: "${inputKey}"...`, 'info');
         await syncWithCloudflare(false);
         closeSettingsModal();
       });
+
+      // Custom Name / Handle
+      if (elements.applyCustomKeyBtn) {
+        elements.applyCustomKeyBtn.addEventListener('click', async () => {
+          const custom = elements.customKeyInput.value.trim();
+          if (!custom) {
+            showToast('Please enter a custom key name', 'warning');
+            return;
+          }
+          const cleanKey = custom.replace(/[^a-zA-Z0-9_\-\.]/g, '');
+          if (cleanKey.length < 3) {
+            showToast('Key must be at least 3 characters', 'warning');
+            return;
+          }
+          state.userId = cleanKey;
+          localStorage.setItem(SYNC_KEY_STORAGE, cleanKey);
+          elements.syncUserIdInput.value = cleanKey;
+          elements.customKeyInput.value = '';
+          showToast(`Set active Sync Key to "${cleanKey}". Syncing to Cloudflare...`, 'info');
+          await pushToCloudflare(false);
+          closeSettingsModal();
+        });
+      }
 
       // Manual Sync Now Button
       elements.manualSyncBtn.addEventListener('click', async () => {
@@ -2022,16 +2151,33 @@ Complete:
         await syncWithCloudflare(false);
       });
 
-      // Generate New Sync Key
+      // Generate New Random Sync Key
       elements.resetSyncIdBtn.addEventListener('click', () => {
-        const randomPart = Math.random().toString(36).substring(2, 10);
-        const newKey = `cf_sync_${Date.now().toString(36)}_${randomPart}`;
+        const randChars = Math.random().toString(36).substring(2, 6).toUpperCase();
+        const newKey = `CGL-${randChars}`;
         state.userId = newKey;
         localStorage.setItem(SYNC_KEY_STORAGE, newKey);
         elements.syncUserIdInput.value = newKey;
-        showToast('Generated new Sync Key! Push local data...', 'info');
+        showToast(`Generated new Sync Key: "${newKey}"! Pushing targets...`, 'info');
         pushToCloudflare(true);
       });
+
+      // Auto-sync on window focus / tab visibility change
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') {
+          syncWithCloudflare(false, true);
+        }
+      });
+      window.addEventListener('focus', () => {
+        syncWithCloudflare(false, true);
+      });
+
+      // Periodic background silent sync every 12 seconds
+      setInterval(() => {
+        if (document.visibilityState === 'visible') {
+          syncWithCloudflare(false, true);
+        }
+      }, 12000);
 
       // Export JSON Backup
       elements.exportDataBtn.addEventListener('click', () => {
