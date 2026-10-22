@@ -13,6 +13,23 @@ export const prerender = true;
   <meta name="description" content="SSC CGL 2026 Tier-2 daily target tracker & RBE study planner. Parse Telegram target posts, track daily progress, practice typing with built-in timer, and sync with Cloudflare database.">
   <link rel="canonical" href="https://mcqticker.online/tracker-mains">
 
+  <!-- Anti-flicker Theme Initializer -->
+  <script is:inline>
+    (function() {
+      try {
+        const savedTheme = localStorage.getItem('theme');
+        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      } catch (e) {
+        document.documentElement.classList.add('dark');
+      }
+    })();
+  </script>
+
   <!-- Tailwind CSS CDN -->
   <script is:inline src="https://cdn.tailwindcss.com/3.4.17"></script>
   <!-- Google Fonts Inter -->
@@ -60,6 +77,16 @@ export const prerender = true;
     .custom-scrollbar::-webkit-scrollbar-thumb:hover {
       background: #94a3b8;
     }
+    /* Dark mode scrollbar */
+    html.dark .custom-scrollbar::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    html.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #334155;
+    }
+    html.dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
     /* Mobile-first enhancements */
     * {
       -webkit-tap-highlight-color: transparent;
@@ -81,7 +108,7 @@ export const prerender = true;
     }
   </style>
 </head>
-<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col antialiased">
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col antialiased transition-colors duration-200">
 
   <!-- Toast Notification Container -->
   <div id="toastContainer" class="fixed top-4 right-4 z-50 flex flex-col space-y-2 pointer-events-none"></div>
@@ -152,6 +179,11 @@ export const prerender = true;
             <span class="sm:hidden">Paste</span>
           </button>
 
+          <!-- Dark / Light Theme Toggle Button -->
+          <button id="themeToggleBtn" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition flex items-center justify-center text-sm" title="Toggle Light / Dark Mode" aria-label="Toggle theme">
+            <span id="themeToggleIcon" class="select-none">🌙</span>
+          </button>
+
           <!-- Settings Button -->
           <button id="openSettingsModalBtn" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition" title="Cloudflare Database & Sync Settings">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -166,21 +198,21 @@ export const prerender = true;
   </header>
 
   <!-- Sticky Study Timer Floating Bar (expandable) -->
-  <div id="studyTimerBar" class="hidden bg-slate-800 text-slate-100 border-b border-slate-700 px-4 py-2.5 shadow-md">
+  <div id="studyTimerBar" class="hidden bg-slate-800 dark:bg-slate-900 text-slate-100 border-b border-slate-700 dark:border-slate-800 px-4 py-2.5 shadow-md">
     <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
       <div class="flex items-center space-x-3">
         <span class="text-sm font-semibold text-indigo-300">⏱️ Study Focus Timer</span>
         <span id="activeTimerText" class="text-xl font-mono font-bold text-white tracking-widest">30:00</span>
-        <span id="timerStatusLabel" class="text-xs px-2 py-0.5 rounded bg-slate-700 text-slate-300">Ready</span>
+        <span id="timerStatusLabel" class="text-xs px-2 py-0.5 rounded bg-slate-700 dark:bg-slate-800 text-slate-300">Ready</span>
       </div>
       <div class="flex items-center space-x-2">
-        <button id="timerPreset15" class="px-2 py-1 text-xs rounded bg-slate-700 hover:bg-slate-600 text-slate-200">15m</button>
+        <button id="timerPreset15" class="px-2 py-1 text-xs rounded bg-slate-700 dark:bg-slate-800 hover:bg-slate-600 dark:hover:bg-slate-700 text-slate-200">15m</button>
         <button id="timerPreset30" class="px-2 py-1 text-xs rounded bg-indigo-600 text-white font-medium">30m (Typing)</button>
-        <button id="timerPreset60" class="px-2 py-1 text-xs rounded bg-slate-700 hover:bg-slate-600 text-slate-200">60m (Maths)</button>
-        <div class="h-4 w-px bg-slate-600 mx-1"></div>
+        <button id="timerPreset60" class="px-2 py-1 text-xs rounded bg-slate-700 dark:bg-slate-800 hover:bg-slate-600 dark:hover:bg-slate-700 text-slate-200">60m (Maths)</button>
+        <div class="h-4 w-px bg-slate-600 dark:bg-slate-700 mx-1"></div>
         <button id="startTimerBtn" class="px-3 py-1 text-xs rounded font-semibold bg-emerald-600 hover:bg-emerald-500 text-white transition">Start</button>
         <button id="pauseTimerBtn" class="px-3 py-1 text-xs rounded font-semibold bg-amber-600 hover:bg-amber-500 text-white transition hidden">Pause</button>
-        <button id="resetTimerBtn" class="px-3 py-1 text-xs rounded font-semibold bg-slate-600 hover:bg-slate-500 text-slate-200 transition">Reset</button>
+        <button id="resetTimerBtn" class="px-3 py-1 text-xs rounded font-semibold bg-slate-600 dark:bg-slate-700 hover:bg-slate-500 dark:hover:bg-slate-600 text-slate-200 transition">Reset</button>
         <button id="closeTimerBarBtn" class="p-1 text-slate-400 hover:text-white" title="Hide Timer Bar">✕</button>
       </div>
     </div>
@@ -190,7 +222,7 @@ export const prerender = true;
   <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
 
     <!-- Day Navigation Bar -->
-    <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-200/80">
+    <div class="bg-white dark:bg-slate-900 rounded-2xl p-4 shadow-sm border border-slate-200/80 dark:border-slate-800 transition-colors">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         
         <!-- Day Tabs Scrollable -->
@@ -200,10 +232,10 @@ export const prerender = true;
 
         <!-- Right Action Controls -->
         <div class="flex items-center space-x-2 shrink-0">
-          <button id="addNewDayBtn" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 transition">
+          <button id="addNewDayBtn" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 transition">
             <span>➕</span> Add Day
           </button>
-          <button id="shareDayBtn" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 transition" title="Copy progress report for Telegram/WhatsApp group">
+          <button id="shareDayBtn" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-emerald-50 dark:bg-emerald-950/40 hover:bg-emerald-100 dark:hover:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/60 transition" title="Copy progress report for Telegram/WhatsApp group">
             <span>📤</span> Copy Update
           </button>
         </div>
@@ -212,7 +244,7 @@ export const prerender = true;
     </div>
 
     <!-- Active Day Banner & Progress Card -->
-    <div class="bg-gradient-to-br from-indigo-900 via-indigo-800 to-slate-900 rounded-3xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden">
+    <div class="bg-gradient-to-br from-indigo-900 via-indigo-800 to-slate-900 dark:from-slate-900 dark:via-indigo-950 dark:to-slate-950 rounded-3xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden dark:border dark:border-slate-800">
       <!-- Decorative Background Circles -->
       <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
       <div class="absolute right-1/3 -top-12 w-48 h-48 bg-amber-500/10 rounded-full blur-2xl pointer-events-none"></div>
@@ -233,7 +265,7 @@ export const prerender = true;
 
           <!-- Quick Stats Pills -->
           <div class="flex items-center gap-3">
-            <div class="bg-white/10 backdrop-blur-md px-4 py-2 rounded-2xl border border-white/10 flex items-center gap-3">
+            <div class="bg-white/10 dark:bg-white/5 backdrop-blur-md px-4 py-2 rounded-2xl border border-white/10 flex items-center gap-3">
               <div class="text-2xl">🔥</div>
               <div>
                 <p class="text-[10px] text-indigo-200 uppercase font-semibold">Consistency</p>
@@ -241,7 +273,7 @@ export const prerender = true;
               </div>
             </div>
 
-            <div class="bg-white/10 backdrop-blur-md px-4 py-2 rounded-2xl border border-white/10 flex items-center gap-3">
+            <div class="bg-white/10 dark:bg-white/5 backdrop-blur-md px-4 py-2 rounded-2xl border border-white/10 flex items-center gap-3">
               <div class="text-2xl">⚡</div>
               <div>
                 <p class="text-[10px] text-indigo-200 uppercase font-semibold">Completed</p>
@@ -252,7 +284,7 @@ export const prerender = true;
         </div>
 
         <!-- Motivational Quote Banner -->
-        <div id="quoteCard" class="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/10 flex items-start gap-3">
+        <div id="quoteCard" class="bg-white/10 dark:bg-white/5 backdrop-blur-md rounded-2xl p-4 border border-white/10 flex items-start gap-3">
           <span class="text-xl shrink-0">🔥</span>
           <p id="quoteText" class="text-sm italic text-indigo-100 font-medium leading-relaxed">
             “Don’t just count the days—make each day count. Today’s revision is tomorrow’s strength.”
@@ -273,7 +305,7 @@ export const prerender = true;
         <!-- Filter & Control Buttons -->
         <div class="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-white/10 text-xs">
           <!-- Filter Tabs -->
-          <div class="flex items-center space-x-1.5 bg-slate-950/40 p-1 rounded-xl">
+          <div class="flex items-center space-x-1.5 bg-slate-950/40 dark:bg-slate-950/70 p-1 rounded-xl">
             <button class="filter-btn active px-3 py-1 rounded-lg font-medium transition bg-indigo-600 text-white" data-filter="all">All (<span id="filterAllCount">0</span>)</button>
             <button class="filter-btn px-3 py-1 rounded-lg font-medium transition text-indigo-200 hover:text-white" data-filter="pending">Pending (<span id="filterPendingCount">0</span>)</button>
             <button class="filter-btn px-3 py-1 rounded-lg font-medium transition text-indigo-200 hover:text-white" data-filter="completed">Done (<span id="filterDoneCount">0</span>)</button>
@@ -281,13 +313,13 @@ export const prerender = true;
 
           <!-- Batch Action Buttons -->
           <div class="flex items-center space-x-2">
-            <button id="addNewTaskBtn" class="px-3 py-1.5 rounded-xl bg-white/15 hover:bg-white/25 text-white font-semibold transition flex items-center gap-1">
+            <button id="addNewTaskBtn" class="px-3 py-1.5 rounded-xl bg-white/15 dark:bg-white/10 hover:bg-white/25 text-white font-semibold transition flex items-center gap-1">
               <span>➕</span> Add Task
             </button>
             <button id="markAllDoneBtn" class="px-3 py-1.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-400/30 font-medium transition">
               Check All
             </button>
-            <button id="resetDayTasksBtn" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium transition">
+            <button id="resetDayTasksBtn" class="px-3 py-1.5 rounded-xl bg-slate-800 dark:bg-slate-800/80 hover:bg-slate-700 text-slate-300 font-medium transition">
               Reset Day
             </button>
           </div>
@@ -299,11 +331,11 @@ export const prerender = true;
     <!-- Task List Container -->
     <div class="space-y-4">
       <div class="flex items-center justify-between px-1">
-        <h3 class="text-sm font-bold uppercase tracking-wider text-slate-500 flex items-center gap-2">
+        <h3 class="text-sm font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-2">
           <span>🎯</span> Daily Target Tasks
-          <span id="taskListCountBadge" class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded-full font-semibold">5 items</span>
+          <span id="taskListCountBadge" class="text-xs bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-2 py-0.5 rounded-full font-semibold">5 items</span>
         </h3>
-        <span class="text-xs text-slate-400">Click checkboxes to tick off completed items</span>
+        <span class="text-xs text-slate-400 dark:text-slate-500">Click checkboxes to tick off completed items</span>
       </div>
 
       <!-- Dynamic Tasks Cards List -->
@@ -312,12 +344,12 @@ export const prerender = true;
       </div>
 
       <!-- Empty State -->
-      <div id="emptyTasksState" class="hidden bg-white rounded-3xl p-12 text-center border border-slate-200 shadow-sm">
-        <div class="w-16 h-16 mx-auto mb-4 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center text-3xl">
+      <div id="emptyTasksState" class="hidden bg-white dark:bg-slate-900 rounded-3xl p-12 text-center border border-slate-200 dark:border-slate-800 shadow-sm">
+        <div class="w-16 h-16 mx-auto mb-4 bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 rounded-2xl flex items-center justify-center text-3xl">
           📝
         </div>
-        <h4 class="text-lg font-bold text-slate-800 mb-1">No tasks found</h4>
-        <p class="text-sm text-slate-500 max-w-md mx-auto mb-6">
+        <h4 class="text-lg font-bold text-slate-800 dark:text-slate-100 mb-1">No tasks found</h4>
+        <p class="text-sm text-slate-500 dark:text-slate-400 max-w-md mx-auto mb-6">
           Paste your Telegram target schedule or click below to add targets for today.
         </p>
         <button id="emptyPasteBtn" class="px-4 py-2 bg-indigo-600 text-white rounded-xl text-sm font-semibold hover:bg-indigo-500 transition shadow-sm">
@@ -327,50 +359,50 @@ export const prerender = true;
     </div>
 
     <!-- Extra Study Resources / Books Section (from Telegram post) -->
-    <div id="extraResourcesCard" class="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm space-y-4">
+    <div id="extraResourcesCard" class="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-4 transition-colors">
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-2.5">
           <span class="text-xl">📘</span>
           <div>
-            <h4 class="text-sm font-bold text-slate-800">Recommended Reference & Books</h4>
-            <p class="text-xs text-slate-500">Official RBE Preparation Resources & Test Portals</p>
+            <h4 class="text-sm font-bold text-slate-800 dark:text-slate-100">Recommended Reference & Books</h4>
+            <p class="text-xs text-slate-500 dark:text-slate-400">Official RBE Preparation Resources & Test Portals</p>
           </div>
         </div>
-        <span class="text-xs bg-indigo-50 text-indigo-700 font-semibold px-2.5 py-1 rounded-lg">Quick Links</span>
+        <span class="text-xs bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border border-indigo-200/50 dark:border-indigo-800/50 font-semibold px-2.5 py-1 rounded-lg">Quick Links</span>
       </div>
       
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 pt-2">
-        <a href="https://rbelearning.com" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/40 transition group">
+        <a href="https://rbelearning.com" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-indigo-300 dark:hover:border-indigo-700 hover:bg-indigo-50/40 dark:hover:bg-slate-800/60 transition group">
           <div class="flex items-center gap-2.5">
-            <span class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-xs">RBE</span>
+            <span class="w-8 h-8 rounded-lg bg-indigo-100 dark:bg-indigo-900/60 text-indigo-700 dark:text-indigo-300 flex items-center justify-center font-bold text-xs">RBE</span>
             <div>
-              <p class="text-xs font-semibold text-slate-800 group-hover:text-indigo-600">RBE Learning Portal</p>
-              <p class="text-[11px] text-slate-400">Mock Tests & Video Courses</p>
+              <p class="text-xs font-semibold text-slate-800 dark:text-slate-200 group-hover:text-indigo-600 dark:group-hover:text-indigo-400">RBE Learning Portal</p>
+              <p class="text-[11px] text-slate-400 dark:text-slate-500">Mock Tests & Video Courses</p>
             </div>
           </div>
-          <span class="text-xs text-slate-400 group-hover:text-indigo-600">↗</span>
+          <span class="text-xs text-slate-400 dark:text-slate-500 group-hover:text-indigo-600 dark:group-hover:text-indigo-400">↗</span>
         </a>
 
-        <a href="https://realmocks.com/typing" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/40 transition group">
+        <a href="https://realmocks.com/typing" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-indigo-300 dark:hover:border-indigo-700 hover:bg-indigo-50/40 dark:hover:bg-slate-800/60 transition group">
           <div class="flex items-center gap-2.5">
-            <span class="w-8 h-8 rounded-lg bg-purple-100 text-purple-700 flex items-center justify-center text-sm">⌨️</span>
+            <span class="w-8 h-8 rounded-lg bg-purple-100 dark:bg-purple-900/60 text-purple-700 dark:text-purple-300 flex items-center justify-center text-sm">⌨️</span>
             <div>
-              <p class="text-xs font-semibold text-slate-800 group-hover:text-indigo-600">RealMocks Typing</p>
-              <p class="text-[11px] text-slate-400">SSC Pattern Typing Practice</p>
+              <p class="text-xs font-semibold text-slate-800 dark:text-slate-200 group-hover:text-indigo-600 dark:group-hover:text-indigo-400">RealMocks Typing</p>
+              <p class="text-[11px] text-slate-400 dark:text-slate-500">SSC Pattern Typing Practice</p>
             </div>
           </div>
-          <span class="text-xs text-slate-400 group-hover:text-indigo-600">↗</span>
+          <span class="text-xs text-slate-400 dark:text-slate-500 group-hover:text-indigo-600 dark:group-hover:text-indigo-400">↗</span>
         </a>
 
-        <a href="https://www.youtube.com/@RBERevolutionByEducation" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/40 transition group">
+        <a href="https://www.youtube.com/@RBERevolutionByEducation" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-indigo-300 dark:hover:border-indigo-700 hover:bg-indigo-50/40 dark:hover:bg-slate-800/60 transition group">
           <div class="flex items-center gap-2.5">
-            <span class="w-8 h-8 rounded-lg bg-rose-100 text-rose-700 flex items-center justify-center text-sm">🎥</span>
+            <span class="w-8 h-8 rounded-lg bg-rose-100 dark:bg-rose-900/60 text-rose-700 dark:text-rose-300 flex items-center justify-center text-sm">🎥</span>
             <div>
-              <p class="text-xs font-semibold text-slate-800 group-hover:text-indigo-600">RBE YouTube Channel</p>
-              <p class="text-[11px] text-slate-400">Analysis & Solutions</p>
+              <p class="text-xs font-semibold text-slate-800 dark:text-slate-200 group-hover:text-indigo-600 dark:group-hover:text-indigo-400">RBE YouTube Channel</p>
+              <p class="text-[11px] text-slate-400 dark:text-slate-500">Analysis & Solutions</p>
             </div>
           </div>
-          <span class="text-xs text-slate-400 group-hover:text-indigo-600">↗</span>
+          <span class="text-xs text-slate-400 dark:text-slate-500 group-hover:text-indigo-600 dark:group-hover:text-indigo-400">↗</span>
         </a>
       </div>
     </div>
@@ -378,14 +410,14 @@ export const prerender = true;
   </main>
 
   <!-- Footer -->
-  <footer class="bg-white border-t border-slate-200 py-6 mb-16 sm:mb-0 text-center text-xs text-slate-500">
-    <p class="font-medium text-slate-700 mb-1">🎯 SSC CGL 2026 Tier-2 Daily Target & Study Tracker</p>
+  <footer class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 py-6 mb-16 sm:mb-0 text-center text-xs text-slate-500 dark:text-slate-400 transition-colors">
+    <p class="font-medium text-slate-700 dark:text-slate-300 mb-1">🎯 SSC CGL 2026 Tier-2 Daily Target & Study Tracker</p>
     <p>Crafted for continuous revision and high score consistency. Supports Telegram post parsing & Cloudflare D1 Database sync.</p>
   </footer>
 
   <!-- Mobile Sticky Bottom Action Bar (Thumb-friendly on phones) -->
   <nav class="sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-slate-900/95 backdrop-blur-md border-t border-slate-800 safe-bottom shadow-2xl">
-    <div class="grid grid-cols-4 gap-1 px-2 py-2">
+    <div class="grid grid-cols-5 gap-1 px-2 py-2">
       <button id="mobilePasteBtn" class="flex flex-col items-center justify-center py-1.5 px-1 rounded-xl text-indigo-300 hover:text-white hover:bg-slate-800 transition">
         <span class="text-lg">📋</span>
         <span class="text-[10px] font-semibold mt-0.5">Paste</span>
@@ -402,17 +434,21 @@ export const prerender = true;
         <span class="text-lg">📤</span>
         <span class="text-[10px] font-semibold mt-0.5">Share</span>
       </button>
+      <button id="mobileThemeBtn" class="flex flex-col items-center justify-center py-1.5 px-1 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800 transition" title="Toggle theme">
+        <span class="text-lg" id="mobileThemeIcon">🌙</span>
+        <span class="text-[10px] font-semibold mt-0.5">Theme</span>
+      </button>
     </div>
   </nav>
 
   <!-- ==================== MODALS ==================== -->
 
   <!-- Modal 1: Smart Paste & Importer Modal -->
-  <div id="pasteModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm hidden">
-    <div class="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden">
+  <div id="pasteModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 dark:bg-slate-950/80 backdrop-blur-sm hidden">
+    <div class="bg-white dark:bg-slate-900 rounded-3xl max-w-2xl w-full max-h-[90vh] flex flex-col shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden transition-colors">
       
       <!-- Modal Header -->
-      <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between">
+      <div class="px-6 py-4 bg-slate-900 dark:bg-slate-950 text-white flex items-center justify-between border-b border-slate-800">
         <div class="flex items-center gap-2.5">
           <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-base">📋</div>
           <div>
@@ -425,50 +461,55 @@ export const prerender = true;
 
       <!-- Modal Body -->
       <div class="p-6 overflow-y-auto space-y-4 custom-scrollbar flex-1">
-        <div class="flex items-center justify-between">
-          <label for="pasteScheduleInput" class="text-xs font-bold text-slate-700 uppercase tracking-wider">Paste Post Content:</label>
-          <button id="loadSampleScheduleBtn" class="text-xs text-indigo-600 hover:text-indigo-700 font-semibold underline">
-            Load Sample (Day 2)
-          </button>
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <label for="pasteScheduleInput" class="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">Paste Post Content:</label>
+          <div class="flex items-center gap-2 text-xs">
+            <span class="text-slate-400 dark:text-slate-500">Sample:</span>
+            <button id="loadSampleDay2Btn" class="text-indigo-600 dark:text-indigo-400 hover:underline font-semibold">Day 2</button>
+            <span class="text-slate-300 dark:text-slate-600">•</span>
+            <button id="loadSampleDay6Btn" class="text-indigo-600 dark:text-indigo-400 hover:underline font-semibold">Day 6</button>
+            <span class="text-slate-300 dark:text-slate-600">•</span>
+            <button id="loadSampleDay7Btn" class="text-indigo-600 dark:text-indigo-400 hover:underline font-semibold">Day 7</button>
+          </div>
         </div>
 
-        <textarea id="pasteScheduleInput" rows="10" class="w-full text-xs sm:text-sm font-mono p-3 bg-slate-50 border border-slate-300 rounded-2xl focus:ring-2 focus:ring-indigo-500 focus:outline-none transition leading-relaxed" placeholder="Paste your Telegram post here...
+        <textarea id="pasteScheduleInput" rows="10" class="w-full text-xs sm:text-sm font-mono p-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-600 rounded-2xl focus:ring-2 focus:ring-indigo-500 focus:outline-none transition leading-relaxed" placeholder="Paste your Telegram post here...
 e.g.
 🎯 SSC CGL 2026 T-2 | RBE Targets
-📅 Day 2
+📅 Day 6
 
-💻 1. Computer — PYQ Sectional Tests
+💻 1. Computer — Class 3
 ...
 ⌨️ 2. Typing — 30 Minutes
 ..."></textarea>
 
         <!-- Target Destination Option -->
-        <div class="bg-slate-50 p-3 rounded-2xl border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
-          <div class="font-medium text-slate-700">Target Day Number:</div>
+        <div class="bg-slate-50 dark:bg-slate-800/60 p-3 rounded-2xl border border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-slate-700 dark:text-slate-300">
+          <div class="font-medium text-slate-700 dark:text-slate-200">Target Day Number:</div>
           <div class="flex items-center space-x-2">
-            <span class="text-slate-500">Day:</span>
-            <input type="number" id="targetDayNumInput" min="1" max="365" value="2" class="w-16 px-2 py-1 text-center font-bold bg-white border border-slate-300 rounded-lg">
+            <span class="text-slate-500 dark:text-slate-400">Day:</span>
+            <input type="number" id="targetDayNumInput" min="1" max="365" value="2" class="w-16 px-2 py-1 text-center font-bold bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 text-slate-800 dark:text-white rounded-lg">
             <label class="flex items-center gap-1.5 ml-2 cursor-pointer">
-              <input type="checkbox" id="overwriteDayCheckbox" checked class="rounded text-indigo-600">
+              <input type="checkbox" id="overwriteDayCheckbox" checked class="rounded text-indigo-600 dark:bg-slate-900 dark:border-slate-600">
               <span>Set as active day</span>
             </label>
           </div>
         </div>
 
         <!-- Live Parsed Preview Container -->
-        <div id="parsePreviewBox" class="hidden p-4 rounded-2xl bg-indigo-50/50 border border-indigo-100 space-y-2">
-          <p class="text-xs font-bold text-indigo-800 flex items-center justify-between">
+        <div id="parsePreviewBox" class="hidden p-4 rounded-2xl bg-indigo-50/50 dark:bg-indigo-950/40 border border-indigo-100 dark:border-indigo-900/60 space-y-2">
+          <p class="text-xs font-bold text-indigo-800 dark:text-indigo-300 flex items-center justify-between">
             <span>✨ Parser Detection Preview:</span>
-            <span id="previewTaskCountBadge" class="bg-indigo-200 text-indigo-800 px-2 py-0.5 rounded-full font-bold">0 tasks</span>
+            <span id="previewTaskCountBadge" class="bg-indigo-200 dark:bg-indigo-900/60 text-indigo-800 dark:text-indigo-200 px-2 py-0.5 rounded-full font-bold">0 tasks</span>
           </p>
-          <div id="previewTaskList" class="text-xs text-slate-600 space-y-1 max-h-36 overflow-y-auto custom-scrollbar"></div>
+          <div id="previewTaskList" class="text-xs text-slate-600 dark:text-slate-300 space-y-1 max-h-36 overflow-y-auto custom-scrollbar"></div>
         </div>
 
       </div>
 
       <!-- Modal Footer -->
-      <div class="px-6 py-4 bg-slate-50 border-t border-slate-200 flex items-center justify-end space-x-3">
-        <button id="cancelPasteModalBtn" class="px-4 py-2 text-xs font-semibold text-slate-600 hover:text-slate-800 rounded-xl">
+      <div class="px-6 py-4 bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 flex items-center justify-end space-x-3">
+        <button id="cancelPasteModalBtn" class="px-4 py-2 text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white rounded-xl">
           Cancel
         </button>
         <button id="confirmImportBtn" class="px-5 py-2 text-xs font-bold bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl shadow-md shadow-indigo-500/20 transition">
@@ -480,10 +521,10 @@ e.g.
   </div>
 
   <!-- Modal 2: Add / Edit Custom Task Modal -->
-  <div id="taskModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm hidden">
-    <div class="bg-white rounded-3xl max-w-lg w-full max-h-[90vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden">
+  <div id="taskModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 dark:bg-slate-950/80 backdrop-blur-sm hidden">
+    <div class="bg-white dark:bg-slate-900 rounded-3xl max-w-lg w-full max-h-[90vh] flex flex-col shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden transition-colors">
       
-      <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between">
+      <div class="px-6 py-4 bg-slate-900 dark:bg-slate-950 text-white flex items-center justify-between border-b border-slate-800">
         <h3 id="taskModalTitle" class="text-base font-bold text-white">Add New Target Task</h3>
         <button id="closeTaskModalBtn" class="text-slate-400 hover:text-white p-1 rounded-lg">✕</button>
       </div>
@@ -492,40 +533,40 @@ e.g.
         <input type="hidden" id="editTaskId">
 
         <div>
-          <label class="block font-semibold text-slate-700 mb-1">Subject / Category</label>
+          <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Subject / Category</label>
           <div class="grid grid-cols-3 gap-2">
-            <button type="button" class="subj-tag-btn p-2 rounded-xl border border-slate-200 text-center font-medium hover:border-indigo-500 transition" data-subj="Maths" data-emoji="📐">📐 Maths</button>
-            <button type="button" class="subj-tag-btn p-2 rounded-xl border border-slate-200 text-center font-medium hover:border-indigo-500 transition" data-subj="English" data-emoji="📚">📚 English</button>
-            <button type="button" class="subj-tag-btn p-2 rounded-xl border border-slate-200 text-center font-medium hover:border-indigo-500 transition" data-subj="Reasoning" data-emoji="🧠">🧠 Reasoning</button>
-            <button type="button" class="subj-tag-btn p-2 rounded-xl border border-slate-200 text-center font-medium hover:border-indigo-500 transition" data-subj="Computer" data-emoji="💻">💻 Computer</button>
-            <button type="button" class="subj-tag-btn p-2 rounded-xl border border-slate-200 text-center font-medium hover:border-indigo-500 transition" data-subj="Typing" data-emoji="⌨️">⌨️ Typing</button>
-            <button type="button" class="subj-tag-btn p-2 rounded-xl border border-slate-200 text-center font-medium hover:border-indigo-500 transition" data-subj="Revision" data-emoji="🔄">🔄 Revision</button>
+            <button type="button" class="subj-tag-btn p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 text-center font-medium hover:border-indigo-500 dark:hover:border-indigo-400 transition" data-subj="Maths" data-emoji="📐">📐 Maths</button>
+            <button type="button" class="subj-tag-btn p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 text-center font-medium hover:border-indigo-500 dark:hover:border-indigo-400 transition" data-subj="English" data-emoji="📚">📚 English</button>
+            <button type="button" class="subj-tag-btn p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 text-center font-medium hover:border-indigo-500 dark:hover:border-indigo-400 transition" data-subj="Reasoning" data-emoji="🧠">🧠 Reasoning</button>
+            <button type="button" class="subj-tag-btn p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 text-center font-medium hover:border-indigo-500 dark:hover:border-indigo-400 transition" data-subj="Computer" data-emoji="💻">💻 Computer</button>
+            <button type="button" class="subj-tag-btn p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 text-center font-medium hover:border-indigo-500 dark:hover:border-indigo-400 transition" data-subj="Typing" data-emoji="⌨️">⌨️ Typing</button>
+            <button type="button" class="subj-tag-btn p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 text-center font-medium hover:border-indigo-500 dark:hover:border-indigo-400 transition" data-subj="Revision" data-emoji="🔄">🔄 Revision</button>
           </div>
         </div>
 
         <div>
-          <label for="taskTitleInput" class="block font-semibold text-slate-700 mb-1">Task Title</label>
-          <input type="text" id="taskTitleInput" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="e.g. Maths — Top 50 Questions (Part 2)">
+          <label for="taskTitleInput" class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Task Title</label>
+          <input type="text" id="taskTitleInput" class="w-full p-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-100 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="e.g. Maths — Top 50 Questions (Part 2)">
         </div>
 
         <div>
-          <label for="taskDescInput" class="block font-semibold text-slate-700 mb-1">Instructions / Target Details</label>
-          <textarea id="taskDescInput" rows="3" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="Description or guidance for this test/target..."></textarea>
+          <label for="taskDescInput" class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Instructions / Target Details</label>
+          <textarea id="taskDescInput" rows="3" class="w-full p-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-100 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="Description or guidance for this test/target..."></textarea>
         </div>
 
         <div>
-          <label for="taskSubtasksInput" class="block font-semibold text-slate-700 mb-1">Subtopics / Checklist (one per line)</label>
-          <textarea id="taskSubtasksInput" rows="3" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="Adverb&#10;Preposition&#10;Fill in the Blanks"></textarea>
+          <label for="taskSubtasksInput" class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Subtopics / Checklist (one per line)</label>
+          <textarea id="taskSubtasksInput" rows="3" class="w-full p-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-100 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="Adverb&#10;Preposition&#10;Fill in the Blanks"></textarea>
         </div>
 
         <div>
-          <label for="taskLinkUrlInput" class="block font-semibold text-slate-700 mb-1">Primary Link (Test Series / YouTube)</label>
-          <input type="url" id="taskLinkUrlInput" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="https://rbelearning.com/...">
+          <label for="taskLinkUrlInput" class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Primary Link (Test Series / YouTube)</label>
+          <input type="url" id="taskLinkUrlInput" class="w-full p-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-100 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="https://rbelearning.com/...">
         </div>
       </div>
 
-      <div class="px-6 py-4 bg-slate-50 border-t border-slate-200 flex items-center justify-end space-x-3">
-        <button id="cancelTaskModalBtn" class="px-4 py-2 text-xs font-semibold text-slate-600 hover:text-slate-800 rounded-xl">Cancel</button>
+      <div class="px-6 py-4 bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 flex items-center justify-end space-x-3">
+        <button id="cancelTaskModalBtn" class="px-4 py-2 text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white rounded-xl">Cancel</button>
         <button id="saveTaskBtn" class="px-5 py-2 text-xs font-bold bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl shadow-md transition">Save Task</button>
       </div>
 
@@ -533,62 +574,83 @@ e.g.
   </div>
 
   <!-- Modal 3: Settings & Cloudflare D1 Account Configuration -->
-  <div id="settingsModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm hidden">
-    <div class="bg-white rounded-3xl max-w-xl w-full max-h-[90vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden">
+  <div id="settingsModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 dark:bg-slate-950/80 backdrop-blur-sm hidden">
+    <div class="bg-white dark:bg-slate-900 rounded-3xl max-w-xl w-full max-h-[90vh] flex flex-col shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden transition-colors">
       
-      <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between">
+      <div class="px-6 py-4 bg-slate-900 dark:bg-slate-950 text-white flex items-center justify-between border-b border-slate-800">
         <div class="flex items-center gap-2">
           <span>⚙️</span>
-          <h3 class="text-base font-bold text-white">Cloudflare Database & Account Sync</h3>
+          <h3 class="text-base font-bold text-white">Cloudflare Database & App Settings</h3>
         </div>
         <button id="closeSettingsModalBtn" class="text-slate-400 hover:text-white p-1 rounded-lg">✕</button>
       </div>
 
       <div class="p-6 overflow-y-auto space-y-5 custom-scrollbar flex-1 text-xs sm:text-sm">
         
-        <!-- Live Connection & Sync Status -->
-        <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+        <!-- Theme Switcher Row in Settings -->
+        <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 space-y-2">
           <div class="flex items-center justify-between">
-            <span class="font-bold text-slate-700">Cloudflare D1 Status:</span>
+            <span class="font-bold text-slate-700 dark:text-slate-200">Appearance Theme:</span>
+            <div class="flex items-center gap-1.5">
+              <button id="themeLightBtn" class="px-3 py-1 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs font-semibold hover:bg-slate-100 dark:hover:bg-slate-700 transition">
+                ☀️ Light
+              </button>
+              <button id="themeDarkBtn" class="px-3 py-1 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs font-semibold hover:bg-slate-100 dark:hover:bg-slate-700 transition">
+                🌙 Dark
+              </button>
+              <button id="themeSystemBtn" class="px-3 py-1 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs font-semibold hover:bg-slate-100 dark:hover:bg-slate-700 transition">
+                💻 System
+              </button>
+            </div>
+          </div>
+          <p class="text-xs text-slate-500 dark:text-slate-400">
+            Choose light mode, rich slate dark mode, or follow your system preference.
+          </p>
+        </div>
+
+        <!-- Live Connection & Sync Status -->
+        <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-slate-700 dark:text-slate-200">Cloudflare D1 Status:</span>
             <span id="settingsStatusPill" class="px-2.5 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800">
               Checking...
             </span>
           </div>
-          <p id="settingsStatusDesc" class="text-xs text-slate-500">
+          <p id="settingsStatusDesc" class="text-xs text-slate-500 dark:text-slate-400">
             Real-time cloud-first sync active. Target changes automatically sync every 10 seconds across all your connected devices.
           </p>
         </div>
 
         <!-- Account Profile Details -->
-        <div class="p-4 rounded-2xl border border-indigo-100 bg-indigo-50/40 space-y-3">
+        <div class="p-4 rounded-2xl border border-indigo-100 dark:border-indigo-900/60 bg-indigo-50/40 dark:bg-indigo-950/30 space-y-3">
           <div class="flex items-center justify-between">
-            <h4 class="font-bold text-slate-800 flex items-center gap-1.5">
+            <h4 class="font-bold text-slate-800 dark:text-slate-100 flex items-center gap-1.5">
               <span>👤</span> Study Cloud Account
             </h4>
-            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-700">
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-indigo-100 dark:bg-indigo-900/60 text-indigo-700 dark:text-indigo-300">
               Shared To-Do Credentials
             </span>
           </div>
 
           <!-- Logged In View -->
           <div id="settingsUserSection" class="hidden space-y-2.5">
-            <div class="flex items-center justify-between bg-white p-3 rounded-xl border border-slate-200">
+            <div class="flex items-center justify-between bg-white dark:bg-slate-900 p-3 rounded-xl border border-slate-200 dark:border-slate-800">
               <div>
-                <p class="text-[11px] text-slate-400 font-semibold uppercase">Signed in as:</p>
-                <p id="settingsUserEmail" class="font-bold text-slate-800 text-sm">user@example.com</p>
+                <p class="text-[11px] text-slate-400 dark:text-slate-500 font-semibold uppercase">Signed in as:</p>
+                <p id="settingsUserEmail" class="font-bold text-slate-800 dark:text-white text-sm">user@example.com</p>
               </div>
-              <button id="settingsLogoutBtn" class="px-3 py-1.5 text-xs font-semibold text-rose-600 hover:bg-rose-50 border border-rose-200 rounded-lg transition">
+              <button id="settingsLogoutBtn" class="px-3 py-1.5 text-xs font-semibold text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/50 border border-rose-200 dark:border-rose-800/60 rounded-lg transition">
                 Sign Out
               </button>
             </div>
-            <p class="text-[11px] text-slate-500">
+            <p class="text-[11px] text-slate-500 dark:text-slate-400">
               ✨ Any changes made on this device automatically sync to your phone or other browsers within 10 seconds.
             </p>
           </div>
 
           <!-- Logged Out View -->
           <div id="settingsLoginPrompt" class="space-y-2">
-            <p class="text-xs text-slate-600">
+            <p class="text-xs text-slate-600 dark:text-slate-400">
               You are currently not signed in. Log in with your To-Do account to enable instant cross-device synchronization.
             </p>
             <button id="settingsLoginBtn" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-bold transition shadow-sm">
@@ -598,21 +660,21 @@ e.g.
         </div>
 
         <!-- Realtime Controls -->
-        <div class="flex items-center space-x-2 pt-1 border-t border-slate-200">
+        <div class="flex items-center space-x-2 pt-1 border-t border-slate-200 dark:border-slate-800">
           <button id="manualSyncBtn" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-sm">
             <span>🔄</span> Force Sync Now
           </button>
-          <span class="text-xs text-slate-400">Auto-sync runs continuously every 10s</span>
+          <span class="text-xs text-slate-400 dark:text-slate-500">Auto-sync runs continuously every 12s</span>
         </div>
 
         <!-- Backup & Restore -->
-        <div class="border-t border-slate-200 pt-4 space-y-3">
-          <h4 class="font-bold text-slate-700">Backup & Restore:</h4>
+        <div class="border-t border-slate-200 dark:border-slate-800 pt-4 space-y-3">
+          <h4 class="font-bold text-slate-700 dark:text-slate-300">Backup & Restore:</h4>
           <div class="flex flex-wrap items-center gap-2">
-            <button id="exportDataBtn" class="px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold flex items-center gap-1.5 transition">
+            <button id="exportDataBtn" class="px-3 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-semibold flex items-center gap-1.5 transition border dark:border-slate-700">
               <span>📥</span> Export JSON Backup
             </button>
-            <button id="importDataBtn" class="px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold flex items-center gap-1.5 transition">
+            <button id="importDataBtn" class="px-3 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-semibold flex items-center gap-1.5 transition border dark:border-slate-700">
               <span>📤</span> Restore from JSON
             </button>
             <input type="file" id="importFileInput" accept=".json" class="hidden">
@@ -621,8 +683,8 @@ e.g.
 
       </div>
 
-      <div class="px-6 py-4 bg-slate-50 border-t border-slate-200 flex justify-end">
-        <button id="closeSettingsModalFooterBtn" class="px-5 py-2 text-xs font-bold bg-slate-800 hover:bg-slate-700 text-white rounded-xl">
+      <div class="px-6 py-4 bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 flex justify-end">
+        <button id="closeSettingsModalFooterBtn" class="px-5 py-2 text-xs font-bold bg-slate-800 dark:bg-slate-700 hover:bg-slate-700 dark:hover:bg-slate-600 text-white rounded-xl transition">
           Done
         </button>
       </div>
@@ -630,11 +692,11 @@ e.g.
     </div>
   </div>
 
-  <!-- Modal 6: Study Cloud Account Login & Register (Shared with To-Do) -->
+  <!-- Modal 4: Study Cloud Account Login & Register (Shared with To-Do) -->
   <div id="authModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm hidden">
-    <div class="bg-white rounded-3xl max-w-md w-full shadow-2xl border border-slate-200 overflow-hidden flex flex-col">
+    <div class="bg-white dark:bg-slate-900 rounded-3xl max-w-md w-full shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden flex flex-col transition-colors">
       <!-- Header -->
-      <div class="px-6 py-5 bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white flex items-center justify-between">
+      <div class="px-6 py-5 bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white flex items-center justify-between border-b border-slate-800">
         <div class="flex items-center gap-2.5">
           <div class="w-9 h-9 rounded-xl bg-indigo-600 flex items-center justify-center text-lg">
             🔐
@@ -648,31 +710,31 @@ e.g.
       </div>
 
       <!-- Tabs: Sign In / Create Account -->
-      <div class="flex border-b border-slate-200 bg-slate-50">
-        <button id="authTabLogin" class="flex-1 py-3 text-xs sm:text-sm font-bold text-indigo-600 border-b-2 border-indigo-600 bg-white transition">
+      <div class="flex border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950">
+        <button id="authTabLogin" class="flex-1 py-3 text-xs sm:text-sm font-bold text-indigo-600 dark:text-indigo-400 border-b-2 border-indigo-600 dark:border-indigo-400 bg-white dark:bg-slate-900 transition">
           Sign In
         </button>
-        <button id="authTabRegister" class="flex-1 py-3 text-xs sm:text-sm font-bold text-slate-500 border-b-2 border-transparent hover:text-slate-800 transition">
+        <button id="authTabRegister" class="flex-1 py-3 text-xs sm:text-sm font-bold text-slate-500 dark:text-slate-400 border-b-2 border-transparent hover:text-slate-800 dark:hover:text-slate-200 transition">
           Create Account
         </button>
       </div>
 
       <!-- Form Body -->
       <form id="authForm" class="p-6 space-y-4">
-        <div id="authErrorBanner" class="hidden p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-semibold leading-relaxed"></div>
+        <div id="authErrorBanner" class="hidden p-3 rounded-xl bg-rose-50 dark:bg-rose-950/50 border border-rose-200 dark:border-rose-900/60 text-rose-700 dark:text-rose-300 text-xs font-semibold leading-relaxed"></div>
 
         <div class="space-y-1.5">
-          <label for="authEmailInput" class="block font-bold text-xs text-slate-700">Email Address</label>
-          <input type="email" id="authEmailInput" placeholder="name@example.com" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none text-xs sm:text-sm" required autocomplete="email">
+          <label for="authEmailInput" class="block font-bold text-xs text-slate-700 dark:text-slate-300">Email Address</label>
+          <input type="email" id="authEmailInput" placeholder="name@example.com" class="w-full p-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-100 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none text-xs sm:text-sm" required autocomplete="email">
         </div>
 
         <div class="space-y-1.5">
-          <label for="authPasswordInput" class="block font-bold text-xs text-slate-700">Password</label>
-          <input type="password" id="authPasswordInput" placeholder="••••••••" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none text-xs sm:text-sm" required autocomplete="current-password">
-          <p id="authPasswordHelp" class="text-[11px] text-slate-400 hidden">Must be at least 6 characters</p>
+          <label for="authPasswordInput" class="block font-bold text-xs text-slate-700 dark:text-slate-300">Password</label>
+          <input type="password" id="authPasswordInput" placeholder="••••••••" class="w-full p-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-100 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none text-xs sm:text-sm" required autocomplete="current-password">
+          <p id="authPasswordHelp" class="text-[11px] text-slate-400 dark:text-slate-500 hidden">Must be at least 6 characters</p>
         </div>
 
-        <div class="p-3 rounded-2xl bg-indigo-50/70 border border-indigo-100 text-[11px] text-indigo-900 leading-relaxed">
+        <div class="p-3 rounded-2xl bg-indigo-50/70 dark:bg-indigo-950/40 border border-indigo-100 dark:border-indigo-900/60 text-[11px] text-indigo-900 dark:text-indigo-200 leading-relaxed">
           💡 <strong>Cross-Device Sync:</strong> Uses the exact same credentials as your <em>To-Do List</em>. Sign in once to keep your daily targets and scores automatically synced across mobile and PC in real time.
         </div>
 
@@ -686,15 +748,15 @@ e.g.
 
   <!-- Internet-Only Offline Barrier Overlay -->
   <div id="offlineOverlay" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md hidden">
-    <div class="bg-white rounded-3xl max-w-md w-full shadow-2xl border border-rose-200 overflow-hidden text-center p-6 space-y-4">
-      <div class="w-16 h-16 mx-auto rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center text-3xl shadow-inner border border-rose-200">
+    <div class="bg-white dark:bg-slate-900 rounded-3xl max-w-md w-full shadow-2xl border border-rose-200 dark:border-rose-900/60 overflow-hidden text-center p-6 space-y-4">
+      <div class="w-16 h-16 mx-auto rounded-2xl bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 flex items-center justify-center text-3xl shadow-inner border border-rose-200 dark:border-rose-900/50">
         📡
       </div>
-      <h3 class="text-lg font-bold text-slate-900">Active Internet Required</h3>
-      <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
-        SSC CGL Target Tracker operates <strong class="text-indigo-600 font-semibold">cloud-first</strong> with real-time multi-device synchronization. An active internet connection is required to track and save targets.
+      <h3 class="text-lg font-bold text-slate-900 dark:text-white">Active Internet Required</h3>
+      <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+        SSC CGL Target Tracker operates <strong class="text-indigo-600 dark:text-indigo-400 font-semibold">cloud-first</strong> with real-time multi-device synchronization. An active internet connection is required to track and save targets.
       </p>
-      <div class="p-3 bg-amber-50 rounded-2xl border border-amber-200 text-xs text-amber-800 flex items-center justify-center gap-2">
+      <div class="p-3 bg-amber-50 dark:bg-amber-950/40 rounded-2xl border border-amber-200 dark:border-amber-900/60 text-xs text-amber-800 dark:text-amber-300 flex items-center justify-center gap-2">
         <span class="w-2 h-2 rounded-full bg-amber-500 animate-ping"></span>
         <span>Waiting for internet reconnection...</span>
       </div>
@@ -704,35 +766,35 @@ e.g.
     </div>
   </div>
 
-  <!-- Modal 4: Record Score & Notes Modal -->
-  <div id="scoreModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm hidden">
-    <div class="bg-white rounded-3xl max-w-md w-full shadow-2xl border border-slate-200 overflow-hidden">
-      <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between">
+  <!-- Modal 5: Record Score & Notes Modal -->
+  <div id="scoreModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 dark:bg-slate-950/80 backdrop-blur-sm hidden">
+    <div class="bg-white dark:bg-slate-900 rounded-3xl max-w-md w-full shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden transition-colors">
+      <div class="px-6 py-4 bg-slate-900 dark:bg-slate-950 text-white flex items-center justify-between border-b border-slate-800">
         <h3 class="text-base font-bold text-white">Record Score & Notes</h3>
         <button id="closeScoreModalBtn" class="text-slate-400 hover:text-white p-1 rounded-lg">✕</button>
       </div>
       <div class="p-6 space-y-4 text-xs sm:text-sm">
         <input type="hidden" id="scoreTaskId">
         <div>
-          <label for="taskScoreInput" class="block font-semibold text-slate-700 mb-1">Score / Accuracy / Speed</label>
-          <input type="text" id="taskScoreInput" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="e.g. 44/50 or 38 WPM (97% acc)">
+          <label for="taskScoreInput" class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Score / Accuracy / Speed</label>
+          <input type="text" id="taskScoreInput" class="w-full p-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-100 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="e.g. 44/50 or 38 WPM (97% acc)">
         </div>
         <div>
-          <label for="taskNotesInput" class="block font-semibold text-slate-700 mb-1">Personal Notes / Weak Areas</label>
-          <textarea id="taskNotesInput" rows="3" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="e.g. Need to revise adverbs rules, skipped Q14 in Maths..."></textarea>
+          <label for="taskNotesInput" class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Personal Notes / Weak Areas</label>
+          <textarea id="taskNotesInput" rows="3" class="w-full p-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-100 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="e.g. Need to revise adverbs rules, skipped Q14 in Maths..."></textarea>
         </div>
       </div>
-      <div class="px-6 py-4 bg-slate-50 border-t border-slate-200 flex justify-end space-x-2">
-        <button id="cancelScoreModalBtn" class="px-4 py-2 text-xs font-semibold text-slate-600 hover:text-slate-800 rounded-xl">Cancel</button>
+      <div class="px-6 py-4 bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 flex justify-end space-x-2">
+        <button id="cancelScoreModalBtn" class="px-4 py-2 text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white rounded-xl">Cancel</button>
         <button id="saveScoreBtn" class="px-5 py-2 text-xs font-bold bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl shadow-md">Save</button>
       </div>
     </div>
   </div>
 
-  <!-- Modal 5: Share Progress Text Modal -->
-  <div id="shareModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm hidden">
-    <div class="bg-white rounded-3xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden">
-      <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between">
+  <!-- Modal 6: Share Progress Text Modal -->
+  <div id="shareModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 dark:bg-slate-950/80 backdrop-blur-sm hidden">
+    <div class="bg-white dark:bg-slate-900 rounded-3xl max-w-lg w-full shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden transition-colors">
+      <div class="px-6 py-4 bg-slate-900 dark:bg-slate-950 text-white flex items-center justify-between border-b border-slate-800">
         <div class="flex items-center gap-2">
           <span>📤</span>
           <h3 class="text-base font-bold text-white">Daily Progress Update</h3>
@@ -740,10 +802,10 @@ e.g.
         <button id="closeShareModalBtn" class="text-slate-400 hover:text-white p-1 rounded-lg">✕</button>
       </div>
       <div class="p-6 space-y-3">
-        <p class="text-xs text-slate-500">Copy this formatted text to share in your Telegram / WhatsApp study group:</p>
-        <textarea id="shareTextarea" rows="10" readonly class="w-full text-xs font-mono p-3 bg-slate-50 border border-slate-300 rounded-2xl focus:outline-none"></textarea>
+        <p class="text-xs text-slate-500 dark:text-slate-400">Copy this formatted text to share in your Telegram / WhatsApp study group:</p>
+        <textarea id="shareTextarea" rows="10" readonly class="w-full text-xs font-mono p-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-100 rounded-2xl focus:outline-none"></textarea>
       </div>
-      <div class="px-6 py-4 bg-slate-50 border-t border-slate-200 flex justify-end space-x-2">
+      <div class="px-6 py-4 bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 flex justify-end space-x-2">
         <button id="copyShareTextBtn" class="px-5 py-2 text-xs font-bold bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl shadow-md flex items-center gap-1.5">
           <span>📋</span> Copy to Clipboard
         </button>
@@ -928,6 +990,9 @@ e.g.
       cancelPasteModalBtn: document.getElementById('cancelPasteModalBtn'),
       pasteScheduleInput: document.getElementById('pasteScheduleInput'),
       loadSampleScheduleBtn: document.getElementById('loadSampleScheduleBtn'),
+      loadSampleDay2Btn: document.getElementById('loadSampleDay2Btn'),
+      loadSampleDay6Btn: document.getElementById('loadSampleDay6Btn'),
+      loadSampleDay7Btn: document.getElementById('loadSampleDay7Btn'),
       targetDayNumInput: document.getElementById('targetDayNumInput'),
       overwriteDayCheckbox: document.getElementById('overwriteDayCheckbox'),
       parsePreviewBox: document.getElementById('parsePreviewBox'),
@@ -935,6 +1000,15 @@ e.g.
       previewTaskList: document.getElementById('previewTaskList'),
       confirmImportBtn: document.getElementById('confirmImportBtn'),
       emptyPasteBtn: document.getElementById('emptyPasteBtn'),
+
+      // Theme Appearance Controls
+      themeToggleBtn: document.getElementById('themeToggleBtn'),
+      themeToggleIcon: document.getElementById('themeToggleIcon'),
+      mobileThemeBtn: document.getElementById('mobileThemeBtn'),
+      mobileThemeIcon: document.getElementById('mobileThemeIcon'),
+      themeLightBtn: document.getElementById('themeLightBtn'),
+      themeDarkBtn: document.getElementById('themeDarkBtn'),
+      themeSystemBtn: document.getElementById('themeSystemBtn'),
 
       // Task Edit/Add Modal
       taskModal: document.getElementById('taskModal'),
@@ -1035,21 +1109,23 @@ e.g.
     // Unicode Mathematical Font Normalization to Plain Text
     function normalizeUnicode(text) {
       if (!text) return '';
-      return text.normalize('NFKD');
+      let norm = text.normalize('NFKD');
+      norm = norm.replace(/\u00A0/g, ' ');
+      return norm;
     }
 
-    // Schedule Text Parser (Handles Telegram bold/math symbols and bullet points)
+    // Schedule Text Parser (Handles Telegram bold/math symbols, workflow arrows, markdown links & checklists)
     function parseScheduleText(rawText) {
       const clean = normalizeUnicode(rawText);
-      const lines = clean.split('\n').map(l => l.trim());
+      const rawLines = clean.split(/\r?\n/).map(l => l.trim());
 
       let dayNum = 2;
       let title = "SSC CGL 2026 T-2 | RBE Targets";
       let quote = "";
 
-      // 1. Detect Day Number
-      for (const line of lines) {
-        const match = line.match(/(?:Day|दिन)\s*(\d+)/i);
+      // 1. Detect Day Number (Supports Day 6, Day 𝟲, Day 7, Target Day 7, दिन 7, etc.)
+      for (const line of rawLines) {
+        const match = line.match(/(?:Day|दिन|Target\s*Day)\s*[-:#]?\s*(\d+)/i);
         if (match) {
           dayNum = parseInt(match[1], 10);
           break;
@@ -1057,55 +1133,155 @@ e.g.
       }
 
       // 2. Detect Title
-      for (const line of lines) {
-        if ((line.includes('SSC') || line.includes('Target') || line.includes('CGL')) && !/(?:Day|दिन)\s*\d+/i.test(line)) {
-          title = line.replace(/^[🎯\s]+/, '').trim();
+      for (const line of rawLines) {
+        if ((line.includes('SSC') || line.includes('Target') || line.includes('CGL') || line.includes('T-2')) && 
+            !/(?:Day|दिन)\s*[-:#]?\s*\d+/i.test(line)) {
+          title = line.replace(/^[🎯🏆📌⚡🔥\s\W]+/, '').trim();
+          if (title) break;
+        }
+      }
+
+      // 3. Detect Motivational Quote / Signoff (e.g. "Stay consistent—every completed target moves you forward!")
+      for (let i = rawLines.length - 1; i >= 0; i--) {
+        const line = rawLines[i];
+        if (!line) continue;
+        if ((line.includes('Stay consistent') || line.includes('moves you forward') || line.startsWith('🔥') || line.startsWith('“') || line.startsWith('"')) &&
+            !/(?:test|pyq|mock|subjectId|http|class|chapter)/i.test(line)) {
+          quote = line.replace(/^[🔥⚡\s“"']+|[”"'🔥⚡\s]+$/g, '').trim();
           break;
         }
       }
 
-      // 3. Detect Quote
-      for (const line of lines) {
-        if ((line.includes('“') || line.includes('"') || line.includes('🔥')) &&
-            !/(?:test|pyq|mock|open:|attempt|total)/i.test(line)) {
-          quote = line.replace(/^[🔥\s“"]+|[”"\s]+$/g, '').trim();
-          break;
-        }
-      }
+      // 4. Task header regex (Matches e.g. "💻 1. Computer — Class 3", "1. Computer", "1) Computer", "Task 1: Computer")
+      const taskHeaderRegex = /^([^\w\d\s\(\[\{]*)\s*(?:Task|Target)?\s*(\b\d{1,2}\b)[\.\)\:\s-]+(.+)$/i;
 
-      // 4. Extract Tasks
-      const taskHeaderRegex = /^([^\w\d\s\(\[\{]*)\s*(\b\d{1,2}\b)[\.\)\:\s]+([^\r\n]+)$/;
       const tasks = [];
       let currentTask = null;
 
-      for (let i = 0; i < lines.length; i++) {
-        const line = lines[i];
+      function extractLinksFromLine(line, currentSubject, prevLine) {
+        const links = [];
+        let cleanedLine = line;
+
+        // Check markdown link: [label](url)
+        const mdRegex = /\[([^\]]+)\]\((https?:\/\/[^\s\)]+)\)/g;
+        let mdMatch;
+        while ((mdMatch = mdRegex.exec(line)) !== null) {
+          const labelText = mdMatch[1].trim();
+          const rawUrl = mdMatch[2].trim().replace(/[\)\]\.\,]+$/, '');
+          const label = formatLinkLabel(rawUrl, labelText, currentSubject, prevLine);
+          links.push({ url: rawUrl, label });
+          cleanedLine = cleanedLine.replace(mdMatch[0], '').trim();
+        }
+
+        // Check bare URLs
+        const bareRegex = /(https?:\/\/[^\s\)\>\]]+)/g;
+        let bareMatch;
+        while ((bareMatch = bareRegex.exec(cleanedLine)) !== null) {
+          let rawUrl = bareMatch[1].trim().replace(/[\)\]\.\,]+$/, '');
+          if (!links.some(l => l.url === rawUrl)) {
+            const label = formatLinkLabel(rawUrl, '', currentSubject, prevLine);
+            links.push({ url: rawUrl, label });
+          }
+          cleanedLine = cleanedLine.replace(bareMatch[0], '').trim();
+        }
+
+        return { links, cleanedLine };
+      }
+
+      function formatLinkLabel(url, explicitText, subject, prevLine) {
+        const urlLower = url.toLowerCase();
+        const prevLower = (prevLine || '').toLowerCase();
+
+        if (explicitText && !/^(click\s*here|link|open|here)$/i.test(explicitText)) {
+          return explicitText.startsWith('🔗') || explicitText.startsWith('📝') || explicitText.startsWith('🎥') 
+            ? explicitText 
+            : `🔗 ${explicitText}`;
+        }
+
+        // Context from previous line
+        if (prevLower.includes('chapter') && prevLower.includes('test')) {
+          const chMatch = prevLine.match(/Chapter\s*\d+\s*Test/i);
+          if (chMatch) return `📝 ${chMatch[0]}`;
+          return `📝 Chapter Test`;
+        }
+
+        // RealMocks specific path detection
+        if (urlLower.includes('realmocks.com')) {
+          if (urlLower.includes('/editorial')) return '📰 RealMocks Editorial';
+          if (urlLower.includes('/vocabulary')) return '📖 RealMocks Vocabulary';
+          if (urlLower.includes('/typing')) return '⌨️ RealMocks Typing';
+          return '📝 RealMocks Portal';
+        }
+
+        // YouTube / Video
+        if (urlLower.includes('youtube.com') || urlLower.includes('youtu.be')) {
+          return '🎥 Video Lecture';
+        }
+
+        // RBE courses vs tests
+        if (urlLower.includes('rbelearning.com/courses')) {
+          if (subject === 'Computer') return '💻 Computer Course 4.0';
+          return '🎓 RBE Course / Batch';
+        }
+
+        if (urlLower.includes('rbelearning.com/test-series') || urlLower.includes('tests?subjectid=')) {
+          if (prevLower.includes('sectional')) return '📝 Sectional Test';
+          if (prevLower.includes('pyq')) return '📝 PYQ Mock Test';
+          if (subject === 'Maths') return '📝 Maths Mock Tests';
+          if (subject === 'English') return '📝 English Tests';
+          if (subject === 'Computer') return '📝 Computer Test';
+          return '📝 RBE Mock Test';
+        }
+
+        // E-commerce books
+        if (urlLower.includes('flipkart')) return '📘 Flipkart';
+        if (urlLower.includes('amazon')) return '📘 Amazon';
+
+        if (subject === 'Typing') return '⌨️ Typing Practice';
+        return '🔗 Open Link';
+      }
+
+      for (let i = 0; i < rawLines.length; i++) {
+        let line = rawLines[i];
         if (!line) continue;
 
-        if (quote && line.includes(quote.substring(0, 15))) continue;
+        // Skip quote line from task body
+        if (quote && (line.includes(quote.substring(0, 15)) || line.startsWith('🔥 Stay consistent'))) {
+          continue;
+        }
 
+        // Skip standalone promotional books section at bottom
+        if (/^📘\s*RBE\s+.*Book/i.test(line) || /^📘\s*(Flipkart|Amazon):/i.test(line)) {
+          continue;
+        }
+
+        // Check Task Header
         const headerMatch = line.match(taskHeaderRegex);
-        if (headerMatch && !line.startsWith('(')) {
+        if (headerMatch && !line.startsWith('(') && !line.toLowerCase().startsWith('complete:')) {
           if (currentTask) {
             tasks.push(finalizeTask(currentTask));
           }
+
           const rawEmoji = headerMatch[1].trim();
           const num = parseInt(headerMatch[2], 10);
           const fullTitle = headerMatch[3].trim();
-          
+
           let subj = "Other";
-          let emoji = rawEmoji || "📌";
+          let emoji = rawEmoji;
           const titleLower = fullTitle.toLowerCase();
-          if (titleLower.includes('computer')) { subj = 'Computer'; emoji = emoji || '💻'; }
+
+          // Priority: check Revision first so "Revision — Yesterday's Maths" is categorized as Revision
+          if (titleLower.includes('revision') || titleLower.startsWith('revision')) { subj = 'Revision'; emoji = emoji || '🔄'; }
+          else if (titleLower.includes('computer')) { subj = 'Computer'; emoji = emoji || '💻'; }
           else if (titleLower.includes('typing')) { subj = 'Typing'; emoji = emoji || '⌨️'; }
           else if (titleLower.includes('maths') || titleLower.includes('math')) { subj = 'Maths'; emoji = emoji || '📐'; }
           else if (titleLower.includes('english')) { subj = 'English'; emoji = emoji || '📚'; }
           else if (titleLower.includes('reasoning')) { subj = 'Reasoning'; emoji = emoji || '🧠'; }
-          else if (titleLower.includes('revision')) { subj = 'Revision'; emoji = emoji || '🔄'; }
           else if (titleLower.includes('gk') || titleLower.includes('gs') || titleLower.includes('general')) { subj = 'GK/GS'; emoji = emoji || '🏛️'; }
+          else { emoji = emoji || '📌'; }
 
           currentTask = {
-            id: `task-${tasks.length + 1}-${Date.now()}`,
+            id: `task-${num}-${Date.now()}`,
             number: num,
             subject: subj,
             emoji: emoji,
@@ -1121,31 +1297,21 @@ e.g.
         }
 
         if (currentTask) {
-          const urlMatch = line.match(/(https?:\/\/[^\s]+)/);
-          if (urlMatch) {
-            const url = urlMatch[1];
-            let label = "🔗 Open Link";
-            const lineLower = line.toLowerCase();
-            if (url.includes('youtube') || url.includes('youtu.be') || lineLower.includes('discussion')) {
-              label = "🎥 Video Discussion";
-            } else if (url.includes('test-series') || lineLower.includes('test')) {
-              label = "📝 Mock Test";
-            } else if (url.includes('typing') || url.includes('realmocks')) {
-              label = "⌨️ Typing Practice";
-            } else if (lineLower.includes('flipkart')) {
-              label = "📘 Flipkart";
-            } else if (lineLower.includes('amazon')) {
-              label = "📘 Amazon";
-            }
-            currentTask.links.push({ url, label });
+          const prevLine = rawLines[i - 1] || '';
+          
+          const { links, cleanedLine } = extractLinksFromLine(line, currentTask.subject, prevLine);
+          if (links.length > 0) {
+            currentTask.links.push(...links);
 
-            const preText = line.replace(url, '').replace(/^[🔗📝🎥\s\:\-]+/, '').trim();
-            if (preText) {
-              currentTask.descLines.push(preText);
+            const remaining = cleanedLine.replace(/^[🔗📝🎥\s\:\-]+/, '').trim();
+            // Don't keep dangling single label words like "Test:", "Discussion:", "Video:"
+            if (remaining && !/^(?:🎥\s*Discussion|🎥\s*Video|📝\s*Tests?|🔗\s*Links?|Test|Discussion)\s*:\s*$/i.test(remaining)) {
+              currentTask.descLines.push(remaining);
             }
             continue;
           }
 
+          // Check explicit bullet subtask: •, -, *
           if (/^[•\-\*]\s+/.test(line)) {
             const bulletText = line.replace(/^[•\-\*]\s+/, '').trim();
             if (bulletText) {
@@ -1158,6 +1324,12 @@ e.g.
             continue;
           }
 
+          // Skip dangling prefix labels like "🎥 Video:" or "📝 Tests:" before a URL
+          const nextLine = rawLines[i + 1] || '';
+          if (/^(?:🎥\s*Video|🎥\s*Discussion|📝\s*Tests?|🔗\s*Links?)\s*:\s*$/i.test(line) && /https?:\/\//i.test(nextLine)) {
+            continue;
+          }
+
           currentTask.descLines.push(line);
         }
       }
@@ -1166,28 +1338,165 @@ e.g.
         tasks.push(finalizeTask(currentTask));
       }
 
+      // Label multiple video links specifically (e.g. Maths Class 3 & 4)
+      tasks.forEach(task => {
+        const videoLinks = task.links.filter(l => l.url.includes('youtube') || l.url.includes('youtu.be'));
+        if (videoLinks.length > 1) {
+          const classMatch = task.title.match(/Class\s*(\d+)\s*(?:&|and)\s*(\d+)/i);
+          videoLinks.forEach((vl, idx) => {
+            if (classMatch && classMatch[idx + 1]) {
+              vl.label = `🎥 Video (Class ${classMatch[idx + 1]})`;
+            } else {
+              vl.label = `🎥 Video Part ${idx + 1}`;
+            }
+          });
+        }
+      });
+
       return {
         title,
         day: dayNum,
-        quote: quote || "Don’t just count the days—make each day count. Today’s revision is tomorrow’s strength.",
+        quote: quote || "Stay consistent—every completed target moves you forward!",
         tasks
       };
     }
 
     function finalizeTask(t) {
+      let subtasks = t.subtasks;
+
+      // Auto-generate subtasks only if no explicit bullets were found
+      if (subtasks.length === 0) {
+        subtasks = generateSmartSubtasks(t);
+      }
+
+      const cleanDesc = t.descLines
+        .filter(l => !/^(Complete:|\s*)$/i.test(l))
+        .join('\n')
+        .trim();
+
       return {
         id: t.id,
         number: t.number,
         subject: t.subject,
         emoji: t.emoji,
         title: t.title,
-        description: t.descLines.join('\n').trim(),
-        subtasks: t.subtasks,
+        description: cleanDesc,
+        subtasks: subtasks,
         links: t.links,
         completed: t.completed,
         score: t.score,
         notes: t.notes
       };
+    }
+
+    function generateSmartSubtasks(t) {
+      const generated = [];
+      const addSub = (text) => {
+        if (text && !generated.some(s => s.text.toLowerCase() === text.toLowerCase())) {
+          generated.push({
+            id: `sub-${t.id}-${generated.length + 1}`,
+            text: text.trim(),
+            completed: false
+          });
+        }
+      };
+
+      const titleLower = t.title.toLowerCase();
+      const descFull = t.descLines.join('\n');
+
+      // 1. Action workflow arrows: e.g. "Watch → Revise from the book → Attempt the test"
+      // Skip website navigation paths starting with "Open:"
+      for (const line of t.descLines) {
+        if ((line.includes('→') || line.includes('->')) && !/^open\s*:/i.test(line)) {
+          const parts = line.split(/→|->/).map(p => p.trim()).filter(Boolean);
+          const hasAction = parts.some(p => /^(watch|revise|attempt|solve|read|practice|complete)/i.test(p));
+          if (hasAction && parts.length >= 2) {
+            parts.forEach(p => {
+              const chMatch = (t.title + ' ' + descFull).match(/Chapter\s*(\d+)|Class\s*(\d+)/i);
+              let itemText = p;
+              if (/^attempt\s+the\s+test$/i.test(p) && chMatch) {
+                itemText = `Attempt Chapter ${chMatch[1] || chMatch[2]} Test`;
+              } else if (/^watch$/i.test(p) && chMatch) {
+                itemText = `Watch Class ${chMatch[2] || chMatch[1]} Lecture`;
+              }
+              addSub(itemText);
+            });
+            return generated;
+          }
+        }
+      }
+
+      // 2. English tasks: Editorials, RC, Cloze, Vocab
+      if (t.subject === 'English') {
+        for (const line of t.descLines) {
+          if (/editorial/i.test(line) && /complete/i.test(line)) {
+            const timeMatch = descFull.match(/(?:Editorial task:\s*|⏱️\s*)(\d+\s*minutes|\d+\s*mins)/i);
+            const timeStr = timeMatch ? ` (${timeMatch[1]})` : '';
+            addSub(line.replace(/^[📰⏱️📝\s]+/, '').trim() + timeStr);
+          } else if (/Reading Comprehension/i.test(line) || /Cloze Test/i.test(line)) {
+            if (line.includes('&') || line.toLowerCase().includes('and')) {
+              const parts = line.replace(/^[📝\s]*also\s+attempt\s+/i, '').replace(/^[📝\s]+/i, '').split(/&|\band\b/i);
+              parts.forEach(p => {
+                const cleanP = p.trim().replace(/^attempt\s+/i, '');
+                if (cleanP) addSub(`Attempt ${cleanP}`);
+              });
+            } else {
+              addSub(line.replace(/^[📝\s]+/, '').trim());
+            }
+          } else if (/vocab tests/i.test(line) || /Attempt First .* tests of Ant, syn/i.test(line)) {
+            const vocabMatch = line.match(/Attempt First [^\.\n]+/i);
+            if (vocabMatch) {
+              addSub(`Vocab: ${vocabMatch[0].trim()}`);
+            }
+          }
+        }
+        if (generated.length > 0) return generated;
+      }
+
+      // 3. Maths: Video lectures + Chapter Tests
+      if (t.subject === 'Maths') {
+        const classMatch = t.title.match(/Class\s*(\d+)\s*(?:&|and)\s*(\d+)/i);
+        if (classMatch) {
+          addSub(`Watch Probability Class ${classMatch[1]} Video`);
+          addSub(`Watch Probability Class ${classMatch[2]} Video`);
+        } else {
+          const singleClass = t.title.match(/Class\s*(\d+)/i);
+          if (singleClass) {
+            addSub(`Watch Maths Class ${singleClass[1]} Video Lecture`);
+          } else if (t.links.some(l => l.url.includes('youtube') || l.url.includes('youtu.be'))) {
+            addSub(`Watch Video Discussion`);
+          }
+        }
+
+        if (t.links.some(l => l.url.includes('test-series') || l.url.includes('test')) || /test/i.test(descFull)) {
+          addSub(`Attempt Chapter Mock Test Series`);
+        }
+        if (generated.length > 0) return generated;
+      }
+
+      // 4. Typing
+      if (t.subject === 'Typing') {
+        const minMatch = (t.title + ' ' + descFull).match(/(\d+)\s*Minutes/i);
+        const mins = minMatch ? minMatch[1] : '30';
+        addSub(`${mins} Minutes typing practice with accuracy`);
+        return generated;
+      }
+
+      // 5. Revision
+      if (t.subject === 'Revision') {
+        addSub("Reattempt unsolved Maths questions independently");
+        addSub("Reattempt Reasoning doubts from yesterday's set");
+        return generated;
+      }
+
+      // 6. Generic fallback: if task has links
+      if (t.links.length > 0) {
+        t.links.forEach(l => {
+          addSub(`Complete ${l.label.replace(/^[^\w\d\s]+/, '').trim()}`);
+        });
+      }
+
+      return generated;
     }
 
     // Local Storage Operations
@@ -1326,13 +1635,13 @@ e.g.
     function setAuthMode(mode) {
       state.authMode = mode;
       if (mode === 'login') {
-        if (elements.authTabLogin) elements.authTabLogin.className = 'flex-1 py-3 text-xs sm:text-sm font-bold text-indigo-600 border-b-2 border-indigo-600 bg-white transition';
-        if (elements.authTabRegister) elements.authTabRegister.className = 'flex-1 py-3 text-xs sm:text-sm font-bold text-slate-500 border-b-2 border-transparent hover:text-slate-800 transition';
+        if (elements.authTabLogin) elements.authTabLogin.className = 'flex-1 py-3 text-xs sm:text-sm font-bold text-indigo-600 dark:text-indigo-400 border-b-2 border-indigo-600 dark:border-indigo-400 bg-white dark:bg-slate-900 transition';
+        if (elements.authTabRegister) elements.authTabRegister.className = 'flex-1 py-3 text-xs sm:text-sm font-bold text-slate-500 dark:text-slate-400 border-b-2 border-transparent hover:text-slate-800 dark:hover:text-slate-200 transition';
         if (elements.authSubmitText) elements.authSubmitText.textContent = 'Sign In';
         if (elements.authPasswordHelp) elements.authPasswordHelp.classList.add('hidden');
       } else {
-        if (elements.authTabRegister) elements.authTabRegister.className = 'flex-1 py-3 text-xs sm:text-sm font-bold text-indigo-600 border-b-2 border-indigo-600 bg-white transition';
-        if (elements.authTabLogin) elements.authTabLogin.className = 'flex-1 py-3 text-xs sm:text-sm font-bold text-slate-500 border-b-2 border-transparent hover:text-slate-800 transition';
+        if (elements.authTabRegister) elements.authTabRegister.className = 'flex-1 py-3 text-xs sm:text-sm font-bold text-indigo-600 dark:text-indigo-400 border-b-2 border-indigo-600 dark:border-indigo-400 bg-white dark:bg-slate-900 transition';
+        if (elements.authTabLogin) elements.authTabLogin.className = 'flex-1 py-3 text-xs sm:text-sm font-bold text-slate-500 dark:text-slate-400 border-b-2 border-transparent hover:text-slate-800 dark:hover:text-slate-200 transition';
         if (elements.authSubmitText) elements.authSubmitText.textContent = 'Create Study Account';
         if (elements.authPasswordHelp) elements.authPasswordHelp.classList.remove('hidden');
       }
@@ -1604,13 +1913,13 @@ e.g.
         tabBtn.className = `flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-semibold shrink-0 transition ${
           isActive 
             ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-600/30' 
-            : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+            : 'bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-200 border border-transparent dark:border-slate-700/60'
         }`;
 
         tabBtn.innerHTML = `
           <span>Day ${dayNum}</span>
           <span class="px-1.5 py-0.5 rounded-md text-[10px] font-bold ${
-            isActive ? 'bg-indigo-700 text-indigo-100' : 'bg-slate-200 text-slate-600'
+            isActive ? 'bg-indigo-700 text-indigo-100' : 'bg-slate-200 text-slate-600 dark:bg-slate-700 dark:text-slate-300'
           }">${pct}%</span>
         `;
 
@@ -1675,36 +1984,36 @@ e.g.
       const card = document.createElement('div');
       const isCompleted = task.completed;
 
-      // Subject badge color scheme
+      // Subject badge color scheme with dark mode support
       const subjColors = {
-        'Maths': 'bg-emerald-100 text-emerald-800 border-emerald-200',
-        'English': 'bg-rose-100 text-rose-800 border-rose-200',
-        'Reasoning': 'bg-violet-100 text-violet-800 border-violet-200',
-        'Computer': 'bg-sky-100 text-sky-800 border-sky-200',
-        'Typing': 'bg-purple-100 text-purple-800 border-purple-200',
-        'Revision': 'bg-amber-100 text-amber-800 border-amber-200',
-        'GK/GS': 'bg-teal-100 text-teal-800 border-teal-200',
-        'Other': 'bg-slate-100 text-slate-800 border-slate-200'
+        'Maths': 'bg-emerald-100 text-emerald-800 border-emerald-200 dark:bg-emerald-950/70 dark:text-emerald-300 dark:border-emerald-800/80',
+        'English': 'bg-rose-100 text-rose-800 border-rose-200 dark:bg-rose-950/70 dark:text-rose-300 dark:border-rose-800/80',
+        'Reasoning': 'bg-violet-100 text-violet-800 border-violet-200 dark:bg-violet-950/70 dark:text-violet-300 dark:border-violet-800/80',
+        'Computer': 'bg-sky-100 text-sky-800 border-sky-200 dark:bg-sky-950/70 dark:text-sky-300 dark:border-sky-800/80',
+        'Typing': 'bg-purple-100 text-purple-800 border-purple-200 dark:bg-purple-950/70 dark:text-purple-300 dark:border-purple-800/80',
+        'Revision': 'bg-amber-100 text-amber-800 border-amber-200 dark:bg-amber-950/70 dark:text-amber-300 dark:border-amber-800/80',
+        'GK/GS': 'bg-teal-100 text-teal-800 border-teal-200 dark:bg-teal-950/70 dark:text-teal-300 dark:border-teal-800/80',
+        'Other': 'bg-slate-100 text-slate-800 border-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700'
       };
       const badgeClass = subjColors[task.subject] || subjColors['Other'];
 
-      card.className = `group bg-white rounded-2xl p-5 border transition-all duration-200 shadow-sm hover:shadow-md ${
+      card.className = `group bg-white dark:bg-slate-900 rounded-2xl p-5 border transition-all duration-200 shadow-sm hover:shadow-md ${
         isCompleted 
-          ? 'border-emerald-200/80 bg-emerald-50/20' 
-          : 'border-slate-200/90'
+          ? 'border-emerald-200/80 bg-emerald-50/20 dark:border-emerald-500/30 dark:bg-emerald-950/20' 
+          : 'border-slate-200/90 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700'
       }`;
 
       // Build Subtasks HTML
       let subtasksHTML = '';
       if (task.subtasks && task.subtasks.length > 0) {
         subtasksHTML = `
-          <div class="mt-3 pt-3 border-t border-slate-100 space-y-1.5">
-            <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Subtopics / Checklist:</p>
+          <div class="mt-3 pt-3 border-t border-slate-100 dark:border-slate-800 space-y-1.5">
+            <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-400">Subtopics / Checklist:</p>
             <div class="space-y-1">
               ${task.subtasks.map(sub => `
-                <label class="flex items-start gap-2 p-1.5 rounded-lg hover:bg-slate-50 cursor-pointer text-xs">
-                  <input type="checkbox" data-task-id="${task.id}" data-sub-id="${sub.id}" class="subtask-checkbox mt-0.5 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300 w-3.5 h-3.5" ${sub.completed ? 'checked' : ''}>
-                  <span class="${sub.completed ? 'line-through text-slate-400' : 'text-slate-700 font-medium'}">${sub.text}</span>
+                <label class="flex items-start gap-2 p-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800/70 cursor-pointer text-xs transition">
+                  <input type="checkbox" data-task-id="${task.id}" data-sub-id="${sub.id}" class="subtask-checkbox mt-0.5 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300 dark:border-slate-600 dark:bg-slate-800 w-3.5 h-3.5" ${sub.completed ? 'checked' : ''}>
+                  <span class="${sub.completed ? 'line-through text-slate-400 dark:text-slate-500' : 'text-slate-700 dark:text-slate-200 font-medium'}">${sub.text}</span>
                 </label>
               `).join('')}
             </div>
@@ -1718,9 +2027,9 @@ e.g.
         linksHTML = `
           <div class="flex flex-wrap items-center gap-2 mt-3 pt-2">
             ${task.links.map(l => `
-              <a href="${l.url}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-indigo-50 hover:text-indigo-700 text-slate-700 border border-slate-200 text-xs font-semibold transition group/link">
+              <a href="${l.url}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-indigo-50 hover:text-indigo-700 text-slate-700 dark:bg-slate-800 dark:hover:bg-indigo-950/60 dark:hover:text-indigo-300 dark:text-slate-200 border border-slate-200 dark:border-slate-700 text-xs font-semibold transition group/link">
                 <span>${l.label || '🔗 Open Link'}</span>
-                <span class="text-[10px] text-slate-400 group-hover/link:text-indigo-600">↗</span>
+                <span class="text-[10px] text-slate-400 group-hover/link:text-indigo-600 dark:group-hover/link:text-indigo-400">↗</span>
               </a>
             `).join('')}
           </div>
@@ -1731,9 +2040,9 @@ e.g.
       let scoreNotesHTML = '';
       if (task.score || task.notes) {
         scoreNotesHTML = `
-          <div class="mt-3 p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs space-y-1">
-            ${task.score ? `<div class="font-semibold text-indigo-700">🎯 Score / Stats: <span class="font-normal text-slate-700">${task.score}</span></div>` : ''}
-            ${task.notes ? `<div class="font-semibold text-slate-600">📝 Notes: <span class="font-normal text-slate-700">${task.notes}</span></div>` : ''}
+          <div class="mt-3 p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/80 text-xs space-y-1">
+            ${task.score ? `<div class="font-semibold text-indigo-700 dark:text-indigo-300">🎯 Score / Stats: <span class="font-normal text-slate-700 dark:text-slate-200">${task.score}</span></div>` : ''}
+            ${task.notes ? `<div class="font-semibold text-slate-600 dark:text-slate-400">📝 Notes: <span class="font-normal text-slate-700 dark:text-slate-200">${task.notes}</span></div>` : ''}
           </div>
         `;
       }
@@ -1742,7 +2051,7 @@ e.g.
         <div class="flex items-start gap-3 sm:gap-4">
           <!-- Big Checkbox -->
           <div class="pt-0.5">
-            <input type="checkbox" data-task-id="${task.id}" class="main-task-checkbox w-6 h-6 rounded-lg text-emerald-600 focus:ring-emerald-500 border-slate-300 cursor-pointer transition shadow-sm" ${isCompleted ? 'checked' : ''}>
+            <input type="checkbox" data-task-id="${task.id}" class="main-task-checkbox w-6 h-6 rounded-lg text-emerald-600 focus:ring-emerald-500 border-slate-300 dark:border-slate-600 dark:bg-slate-800 cursor-pointer transition shadow-sm" ${isCompleted ? 'checked' : ''}>
           </div>
 
           <!-- Content Area -->
@@ -1752,31 +2061,31 @@ e.g.
                 <span class="px-2.5 py-0.5 rounded-full text-xs font-bold border ${badgeClass}">
                   ${task.emoji || '📌'} ${task.subject || 'Task'}
                 </span>
-                <span class="text-xs font-semibold text-slate-400">#${task.number || (index + 1)}</span>
+                <span class="text-xs font-semibold text-slate-400 dark:text-slate-400">#${task.number || (index + 1)}</span>
               </div>
 
               <!-- Action Menu Buttons -->
               <div class="flex items-center space-x-1 opacity-80 group-hover:opacity-100 transition">
-                <button data-action="score" data-task-id="${task.id}" class="p-1.5 text-slate-400 hover:text-indigo-600 rounded-lg hover:bg-slate-100 text-xs" title="Add Score or Note">
+                <button data-action="score" data-task-id="${task.id}" class="p-1.5 text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-xs transition" title="Add Score or Note">
                   ✏️ Score
                 </button>
-                <button data-action="edit" data-task-id="${task.id}" class="p-1.5 text-slate-400 hover:text-slate-700 rounded-lg hover:bg-slate-100 text-xs" title="Edit Task">
+                <button data-action="edit" data-task-id="${task.id}" class="p-1.5 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-xs transition" title="Edit Task">
                   ⚙️
                 </button>
-                <button data-action="delete" data-task-id="${task.id}" class="p-1.5 text-slate-400 hover:text-rose-600 rounded-lg hover:bg-slate-100 text-xs" title="Delete Task">
+                <button data-action="delete" data-task-id="${task.id}" class="p-1.5 text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-xs transition" title="Delete Task">
                   🗑️
                 </button>
               </div>
             </div>
 
             <!-- Title -->
-            <h4 class="text-sm sm:text-base font-bold text-slate-800 mt-1.5 ${isCompleted ? 'line-through text-slate-400' : ''}">
+            <h4 class="text-sm sm:text-base font-bold text-slate-800 dark:text-slate-100 mt-1.5 ${isCompleted ? 'line-through text-slate-400 dark:text-slate-500' : ''}">
               ${task.title}
             </h4>
 
             <!-- Description -->
             ${task.description ? `
-              <p class="text-xs sm:text-sm text-slate-600 mt-1.5 whitespace-pre-line leading-relaxed ${isCompleted ? 'text-slate-400' : ''}">
+              <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mt-1.5 whitespace-pre-line leading-relaxed ${isCompleted ? 'text-slate-400 dark:text-slate-500' : ''}">
                 ${task.description}
               </p>
             ` : ''}
@@ -2031,8 +2340,106 @@ e.g.
       elements.shareModal.classList.add('hidden');
     }
 
+    // Theme Appearance State & Controls (Light, Dark, System)
+    const THEME_STORAGE_KEY = 'theme';
+
+    function getSavedThemePreference() {
+      try {
+        return localStorage.getItem(THEME_STORAGE_KEY) || 'system';
+      } catch {
+        return 'system';
+      }
+    }
+
+    function applyTheme(pref) {
+      const isDark = pref === 'dark' || (pref === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      if (isDark) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+      updateThemeButtonsUI(pref);
+    }
+
+    function setTheme(themeName) {
+      try {
+        if (themeName === 'system') {
+          localStorage.removeItem(THEME_STORAGE_KEY);
+        } else {
+          localStorage.setItem(THEME_STORAGE_KEY, themeName);
+        }
+      } catch (e) {
+        console.warn('Theme storage failed', e);
+      }
+      applyTheme(themeName);
+    }
+
+    function toggleTheme() {
+      const isCurrentlyDark = document.documentElement.classList.contains('dark');
+      const nextTheme = isCurrentlyDark ? 'light' : 'dark';
+      setTheme(nextTheme);
+      showToast(`Switched to ${nextTheme} mode`, 'info');
+    }
+
+    function updateThemeButtonsUI(pref) {
+      const isDark = document.documentElement.classList.contains('dark');
+      if (elements.themeToggleIcon) {
+        elements.themeToggleIcon.textContent = isDark ? '☀️' : '🌙';
+      }
+      if (elements.mobileThemeIcon) {
+        elements.mobileThemeIcon.textContent = isDark ? '☀️' : '🌙';
+      }
+
+      // Settings modal active button indicator
+      const activeClass = 'border-indigo-600 bg-indigo-50 dark:bg-indigo-950/70 text-indigo-700 dark:text-indigo-300 font-bold';
+      const inactiveClass = 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200';
+
+      if (elements.themeLightBtn) {
+        elements.themeLightBtn.className = `px-3 py-1 rounded-xl border text-xs transition ${pref === 'light' ? activeClass : inactiveClass}`;
+      }
+      if (elements.themeDarkBtn) {
+        elements.themeDarkBtn.className = `px-3 py-1 rounded-xl border text-xs transition ${pref === 'dark' ? activeClass : inactiveClass}`;
+      }
+      if (elements.themeSystemBtn) {
+        elements.themeSystemBtn.className = `px-3 py-1 rounded-xl border text-xs transition ${pref === 'system' ? activeClass : inactiveClass}`;
+      }
+    }
+
     // Event Listeners Binding
     function setupEventListeners() {
+      // Theme Toggle Buttons
+      if (elements.themeToggleBtn) {
+        elements.themeToggleBtn.addEventListener('click', toggleTheme);
+      }
+      if (elements.mobileThemeBtn) {
+        elements.mobileThemeBtn.addEventListener('click', toggleTheme);
+      }
+      if (elements.themeLightBtn) {
+        elements.themeLightBtn.addEventListener('click', () => {
+          setTheme('light');
+          showToast('Theme set to Light', 'info');
+        });
+      }
+      if (elements.themeDarkBtn) {
+        elements.themeDarkBtn.addEventListener('click', () => {
+          setTheme('dark');
+          showToast('Theme set to Dark', 'info');
+        });
+      }
+      if (elements.themeSystemBtn) {
+        elements.themeSystemBtn.addEventListener('click', () => {
+          setTheme('system');
+          showToast('Theme following System preferences', 'info');
+        });
+      }
+
+      // Listen for OS theme changes
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+        if (getSavedThemePreference() === 'system') {
+          applyTheme('system');
+        }
+      });
+
       // Mobile Bottom Bar Controls
       const mobilePasteBtn = document.getElementById('mobilePasteBtn');
       if (mobilePasteBtn) mobilePasteBtn.addEventListener('click', openPasteModal);
@@ -2072,9 +2479,8 @@ e.g.
       elements.closePasteModalBtn.addEventListener('click', closePasteModal);
       elements.cancelPasteModalBtn.addEventListener('click', closePasteModal);
 
-      // Load Sample Target
-      elements.loadSampleScheduleBtn.addEventListener('click', () => {
-        const sampleText = `🎯 𝗦𝗦𝗖 𝗖𝗚𝗟 𝟮𝟬𝟮𝟲 𝗧-𝟮 | 𝗥𝗕𝗘 𝗧𝗮𝗿𝗴𝗲𝘁𝘀
+      // Sample Post Texts (Day 2, Day 6, Day 7)
+      const SAMPLE_DAY_2_TEXT = `🎯 𝗦𝗦𝗖 𝗖𝗚𝗟 𝟮𝟬𝟮𝟲 𝗧-𝟮 | 𝗥𝗕𝗘 𝗧𝗮𝗿𝗴𝗲𝘁𝘀
 📅 𝗗𝗮𝘆 𝟮
 
 💻 𝟭. 𝗖𝗼𝗺𝗽𝘂𝘁𝗲𝗿 — 𝗣𝗬𝗤 𝗦𝗲𝗰𝘁𝗶𝗼𝗻𝗮𝗹 𝗧𝗲𝘀𝘁𝘀
@@ -2116,9 +2522,97 @@ Complete:
 📘𝗔𝗺𝗮𝘇𝗼𝗻: English  Hindi
 
 🔥 “𝗗𝗼𝗻’𝘁 𝗷𝘂𝘀𝘁 𝗰𝗼𝘂𝗻𝘁 𝘁𝗵𝗲 𝗱𝗮𝘆𝘀—𝗺𝗮𝗸𝗲 𝗲𝗮𝗰𝗵 𝗱𝗮𝘆 𝗰𝗼𝘂𝗻𝘁. 𝗧𝗼𝗱𝗮𝘆’𝘀 𝗿𝗲𝘃𝗶𝘀𝗶𝗼𝗻 𝗶𝘀 𝘁𝗼𝗺𝗼𝗿𝗿𝗼𝘄’𝘀 𝘀𝘁𝗿𝗲𝗻𝗴𝘁𝗵.”`;
-        elements.pasteScheduleInput.value = sampleText;
+
+      const SAMPLE_DAY_6_TEXT = `🎯 𝗦𝗦𝗖 𝗖𝗚𝗟 𝟮𝟬𝟮𝟲 𝗧-𝟮 | 𝗥𝗕𝗘 𝗧𝗮𝗿𝗴𝗲𝘁𝘀
+📅 𝗗𝗮𝘆 𝟲
+
+💻 𝟭. 𝗖𝗼𝗺𝗽𝘂𝘁𝗲𝗿 — 𝗖𝗹𝗮𝘀𝘀 𝟯
+Complete Class 3 from the 𝗖𝗼𝗺𝗽𝘂𝘁𝗲𝗿 𝟰.𝟬 𝗕𝗮𝘁𝗰𝗵.
+
+𝗪𝗮𝘁𝗰𝗵 → 𝗥𝗲𝘃𝗶𝘀𝗲 𝗳𝗿𝗼𝗺 𝘁𝗵𝗲 𝗯𝗼𝗼𝗸 → 𝗔𝘁𝘁𝗲𝗺𝗽𝘁 𝘁𝗵𝗲 𝘁𝗲𝘀𝘁
+
+Already studied this chapter? Revise and attempt the test directly.
+
+📝 Computer 4.0 Batch → 𝗖𝗵𝗮𝗽𝘁𝗲𝗿 𝟯 𝗧𝗲𝘀𝘁
+https://rbelearning.com/test-series/229/tests?subjectId=407
+
+⌨️ 𝟮. 𝗧𝘆𝗽𝗶𝗻𝗴 — 𝟯𝟬 𝗠𝗶𝗻𝘂𝘁𝗲𝘀
+Focus on accuracy and consistent practice.
+
+https://realmocks.com/typing
+
+🔄 𝟯. 𝗥𝗲𝘃𝗶𝘀𝗶𝗼𝗻 — 𝗬𝗲𝘀𝘁𝗲𝗿𝗱𝗮𝘆’𝘀 𝗠𝗮𝘁𝗵𝘀
+Reattempt all questions you couldn't solve in 𝗠𝗮𝘁𝗵𝘀 𝗖𝗹𝗮𝘀𝘀 𝟭 & 𝟮 (Top 50). Try them independently first, then review the solutions.
+
+📐 𝟰. 𝗠𝗮𝘁𝗵𝘀 — 𝗣𝗿𝗼𝗯𝗮𝗯𝗶𝗹𝗶𝘁𝘆 (𝗖𝗹𝗮𝘀𝘀 𝟯 & 𝟰)
+Watch the lectures, note down new concepts, and solve the questions along with the video.
+
+🎥 Class 3: https://youtu.be/KkW8c7iQ05o
+🎥 Class 4: https://youtu.be/xJ5lS7r7bC8
+
+📖 𝟱. 𝗘𝗻𝗴𝗹𝗶𝘀𝗵 — 𝗥𝗲𝗮𝗱𝗶𝗻𝗴 & 𝗩𝗼𝗰𝗮𝗯𝘂𝗹𝗮𝗿𝘆
+• Reading: Read an editorial (30–45 mins).
+• Vocab: 10 One-word Substitutions (OWS) + 10 Idioms.
+
+Editorials: https://realmocks.com/editorial
+Vocab: https://realmocks.com/vocabulary
+
+🔥 “𝗦𝘁𝗮𝘆 𝗰𝗼𝗻𝘀𝗶𝘀𝘁𝗲𝗻𝘁—𝗲𝘃𝗲𝗿𝘆 𝗰𝗼𝗺𝗽𝗹𝗲𝘁𝗲𝗱 𝘁𝗮𝗿𝗴𝗲𝘁 𝗺𝗼𝘃𝗲𝘀 𝘆𝗼𝘂 𝗳𝗼𝗿𝘄𝗮𝗿𝗱!”`;
+
+      const SAMPLE_DAY_7_TEXT = `🎯 𝗦𝗦𝗖 𝗖𝗚𝗟 𝟮𝟬𝟮𝟲 𝗧-𝟮 | 𝗥𝗕𝗘 𝗧𝗮𝗿𝗴𝗲𝘁𝘀
+📅 𝗗𝗮𝘆 𝟳
+
+💻 𝟭. 𝗖𝗼𝗺𝗽𝘂𝘁𝗲𝗿 — 𝗖𝗹𝗮𝘀𝘀 𝟰
+Complete Class 4 from the 𝗖𝗼𝗺𝗽𝘂𝘁𝗲𝗿 𝟰.𝟬 𝗕𝗮𝘁𝗰𝗵.
+
+[Click here for the Batch](https://rbelearning.com/courses/106)
+
+𝗪𝗮𝘁𝗰𝗵 → 𝗥𝗲𝘃𝗶𝘀𝗲 𝗳𝗿𝗼𝗺 𝘁𝗵𝗲 𝗯𝗼𝗼𝗸 → 𝗔𝘁𝘁𝗲𝗺𝗽𝘁 𝘁𝗵𝗲 𝘁𝗲𝘀𝘁
+
+Already completed this class? Revise and attempt the test directly.
+
+📝 Computer 4.0 Batch → 𝗖𝗵𝗮𝗽𝘁𝗲𝗿 𝟰 𝗧𝗲𝘀𝘁
+https://rbelearning.com/test-series/229/tests?subjectId=407
+
+⌨️ 𝟮. 𝗧𝘆𝗽𝗶𝗻𝗴 — 𝟯𝟬 𝗠𝗶𝗻𝘂𝘁𝗲𝘀
+Focus on accuracy and regular practice.
+
+https://realmocks.com/typing
+
+🔄 𝟯. 𝗥𝗲𝘃𝗶𝘀𝗶𝗼𝗻 — 𝗬𝗲𝘀𝘁𝗲𝗿𝗱𝗮𝘆’𝘀 𝗠𝗮𝘁𝗵𝘀
+Reattempt the questions you found tricky in 𝗣𝗿𝗼𝗯𝗮𝗯𝗶𝗹𝗶𝘁𝘆 (𝗖𝗹𝗮𝘀𝘀 𝟯 & 𝟰). Try solving them independently before checking the solutions.
+
+📐 𝟰. 𝗠𝗮𝘁𝗵𝘀 — 𝗣𝗿𝗼𝗯𝗮𝗯𝗶𝗹𝗶𝘁𝘆 (𝗖𝗹𝗮𝘀𝘀 𝟱)
+Watch the video, understand the core concepts, and solve all the questions discussed.
+
+🎥 Class 5: https://youtu.be/k6n07c6f-pM
+
+📖 𝟱. 𝗘𝗻𝗴𝗹𝗶𝘀𝗵 — 𝗥𝗲𝗮𝗱𝗶𝗻𝗴 & 𝗩𝗼𝗰𝗮𝗯𝘂𝗹𝗮𝗿𝘆
+• Reading: Read an editorial (30–45 mins).
+• Vocab: 10 One-word Substitutions (OWS) + 10 Idioms.
+
+Editorials: https://realmocks.com/editorial
+Vocab: https://realmocks.com/vocabulary
+
+🔥 “𝗗𝗶𝘀𝗰𝗶𝗽𝗹𝗶𝗻𝗲 𝘁𝗼𝗱𝗮𝘆 𝗶𝘀 𝘀𝘂𝗰𝗰𝗲𝘀𝘀 𝘁𝗼𝗺𝗼𝗿𝗿𝗼𝘄—𝗸𝗲𝗲𝗽 𝗽𝘂𝘀𝗵𝗶𝗻𝗴!”`;
+
+      function loadSampleText(text) {
+        elements.pasteScheduleInput.value = text;
         updatePastePreview();
-      });
+      }
+
+      if (elements.loadSampleScheduleBtn) {
+        elements.loadSampleScheduleBtn.addEventListener('click', () => loadSampleText(SAMPLE_DAY_2_TEXT));
+      }
+      if (elements.loadSampleDay2Btn) {
+        elements.loadSampleDay2Btn.addEventListener('click', () => loadSampleText(SAMPLE_DAY_2_TEXT));
+      }
+      if (elements.loadSampleDay6Btn) {
+        elements.loadSampleDay6Btn.addEventListener('click', () => loadSampleText(SAMPLE_DAY_6_TEXT));
+      }
+      if (elements.loadSampleDay7Btn) {
+        elements.loadSampleDay7Btn.addEventListener('click', () => loadSampleText(SAMPLE_DAY_7_TEXT));
+      }
 
       // Live parsing preview
       elements.pasteScheduleInput.addEventListener('input', updatePastePreview);
@@ -2135,10 +2629,10 @@ Complete:
         elements.previewTaskCountBadge.textContent = `${parsed.tasks.length} tasks detected`;
 
         elements.previewTaskList.innerHTML = parsed.tasks.map(t => `
-          <div class="flex items-center gap-1.5 py-0.5">
+          <div class="flex items-center gap-1.5 py-0.5 text-xs">
             <span>${t.emoji}</span>
-            <span class="font-semibold text-slate-800">${t.title}</span>
-            ${t.subtasks && t.subtasks.length > 0 ? `<span class="text-[10px] bg-indigo-100 text-indigo-700 px-1.5 py-0.2 rounded font-bold">${t.subtasks.length} subtasks</span>` : ''}
+            <span class="font-semibold text-slate-800 dark:text-slate-200">${t.title}</span>
+            ${t.subtasks && t.subtasks.length > 0 ? `<span class="text-[10px] bg-indigo-100 dark:bg-indigo-900/60 text-indigo-700 dark:text-indigo-300 px-1.5 py-0.2 rounded font-bold">${t.subtasks.length} subtasks</span>` : ''}
           </div>
         `).join('');
       }
@@ -2462,6 +2956,7 @@ Complete:
 
     // App Initialization
     async function initApp() {
+      applyTheme(getSavedThemePreference());
       checkNetworkStatus();
       loadLocalData();
       updateTimerDisplay();
