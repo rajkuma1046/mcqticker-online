@@ -1443,7 +1443,17 @@ e.g.
             } else {
               addSub(line.replace(/^[📝\s]+/, '').trim());
             }
-          } else if (/vocab tests/i.test(line) || /Attempt First .* tests of Ant, syn/i.test(line)) {
+          } else if (/most\s+rep[ie]titive\s+\d+\s+vocab/i.test(line)) {
+            const cleanVocab = line.replace(/^[📝\s]*also\s+try\s+/i, '').trim();
+            addSub(`Vocab: ${cleanVocab}`);
+          } else if (/Ant(?:onyms?)?,\s*syn(?:onyms?)?,\s*OWS,\s*Idioms/i.test(line)) {
+            const antSynMatch = line.match(/Attempt\s+([^\.]+?)\s+of\s+Ant(?:onyms?)?,\s*syn(?:onyms?)?,\s*OWS,\s*Idioms(?:\s+each)?/i);
+            const testRange = antSynMatch ? antSynMatch[1].trim() : 'tests';
+            addSub(`Antonyms (Ant) — ${testRange}`);
+            addSub(`Synonyms (Syn) — ${testRange}`);
+            addSub(`One Word Substitution (OWS) — ${testRange}`);
+            addSub(`Idioms — ${testRange}`);
+          } else if (/vocab tests/i.test(line) || /Attempt First [^\.\n]+ tests/i.test(line)) {
             const vocabMatch = line.match(/Attempt First [^\.\n]+/i);
             if (vocabMatch) {
               addSub(`Vocab: ${vocabMatch[0].trim()}`);
@@ -2541,60 +2551,76 @@ Focus on accuracy and consistent practice.
 
 https://realmocks.com/typing
 
-🔄 𝟯. 𝗥𝗲𝘃𝗶𝘀𝗶𝗼𝗻 — 𝗬𝗲𝘀𝘁𝗲𝗿𝗱𝗮𝘆’𝘀 𝗠𝗮𝘁𝗵𝘀
-Reattempt all questions you couldn't solve in 𝗠𝗮𝘁𝗵𝘀 𝗖𝗹𝗮𝘀𝘀 𝟭 & 𝟮 (Top 50). Try them independently first, then review the solutions.
+📐 𝟯. 𝗠𝗮𝘁𝗵𝘀 — 𝗣𝗿𝗼𝗯𝗮𝗯𝗶𝗹𝗶𝘁𝘆 | 𝗖𝗹𝗮𝘀𝘀 𝟮
 
-📐 𝟰. 𝗠𝗮𝘁𝗵𝘀 — 𝗣𝗿𝗼𝗯𝗮𝗯𝗶𝗹𝗶𝘁𝘆 (𝗖𝗹𝗮𝘀𝘀 𝟯 & 𝟰)
-Watch the lectures, note down new concepts, and solve the questions along with the video.
+🎥 Video:
+https://youtu.be/2RFIGVQf25E?si=y92mQIl8tWqFTSKO
 
-🎥 Class 3: https://youtu.be/KkW8c7iQ05o
-🎥 Class 4: https://youtu.be/xJ5lS7r7bC8
+📝 Tests:
+https://rbelearning.com/test-series/112/tests?subjectId=231
 
-📖 𝟱. 𝗘𝗻𝗴𝗹𝗶𝘀𝗵 — 𝗥𝗲𝗮𝗱𝗶𝗻𝗴 & 𝗩𝗼𝗰𝗮𝗯𝘂𝗹𝗮𝗿𝘆
-• Reading: Read an editorial (30–45 mins).
-• Vocab: 10 One-word Substitutions (OWS) + 10 Idioms.
+📚 𝟰. 𝗘𝗻𝗴𝗹𝗶𝘀𝗵 — 𝗘𝗱𝗶𝘁𝗼𝗿𝗶𝗮𝗹 & 𝗣𝗿𝗮𝗰𝘁𝗶𝗰𝗲
 
-Editorials: https://realmocks.com/editorial
-Vocab: https://realmocks.com/vocabulary
+📰 Complete 𝗮𝗹𝗹 𝟯 𝗲𝗱𝗶𝘁𝗼𝗿𝗶𝗮𝗹𝘀 𝗳𝗼𝗿 𝟮𝟭 𝗢𝗰𝘁𝗼𝗯𝗲𝗿.
+⏱️ Editorial task: 𝟰𝟱 𝗺𝗶𝗻𝘂𝘁𝗲𝘀
+https://realmocks.com/editorial
 
-🔥 “𝗦𝘁𝗮𝘆 𝗰𝗼𝗻𝘀𝗶𝘀𝘁𝗲𝗻𝘁—𝗲𝘃𝗲𝗿𝘆 𝗰𝗼𝗺𝗽𝗹𝗲𝘁𝗲𝗱 𝘁𝗮𝗿𝗴𝗲𝘁 𝗺𝗼𝘃𝗲𝘀 𝘆𝗼𝘂 𝗳𝗼𝗿𝘄𝗮𝗿𝗱!”`;
+📝 Also attempt 𝟮 𝗥𝗲𝗮𝗱𝗶𝗻𝗴 𝗖𝗼𝗺𝗽𝗿𝗲𝗵𝗲𝗻𝘀𝗶𝗼𝗻 𝘁𝗲𝘀𝘁𝘀 & 𝟭 𝗖𝗹𝗼𝘇𝗲 𝗧𝗲𝘀𝘁.
+These are short tests of around 𝟱 𝗺𝗶𝗻𝘂𝘁𝗲𝘀 each.
+
+Also try Most repititive 300 vocab tests 
+Attempt First 2 tests of Ant, syn, OWS, Idioms each. 
+Will add these tests in the RBE main website soon. 
+https://realmocks.com/vocabulary
+
+🔥 𝗦𝘁𝗮𝘆 𝗰𝗼𝗻𝘀𝗶𝘀𝘁𝗲𝗻𝘁—𝗲𝘃𝗲𝗿𝘆 𝗰𝗼𝗺𝗽𝗹𝗲𝘁𝗲𝗱 𝘁𝗮𝗿𝗴𝗲𝘁 𝗺𝗼𝘃𝗲𝘀 𝘆𝗼𝘂 𝗳𝗼𝗿𝘄𝗮𝗿𝗱!`;
 
       const SAMPLE_DAY_7_TEXT = `🎯 𝗦𝗦𝗖 𝗖𝗚𝗟 𝟮𝟬𝟮𝟲 𝗧-𝟮 | 𝗥𝗕𝗘 𝗧𝗮𝗿𝗴𝗲𝘁𝘀
-📅 𝗗𝗮𝘆 𝟳
+📅 𝗗𝗮𝘆 7
 
-💻 𝟭. 𝗖𝗼𝗺𝗽𝘂𝘁𝗲𝗿 — 𝗖𝗹𝗮𝘀𝘀 𝟰
+💻 𝟭. 𝗖𝗼𝗺𝗽𝘂𝘁𝗲𝗿 — 𝗖𝗹𝗮𝘀𝘀 4
 Complete Class 4 from the 𝗖𝗼𝗺𝗽𝘂𝘁𝗲𝗿 𝟰.𝟬 𝗕𝗮𝘁𝗰𝗵.
-
-[Click here for the Batch](https://rbelearning.com/courses/106)
+[Click here](https://rbelearning.com/courses/27-computer-course-40-latest-pattern-ssc-cgl-chsl-2026-mains-rrb-ntpc-radhika-ma-am)
 
 𝗪𝗮𝘁𝗰𝗵 → 𝗥𝗲𝘃𝗶𝘀𝗲 𝗳𝗿𝗼𝗺 𝘁𝗵𝗲 𝗯𝗼𝗼𝗸 → 𝗔𝘁𝘁𝗲𝗺𝗽𝘁 𝘁𝗵𝗲 𝘁𝗲𝘀𝘁
 
-Already completed this class? Revise and attempt the test directly.
+Already studied this chapter? Revise and attempt the test directly.
 
-📝 Computer 4.0 Batch → 𝗖𝗵𝗮𝗽𝘁𝗲𝗿 𝟰 𝗧𝗲𝘀𝘁
+📝 Computer 4.0 Batch → 𝗖𝗵𝗮𝗽𝘁𝗲𝗿 4 𝗧𝗲𝘀𝘁
 https://rbelearning.com/test-series/229/tests?subjectId=407
 
 ⌨️ 𝟮. 𝗧𝘆𝗽𝗶𝗻𝗴 — 𝟯𝟬 𝗠𝗶𝗻𝘂𝘁𝗲𝘀
-Focus on accuracy and regular practice.
+Focus on accuracy and consistent practice.
 
 https://realmocks.com/typing
 
-🔄 𝟯. 𝗥𝗲𝘃𝗶𝘀𝗶𝗼𝗻 — 𝗬𝗲𝘀𝘁𝗲𝗿𝗱𝗮𝘆’𝘀 𝗠𝗮𝘁𝗵𝘀
-Reattempt the questions you found tricky in 𝗣𝗿𝗼𝗯𝗮𝗯𝗶𝗹𝗶𝘁𝘆 (𝗖𝗹𝗮𝘀𝘀 𝟯 & 𝟰). Try solving them independently before checking the solutions.
+📐 𝟯. 𝗠𝗮𝘁𝗵𝘀 — 𝗣𝗿𝗼𝗯𝗮𝗯𝗶𝗹𝗶𝘁𝘆 | 𝗖𝗹𝗮𝘀𝘀 3 & 4
 
-📐 𝟰. 𝗠𝗮𝘁𝗵𝘀 — 𝗣𝗿𝗼𝗯𝗮𝗯𝗶𝗹𝗶𝘁𝘆 (𝗖𝗹𝗮𝘀𝘀 𝟱)
-Watch the video, understand the core concepts, and solve all the questions discussed.
+🎥 Video:
+https://www.youtube.com/watch?v=2utAk6OVI94&t=3s
+https://www.youtube.com/watch?v=aMoCNA-dqSw&t=1564s
 
-🎥 Class 5: https://youtu.be/k6n07c6f-pM
+📝 Tests:
+https://rbelearning.com/test-series/112/tests?subjectId=231
 
-📖 𝟱. 𝗘𝗻𝗴𝗹𝗶𝘀𝗵 — 𝗥𝗲𝗮𝗱𝗶𝗻𝗴 & 𝗩𝗼𝗰𝗮𝗯𝘂𝗹𝗮𝗿𝘆
-• Reading: Read an editorial (30–45 mins).
-• Vocab: 10 One-word Substitutions (OWS) + 10 Idioms.
+📚 𝟰. 𝗘𝗻𝗴𝗹𝗶𝘀𝗵 — 𝗘𝗱𝗶𝘁𝗼𝗿𝗶𝗮𝗹 & 𝗣𝗿𝗮𝗰𝘁𝗶𝗰𝗲
 
-Editorials: https://realmocks.com/editorial
-Vocab: https://realmocks.com/vocabulary
+📰 Complete 𝗮𝗹𝗹 𝟯 𝗲𝗱𝗶𝘁𝗼𝗿𝗶𝗮𝗹𝘀 𝗳𝗼𝗿 22 𝗢𝗰𝘁𝗼𝗯𝗲𝗿.
+Will be available at 6:30 AM in the morning
+⏱️ Editorial task: 𝟰𝟱 𝗺𝗶𝗻𝘂𝘁𝗲𝘀
+https://realmocks.com/editorial
 
-🔥 “𝗗𝗶𝘀𝗰𝗶𝗽𝗹𝗶𝗻𝗲 𝘁𝗼𝗱𝗮𝘆 𝗶𝘀 𝘀𝘂𝗰𝗰𝗲𝘀𝘀 𝘁𝗼𝗺𝗼𝗿𝗿𝗼𝘄—𝗸𝗲𝗲𝗽 𝗽𝘂𝘀𝗵𝗶𝗻𝗴!”`;
+📝 Also attempt 𝟮 𝗥𝗲𝗮𝗱𝗶𝗻𝗴 𝗖𝗼𝗺𝗽𝗿𝗲𝗵𝗲𝗻𝘀𝗶𝗼𝗻 𝘁𝗲𝘀𝘁𝘀 & 𝟭 𝗖𝗹𝗼𝘇𝗲 𝗧𝗲𝘀𝘁.
+These are short tests of around 𝟱 𝗺𝗶𝗻𝘂𝘁𝗲𝘀 each.
+
+Also try Most repititive 300 vocab tests
+Attempt First 3,4 & 5 tests of Ant, syn, OWS, Idioms each.
+Will add these tests in the RBE main website soon.
+https://realmocks.com/vocabulary
+
+From tomorrow, we will start GK targets as well.
+
+🔥 𝗦𝘁𝗮𝘆 𝗰𝗼𝗻𝘀𝗶𝘀𝘁𝗲𝗻𝘁—𝗲𝘃𝗲𝗿𝘆 𝗰𝗼𝗺𝗽𝗹𝗲𝘁𝗲𝗱 𝘁𝗮𝗿𝗴𝗲𝘁 𝗺𝗼𝘃𝗲𝘀 𝘆𝗼𝘂 𝗳𝗼𝗿𝘄𝗮𝗿𝗱!`;
 
       function loadSampleText(text) {
         elements.pasteScheduleInput.value = text;
